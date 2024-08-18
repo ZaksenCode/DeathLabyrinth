@@ -1,0 +1,13 @@
+name: DeathLabyrinth
+version: '1.0.0'
+main: me.zaksen.deathLabyrinth.DeathLabyrinth
+api-version: '1.21'
+authors: [ Zaksen_ ]
+
+commands:
+  game_status:
+    description: check game status
+    usage: /<command>
+  class:
+    description: class
+    usage: /<command>
