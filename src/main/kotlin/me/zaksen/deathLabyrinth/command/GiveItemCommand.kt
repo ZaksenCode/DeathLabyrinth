@@ -19,6 +19,12 @@ class GiveItemCommand: TabExecutor {
             result.add(itemEntry.key)
         }
 
+        if(args?.size!! >= 1) {
+            result.sortBy {
+                it.compareTo(args[0])
+            }
+        }
+
         return result
     }
 

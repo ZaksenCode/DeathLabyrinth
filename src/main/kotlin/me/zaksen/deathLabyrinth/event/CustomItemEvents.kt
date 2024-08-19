@@ -6,7 +6,6 @@ import me.zaksen.deathLabyrinth.item.ItemsController
 import me.zaksen.deathLabyrinth.item.weapon.WeaponItem
 import me.zaksen.deathLabyrinth.keys.PluginKeys
 import me.zaksen.deathLabyrinth.util.ChatUtil.actionBar
-import me.zaksen.deathLabyrinth.util.ChatUtil.message
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -17,7 +16,6 @@ import org.bukkit.persistence.PersistentDataType
 
 class CustomItemEvents: Listener {
 
-    // FIXME - Любой класс может использовать любое оружие ( так не должно быть !)
     @EventHandler
     fun processCustomItemHit(event: EntityDamageByEntityEvent) {
         val damager = event.damager

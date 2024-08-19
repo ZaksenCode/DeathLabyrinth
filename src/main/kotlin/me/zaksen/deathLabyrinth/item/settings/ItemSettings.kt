@@ -12,6 +12,7 @@ open class ItemSettings(val material: Material) {
     private var damage: Double = 0.0
     private var attackSpeed: Double = 0.0
     private var range: Double = 0.0
+    private var hitRange: Double = 0.0
 
     fun customModel(model: Int): ItemSettings {
         this.customModelData = model
@@ -48,6 +49,11 @@ open class ItemSettings(val material: Material) {
         return this
     }
 
+    fun hitRange(hitRange: Double): ItemSettings {
+        this.hitRange = hitRange
+        return this
+    }
+
     fun customModel(): Int {
         return customModelData
     }
@@ -74,5 +80,9 @@ open class ItemSettings(val material: Material) {
 
     fun range(): Double {
         return range
+    }
+
+    fun hitRange(): Double {
+        return hitRange
     }
 }

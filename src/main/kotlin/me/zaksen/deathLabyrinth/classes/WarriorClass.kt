@@ -10,7 +10,7 @@ class WarriorClass() : PlayerClass {
     }
 
     override fun availableWeapons(): Set<WeaponType> {
-        return setOf(WeaponType.SWORD, WeaponType.DAGGER, WeaponType.HAMMER)
+        return setOf(WeaponType.SWORD, WeaponType.DAGGER, WeaponType.HAMMER, WeaponType.SPEAR)
     }
 
     override fun launchSetup(player: Player) {

@@ -4,6 +4,7 @@ enum class WeaponType(val display_name: String) {
     SWORD("Меч"),
     HAMMER("Молот"),
     DAGGER("Клинок"),
+    SPEAR("Копьё"),
 
     STAFF("Посох")
 }
