@@ -31,6 +31,10 @@ object ChatUtil {
         showTitle(Title.title(format(msg, *args), format(subMsg, *args)))
     }
 
+    fun HumanEntity.actionBar(msg: String, vararg args: Pair<String, String>) {
+        sendActionBar(format(msg, *args))
+    }
+
     fun broadcast(msg: String, vararg args: Pair<String, String>) {
         Bukkit.getOnlinePlayers().forEach {
             it.message(msg, *args)

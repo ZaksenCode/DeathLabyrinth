@@ -11,3 +11,6 @@ commands:
   class:
     description: class
     usage: /<command>
+  give_item:
+    description: give plugin item
+    usage: /<command>

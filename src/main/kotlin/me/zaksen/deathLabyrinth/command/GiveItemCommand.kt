@@ -37,7 +37,7 @@ class GiveItemCommand: TabExecutor {
             val item = ItemsController.get(itemId)
 
             if(item != null) {
-                sender.inventory.addItem(item.asItemstack())
+                sender.inventory.addItem(item.asItemStack())
             }
         }
 

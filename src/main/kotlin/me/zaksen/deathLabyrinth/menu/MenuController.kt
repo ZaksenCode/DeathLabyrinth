@@ -17,7 +17,6 @@ object MenuController {
 
     fun closeMenu(player: HumanEntity) {
         player.closeInventory(InventoryCloseEvent.Reason.PLUGIN)
-        forgetMenu(player)
     }
 
     fun forgetMenu(player: HumanEntity) {

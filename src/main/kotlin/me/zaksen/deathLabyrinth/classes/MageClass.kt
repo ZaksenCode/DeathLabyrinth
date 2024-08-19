@@ -1,9 +1,8 @@
 package me.zaksen.deathLabyrinth.classes
 
+import me.zaksen.deathLabyrinth.item.ItemsController
 import me.zaksen.deathLabyrinth.item.weapon.WeaponType
-import org.bukkit.Material
 import org.bukkit.entity.Player
-import org.bukkit.inventory.ItemStack
 
 class MageClass() : PlayerClass {
 
@@ -16,9 +15,7 @@ class MageClass() : PlayerClass {
     }
 
     override fun launchSetup(player: Player) {
-        player.inventory.clear()
-
-        player.inventory.setItem(0, ItemStack(Material.STICK))
+        player.inventory.setItem(0, ItemsController.get("heal_stuff")!!.asItemStack())
     }
 
 }

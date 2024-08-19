@@ -135,13 +135,13 @@ object GameController {
 
         players.forEach {
             it.key.inventory.clear()
-            ChatUtil.broadcast("<light_blue>Если вы закрыли меню выбора класса до его выбора, его можно открыть снова командой /class</light_blue>")
+            ChatUtil.broadcast("<aqua>Если вы закрыли меню выбора класса до его выбора, его можно открыть снова командой /class</aqua>")
             MenuController.openMenu(it.key, ClassChoiceMenu(config))
         }
     }
 
     fun checkClasses() {
-        var result: Boolean = true
+        var result = true
 
         for(player in players) {
             if(player.value.playerClass == null) {
@@ -154,13 +154,11 @@ object GameController {
         }
     }
 
-    fun launchGame() {
+    private fun launchGame() {
         status = GameStatus.PROCESS
 
         players.forEach {
-            it.key.inventory.clear()
-            ChatUtil.broadcast("<light_blue>Если вы закрыли меню выбора класса до его выбора, его можно открыть снова командой /class</light_blue>")
-            MenuController.openMenu(it.key, ClassChoiceMenu(config))
+            it.value.playerClass?.launchSetup(it.key)
         }
     }
 }

@@ -4,6 +4,7 @@ import me.zaksen.deathLabyrinth.classes.MageClass
 import me.zaksen.deathLabyrinth.classes.WarriorClass
 import me.zaksen.deathLabyrinth.config.MainConfig
 import me.zaksen.deathLabyrinth.game.GameController
+import me.zaksen.deathLabyrinth.menu.MenuController
 import me.zaksen.deathLabyrinth.menu.api.Menu
 import me.zaksen.deathLabyrinth.menu.api.MenuType
 import me.zaksen.deathLabyrinth.util.ChatUtil
@@ -21,8 +22,7 @@ class ClassChoiceMenu(private val config: MainConfig): Menu(MenuType.BASE_27, Ch
                 playerData.playerClass = WarriorClass()
 
                 ChatUtil.broadcast("<green>{player} выбрал класс</green> <red>война!</red>", Pair("{player}", it.whoClicked.name))
-                it.whoClicked.closeInventory()
-
+                MenuController.closeMenu(it.whoClicked)
                 GameController.checkClasses()
             }
         }
@@ -33,8 +33,7 @@ class ClassChoiceMenu(private val config: MainConfig): Menu(MenuType.BASE_27, Ch
                 playerData.playerClass = MageClass()
 
                 ChatUtil.broadcast("<green>{player} выбрал класс</green> <blue>мага!</blue>", Pair("{player}", it.whoClicked.name))
-                it.whoClicked.closeInventory()
-
+                MenuController.closeMenu(it.whoClicked)
                 GameController.checkClasses()
             }
         }
