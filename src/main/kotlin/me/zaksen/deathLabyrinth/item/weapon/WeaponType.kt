@@ -1,6 +1,6 @@
 package me.zaksen.deathLabyrinth.item.weapon
 
-enum class WeaponType(val display_name: String) {
+enum class WeaponType(val displayName: String) {
     SWORD("Меч"),
     HAMMER("Молот"),
     DAGGER("Клинок"),

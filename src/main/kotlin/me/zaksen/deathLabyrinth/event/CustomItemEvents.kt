@@ -19,8 +19,9 @@ class CustomItemEvents: Listener {
     @EventHandler
     fun processCustomItemHit(event: EntityDamageByEntityEvent) {
         val damager = event.damager
-        if(damager is Player && damager.activeItem.hasItemMeta() && damager.activeItem.itemMeta.persistentDataContainer.has(PluginKeys.customItemKey)) {
-            val itemId = damager.activeItem.itemMeta.persistentDataContainer.get(PluginKeys.customItemKey, PersistentDataType.STRING)!!
+        if(damager is Player && damager.inventory.itemInMainHand.hasItemMeta() &&
+            damager.inventory.itemInMainHand.itemMeta.persistentDataContainer.has(PluginKeys.customItemKey)) {
+            val itemId = damager.inventory.itemInMainHand.itemMeta.persistentDataContainer.get(PluginKeys.customItemKey, PersistentDataType.STRING)!!
             val customItem = ItemsController.get(itemId)
 
             if(customItem != null) {

@@ -33,6 +33,7 @@ abstract class CustomItem(val id: String, val type: ItemType, val settings: Item
 
         val meta = stack.itemMeta
         meta.persistentDataContainer.set(PluginKeys.customItemKey, PersistentDataType.STRING, id)
+        meta.isUnbreakable = true
         stack.itemMeta = meta
 
         return stack
