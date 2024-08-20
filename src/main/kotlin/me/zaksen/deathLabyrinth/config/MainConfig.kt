@@ -8,8 +8,6 @@ import me.zaksen.deathLabyrinth.config.data.Position
 data class MainConfig(
     @SerialName("world")
     val world: String = "world",
-    @SerialName("room_spawn")
-    val roomSpawnPos: Position = Position("world", 0.0, 0.0, 0.0),
 
     @SerialName("class_choice_menu_title")
     val classChoiceMenuTitle: String = "Выберите ваш класс:",

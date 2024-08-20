@@ -13,5 +13,30 @@ data class RoomConfig(
     @SerialName("room_type")
     val roomType: RoomType = RoomType.NORMAL,
     @SerialName("room_entities")
-    val roomEntities: List<List<Entity>>
+    val roomEntities: List<List<Entity>> = listOf(
+        listOf(
+            Entity(
+            "bone_wolf",
+                Position(
+                    "world",
+                    0.0,
+                    0.0,
+                    0.0
+                )
+            ),
+            Entity(
+            "big_bone_wolf",
+            Position(
+                "world",
+                0.0,
+                0.0,
+                0.0
+            )
+        )
+        )
+    ),
+    @SerialName("pot_spawns")
+    val potSpawns: List<Position> = listOf(
+        Position("world", 16.0, 3.0, 16.0)
+    )
 )

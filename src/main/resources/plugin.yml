@@ -23,3 +23,6 @@ commands:
   summon_custom:
     description: summon custom entity
     usage: /<command>
+  build_room:
+    description: build a room from rooms folder
+    usage: /<command>

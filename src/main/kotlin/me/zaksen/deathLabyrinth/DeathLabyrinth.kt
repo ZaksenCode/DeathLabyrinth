@@ -50,5 +50,7 @@ class DeathLabyrinth : JavaPlugin() {
         getCommand("item_tab")?.setExecutor(ItemTabCommand())
         getCommand("summon_custom")?.setExecutor(CustomSummonCommand())
         getCommand("summon_custom")?.tabCompleter = CustomSummonCommand()
+        getCommand("build_room")?.setExecutor(BuildRoomCommand())
+        getCommand("build_room")?.tabCompleter = BuildRoomCommand()
     }
 }
