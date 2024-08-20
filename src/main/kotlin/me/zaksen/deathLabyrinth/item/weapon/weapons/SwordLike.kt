@@ -4,15 +4,12 @@ import me.zaksen.deathLabyrinth.item.settings.ItemSettings
 import me.zaksen.deathLabyrinth.item.weapon.WeaponItem
 import me.zaksen.deathLabyrinth.item.weapon.WeaponType
 import me.zaksen.deathLabyrinth.keys.PluginKeys
-import me.zaksen.deathLabyrinth.util.customModel
-import me.zaksen.deathLabyrinth.util.loreMap
-import me.zaksen.deathLabyrinth.util.name
+import me.zaksen.deathLabyrinth.util.*
 import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeModifier
 import org.bukkit.inventory.EquipmentSlotGroup
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
-
 
 open class SwordLike(weaponType: WeaponType, id: String, settings: ItemSettings): WeaponItem(weaponType, id, settings) {
 
@@ -21,6 +18,7 @@ open class SwordLike(weaponType: WeaponType, id: String, settings: ItemSettings)
             .customModel(settings.customModel())
             .name(settings.displayName())
             .loreMap(settings.lore())
+            .loreLine("<dark_purple>Тип:</dark_purple> <light_purple>${getWeaponType().displayName}</light_purple>".asText())
 
         val meta = stack.itemMeta
         meta.persistentDataContainer.set(PluginKeys.customItemKey, PersistentDataType.STRING, id)
@@ -63,6 +61,7 @@ open class SwordLike(weaponType: WeaponType, id: String, settings: ItemSettings)
             )
         }
 
+        meta.isUnbreakable = true
         stack.itemMeta = meta
 
         return stack

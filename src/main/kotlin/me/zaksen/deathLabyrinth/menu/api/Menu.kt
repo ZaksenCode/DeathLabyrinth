@@ -51,6 +51,9 @@ abstract class Menu(menuType: MenuType, title: Component) {
     }
 
     open fun onClick(event: InventoryClickEvent) {
+        if(event.clickedInventory == event.whoClicked.inventory) {
+            return
+        }
         actionMap[event.slot]?.accept(event)
         event.isCancelled = true
     }

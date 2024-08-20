@@ -14,7 +14,7 @@ open class BaseHammer(id: String, settings: ItemSettings): SwordLike(WeaponType.
 
         for(entity in affectedEntities) {
             if(entity is LivingEntity && entity !is Player) {
-                entity.damage(settings.damage() + 1.0)
+                entity.damage(event.damage)
             }
         }
     }

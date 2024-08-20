@@ -14,3 +14,12 @@ commands:
   give_item:
     description: give plugin item
     usage: /<command>
+  reload_game:
+    description: reload plugin data
+    usage: /<command>
+  item_tab:
+    description: open tab with plugin items
+    usage: /<command>
+  summon_custom:
+    description: summon custom entity
+    usage: /<command>

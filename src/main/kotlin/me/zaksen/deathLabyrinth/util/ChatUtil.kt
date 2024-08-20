@@ -1,7 +1,6 @@
 package me.zaksen.deathLabyrinth.util
 
 import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.minimessage.MiniMessage
 import net.kyori.adventure.title.Title
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
@@ -10,7 +9,7 @@ import org.bukkit.entity.HumanEntity
 object ChatUtil {
 
     fun format(text: String, vararg args: Pair<String, String>): Component {
-        return MiniMessage.miniMessage().deserialize(applyArgs(text, *args))
+        return applyArgs(text, *args).asText()
     }
 
     fun applyArgs(text: String, vararg args: Pair<String, String>): String {

@@ -1,17 +1,17 @@
-package me.zaksen.deathLabyrinth.config.data
+package me.zaksen.deathLabyrinth.game.room
 
 import kotlinx.serialization.Serializable
 
 @Serializable
 enum class RoomType {
     NORMAL,
-    SHOP,
-    CHALLENGE,
     ELITE,
-    BOILER,
-    SKILL_FORGE,
     DOUBLE_ELITE,
+    SHOP,
+    BOILER_ROOM,
+    SKILL_FORGE,
     TREASURE,
-    BOSS_ROOM,
-    FINAL_BOSS_ROOM
+    CHALLENGE,
+    BOSS,
+    FINAL_BOSS
 }

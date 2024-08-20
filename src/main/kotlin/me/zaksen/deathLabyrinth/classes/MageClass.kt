@@ -11,7 +11,7 @@ class MageClass() : PlayerClass {
     }
 
     override fun availableWeapons(): Set<WeaponType> {
-        return setOf(WeaponType.STAFF)
+        return setOf(WeaponType.ATTACK_STAFF, WeaponType.MISC_STAFF)
     }
 
     override fun launchSetup(player: Player) {

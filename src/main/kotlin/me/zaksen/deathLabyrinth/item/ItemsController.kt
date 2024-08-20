@@ -7,6 +7,7 @@ import me.zaksen.deathLabyrinth.item.weapon.weapons.sword.BaseHammer
 import me.zaksen.deathLabyrinth.item.weapon.weapons.sword.BaseSpear
 import me.zaksen.deathLabyrinth.item.weapon.weapons.sword.BaseSword
 import me.zaksen.deathLabyrinth.util.ChatUtil
+import me.zaksen.deathLabyrinth.util.asText
 import org.bukkit.Material
 
 object ItemsController {
@@ -14,8 +15,6 @@ object ItemsController {
     val itemsMap: MutableMap<String, CustomItem> = mutableMapOf()
 
     init {
-        register("heal_stuff", HealStuff("heal_stuff"))
-
         register("wooden_dagger", BaseDagger(
             "wooden_dagger",
             ItemSettings(Material.WOODEN_SWORD).customModel(1000).damage(2.0).attackSpeed(-1.6)
@@ -82,31 +81,37 @@ object ItemsController {
             "wooden_hammer",
             ItemSettings(Material.MACE).customModel(1000).damage(4.0).attackSpeed(-3.2).hitRange(0.5)
                 .displayName(ChatUtil.format("<gray>Деревянный молот</gray>"))
+                .lore(mutableListOf("Наносит урон в радиусе 0.5 блоков".asText()))
         ))
         register("golden_hammer", BaseHammer(
             "golden_hammer",
             ItemSettings(Material.MACE).customModel(1001).damage(4.0).attackSpeed(-3.0).hitRange(0.5)
                 .displayName(ChatUtil.format("<gray>Золотой молот</gray>"))
+                .lore(mutableListOf("Наносит урон в радиусе 0.5 блоков".asText()))
         ))
         register("stone_hammer", BaseHammer(
             "stone_hammer",
             ItemSettings(Material.MACE).customModel(1002).damage(5.0).attackSpeed(-3.2).hitRange(0.5)
                 .displayName(ChatUtil.format("<gray>Каменный молот</gray>"))
+                .lore(mutableListOf("Наносит урон в радиусе 0.5 блоков".asText()))
         ))
         register("iron_hammer", BaseHammer(
             "iron_hammer",
             ItemSettings(Material.MACE).customModel(1003).damage(6.0).attackSpeed(-3.2).hitRange(1.0)
                 .displayName(ChatUtil.format("<gray>Железный молот</gray>"))
+                .lore(mutableListOf("Наносит урон в радиусе 1 блока".asText()))
         ))
         register("diamond_hammer", BaseHammer(
             "diamond_hammer",
             ItemSettings(Material.MACE).customModel(1004).damage(7.0).attackSpeed(-3.2).hitRange(1.0)
                 .displayName(ChatUtil.format("<gray>Алмазный молот</gray>"))
+                .lore(mutableListOf("Наносит урон в радиусе 1 блока".asText()))
         ))
         register("netherite_hammer", BaseHammer(
             "netherite_hammer",
             ItemSettings(Material.MACE).customModel(1005).damage(8.0).attackSpeed(-3.2).hitRange(1.5)
                 .displayName(ChatUtil.format("<gray>Незеритовый молот</gray>"))
+                .lore(mutableListOf("Наносит урон в радиусе 1.5 блока".asText()))
         ))
 
         register("wooden_spear", BaseSpear(
@@ -139,6 +144,8 @@ object ItemsController {
             ItemSettings(Material.NETHERITE_SWORD).customModel(1001).damage(9.0).attackSpeed(-3.0).range(2.5)
                 .displayName(ChatUtil.format("<gray>Незеритовое копьё</gray>"))
         ))
+
+        register("heal_stuff", HealStuff("heal_stuff"))
     }
 
     private fun register(id: String, item: CustomItem) {

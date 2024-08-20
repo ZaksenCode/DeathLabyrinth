@@ -2,14 +2,16 @@ package me.zaksen.deathLabyrinth.config
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import me.zaksen.deathLabyrinth.config.data.Entity
 import me.zaksen.deathLabyrinth.config.data.Position
-import net.minecraft.core.Direction
+import me.zaksen.deathLabyrinth.game.room.RoomType
 
 @Serializable
 data class RoomConfig(
-    @SerialName("spawn_pos")
-    val spawnPos: Position,
-
-    @SerialName("open_sides")
-    val openSides: List<Direction>
+    @SerialName("spawn_offset")
+    val spawnOffset: Position = Position("world", 0.0, 0.0, 0.0),
+    @SerialName("room_type")
+    val roomType: RoomType = RoomType.NORMAL,
+    @SerialName("room_entities")
+    val roomEntities: List<List<Entity>>
 )

@@ -35,6 +35,10 @@ class GameEvents(private val config: MainConfig): Listener {
 
     @EventHandler(priority = EventPriority.NORMAL)
     fun preventItemMovingPrepare(event: InventoryClickEvent) {
+        if(config.debug) {
+            return
+        }
+
         if(MenuController.getMenu(event.whoClicked) == null &&
             GameController.getStatus() == GameStatus.WAITING ||
             GameController.getStatus() == GameStatus.PREPARE
@@ -45,7 +49,9 @@ class GameEvents(private val config: MainConfig): Listener {
 
     @EventHandler
     fun preventItemDrop(event: PlayerDropItemEvent) {
-        event.isCancelled = true
+        if(!config.debug) {
+            event.isCancelled = true
+        }
     }
 
     @EventHandler
