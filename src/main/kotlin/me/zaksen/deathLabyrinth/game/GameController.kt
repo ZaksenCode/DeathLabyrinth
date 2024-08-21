@@ -1,11 +1,11 @@
 package me.zaksen.deathLabyrinth.game
 
-import me.zaksen.deathLabyrinth.config.MainConfig
+import me.zaksen.deathLabyrinth.config.ConfigContainer
 import me.zaksen.deathLabyrinth.data.PlayerData
 import me.zaksen.deathLabyrinth.menu.MenuController
 import me.zaksen.deathLabyrinth.menu.custom.ClassChoiceMenu
 import me.zaksen.deathLabyrinth.util.ChatUtil
-import me.zaksen.deathLabyrinth.util.ChatUtil.title
+import me.zaksen.deathLabyrinth.util.asText
 import me.zaksen.deathLabyrinth.util.customModel
 import me.zaksen.deathLabyrinth.util.name
 import org.bukkit.Bukkit
@@ -21,7 +21,7 @@ object GameController {
     private lateinit var plugin: Plugin
     val players: MutableMap<Player, PlayerData> = mutableMapOf()
 
-    private lateinit var config: MainConfig
+    private lateinit var configs: ConfigContainer
     private var status: GameStatus = GameStatus.WAITING
 
     private var startCooldownTask: BukkitTask? = null
@@ -31,9 +31,9 @@ object GameController {
         return status
     }
 
-    fun setup(plugin: Plugin, config: MainConfig) {
+    fun setup(plugin: Plugin, configs: ConfigContainer) {
         this.plugin = plugin
-        this.config = config
+        this.configs = configs
     }
 
     fun join(player: Player) {
@@ -45,16 +45,15 @@ object GameController {
     private fun setupPlayer(player: Player) {
         player.teleport(
             Location(
-                Bukkit.getWorld(config.playerSpawnLocation.world),
-                config.playerSpawnLocation.x,
-                config.playerSpawnLocation.y,
-                config.playerSpawnLocation.z
+                Bukkit.getWorld(configs.mainConfig().playerSpawnLocation.world),
+                configs.mainConfig().playerSpawnLocation.x,
+                configs.mainConfig().playerSpawnLocation.y,
+                configs.mainConfig().playerSpawnLocation.z
             )
         )
 
         player.inventory.clear()
-
-        player.inventory.setItem(4, ItemStack(Material.PAPER).name(ChatUtil.format("<red>Не готов!</red>")).customModel(200))
+        player.inventory.setItem(4, ItemStack(Material.PAPER).name(configs.langConfig().notReady.asText()).customModel(200))
     }
 
     fun leave(player: Player) {
@@ -68,13 +67,13 @@ object GameController {
 
             if(playerData.isReady) {
                 player.inventory.setItemInMainHand(ItemStack(Material.PAPER).customModel(201).name(
-                    ChatUtil.format("<green>Готов!</green>"))
-                )
+                    configs.langConfig().ready.asText()
+                ))
                 startGameCooldown()
             } else {
                 player.inventory.setItemInMainHand(ItemStack(Material.PAPER).customModel(200).name(
-                    ChatUtil.format("<red>Не готов!</red>"))
-                )
+                    configs.langConfig().notReady.asText()
+                ))
                 stopGameCooldown()
             }
 
@@ -83,7 +82,7 @@ object GameController {
     }
 
     private fun startGameCooldown() {
-        if(players.size >= config.minimalPlayers && isPlayersReady() && status == GameStatus.WAITING) {
+        if(players.size >= configs.mainConfig().minimalPlayers && isPlayersReady() && status == GameStatus.WAITING) {
             status = GameStatus.PREPARE
 
             startCooldownTask = object: BukkitRunnable() {
@@ -93,9 +92,7 @@ object GameController {
                         cancel()
                         startCooldownTask = null
                     } else {
-                        players.forEach {
-                            it.key.title("<green>Начало через: {time}</green>", "", Pair("{time}", startCooldownTime.toString()))
-                        }
+                        ChatUtil.broadcastTitle(configs.langConfig().gameStartingTitle, "", Pair("{time}", startCooldownTime.toString()))
                     }
 
                     startCooldownTime--
@@ -105,16 +102,14 @@ object GameController {
     }
 
     private fun stopGameCooldown() {
-        if(players.size >= config.minimalPlayers && isPlayersReady() && status == GameStatus.PREPARE) {
+        if(players.size >= configs.mainConfig().minimalPlayers && isPlayersReady() && status == GameStatus.PREPARE) {
             status = GameStatus.WAITING
 
             startCooldownTask?.cancel()
             startCooldownTask = null
             startCooldownTime = 5
 
-            players.forEach {
-                it.key.title("<red>Ожидание прервано!</red>")
-            }
+            ChatUtil.broadcastTitle(configs.langConfig().gameStartingStopTitle)
         }
     }
 
@@ -133,10 +128,10 @@ object GameController {
     fun startGame() {
         status = GameStatus.PRE_PROCESS
 
+        ChatUtil.broadcast(configs.langConfig().gameStartingCloseClassMenu)
         players.forEach {
             it.key.inventory.clear()
-            ChatUtil.broadcast("<aqua>Если вы закрыли меню выбора класса до его выбора, его можно открыть снова командой /class</aqua>")
-            MenuController.openMenu(it.key, ClassChoiceMenu(config))
+            MenuController.openMenu(it.key, ClassChoiceMenu(configs))
         }
     }
 

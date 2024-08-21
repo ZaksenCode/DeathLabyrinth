@@ -14,6 +14,7 @@ import me.zaksen.deathLabyrinth.keys.PluginKeys
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 
+// TODO - Удалить Singleton и переделать на обычных классах
 class DeathLabyrinth : JavaPlugin(), ConfigContainer {
 
     private val roomDirectory = File(dataFolder, "rooms")
@@ -24,7 +25,7 @@ class DeathLabyrinth : JavaPlugin(), ConfigContainer {
         reloadConfigs()
         PluginKeys.setup(this)
         RoomController.reloadRooms(roomDirectory)
-        GameController.setup(this, mainConfig)
+        GameController.setup(this, this)
         RoomController.setup(mainConfig)
         registerEvents()
         registerCommands()

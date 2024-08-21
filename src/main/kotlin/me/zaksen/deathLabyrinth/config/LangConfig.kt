@@ -13,6 +13,18 @@ data class LangConfig(
     @SerialName("class_already_selected")
     val classAlreadySelected: String = "<green>Ваш класс: {class_name}</green>",
 
+    @SerialName("ready")
+    val ready: String = "<green>Готов!</green>",
+    @SerialName("not_ready")
+    val notReady: String = "<red>Не готов!</red>",
+
+    @SerialName("game_starting_title")
+    val gameStartingTitle: String = "<green>Начало через: {time}</green>",
+    @SerialName("game_starting_stop_title")
+    val gameStartingStopTitle: String = "<red>Ожидание прервано!</red>",
+    @SerialName("game_Starting_close_class_menu")
+    val gameStartingCloseClassMenu: String = "<aqua>Если вы закрыли меню выбора класса до его выбора, его можно открыть снова командой /class</aqua>",
+
     @SerialName("class_choice_menu_title")
     val classChoiceMenuTitle: String = "Выберите ваш класс:",
 )
