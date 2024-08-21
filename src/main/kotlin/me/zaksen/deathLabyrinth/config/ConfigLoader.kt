@@ -1,12 +1,17 @@
 package me.zaksen.deathLabyrinth.config
 
 import com.charleskorn.kaml.Yaml
+import com.charleskorn.kaml.YamlConfiguration
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import java.io.File
 
 val yaml by lazy {
-    Yaml()
+    Yaml(
+        configuration = YamlConfiguration(
+            strictMode = false
+        )
+    )
 }
 
 fun loadFile(folder: File, fileName: String): File {

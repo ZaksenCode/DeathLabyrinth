@@ -6,4 +6,5 @@ interface ConfigContainer {
 
     fun mainConfig(): MainConfig
     fun langConfig(): LangConfig
+    fun generatioConfig(): GenerationConfig
 }

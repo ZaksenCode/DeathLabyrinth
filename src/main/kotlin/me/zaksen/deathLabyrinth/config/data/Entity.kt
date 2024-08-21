@@ -6,7 +6,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Entity(
     @SerialName("entity_name")
-    val entityName: String,
+    val entityName: String = "bone_wolf",
+    @SerialName("require_kill")
+    val requireKill: Boolean = true,
     @SerialName("spawn_position")
-    val spawnPosition: Position
+    val spawnPosition: Position = Position("world", 0.0, 0.0, 0.0)
 )

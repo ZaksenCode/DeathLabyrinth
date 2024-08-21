@@ -2,9 +2,11 @@ package me.zaksen.deathLabyrinth.game
 
 import me.zaksen.deathLabyrinth.config.ConfigContainer
 import me.zaksen.deathLabyrinth.data.PlayerData
+import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.menu.MenuController
 import me.zaksen.deathLabyrinth.menu.custom.ClassChoiceMenu
 import me.zaksen.deathLabyrinth.util.ChatUtil
+import me.zaksen.deathLabyrinth.util.ChatUtil.title
 import me.zaksen.deathLabyrinth.util.asText
 import me.zaksen.deathLabyrinth.util.customModel
 import me.zaksen.deathLabyrinth.util.name
@@ -133,6 +135,8 @@ object GameController {
             it.key.inventory.clear()
             MenuController.openMenu(it.key, ClassChoiceMenu(configs))
         }
+
+        RoomController.startGeneration()
     }
 
     fun checkClasses() {
@@ -154,6 +158,16 @@ object GameController {
 
         players.forEach {
             it.value.playerClass?.launchSetup(it.key)
+        }
+    }
+
+    private fun endGame() {
+        status = GameStatus.GAME_END
+
+        players.clear()
+
+        Bukkit.getOnlinePlayers().forEach {
+            it.title("<aqua>Игра окончена!<aqua>")
         }
     }
 }

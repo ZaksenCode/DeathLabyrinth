@@ -39,7 +39,7 @@ class BuildRoomCommand: TabExecutor {
                 try {
                     val room = RoomController.rooms[args[0]]
                     if (room != null) {
-                        RoomController.buildRoom(room, sender.x.toInt(), sender.y.toInt(), sender.z.toInt())
+                        RoomController.buildRoom(room, sender.x.toInt(), sender.y.toInt(), sender.z.toInt(), true)
                     } else {
                         sender.message("<red>Комната не найдена!</red>")
                     }

@@ -3,6 +3,7 @@ package me.zaksen.deathLabyrinth.event
 import me.zaksen.deathLabyrinth.config.MainConfig
 import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.game.GameStatus
+import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.menu.MenuController
 import org.bukkit.Material
 import org.bukkit.event.EventHandler
@@ -10,6 +11,7 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.block.BlockPlaceEvent
+import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerInteractEvent
@@ -31,6 +33,11 @@ class GameEvents(private val config: MainConfig): Listener {
         if(!config.debug) {
             event.isCancelled = true
         }
+    }
+
+    @EventHandler
+    fun processRoomEntityDeath(event: EntityDeathEvent) {
+        RoomController.processEntityRoomDeath(event)
     }
 
     @EventHandler(priority = EventPriority.NORMAL)

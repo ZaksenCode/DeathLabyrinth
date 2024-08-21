@@ -1,4 +1,4 @@
-package me.zaksen.deathLabyrinth.entity
+package me.zaksen.deathLabyrinth.entity.wolf
 
 import net.minecraft.network.chat.Component
 import net.minecraft.world.entity.EntityType

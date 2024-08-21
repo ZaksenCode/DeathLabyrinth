@@ -26,3 +26,6 @@ commands:
   build_room:
     description: build a room from rooms folder
     usage: /<command>
+  start_generation:
+    description: start room generating
+    usage: /<command>

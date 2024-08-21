@@ -9,29 +9,42 @@ import com.sk89q.worldedit.function.operation.Operations
 import com.sk89q.worldedit.math.BlockVector3
 import com.sk89q.worldedit.session.ClipboardHolder
 import com.sk89q.worldedit.world.AbstractWorld
-import me.zaksen.deathLabyrinth.config.MainConfig
-import me.zaksen.deathLabyrinth.config.RoomConfig
-import me.zaksen.deathLabyrinth.config.loadConfig
-import me.zaksen.deathLabyrinth.config.saveConfig
-import me.zaksen.deathLabyrinth.entity.CustomEntityController
+import me.zaksen.deathLabyrinth.config.*
+import me.zaksen.deathLabyrinth.entity.EntityController
 import me.zaksen.deathLabyrinth.util.tryAddEntity
+import net.minecraft.world.entity.Entity
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
+import org.bukkit.craftbukkit.entity.CraftEntity
+import org.bukkit.event.entity.EntityDeathEvent
 import java.io.File
 import java.io.FileInputStream
 import kotlin.random.Random
 
+// TODO - optimize
+
+// Изменить алгоритм (Не генерировать сразу все комнаты) ->
+// Создать очередь из комнат и по очереди генерировать их по мере игры удаляя из очереди и помечая последнею комнату как активную
+// генерировать следующие только когда всех мобов убьют
+
 object RoomController {
 
-    private lateinit var config: MainConfig
+    private lateinit var configs: ConfigContainer
     private lateinit var world: AbstractWorld
 
     val rooms: MutableMap<String, Room> = mutableMapOf()
 
-    fun setup(config: MainConfig) {
-        this.config = config
-        val loadedWorld = Bukkit.getWorld(config.world)
+    private val generationQuery: MutableList<Room> = mutableListOf()
+    private var actualQueryRoom: Room? = null
+
+    private val actualRoomEntities: MutableList<Entity> = mutableListOf()
+
+    private var roomGenerated: Int = 0
+
+    fun setup(configs: ConfigContainer) {
+        this.configs = configs
+        val loadedWorld = Bukkit.getWorld(configs.generatioConfig().roomSpawningPos.world)
 
         if(loadedWorld != null) {
             this.world = BukkitWorld(loadedWorld)
@@ -83,48 +96,119 @@ object RoomController {
         }
     }
 
-    fun startGeneration() {
+    fun processEntityRoomDeath(event: EntityDeathEvent) {
+        val entity = (event.entity as CraftEntity).handle
 
+        if(actualRoomEntities.contains(entity)) {
+            actualRoomEntities.remove(entity)
+            checkRoomCompletion()
+        }
+    }
+
+    private fun checkRoomCompletion() {
+        if(actualRoomEntities.isEmpty()) {
+            // TODO - Open door
+            generateAndUpdateQueryRoom()
+            println("room completed")
+        }
+    }
+
+    fun startGeneration() {
+        for(i in 0..<configs.generatioConfig().roomLimit) {
+            generationQuery.add(getRandomRoom(RoomType.NORMAL))
+        }
+
+        generateAndUpdateQueryRoom()
+    }
+
+    private fun generateAndUpdateQueryRoom() {
+        actualRoomEntities.clear()
+
+        if(generationQuery.isEmpty()) {
+            println("Generation query end")
+            return
+        }
+
+        val queryRoom: Room = generationQuery.first()
+        generationQuery.remove(queryRoom)
+        actualQueryRoom = queryRoom
+
+        val spawnX = configs.generatioConfig().roomSpawningPos.x - (configs.generatioConfig().roomSize * roomGenerated)
+
+        buildRoom(
+            queryRoom,
+            spawnX.toInt(),
+            configs.generatioConfig().roomSpawningPos.y.toInt(),
+            configs.generatioConfig().roomSpawningPos.z.toInt()
+        )
+
+        roomGenerated++
     }
 
     fun clearGeneration() {
+        generationQuery.clear()
+        actualQueryRoom = null
+        actualRoomEntities.clear()
 
+        val roomWorld = Bukkit.getWorld(configs.generatioConfig().roomSpawningPos.world) ?: return
+
+        val spawnX = configs.generatioConfig().roomSpawningPos.x + 1
+        val spawnZ = configs.generatioConfig().roomSpawningPos.z + 1
+
+        for(i in 0..<configs.generatioConfig().roomLimit) {
+            val roomX = spawnX - i * configs.generatioConfig().roomSize
+
+            for(y in -64..320) {
+                for(x in 1..32) {
+                    for(z in 1..32) {
+                        roomWorld.setType(roomX.toInt() - x, y, spawnZ.toInt() - z, Material.AIR)
+                    }
+                }
+            }
+
+        }
     }
 
     fun clearCachedData() {
 
     }
 
-    fun buildRoom(room: Room, x: Int, y: Int, z: Int) {
-        val roomWorld = Bukkit.getWorld(config.world) ?: return
-
+    fun buildRoom(room: Room, x: Int, y: Int, z: Int, debug: Boolean = false) {
+        val roomWorld = Bukkit.getWorld(configs.generatioConfig().roomSpawningPos.world) ?: return
         var clipboard: Clipboard
+
+        val offsetX = x + room.roomConfig.spawnOffset.x
+        val offsetY = y + room.roomConfig.spawnOffset.y
+        val offsetZ = z + room.roomConfig.spawnOffset.z
 
         val format = ClipboardFormats.findByFile(room.schematic)
         format!!.getReader(FileInputStream(room.schematic)).use { reader ->
             clipboard = reader.read()
         }
 
-        val offset = room.roomConfig.spawnOffset
-
         WorldEdit.getInstance().newEditSession(world).use { editSession ->
             val operation: Operation = ClipboardHolder(clipboard)
                 .createPaste(editSession)
-                .to(BlockVector3.at(x + offset.x, y + offset.y, z + offset.z))
+                .to(BlockVector3.at(offsetX, offsetY, offsetZ))
                 .build()
             Operations.complete(operation)
         }
 
         for(entityEntry in room.roomConfig.roomEntities.random()) {
-            val entity = CustomEntityController.entities[entityEntry.entityName]
+            val entity = EntityController.entities[entityEntry.entityName]
 
             if(entity != null) {
                 val toSpawn = entity.getDeclaredConstructor(Location::class.java).newInstance(Location(roomWorld,
-                    x - entityEntry.spawnPosition.x,
-                    y + entityEntry.spawnPosition.y,
-                    z - entityEntry.spawnPosition.z
+                    offsetX - entityEntry.spawnPosition.x,
+                    offsetY + entityEntry.spawnPosition.y,
+                    offsetZ - entityEntry.spawnPosition.z
                 ))
                 roomWorld.tryAddEntity(toSpawn)
+                if(!debug) {
+                    if(entityEntry.requireKill) {
+                        actualRoomEntities.add(toSpawn)
+                    }
+                }
             } else {
                 println("Unable to found entity with id ${entityEntry.entityName}")
             }
@@ -133,11 +217,15 @@ object RoomController {
         val potSpawns = room.roomConfig.potSpawns.toMutableList()
         val numOfPots = Random.Default.nextInt(0, 3)
 
+        if(potSpawns.size < numOfPots) {
+            return
+        }
+
         if(numOfPots > 0) {
             for (i in 1..numOfPots) {
                 val pot = potSpawns.random()
                 potSpawns.remove(pot)
-                roomWorld.setType(x - pot.x.toInt(), y + pot.y.toInt(), z - pot.z.toInt(), Material.DECORATED_POT)
+                roomWorld.setType(offsetX.toInt() - pot.x.toInt(), offsetY.toInt() + pot.y.toInt(), offsetZ.toInt() - pot.z.toInt(), Material.DECORATED_POT)
             }
         }
     }

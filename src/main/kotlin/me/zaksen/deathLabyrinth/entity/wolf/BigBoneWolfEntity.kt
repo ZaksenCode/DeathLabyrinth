@@ -1,4 +1,4 @@
-package me.zaksen.deathLabyrinth.entity
+package me.zaksen.deathLabyrinth.entity.wolf
 
 import net.minecraft.network.chat.Component
 import net.minecraft.world.entity.EntityType
@@ -9,7 +9,6 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
 import net.minecraft.world.entity.animal.Wolf
 import net.minecraft.world.entity.player.Player
 import org.bukkit.Location
-import org.bukkit.attribute.Attribute
 import org.bukkit.craftbukkit.CraftWorld
 
 class BigBoneWolfEntity(location: Location): Wolf(EntityType.WOLF, (location.getWorld() as CraftWorld).handle) {

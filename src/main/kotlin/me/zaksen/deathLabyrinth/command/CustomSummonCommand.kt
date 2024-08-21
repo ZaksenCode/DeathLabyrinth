@@ -1,6 +1,6 @@
 package me.zaksen.deathLabyrinth.command
 
-import me.zaksen.deathLabyrinth.entity.CustomEntityController
+import me.zaksen.deathLabyrinth.entity.EntityController
 import me.zaksen.deathLabyrinth.util.ChatUtil.message
 import org.bukkit.Location
 import org.bukkit.command.Command
@@ -18,7 +18,7 @@ class CustomSummonCommand: TabExecutor {
     ): MutableList<String>? {
         val result: MutableList<String> = mutableListOf()
 
-        for(entity in CustomEntityController.entities) {
+        for(entity in EntityController.entities) {
             result.add(entity.key)
         }
 
@@ -35,7 +35,7 @@ class CustomSummonCommand: TabExecutor {
         if(sender is Player) {
             try {
                 if(args != null) {
-                    val entityClass = CustomEntityController.entities[args[0]]
+                    val entityClass = EntityController.entities[args[0]]
                     if(entityClass != null) {
                         val entity = entityClass.getDeclaredConstructor(Location::class.java).newInstance(sender.location)
                         val world = (sender.world as CraftWorld).handle
