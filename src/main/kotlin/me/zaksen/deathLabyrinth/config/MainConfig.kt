@@ -9,9 +9,6 @@ data class MainConfig(
     @SerialName("world")
     val world: String = "world",
 
-    @SerialName("class_choice_menu_title")
-    val classChoiceMenuTitle: String = "Выберите ваш класс:",
-
     @SerialName("minimal_players")
     val minimalPlayers: Int = 1,
 

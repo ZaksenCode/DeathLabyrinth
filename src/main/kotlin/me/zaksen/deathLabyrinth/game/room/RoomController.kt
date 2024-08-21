@@ -83,6 +83,18 @@ object RoomController {
         }
     }
 
+    fun startGeneration() {
+
+    }
+
+    fun clearGeneration() {
+
+    }
+
+    fun clearCachedData() {
+
+    }
+
     fun buildRoom(room: Room, x: Int, y: Int, z: Int) {
         val roomWorld = Bukkit.getWorld(config.world) ?: return
 

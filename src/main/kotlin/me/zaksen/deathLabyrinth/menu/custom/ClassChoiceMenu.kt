@@ -2,17 +2,18 @@ package me.zaksen.deathLabyrinth.menu.custom
 
 import me.zaksen.deathLabyrinth.classes.MageClass
 import me.zaksen.deathLabyrinth.classes.WarriorClass
-import me.zaksen.deathLabyrinth.config.MainConfig
+import me.zaksen.deathLabyrinth.config.ConfigContainer
 import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.menu.MenuController
 import me.zaksen.deathLabyrinth.menu.api.Menu
 import me.zaksen.deathLabyrinth.menu.api.MenuType
 import me.zaksen.deathLabyrinth.util.ChatUtil
+import me.zaksen.deathLabyrinth.util.asText
 import me.zaksen.deathLabyrinth.util.name
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 
-class ClassChoiceMenu(private val config: MainConfig): Menu(MenuType.BASE_27, ChatUtil.format(config.classChoiceMenuTitle)) {
+class ClassChoiceMenu(private val configs: ConfigContainer): Menu(MenuType.BASE_27, configs.langConfig().classChoiceMenuTitle.asText()) {
 
     init {
         fill(ItemStack(Material.LIME_STAINED_GLASS_PANE))
