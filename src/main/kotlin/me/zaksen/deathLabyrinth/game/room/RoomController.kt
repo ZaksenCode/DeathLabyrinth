@@ -167,7 +167,6 @@ object RoomController {
         nextRoomZ -= queryRoom.roomConfig.spawnExitOffset.z.toInt()
     }
 
-    // TODO - записывать комнаты, которые потом будут очищены
     fun clearGeneration() {
         clearCachedData()
 
