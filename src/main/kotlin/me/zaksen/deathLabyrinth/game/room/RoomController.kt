@@ -22,12 +22,6 @@ import java.io.File
 import java.io.FileInputStream
 import kotlin.random.Random
 
-// TODO - optimize
-
-// Изменить алгоритм (Не генерировать сразу все комнаты) ->
-// Создать очередь из комнат и по очереди генерировать их по мере игры удаляя из очереди и помечая последнею комнату как активную
-// генерировать следующие только когда всех мобов убьют
-
 object RoomController {
 
     private lateinit var configs: ConfigContainer
@@ -44,7 +38,7 @@ object RoomController {
 
     fun setup(configs: ConfigContainer) {
         this.configs = configs
-        val loadedWorld = Bukkit.getWorld(configs.generatioConfig().roomSpawningPos.world)
+        val loadedWorld = Bukkit.getWorld(configs.generationConfig().roomSpawningPos.world)
 
         if(loadedWorld != null) {
             this.world = BukkitWorld(loadedWorld)
@@ -114,7 +108,7 @@ object RoomController {
     }
 
     fun startGeneration() {
-        for(i in 0..<configs.generatioConfig().roomLimit) {
+        for(i in 0..<configs.generationConfig().roomLimit) {
             generationQuery.add(getRandomRoom(RoomType.NORMAL))
         }
 
@@ -133,13 +127,13 @@ object RoomController {
         generationQuery.remove(queryRoom)
         actualQueryRoom = queryRoom
 
-        val spawnX = configs.generatioConfig().roomSpawningPos.x - (configs.generatioConfig().roomSize * roomGenerated)
+        val spawnX = configs.generationConfig().roomSpawningPos.x - (configs.generationConfig().roomSize * roomGenerated)
 
         buildRoom(
             queryRoom,
             spawnX.toInt(),
-            configs.generatioConfig().roomSpawningPos.y.toInt(),
-            configs.generatioConfig().roomSpawningPos.z.toInt()
+            configs.generationConfig().roomSpawningPos.y.toInt(),
+            configs.generationConfig().roomSpawningPos.z.toInt()
         )
 
         roomGenerated++
@@ -150,13 +144,13 @@ object RoomController {
         actualQueryRoom = null
         actualRoomEntities.clear()
 
-        val roomWorld = Bukkit.getWorld(configs.generatioConfig().roomSpawningPos.world) ?: return
+        val roomWorld = Bukkit.getWorld(configs.generationConfig().roomSpawningPos.world) ?: return
 
-        val spawnX = configs.generatioConfig().roomSpawningPos.x + 1
-        val spawnZ = configs.generatioConfig().roomSpawningPos.z + 1
+        val spawnX = configs.generationConfig().roomSpawningPos.x + 1
+        val spawnZ = configs.generationConfig().roomSpawningPos.z + 1
 
-        for(i in 0..<configs.generatioConfig().roomLimit) {
-            val roomX = spawnX - i * configs.generatioConfig().roomSize
+        for(i in 0..<configs.generationConfig().roomLimit) {
+            val roomX = spawnX - i * configs.generationConfig().roomSize
 
             for(y in -64..320) {
                 for(x in 1..32) {
@@ -173,8 +167,9 @@ object RoomController {
 
     }
 
+    // TODO - при построении комнаты учитывать spawn_entry_offset и spawn_exit_offset
     fun buildRoom(room: Room, x: Int, y: Int, z: Int, debug: Boolean = false) {
-        val roomWorld = Bukkit.getWorld(configs.generatioConfig().roomSpawningPos.world) ?: return
+        val roomWorld = Bukkit.getWorld(configs.generationConfig().roomSpawningPos.world) ?: return
         var clipboard: Clipboard
 
         val offsetX = x + room.roomConfig.spawnOffset.x

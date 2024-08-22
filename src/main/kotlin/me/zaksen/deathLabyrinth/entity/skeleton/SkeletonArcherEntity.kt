@@ -22,7 +22,7 @@ class SkeletonArcherEntity(location: Location): Skeleton(EntityType.SKELETON, (l
         this.customName = Component.literal("Скелет-лучник")
         this.isCustomNameVisible = true
 
-        this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.4
+        this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.25
 
         this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack(Items.BOW))
 

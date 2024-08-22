@@ -22,7 +22,7 @@ class SkeletonWarriorEntity(location: Location): Skeleton(EntityType.SKELETON, (
         this.customName = Component.literal("Скелет-воин")
         this.isCustomNameVisible = true
 
-        this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.3
+        this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.22
 
         this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack(Items.WOODEN_SWORD))
         this.setItemSlot(EquipmentSlot.OFFHAND, ItemStack(Items.SHIELD))

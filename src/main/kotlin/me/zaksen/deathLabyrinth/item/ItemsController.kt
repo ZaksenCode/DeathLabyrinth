@@ -1,6 +1,7 @@
 package me.zaksen.deathLabyrinth.item
 
 import me.zaksen.deathLabyrinth.item.settings.ItemSettings
+import me.zaksen.deathLabyrinth.item.weapon.weapons.stuff.FrostBallStuff
 import me.zaksen.deathLabyrinth.item.weapon.weapons.sword.BaseDagger
 import me.zaksen.deathLabyrinth.item.weapon.weapons.stuff.HealStuff
 import me.zaksen.deathLabyrinth.item.weapon.weapons.sword.BaseHammer
@@ -146,6 +147,7 @@ object ItemsController {
         ))
 
         register("heal_stuff", HealStuff("heal_stuff"))
+        register("frost_ball_stuff", FrostBallStuff("frost_ball_stuff"))
     }
 
     private fun register(id: String, item: CustomItem) {

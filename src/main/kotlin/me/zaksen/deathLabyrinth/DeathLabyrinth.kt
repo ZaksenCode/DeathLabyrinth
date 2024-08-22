@@ -68,7 +68,7 @@ class DeathLabyrinth : JavaPlugin(), ConfigContainer {
         return langConfig
     }
 
-    override fun generatioConfig(): GenerationConfig {
+    override fun generationConfig(): GenerationConfig {
         return generationConfig
     }
 }
