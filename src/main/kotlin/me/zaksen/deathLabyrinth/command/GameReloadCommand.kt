@@ -24,6 +24,7 @@ class GameReloadCommand(private val configs: ConfigContainer, private val roomsD
         }
 
         configs.reloadConfigs()
+        RoomController.reloadRooms(roomsDirectory)
 
         if(args != null) {
             try {
@@ -43,9 +44,7 @@ class GameReloadCommand(private val configs: ConfigContainer, private val roomsD
     }
 
     private fun fullReload() {
-        RoomController.clearCachedData()
         RoomController.clearGeneration()
-        RoomController.reloadRooms(roomsDirectory)
     }
 
 }

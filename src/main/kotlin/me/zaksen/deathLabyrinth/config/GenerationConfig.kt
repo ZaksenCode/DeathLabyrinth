@@ -8,8 +8,6 @@ import me.zaksen.deathLabyrinth.config.data.Position
 data class GenerationConfig(
     @SerialName("room_limit")
     val roomLimit: Int = 32,
-    @SerialName("room_size")
-    val roomSize: Int = 32,
-    @SerialName("room_spawning_pos")
-    val roomSpawningPos: Position = Position("world", -18.0, 2.0, 15.0)
+    @SerialName("first_room_entry")
+    val firstRoomEntry: Position = Position("world", -18.0, 2.0, 3.0)
 )
