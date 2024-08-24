@@ -44,4 +44,6 @@ class SkeletonMinerEntity(location: Location): Skeleton(EntityType.SKELETON, (lo
             )
         )
     }
+
+    override fun checkDespawn() { }
 }

@@ -39,4 +39,6 @@ class BigMouseEntity(location: Location): Silverfish(EntityType.SILVERFISH, (loc
         )
 
     }
+
+    override fun checkDespawn() { }
 }

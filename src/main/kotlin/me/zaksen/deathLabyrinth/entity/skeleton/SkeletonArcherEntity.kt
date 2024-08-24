@@ -45,4 +45,6 @@ class SkeletonArcherEntity(location: Location): Skeleton(EntityType.SKELETON, (l
             )
         )
     }
+
+    override fun checkDespawn() { }
 }

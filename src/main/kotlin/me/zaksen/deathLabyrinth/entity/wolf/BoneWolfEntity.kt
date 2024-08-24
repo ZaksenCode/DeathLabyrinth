@@ -40,4 +40,6 @@ class BoneWolfEntity(location: Location): Wolf(EntityType.WOLF, (location.getWor
             )
         )
     }
+
+    override fun checkDespawn() { }
 }

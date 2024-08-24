@@ -19,8 +19,8 @@ class SizzleEntity(location: Location): Creeper(EntityType.CREEPER, (location.ge
         this.health = 12.0f
         this.customName = Component.literal("Шипучка")
         this.isCustomNameVisible = true
-        this.getAttribute(Attributes.SCALE)?.baseValue = 0.26
 
+        this.getAttribute(Attributes.SCALE)?.baseValue = 0.26
         this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.4
 
         this.setPos(location.x, location.y, location.z)
@@ -41,4 +41,6 @@ class SizzleEntity(location: Location): Creeper(EntityType.CREEPER, (location.ge
         )
 
     }
+
+    override fun checkDespawn() { }
 }

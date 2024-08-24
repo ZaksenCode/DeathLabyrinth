@@ -83,14 +83,19 @@ object RoomController {
         }
     }
 
-    fun getRandomRoom(type: RoomType? = null): Room {
-        val availableRooms = rooms.values
+    private fun getRandomRoom(type: RoomType? = null): Room? {
+        val availableRooms = rooms.values.toMutableList()
 
         if(type == null) {
             return availableRooms.random()
         } else {
             availableRooms.removeIf {
                 it.roomConfig.roomType != type
+            }
+
+            if(availableRooms.isEmpty()) {
+                println("Unable to generate room with type $type, rooms with this type isn't exists")
+                return null
             }
 
             return availableRooms.random()
@@ -116,7 +121,18 @@ object RoomController {
 
     fun startGeneration() {
         for(i in 0..<configs.generationConfig().roomLimit) {
-            generationQuery.add(getRandomRoom(RoomType.NORMAL))
+            if(i in configs.generationConfig().shopRooms) {
+                val room = getRandomRoom(RoomType.SHOP)
+                if(room != null) {
+                    generationQuery.add(room)
+                }
+                continue
+            }
+
+            val room = getRandomRoom(RoomType.NORMAL)
+            if(room != null) {
+                generationQuery.add(room)
+            }
         }
 
         nextRoomX = configs.generationConfig().firstRoomEntry.x.toInt()
@@ -152,7 +168,6 @@ object RoomController {
         clearZones.add(Pair(
             Position(
                 configs.generationConfig().firstRoomEntry.world,
-                // может быть +
                 spawnX - queryRoom.roomConfig.roomSize.x.toInt(),
                 spawnY + queryRoom.roomConfig.roomSize.y.toInt(),
                 spawnZ - queryRoom.roomConfig.roomSize.z.toInt()

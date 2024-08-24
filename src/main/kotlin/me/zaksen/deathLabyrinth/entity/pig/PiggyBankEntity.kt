@@ -31,4 +31,6 @@ class PiggyBankEntity(location: Location): Pig(EntityType.PIG, (location.getWorl
             )
         )
     }
+
+    override fun checkDespawn() { }
 }

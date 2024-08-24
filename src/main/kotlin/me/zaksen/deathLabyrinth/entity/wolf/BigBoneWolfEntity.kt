@@ -41,4 +41,6 @@ class BigBoneWolfEntity(location: Location): Wolf(EntityType.WOLF, (location.get
             )
         )
     }
+
+    override fun checkDespawn() { }
 }

@@ -38,4 +38,6 @@ class MouseEntity(location: Location): Silverfish(EntityType.SILVERFISH, (locati
         )
 
     }
+
+    override fun checkDespawn() { }
 }

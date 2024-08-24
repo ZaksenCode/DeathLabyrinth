@@ -45,4 +45,6 @@ class SkeletonWarriorEntity(location: Location): Skeleton(EntityType.SKELETON, (
             )
         )
     }
+
+    override fun checkDespawn() { }
 }

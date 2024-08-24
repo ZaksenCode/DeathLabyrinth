@@ -1,6 +1,8 @@
 package me.zaksen.deathLabyrinth.entity.skeleton
 
 import me.zaksen.deathLabyrinth.entity.Trader
+import me.zaksen.deathLabyrinth.menu.MenuController
+import me.zaksen.deathLabyrinth.menu.custom.TraderMenu
 import me.zaksen.deathLabyrinth.shop.TradeOffer
 import net.minecraft.network.chat.Component
 import net.minecraft.world.InteractionHand
@@ -36,7 +38,7 @@ class SkeletonTraderEntity(location: Location): Skeleton(EntityType.SKELETON, (l
     }
 
     override fun mobInteract(player: Player, hand: InteractionHand): InteractionResult {
-
+        MenuController.openMenu(player.bukkitEntity, TraderMenu())
         return super.mobInteract(player, hand)
     }
 
@@ -44,4 +46,5 @@ class SkeletonTraderEntity(location: Location): Skeleton(EntityType.SKELETON, (l
         tradeOffers = offers
     }
 
+    override fun checkDespawn() { }
 }

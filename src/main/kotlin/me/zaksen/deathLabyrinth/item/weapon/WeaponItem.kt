@@ -21,6 +21,14 @@ open class WeaponItem(private val weaponType: WeaponType, id: String, settings: 
             .loreMap(settings.lore())
             .loreLine("<dark_purple>Тип:</dark_purple> <light_purple>${getWeaponType().displayName}</light_purple>".asText())
 
+        if(settings.damage() > 0) {
+            stack.loreLine("<green>Урон: ${settings.damage()}</green>".asText())
+        }
+
+        if(settings.abilityCooldown() > 0) {
+            stack.loreLine("<green>Перезарядка: ${settings.abilityCooldown() / 1000.0} c.</green>".asText())
+        }
+
         val meta = stack.itemMeta
         meta.persistentDataContainer.set(PluginKeys.customItemKey, PersistentDataType.STRING, id)
         meta.isUnbreakable = true
