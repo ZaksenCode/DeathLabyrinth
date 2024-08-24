@@ -180,6 +180,8 @@ object RoomController {
         nextRoomX -= queryRoom.roomConfig.spawnExitOffset.x.toInt()
         nextRoomY += queryRoom.roomConfig.spawnExitOffset.y.toInt()
         nextRoomZ -= queryRoom.roomConfig.spawnExitOffset.z.toInt()
+
+        checkRoomCompletion()
     }
 
     fun clearGeneration() {
@@ -200,7 +202,7 @@ object RoomController {
         clearZones.clear()
     }
 
-    fun clearCachedData() {
+    private fun clearCachedData() {
         generationQuery.clear()
         actualQueryRoom = null
         actualRoomEntities.clear()
