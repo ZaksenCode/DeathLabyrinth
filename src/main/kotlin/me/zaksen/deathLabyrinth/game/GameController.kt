@@ -3,8 +3,7 @@ package me.zaksen.deathLabyrinth.game
 import me.zaksen.deathLabyrinth.config.ConfigContainer
 import me.zaksen.deathLabyrinth.data.PlayerData
 import me.zaksen.deathLabyrinth.game.room.RoomController
-import me.zaksen.deathLabyrinth.menu.MenuController
-import me.zaksen.deathLabyrinth.menu.custom.ClassChoiceMenu
+import me.zaksen.deathLabyrinth.menu.Menus
 import me.zaksen.deathLabyrinth.util.ChatUtil
 import me.zaksen.deathLabyrinth.util.ChatUtil.title
 import me.zaksen.deathLabyrinth.util.asText
@@ -133,7 +132,7 @@ object GameController {
         ChatUtil.broadcast(configs.langConfig().gameStartingCloseClassMenu)
         players.forEach {
             it.key.inventory.clear()
-            MenuController.openMenu(it.key, ClassChoiceMenu(configs))
+            Menus.classChoice(it.key)
         }
 
         RoomController.startGeneration()

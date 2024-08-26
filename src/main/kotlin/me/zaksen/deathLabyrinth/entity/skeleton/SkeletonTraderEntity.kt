@@ -1,8 +1,7 @@
 package me.zaksen.deathLabyrinth.entity.skeleton
 
 import me.zaksen.deathLabyrinth.entity.Trader
-import me.zaksen.deathLabyrinth.menu.MenuController
-import me.zaksen.deathLabyrinth.menu.custom.TraderMenu
+import me.zaksen.deathLabyrinth.menu.Menus
 import me.zaksen.deathLabyrinth.shop.TradeOffer
 import net.minecraft.network.chat.Component
 import net.minecraft.world.InteractionHand
@@ -10,6 +9,8 @@ import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal
 import net.minecraft.world.entity.monster.Skeleton
 import net.minecraft.world.entity.player.Player
 import org.bukkit.Location
@@ -29,16 +30,24 @@ class SkeletonTraderEntity(location: Location): Skeleton(EntityType.SKELETON, (l
     }
 
     override fun registerGoals() {
+        goalSelector.addGoal(1, MeleeAttackGoal(this, 1.0, false))
         goalSelector.addGoal(
-            1, LookAtPlayerGoal(
+            2, LookAtPlayerGoal(
                 this,
                 Player::class.java, 8.0f
             )
         )
+        targetSelector.addGoal(1, HurtByTargetGoal(this,
+            Skeleton::class.java,
+            SkeletonArcherEntity::class.java,
+            SkeletonWarriorEntity::class.java
+        ))
     }
 
     override fun mobInteract(player: Player, hand: InteractionHand): InteractionResult {
-        MenuController.openMenu(player.bukkitEntity, TraderMenu())
+        if(target == null) {
+            Menus.traderMenu(player.bukkitEntity as org.bukkit.entity.Player)
+        }
         return super.mobInteract(player, hand)
     }
 

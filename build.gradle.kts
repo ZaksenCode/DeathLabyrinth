@@ -14,7 +14,9 @@ repositories {
     maven("https://repo.papermc.io/repository/maven-public/") {
         name = "papermc-repo"
     }
-
+    maven( "https://repo.xenondevs.xyz/releases") {
+        name = "inv-ui"
+    }
     maven("https://maven.enginehub.org/repo/") {
         name = "worldedit"
     }
@@ -24,6 +26,9 @@ dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("com.charleskorn.kaml:kaml:0.61.0")
+
+    implementation("xyz.xenondevs.invui:invui:" + property("invui_version"))
+    implementation("xyz.xenondevs.invui:invui-kotlin:" + property("invui_version"))
 
     compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.3.6")
 

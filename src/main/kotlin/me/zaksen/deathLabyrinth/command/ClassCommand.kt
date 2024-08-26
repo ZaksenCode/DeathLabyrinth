@@ -3,8 +3,7 @@ package me.zaksen.deathLabyrinth.command
 import me.zaksen.deathLabyrinth.config.ConfigContainer
 import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.game.GameStatus
-import me.zaksen.deathLabyrinth.menu.MenuController
-import me.zaksen.deathLabyrinth.menu.custom.ClassChoiceMenu
+import me.zaksen.deathLabyrinth.menu.Menus
 import me.zaksen.deathLabyrinth.util.ChatUtil.message
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
@@ -19,7 +18,7 @@ class ClassCommand(private val configs: ConfigContainer): CommandExecutor {
 
             if(playerData?.playerClass == null) {
                 if(GameController.getStatus() == GameStatus.PRE_PROCESS) {
-                    MenuController.openMenu(sender, ClassChoiceMenu(configs))
+                    Menus.classChoice(sender)
                 } else {
                     sender.message(configs.langConfig().classGameNotStarted)
                 }

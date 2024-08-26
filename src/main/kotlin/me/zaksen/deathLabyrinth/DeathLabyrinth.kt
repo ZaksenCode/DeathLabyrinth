@@ -4,10 +4,10 @@ import me.zaksen.deathLabyrinth.command.*
 import me.zaksen.deathLabyrinth.config.*
 import me.zaksen.deathLabyrinth.event.CustomItemEvents
 import me.zaksen.deathLabyrinth.event.GameEvents
-import me.zaksen.deathLabyrinth.event.MenuEvents
 import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.keys.PluginKeys
+import me.zaksen.deathLabyrinth.menu.Menus
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 
@@ -21,6 +21,7 @@ class DeathLabyrinth : JavaPlugin(), ConfigContainer {
 
     override fun onEnable() {
         reloadConfigs()
+        Menus.setup(this)
         PluginKeys.setup(this)
         RoomController.reloadRooms(roomDirectory)
         GameController.setup(this, this)
@@ -34,7 +35,6 @@ class DeathLabyrinth : JavaPlugin(), ConfigContainer {
     }
 
     private fun registerEvents() {
-        server.pluginManager.registerEvents(MenuEvents(), this)
         server.pluginManager.registerEvents(CustomItemEvents(), this)
         server.pluginManager.registerEvents(GameEvents(mainConfig), this)
     }
