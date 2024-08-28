@@ -2,16 +2,16 @@ package me.zaksen.deathLabyrinth.event
 
 import me.zaksen.deathLabyrinth.config.MainConfig
 import me.zaksen.deathLabyrinth.game.GameController
-import me.zaksen.deathLabyrinth.game.GameStatus
 import me.zaksen.deathLabyrinth.game.room.RoomController
 import org.bukkit.Material
+import org.bukkit.entity.LivingEntity
+import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
-import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.block.BlockPlaceEvent
+import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.entity.EntityDeathEvent
-import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
@@ -37,6 +37,28 @@ class GameEvents(private val config: MainConfig): Listener {
     @EventHandler
     fun processRoomEntityDeath(event: EntityDeathEvent) {
         RoomController.processEntityRoomDeath(event)
+    }
+
+    @EventHandler
+    fun processPlayerDeath(event: EntityDamageEvent) {
+        if(config.debug) {
+            return
+        }
+
+        val entity = event.entity
+        if(entity is Player && entity.health - event.damage <= 0) {
+            GameController.processPlayerDeath(entity)
+            event.isCancelled = true
+        }
+    }
+
+    @EventHandler
+    fun processHitEntity(event: EntityDamageEvent) {
+        val entity = event.entity
+
+        if(entity is LivingEntity) {
+            GameController.processEntityHit(entity)
+        }
     }
 
     @EventHandler

@@ -5,7 +5,9 @@ import me.zaksen.deathLabyrinth.classes.WarriorClass
 import me.zaksen.deathLabyrinth.config.ConfigContainer
 import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.item.ItemsController
+import me.zaksen.deathLabyrinth.menu.item.ShopItem
 import me.zaksen.deathLabyrinth.menu.item.TabItem
+import me.zaksen.deathLabyrinth.trading.TradeOffer
 import me.zaksen.deathLabyrinth.util.ChatUtil
 import me.zaksen.deathLabyrinth.util.toWrapper
 import org.bukkit.Material
@@ -129,48 +131,20 @@ object Menus {
         window.open()
     }
 
-    // TODO - Сделать меню состоящая из TraderOffers
-    fun traderMenu(player: Player) {
-        val gui = Gui.normal()
+    fun traderMenu(player: Player, tradeOffers: List<TradeOffer>) {
+        val items = tradeOffers.map {
+            ShopItem(it)
+        }
+
+        val gui = PagedGui.items()
             .setStructure(
                 "# # # # # # # # #",
-                "# . . . . . . . #",
+                "# T T T T T T T #",
                 "# # # # # # # # #"
             )
             .addIngredient('#', SimpleItem(ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).setDisplayName("")))
-            .addIngredient('M', object: AbstractItem(){
-                override fun getItemProvider(): ItemProvider {
-                    return ItemBuilder(Material.EXPERIENCE_BOTTLE).setDisplayName("<blue>Маг</blue>".toWrapper())
-                }
-
-                override fun handleClick(cilck: ClickType, player: Player, event: InventoryClickEvent) {
-                    val playerData = GameController.players[player]
-
-                    if(playerData != null) {
-                        playerData.playerClass = MageClass()
-
-                        ChatUtil.broadcast("<green>{player} выбрал класс</green> <blue>мага!</blue>", Pair("{player}", player.name))
-                        player.closeInventory()
-                        GameController.checkClasses()
-                    }
-                }
-            })
-            .addIngredient('W', object: AbstractItem(){
-                override fun getItemProvider(): ItemProvider {
-                    return ItemBuilder(Material.IRON_SWORD).setDisplayName("<red>Воин</red>".toWrapper())
-                }
-
-                override fun handleClick(cilck: ClickType, player: Player, event: InventoryClickEvent) {
-                    val playerData = GameController.players[player]
-                    if(playerData != null) {
-                        playerData.playerClass = WarriorClass()
-
-                        ChatUtil.broadcast("<green>{player} выбрал класс</green> <red>война!</red>", Pair("{player}", player.name))
-                        player.closeInventory()
-                        GameController.checkClasses()
-                    }
-                }
-            })
+            .addIngredient('T', Markers.CONTENT_LIST_SLOT_HORIZONTAL)
+            .setContent(items)
             .build()
 
         val window: Window = Window.single()

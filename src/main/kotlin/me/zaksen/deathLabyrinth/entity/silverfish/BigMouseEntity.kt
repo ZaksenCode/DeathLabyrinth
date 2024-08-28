@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.entity.silverfish
 
+import net.kyori.adventure.text.format.TextColor
 import net.minecraft.network.chat.Component
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.ai.attributes.Attributes
@@ -9,6 +10,7 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
 import net.minecraft.world.entity.monster.Silverfish
 import net.minecraft.world.entity.player.Player
+import org.bukkit.Color
 import org.bukkit.Location
 import org.bukkit.craftbukkit.CraftWorld
 
@@ -17,7 +19,7 @@ class BigMouseEntity(location: Location): Silverfish(EntityType.SILVERFISH, (loc
     init {
         this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = 25.0
         this.health = 25.0f
-        this.customName = Component.literal("Большая мышь")
+        this.customName = Component.literal("Большая мышь").withColor(TextColor.color(124, 242, 81).value())
         this.isCustomNameVisible = true
         this.getAttribute(Attributes.SCALE)?.baseValue = 1.5
 

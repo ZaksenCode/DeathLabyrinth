@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.classes
 
+import me.zaksen.deathLabyrinth.item.ItemsController
 import me.zaksen.deathLabyrinth.item.weapon.WeaponType
 import org.bukkit.entity.Player
 
@@ -14,7 +15,7 @@ class WarriorClass() : PlayerClass {
     }
 
     override fun launchSetup(player: Player) {
-
+        player.inventory.addItem(ItemsController.get("wooden_sword")!!.asItemStack())
     }
 
 }

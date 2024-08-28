@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.entity.skeleton
 
+import net.kyori.adventure.text.format.TextColor
 import net.minecraft.network.chat.Component
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.EquipmentSlot
@@ -11,6 +12,7 @@ import net.minecraft.world.entity.monster.Skeleton
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
+import org.bukkit.Color
 import org.bukkit.Location
 import org.bukkit.craftbukkit.CraftWorld
 
@@ -19,7 +21,7 @@ class SkeletonMinerEntity(location: Location): Skeleton(EntityType.SKELETON, (lo
     init {
         this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = 50.0
         this.health = 50.0f
-        this.customName = Component.literal("Скелет-шахтёр")
+        this.customName = Component.literal("Скелет-шахтёр").withColor(TextColor.color(124, 242, 81).value())
         this.isCustomNameVisible = true
 
         this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.2

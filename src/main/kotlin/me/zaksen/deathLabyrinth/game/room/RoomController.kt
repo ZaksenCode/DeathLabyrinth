@@ -12,6 +12,8 @@ import com.sk89q.worldedit.world.AbstractWorld
 import me.zaksen.deathLabyrinth.config.*
 import me.zaksen.deathLabyrinth.config.data.Position
 import me.zaksen.deathLabyrinth.entity.EntityController
+import me.zaksen.deathLabyrinth.entity.trader.Trader
+import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.util.tryAddEntity
 import net.minecraft.world.entity.Entity
 import org.bukkit.Bukkit
@@ -37,7 +39,7 @@ object RoomController {
 
     private val actualRoomEntities: MutableList<Entity> = mutableListOf()
 
-    private var roomGenerated: Int = 0
+    var roomGenerated: Int = 0
 
     private var nextRoomX: Int = 0
     private var nextRoomY: Int = 0
@@ -146,7 +148,7 @@ object RoomController {
         actualRoomEntities.clear()
 
         if(generationQuery.isEmpty()) {
-            println("Generation query end")
+            GameController.endGameWin()
             return
         }
 
@@ -241,6 +243,9 @@ object RoomController {
                     z - entityEntry.spawnPosition.z
                 ))
                 roomWorld.tryAddEntity(toSpawn)
+                if(toSpawn is Trader) {
+                    toSpawn.updateOffers(GameController.generateTradeOffers(toSpawn.getTraderType()))
+                }
                 if(!debug) {
                     if(entityEntry.requireKill) {
                         actualRoomEntities.add(toSpawn)

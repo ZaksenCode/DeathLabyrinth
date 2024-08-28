@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.entity.wolf
 
+import net.kyori.adventure.text.format.TextColor
 import net.minecraft.network.chat.Component
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.ai.attributes.Attributes
@@ -8,6 +9,7 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
 import net.minecraft.world.entity.animal.Wolf
 import net.minecraft.world.entity.player.Player
+import org.bukkit.Color
 import org.bukkit.Location
 import org.bukkit.craftbukkit.CraftWorld
 
@@ -16,7 +18,7 @@ class BoneWolfEntity(location: Location): Wolf(EntityType.WOLF, (location.getWor
     init {
         this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = 16.0
         this.health = 16.0f
-        this.customName = Component.literal("Волк")
+        this.customName = Component.literal("Волк").withColor(TextColor.color(124, 242, 81).value())
         this.isCustomNameVisible = true
         this.setPos(location.x, location.y, location.z)
     }

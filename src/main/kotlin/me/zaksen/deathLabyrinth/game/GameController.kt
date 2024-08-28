@@ -2,21 +2,26 @@ package me.zaksen.deathLabyrinth.game
 
 import me.zaksen.deathLabyrinth.config.ConfigContainer
 import me.zaksen.deathLabyrinth.data.PlayerData
+import me.zaksen.deathLabyrinth.entity.trader.TraderType
 import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.menu.Menus
-import me.zaksen.deathLabyrinth.util.ChatUtil
+import me.zaksen.deathLabyrinth.trading.TradeOffer
+import me.zaksen.deathLabyrinth.trading.pricing.PricingStrategy
+import me.zaksen.deathLabyrinth.util.*
 import me.zaksen.deathLabyrinth.util.ChatUtil.title
-import me.zaksen.deathLabyrinth.util.asText
-import me.zaksen.deathLabyrinth.util.customModel
-import me.zaksen.deathLabyrinth.util.name
+import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Bukkit
-import org.bukkit.Location
+import org.bukkit.GameMode
 import org.bukkit.Material
+import org.bukkit.attribute.Attribute
+import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
+import org.bukkit.event.entity.EntityRegainHealthEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.Plugin
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scheduler.BukkitTask
+
 
 object GameController {
     private lateinit var plugin: Plugin
@@ -32,6 +37,15 @@ object GameController {
         return status
     }
 
+    fun reload() {
+        players.clear()
+        Bukkit.getOnlinePlayers().forEach { join(it) }
+
+        RoomController.clearGeneration()
+
+        status = GameStatus.WAITING
+    }
+
     fun setup(plugin: Plugin, configs: ConfigContainer) {
         this.plugin = plugin
         this.configs = configs
@@ -44,14 +58,12 @@ object GameController {
     }
 
     private fun setupPlayer(player: Player) {
-        player.teleport(
-            Location(
-                Bukkit.getWorld(configs.mainConfig().playerSpawnLocation.world),
-                configs.mainConfig().playerSpawnLocation.x,
-                configs.mainConfig().playerSpawnLocation.y,
-                configs.mainConfig().playerSpawnLocation.z
-            )
-        )
+        player.gameMode = GameMode.ADVENTURE
+
+        player.heal(20.0, EntityRegainHealthEvent.RegainReason.REGEN)
+        player.saturation = 20.0f
+
+        player.teleport(locationOf(configs.mainConfig().playerSpawnLocation))
 
         player.inventory.clear()
         player.inventory.setItem(4, ItemStack(Material.PAPER).name(configs.langConfig().notReady.asText()).customModel(200))
@@ -92,6 +104,7 @@ object GameController {
                         startGame()
                         cancel()
                         startCooldownTask = null
+                        startCooldownTime = 5
                     } else {
                         ChatUtil.broadcastTitle(configs.langConfig().gameStartingTitle, "", Pair("{time}", startCooldownTime.toString()))
                     }
@@ -103,7 +116,7 @@ object GameController {
     }
 
     private fun stopGameCooldown() {
-        if(players.size >= configs.mainConfig().minimalPlayers && isPlayersReady() && status == GameStatus.PREPARE) {
+        if(!isPlayersReady() && status == GameStatus.PREPARE) {
             status = GameStatus.WAITING
 
             startCooldownTask?.cancel()
@@ -160,13 +173,73 @@ object GameController {
         }
     }
 
-    private fun endGame() {
+    fun endGameWin() {
         status = GameStatus.GAME_END
 
-        players.clear()
+        ChatUtil.broadcast("<aqua>Вы выиграли!<aqua>")
+        reload()
+    }
 
-        Bukkit.getOnlinePlayers().forEach {
-            it.title("<aqua>Игра окончена!<aqua>")
+    private fun endGameLose() {
+        status = GameStatus.GAME_END
+
+        ChatUtil.broadcast("<red>Игра окончена!<red>")
+        reload()
+    }
+
+    fun processPlayerDeath(player: Player) {
+        val playerData = players[player]
+
+        player.gameMode = GameMode.SPECTATOR
+        player.title("<red>Вы умерли!</red>")
+
+        if(playerData != null) {
+            players[player]!!.isAlive = false
         }
+
+        checkAlivePlayers()
+    }
+
+    private fun checkAlivePlayers() {
+        var result = true
+
+        for(player in players) {
+            if(player.value.isAlive) {
+                result = false
+            }
+        }
+
+        if(result) {
+            endGameLose()
+        }
+    }
+
+    fun generateTradeOffers(traderType: TraderType): List<TradeOffer> {
+        val result: MutableList<TradeOffer> = mutableListOf()
+
+        when(traderType) {
+            TraderType.NORMAL ->  {
+                TradeOffer(players.size, 10, ItemStack(Material.STONE_AXE), object: PricingStrategy {
+                    override fun scale(base: Int): Int {
+                        return base * ((RoomController.roomGenerated * 0.4).toInt() + 1)
+                    }
+                })
+            }
+        }
+
+        return result
+    }
+
+    fun processEntityHit(entity: LivingEntity) {
+        val maxHealth = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH) ?: return
+        val scale = entity.health.toFloat() / maxHealth.baseValue.toFloat()
+
+        entity.customName(entity.customName()?.color(
+            TextColor.lerp(
+                scale,
+                TextColor.color(242, 81, 81),
+                TextColor.color(124, 242, 81)
+            )
+        ))
     }
 }

@@ -33,8 +33,6 @@ class HealStuff(id: String): WeaponItem(
                 0.5,
                 0.5
             )
-        } else {
-            event.player.actionBar("<red>Этот предмет ещё на перезарядке!</red>")
         }
     }
 }

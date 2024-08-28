@@ -1,6 +1,7 @@
 package me.zaksen.deathLabyrinth.command
 
 import me.zaksen.deathLabyrinth.config.ConfigContainer
+import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.util.ChatUtil.message
 import org.bukkit.command.Command
@@ -44,7 +45,7 @@ class GameReloadCommand(private val configs: ConfigContainer, private val roomsD
     }
 
     private fun fullReload() {
-        RoomController.clearGeneration()
+        GameController.reload()
     }
 
 }
