@@ -2,6 +2,7 @@ package me.zaksen.deathLabyrinth.entity.wolf
 
 import net.kyori.adventure.text.format.TextColor
 import net.minecraft.network.chat.Component
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.ai.goal.*
@@ -44,4 +45,12 @@ class BoneWolfEntity(location: Location): Wolf(EntityType.WOLF, (location.getWor
     }
 
     override fun checkDespawn() { }
+
+    override fun dropExperience(attacker: Entity?) { }
+
+    override fun dropEquipment() { }
+
+    override fun shouldDropLoot(): Boolean {
+        return false
+    }
 }

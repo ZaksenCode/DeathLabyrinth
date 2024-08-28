@@ -8,6 +8,7 @@ import net.kyori.adventure.text.format.TextColor
 import net.minecraft.network.chat.Component
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
+import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal
@@ -63,4 +64,12 @@ class SkeletonTraderEntity(location: Location): Skeleton(EntityType.SKELETON, (l
     }
 
     override fun checkDespawn() { }
+
+    override fun dropExperience(attacker: Entity?) { }
+
+    override fun dropEquipment() { }
+
+    override fun shouldDropLoot(): Boolean {
+        return false
+    }
 }
