@@ -81,15 +81,7 @@ class GameEvents(private val config: MainConfig): Listener {
     fun processPlayerDamage(event: EntityDamageByEntityEvent) {
         val damager = event.damager
 
-        if(damager is Projectile && event.entity is Player) {
-            val ownerUUID = damager.ownerUniqueId ?: return
-            val owner = damager.world.getEntity(ownerUUID)
-            if(owner is FriendlyEntity) {
-                event.isCancelled = true
-                return
-            }
-        }
-        else if(damager is FriendlyEntity && event.entity is Player) {
+        if(damager is FriendlyEntity && event.entity is Player) {
             event.isCancelled = true
             return
         }
