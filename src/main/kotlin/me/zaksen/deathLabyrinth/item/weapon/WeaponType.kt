@@ -6,6 +6,6 @@ enum class WeaponType(val displayName: String) {
     DAGGER("Клинок"),
     SPEAR("Копьё"),
 
-    ATTACK_STAFF("Посох (Атака)"),
-    MISC_STAFF("Посох (Прочее)")
+    ATTACK_STUFF("Посох (Атака)"),
+    MISC_STUFF("Посох (Прочее)")
 }

@@ -5,10 +5,12 @@ import me.zaksen.deathLabyrinth.entity.trader.TraderType
 import me.zaksen.deathLabyrinth.menu.Menus
 import me.zaksen.deathLabyrinth.trading.TradeOffer
 import net.kyori.adventure.text.format.TextColor
+import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.network.chat.Component
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.EntitySelector
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal
@@ -23,6 +25,7 @@ class SkeletonTraderEntity(location: Location): Skeleton(EntityType.SKELETON, (l
     Trader {
 
     private var tradeOffers: List<TradeOffer> = listOf()
+    private var despawnTicks = 120 * 20
 
     init {
         this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = 50.0
@@ -63,7 +66,25 @@ class SkeletonTraderEntity(location: Location): Skeleton(EntityType.SKELETON, (l
         return TraderType.NORMAL
     }
 
-    override fun checkDespawn() { }
+    override fun checkDespawn() {
+        despawnTicks--
+
+        if(despawnTicks <= 0) {
+            for(i in 0..30) {
+                this.level().addParticle(
+                    ParticleTypes.EFFECT,
+                    x,
+                    y,
+                    z,
+                    0.2,
+                    0.4,
+                    0.2
+                )
+            }
+
+            this.discard()
+        }
+    }
 
     override fun dropExperience(attacker: Entity?) { }
 

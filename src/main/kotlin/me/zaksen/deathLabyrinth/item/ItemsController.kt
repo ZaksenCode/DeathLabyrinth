@@ -1,16 +1,15 @@
 package me.zaksen.deathLabyrinth.item
 
 import me.zaksen.deathLabyrinth.item.settings.ItemSettings
-import me.zaksen.deathLabyrinth.item.weapon.weapons.stuff.FrostBallStuff
-import me.zaksen.deathLabyrinth.item.weapon.weapons.sword.BaseDagger
-import me.zaksen.deathLabyrinth.item.weapon.weapons.stuff.HealStuff
-import me.zaksen.deathLabyrinth.item.weapon.weapons.sword.BaseHammer
-import me.zaksen.deathLabyrinth.item.weapon.weapons.sword.BaseSpear
-import me.zaksen.deathLabyrinth.item.weapon.weapons.sword.BaseSword
+import me.zaksen.deathLabyrinth.item.items.consume.*
+import me.zaksen.deathLabyrinth.item.items.ingredient.*
+import me.zaksen.deathLabyrinth.item.weapon.weapons.stuff.*
+import me.zaksen.deathLabyrinth.item.weapon.weapons.sword.*
 import me.zaksen.deathLabyrinth.util.ChatUtil
 import me.zaksen.deathLabyrinth.util.asText
 import org.bukkit.Material
 
+// FIXME - Recode this crap, make items data-driven
 object ItemsController {
 
     val itemsMap: MutableMap<String, CustomItem> = mutableMapOf()
@@ -29,22 +28,22 @@ object ItemsController {
         register("stone_dagger", BaseDagger(
             "stone_dagger",
             ItemSettings(Material.STONE_SWORD).customModel(1000).damage(3.0).attackSpeed(-1.6)
-                .displayName(ChatUtil.format("<gray>Каменный клинок</gray>"))
+                .displayName(ChatUtil.format("<gray>Каменный клинок</gray>")).quality(ItemQuality.UNCOMMON)
         ))
         register("iron_dagger", BaseDagger(
             "iron_dagger",
             ItemSettings(Material.IRON_SWORD).customModel(1000).damage(4.0).attackSpeed(-1.6)
-                .displayName(ChatUtil.format("<gray>Железный клинок</gray>"))
+                .displayName(ChatUtil.format("<gray>Железный клинок</gray>")).quality(ItemQuality.UNCOMMON)
         ))
         register("diamond_dagger", BaseDagger(
             "diamond_dagger",
             ItemSettings(Material.DIAMOND_SWORD).customModel(1000).damage(5.0).attackSpeed(-1.6)
-                .displayName(ChatUtil.format("<gray>Алмазный клинок</gray>"))
+                .displayName(ChatUtil.format("<gray>Алмазный клинок</gray>")).quality(ItemQuality.UNCOMMON)
         ))
         register("netherite_dagger", BaseDagger(
             "netherite_dagger",
             ItemSettings(Material.NETHERITE_SWORD).customModel(1000).damage(6.0).attackSpeed(-1.6)
-                .displayName(ChatUtil.format("<gray>Незеритовый клинок</gray>"))
+                .displayName(ChatUtil.format("<gray>Незеритовый клинок</gray>")).quality(ItemQuality.RARE)
         ))
 
         register("wooden_sword", BaseSword(
@@ -60,22 +59,22 @@ object ItemsController {
         register("stone_sword", BaseSword(
             "stone_sword",
             ItemSettings(Material.STONE_SWORD).damage(5.0).attackSpeed(-2.3).range(1.0)
-                .displayName(ChatUtil.format("<gray>Каменный меч</gray>"))
+                .displayName(ChatUtil.format("<gray>Каменный меч</gray>")).quality(ItemQuality.UNCOMMON)
         ))
         register("iron_sword", BaseSword(
             "iron_sword",
             ItemSettings(Material.IRON_SWORD).damage(6.0).attackSpeed(-2.3).range(1.0)
-                .displayName(ChatUtil.format("<gray>Железный меч</gray>"))
+                .displayName(ChatUtil.format("<gray>Железный меч</gray>")).quality(ItemQuality.UNCOMMON)
         ))
         register("diamond_sword", BaseSword(
             "diamond_sword",
             ItemSettings(Material.DIAMOND_SWORD).damage(7.0).attackSpeed(-2.3).range(1.0)
-                .displayName(ChatUtil.format("<gray>Алмазный меч</gray>"))
+                .displayName(ChatUtil.format("<gray>Алмазный меч</gray>")).quality(ItemQuality.UNCOMMON)
         ))
         register("netherite_sword", BaseSword(
             "netherite_sword",
             ItemSettings(Material.NETHERITE_SWORD).damage(8.0).attackSpeed(-2.3).range(1.0)
-                .displayName(ChatUtil.format("<gray>Незеритовый меч</gray>"))
+                .displayName(ChatUtil.format("<gray>Незеритовый меч</gray>")).quality(ItemQuality.RARE)
         ))
 
         register("wooden_hammer", BaseHammer(
@@ -95,24 +94,28 @@ object ItemsController {
             ItemSettings(Material.MACE).customModel(1002).damage(5.0).attackSpeed(-3.2).hitRange(0.5)
                 .displayName(ChatUtil.format("<gray>Каменный молот</gray>"))
                 .lore(mutableListOf("Наносит урон в радиусе 0.5 блоков".asText()))
+                .quality(ItemQuality.UNCOMMON)
         ))
         register("iron_hammer", BaseHammer(
             "iron_hammer",
             ItemSettings(Material.MACE).customModel(1003).damage(6.0).attackSpeed(-3.2).hitRange(1.0)
                 .displayName(ChatUtil.format("<gray>Железный молот</gray>"))
                 .lore(mutableListOf("Наносит урон в радиусе 1 блока".asText()))
+                .quality(ItemQuality.UNCOMMON)
         ))
         register("diamond_hammer", BaseHammer(
             "diamond_hammer",
             ItemSettings(Material.MACE).customModel(1004).damage(7.0).attackSpeed(-3.2).hitRange(1.0)
                 .displayName(ChatUtil.format("<gray>Алмазный молот</gray>"))
                 .lore(mutableListOf("Наносит урон в радиусе 1 блока".asText()))
+                .quality(ItemQuality.UNCOMMON)
         ))
         register("netherite_hammer", BaseHammer(
             "netherite_hammer",
             ItemSettings(Material.MACE).customModel(1005).damage(8.0).attackSpeed(-3.2).hitRange(1.5)
                 .displayName(ChatUtil.format("<gray>Незеритовый молот</gray>"))
                 .lore(mutableListOf("Наносит урон в радиусе 1.5 блока".asText()))
+                .quality(ItemQuality.RARE)
         ))
 
         register("wooden_spear", BaseSpear(
@@ -128,26 +131,40 @@ object ItemsController {
         register("stone_spear", BaseSpear(
             "stone_dagger",
             ItemSettings(Material.STONE_SWORD).customModel(1001).damage(6.0).attackSpeed(-3.0).range(2.5)
-                .displayName(ChatUtil.format("<gray>Каменное копьё</gray>"))
+                .displayName(ChatUtil.format("<gray>Каменное копьё</gray>")).quality(ItemQuality.UNCOMMON)
         ))
         register("iron_spear", BaseSpear(
             "iron_spear",
             ItemSettings(Material.IRON_SWORD).customModel(1001).damage(7.0).attackSpeed(-3.0).range(2.5)
-                .displayName(ChatUtil.format("<gray>Железное копьё</gray>"))
+                .displayName(ChatUtil.format("<gray>Железное копьё</gray>")).quality(ItemQuality.UNCOMMON)
         ))
         register("diamond_spear", BaseSpear(
             "diamond_spear",
             ItemSettings(Material.DIAMOND_SWORD).customModel(1001).damage(8.0).attackSpeed(-3.0).range(2.5)
-                .displayName(ChatUtil.format("<gray>Алмазное копьё</gray>"))
+                .displayName(ChatUtil.format("<gray>Алмазное копьё</gray>")).quality(ItemQuality.UNCOMMON)
         ))
         register("netherite_spear", BaseSpear(
             "netherite_spear",
             ItemSettings(Material.NETHERITE_SWORD).customModel(1001).damage(9.0).attackSpeed(-3.0).range(2.5)
-                .displayName(ChatUtil.format("<gray>Незеритовое копьё</gray>"))
+                .displayName(ChatUtil.format("<gray>Незеритовое копьё</gray>")).quality(ItemQuality.RARE)
         ))
 
         register("heal_stuff", HealStuff("heal_stuff"))
         register("frost_ball_stuff", FrostBallStuff("frost_ball_stuff"))
+        register("big_frost_ball_stuff", BigFrostBallStuff("big_frost_ball_stuff"))
+        register("fire_ball_stuff", FireBallStuff("fire_ball_stuff"))
+        register("big_fire_ball_stuff", BigFireBallStuff("big_fire_ball_stuff"))
+        register("big_heal_stuff", BigHealStuff("big_heal_stuff"))
+        register("wither_ball_stuff", WitherBallStuff("wither_ball_stuff"))
+        register("big_wither_ball_stuff", BigWitherBallStuff("big_wither_ball_stuff"))
+        register("necromantic_stuff", NecromanticStuff("necromantic_stuff"))
+
+        register("heal_potion", HealPotion("heal_potion"))
+        register("small_heal_potion", SmallHealPotion("small_heal_potion"))
+
+        register("bone", Bone("bone"))
+        register("flesh", Flesh("flesh"))
+        register("gunpowder", Gunpowder("gunpowder"))
     }
 
     private fun register(id: String, item: CustomItem) {

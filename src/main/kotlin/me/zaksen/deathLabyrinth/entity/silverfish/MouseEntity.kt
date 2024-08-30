@@ -23,6 +23,8 @@ class MouseEntity(location: Location): Silverfish(EntityType.SILVERFISH, (locati
         this.customName = Component.literal("Мышь").withColor(TextColor.color(124, 242, 81).value())
         this.isCustomNameVisible = true
 
+        this.getAttribute(Attributes.ATTACK_DAMAGE)?.baseValue = 4.0
+
         this.setPos(location.x, location.y, location.z)
     }
 

@@ -1,22 +1,23 @@
 package me.zaksen.deathLabyrinth.item.weapon.weapons.stuff
 
+import me.zaksen.deathLabyrinth.item.ItemQuality
 import me.zaksen.deathLabyrinth.item.settings.ItemSettings
 import me.zaksen.deathLabyrinth.item.weapon.WeaponItem
 import me.zaksen.deathLabyrinth.item.weapon.WeaponType
 import me.zaksen.deathLabyrinth.util.ChatUtil
-import me.zaksen.deathLabyrinth.util.ChatUtil.actionBar
 import org.bukkit.Material
 import org.bukkit.Particle
 import org.bukkit.event.entity.EntityRegainHealthEvent
 import org.bukkit.event.player.PlayerInteractEvent
 
 class HealStuff(id: String): WeaponItem(
-    WeaponType.MISC_STAFF,
+    WeaponType.MISC_STUFF,
     id,
     ItemSettings(Material.STICK)
         .customModel(100)
         .displayName(ChatUtil.format("<green>Посох исцеления</green>"))
-        .abilityCooldown(5000)
+        .abilityCooldown(30000)
+        .quality(ItemQuality.RARE)
 )
 {
     override fun onUse(event: PlayerInteractEvent) {

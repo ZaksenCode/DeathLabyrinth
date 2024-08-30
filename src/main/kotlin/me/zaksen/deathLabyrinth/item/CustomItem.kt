@@ -2,9 +2,8 @@ package me.zaksen.deathLabyrinth.item
 
 import me.zaksen.deathLabyrinth.item.settings.ItemSettings
 import me.zaksen.deathLabyrinth.keys.PluginKeys
-import me.zaksen.deathLabyrinth.util.customModel
-import me.zaksen.deathLabyrinth.util.loreMap
-import me.zaksen.deathLabyrinth.util.name
+import me.zaksen.deathLabyrinth.util.*
+import net.kyori.adventure.key.Key
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerItemConsumeEvent
@@ -29,6 +28,7 @@ abstract class CustomItem(val id: String, val type: ItemType, val settings: Item
         val stack = ItemStack(settings.material)
             .customModel(settings.customModel())
             .name(settings.displayName())
+            .loreLine(settings.quality().visualText.asText().font(Key.key("dl:icons")))
             .loreMap(settings.lore())
 
         val meta = stack.itemMeta

@@ -16,6 +16,7 @@ class WarriorClass() : PlayerClass {
 
     override fun launchSetup(player: Player) {
         player.inventory.addItem(ItemsController.get("wooden_sword")!!.asItemStack())
+        player.inventory.addItem(ItemsController.get("heal_potion")!!.asItemStack())
     }
 
 }

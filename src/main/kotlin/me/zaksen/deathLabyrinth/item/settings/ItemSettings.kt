@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.item.settings
 
+import me.zaksen.deathLabyrinth.item.ItemQuality
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
 
@@ -13,6 +14,7 @@ open class ItemSettings(val material: Material) {
     private var attackSpeed: Double = 0.0
     private var range: Double = 0.0
     private var hitRange: Double = 0.0
+    private var quality: ItemQuality = ItemQuality.COMMON
 
     fun customModel(model: Int): ItemSettings {
         this.customModelData = model
@@ -26,6 +28,11 @@ open class ItemSettings(val material: Material) {
 
     fun lore(lore: MutableList<Component>): ItemSettings {
         this.lore = lore
+        return this
+    }
+
+    fun loreLine(lore: Component): ItemSettings {
+        this.lore.add(lore)
         return this
     }
 
@@ -51,6 +58,11 @@ open class ItemSettings(val material: Material) {
 
     fun hitRange(hitRange: Double): ItemSettings {
         this.hitRange = hitRange
+        return this
+    }
+
+    fun quality(quality: ItemQuality): ItemSettings {
+        this.quality = quality
         return this
     }
 
@@ -84,5 +96,9 @@ open class ItemSettings(val material: Material) {
 
     fun hitRange(): Double {
         return hitRange
+    }
+
+    fun quality(): ItemQuality {
+        return quality
     }
 }

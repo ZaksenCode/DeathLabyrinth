@@ -13,7 +13,7 @@ import org.bukkit.craftbukkit.entity.CraftPlayer
 import org.bukkit.event.player.PlayerInteractEvent
 
 class FrostBallStuff(id: String): WeaponItem(
-    WeaponType.ATTACK_STAFF,
+    WeaponType.ATTACK_STUFF,
     id,
     ItemSettings(Material.STICK)
         .customModel(101)

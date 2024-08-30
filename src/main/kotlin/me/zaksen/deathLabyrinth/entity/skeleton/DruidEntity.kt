@@ -1,0 +1,59 @@
+package me.zaksen.deathLabyrinth.entity.skeleton
+
+import net.kyori.adventure.text.format.TextColor
+import net.minecraft.network.chat.Component
+import net.minecraft.world.entity.Entity
+import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.EquipmentSlot
+import net.minecraft.world.entity.LivingEntity
+import net.minecraft.world.entity.ai.attributes.Attributes
+import net.minecraft.world.entity.ai.goal.*
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
+import net.minecraft.world.entity.monster.Stray
+import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Items
+import org.bukkit.Location
+import org.bukkit.craftbukkit.CraftWorld
+
+class DruidEntity(location: Location): Stray(EntityType.STRAY, (location.getWorld() as CraftWorld).handle) {
+
+    init {
+        this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = 25.0
+        this.health = 25.0f
+        this.customName = Component.literal("Друид").withColor(TextColor.color(124, 242, 81).value())
+        this.isCustomNameVisible = true
+
+        this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.23
+        this.getAttribute(Attributes.ATTACK_DAMAGE)?.baseValue = 6.0
+
+        this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack(Items.STICK))
+
+        this.setPos(location.x, location.y, location.z)
+    }
+
+    override fun registerGoals() {
+        goalSelector.addGoal(0, FloatGoal(this))
+        goalSelector.addGoal(1, MeleeAttackGoal(this, 1.0, false))
+        goalSelector.addGoal(2, WaterAvoidingRandomStrollGoal(this, 1.0))
+        goalSelector.addGoal(4, LookAtPlayerGoal(this, Player::class.java, 3.0f, 1.0f))
+        targetSelector.addGoal(1, HurtByTargetGoal(this, *arrayOfNulls(0)))
+        targetSelector.addGoal(
+            2, NearestAttackableTargetGoal(
+                this,
+                Player::class.java, true
+            )
+        )
+    }
+
+    override fun checkDespawn() { }
+
+    override fun dropExperience(attacker: Entity?) { }
+
+    override fun dropEquipment() { }
+
+    override fun shouldDropLoot(): Boolean {
+        return false
+    }
+}

@@ -11,7 +11,20 @@ data class GenerationConfig(
     @SerialName("first_room_entry")
     val firstRoomEntry: Position = Position("world", -18.0, 2.0, 3.0),
     @SerialName("shop_rooms")
-    val shopRooms: Array<Int> = arrayOf(5, 15)
+    val shopRooms: Array<Int> = arrayOf(5, 15),
+    @SerialName("custom_rooms")
+    val bossRooms: Map<Int, List<String>> = mapOf(
+        Pair(4, listOf("SHOP")),
+        Pair(8, listOf("SHOP")),
+        Pair(12, listOf("SHOP")),
+        Pair(16, listOf("SHOP")),
+        Pair(20, listOf("BOSS")),
+        Pair(24, listOf("SHOP")),
+        Pair(28, listOf("SHOP")),
+        Pair(32, listOf("SHOP")),
+        Pair(36, listOf("SHOP")),
+        Pair(40, listOf("FINAL_BOSS")),
+    )
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

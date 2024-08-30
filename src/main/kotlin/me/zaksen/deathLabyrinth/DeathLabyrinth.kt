@@ -41,6 +41,8 @@ class DeathLabyrinth : JavaPlugin(), ConfigContainer {
 
     private fun registerCommands() {
         getCommand("game_status")?.setExecutor(GameStatusCommand())
+        getCommand("game_join")?.setExecutor(GameJoinCommand())
+        getCommand("game_join")?.tabCompleter = GameJoinCommand()
         getCommand("class")?.setExecutor(ClassCommand(this))
         getCommand("give_item")?.setExecutor(GiveItemCommand())
         getCommand("give_item")?.tabCompleter = GiveItemCommand()
@@ -52,6 +54,8 @@ class DeathLabyrinth : JavaPlugin(), ConfigContainer {
         getCommand("build_room")?.setExecutor(BuildRoomCommand())
         getCommand("build_room")?.tabCompleter = BuildRoomCommand()
         getCommand("start_generation")?.setExecutor(StartGenerationCommand())
+        getCommand("money")?.setExecutor(MoneyCommand())
+        getCommand("money")?.tabCompleter = MoneyCommand()
     }
 
     override fun reloadConfigs() {

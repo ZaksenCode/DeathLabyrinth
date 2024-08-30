@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.entity.projectile
 
+import me.zaksen.deathLabyrinth.entity.friendly.FriendlyEntity
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.world.effect.MobEffectInstance
@@ -51,7 +52,7 @@ class FrostBallEntity(location: Location): WindCharge(EntityType.WIND_CHARGE, (l
             z + 1.0
             )
         ) {
-            it.isAlive && it !is Player
+            it.isAlive && it !is Player && it !is FriendlyEntity
         }
 
         for (entity in entities) {

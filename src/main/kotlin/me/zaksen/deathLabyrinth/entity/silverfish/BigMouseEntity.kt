@@ -11,7 +11,6 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
 import net.minecraft.world.entity.monster.Silverfish
 import net.minecraft.world.entity.player.Player
-import org.bukkit.Color
 import org.bukkit.Location
 import org.bukkit.craftbukkit.CraftWorld
 
@@ -22,7 +21,9 @@ class BigMouseEntity(location: Location): Silverfish(EntityType.SILVERFISH, (loc
         this.health = 25.0f
         this.customName = Component.literal("Большая мышь").withColor(TextColor.color(124, 242, 81).value())
         this.isCustomNameVisible = true
+
         this.getAttribute(Attributes.SCALE)?.baseValue = 1.5
+        this.getAttribute(Attributes.ATTACK_DAMAGE)?.baseValue = 6.0
 
         this.setPos(location.x, location.y, location.z)
     }

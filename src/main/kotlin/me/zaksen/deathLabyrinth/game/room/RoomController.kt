@@ -13,18 +13,21 @@ import me.zaksen.deathLabyrinth.config.*
 import me.zaksen.deathLabyrinth.config.data.Position
 import me.zaksen.deathLabyrinth.entity.EntityController
 import me.zaksen.deathLabyrinth.entity.trader.Trader
+import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.util.tryAddEntity
 import net.minecraft.world.entity.Entity
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
+import org.bukkit.World
 import org.bukkit.craftbukkit.entity.CraftEntity
 import org.bukkit.event.entity.EntityDeathEvent
 import java.io.File
 import java.io.FileInputStream
 import kotlin.random.Random
 
+// TODO - Decompose
 object RoomController {
 
     private lateinit var configs: ConfigContainer
@@ -39,7 +42,8 @@ object RoomController {
 
     private val actualRoomEntities: MutableList<Entity> = mutableListOf()
 
-    var roomGenerated: Int = 0
+    var actualRoomNumber: Int = 0
+    var bossRoomCompleted: Int = 0
 
     private var nextRoomX: Int = 0
     private var nextRoomY: Int = 0
@@ -115,23 +119,24 @@ object RoomController {
 
     private fun checkRoomCompletion() {
         if(actualRoomEntities.isEmpty()) {
-            // TODO - Open door
-            generateAndUpdateQueryRoom()
-            println("room completed")
+            val reward = getRoomReward()
+            EventManager.callRoomCompleteEvent(actualRoomNumber, actualQueryRoom!!, reward)
         }
+    }
+
+    fun processRoomCompletion(reward: Int) {
+        grantRoomReward(reward)
+        generateAndUpdateQueryRoom()
     }
 
     fun startGeneration() {
         for(i in 0..<configs.generationConfig().roomLimit) {
-            if(i in configs.generationConfig().shopRooms) {
-                val room = getRandomRoom(RoomType.SHOP)
-                if(room != null) {
-                    generationQuery.add(room)
-                }
-                continue
+            val room: Room? = if(i in configs.generationConfig().shopRooms) {
+                getRandomRoom(RoomType.SHOP)
+            } else {
+                getRandomRoom(RoomType.NORMAL)
             }
 
-            val room = getRandomRoom(RoomType.NORMAL)
             if(room != null) {
                 generationQuery.add(room)
             }
@@ -142,6 +147,19 @@ object RoomController {
         nextRoomZ = configs.generationConfig().firstRoomEntry.z.toInt()
 
         generateAndUpdateQueryRoom()
+    }
+
+    private fun grantRoomReward(reward: Int) {
+        GameController.players.forEach {
+            val data = it.value
+            data.money += reward
+            GameController.players[it.key] = data
+        }
+    }
+
+    private fun getRoomReward(): Int {
+        val room = actualQueryRoom ?: return 0
+        return room.roomConfig.roomType.reward.generate()
     }
 
     private fun generateAndUpdateQueryRoom() {
@@ -177,7 +195,7 @@ object RoomController {
             Position(configs.generationConfig().firstRoomEntry.world, spawnX, spawnY, spawnZ)
         ))
 
-        roomGenerated++
+        actualRoomNumber++
 
         nextRoomX -= queryRoom.roomConfig.spawnExitOffset.x.toInt()
         nextRoomY += queryRoom.roomConfig.spawnExitOffset.y.toInt()
@@ -209,14 +227,14 @@ object RoomController {
         actualQueryRoom = null
         actualRoomEntities.clear()
 
-        roomGenerated = 0
+        actualRoomNumber = 0
 
         nextRoomX = configs.generationConfig().firstRoomEntry.x.toInt()
         nextRoomY = configs.generationConfig().firstRoomEntry.y.toInt()
         nextRoomZ = configs.generationConfig().firstRoomEntry.z.toInt()
     }
 
-    fun buildRoom(room: Room, x: Int, y: Int, z: Int, debug: Boolean = false) {
+    fun buildRoom(room: Room, x: Int, y: Int, z: Int, debug: Boolean = false, minPots: Int = 0, maxPots: Int = 3) {
         val roomWorld = Bukkit.getWorld(configs.generationConfig().firstRoomEntry.world) ?: return
         var clipboard: Clipboard
 
@@ -242,22 +260,20 @@ object RoomController {
                     y + entityEntry.spawnPosition.y,
                     z - entityEntry.spawnPosition.z
                 ))
-                roomWorld.tryAddEntity(toSpawn)
-                if(toSpawn is Trader) {
-                    toSpawn.updateOffers(GameController.generateTradeOffers(toSpawn.getTraderType()))
-                }
-                if(!debug) {
-                    if(entityEntry.requireKill) {
-                        actualRoomEntities.add(toSpawn)
-                    }
-                }
+                EventManager.callEntitySpawnEvent(roomWorld, toSpawn, entityEntry.requireKill, debug)
             } else {
                 println("Unable to found entity with id ${entityEntry.entityName}")
             }
         }
 
         val potSpawns = room.roomConfig.potSpawns.toMutableList()
-        val numOfPots = Random.Default.nextInt(0, 3)
+        val numOfPots = if(maxPots == 0) {
+            0
+        } else if(minPots < maxPots) {
+            Random.Default.nextInt(minPots, maxPots)
+        } else {
+            maxPots
+        }
 
         if(potSpawns.size < numOfPots) {
             return
@@ -268,6 +284,18 @@ object RoomController {
                 val pot = potSpawns.random()
                 potSpawns.remove(pot)
                 roomWorld.setType(x - pot.x.toInt(), y + pot.y.toInt(), z - pot.z.toInt(), Material.DECORATED_POT)
+            }
+        }
+    }
+
+    fun processEntitySpawn(world: World, entity: Entity, requireKill: Boolean, debug: Boolean = false) {
+        world.tryAddEntity(entity)
+        if(entity is Trader) {
+            entity.updateOffers(GameController.generateTradeOffers(entity.getTraderType()))
+        }
+        if(!debug) {
+            if(requireKill) {
+                actualRoomEntities.add(entity)
             }
         }
     }

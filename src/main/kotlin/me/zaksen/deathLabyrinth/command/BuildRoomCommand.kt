@@ -20,10 +20,13 @@ class BuildRoomCommand: TabExecutor {
             result.add(itemEntry.key)
         }
 
-        if(args?.size!! >= 1) {
+        if(args?.size!! == 1) {
             result.sortBy {
                 it.compareTo(args[0])
             }
+        } else {
+            result.clear()
+            result.add("0")
         }
 
         return result
@@ -38,13 +41,17 @@ class BuildRoomCommand: TabExecutor {
             if(args != null) {
                 try {
                     val room = RoomController.rooms[args[0]]
+                    val numOfPots = args[1].toInt()
+
                     if (room != null) {
-                        RoomController.buildRoom(room, sender.x.toInt(), sender.y.toInt(), sender.z.toInt(), true)
+                        RoomController.buildRoom(room, sender.x.toInt(), sender.y.toInt(), sender.z.toInt(), true, numOfPots, numOfPots)
                     } else {
                         sender.message("<red>Комната не найдена!</red>")
                     }
                 } catch (_: IndexOutOfBoundsException) {
-                    sender.message("<red>Укажите имя комнаты</red>")
+                    sender.message("<red>Укажите имя комнаты и количество горшков</red>")
+                } catch (_: NumberFormatException) {
+                    sender.message("<red>Укажите количество горшков в виде числа</red>")
                 }
             }
         }

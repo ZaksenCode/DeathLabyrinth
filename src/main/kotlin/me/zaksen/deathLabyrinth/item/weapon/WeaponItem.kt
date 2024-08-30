@@ -5,6 +5,7 @@ import me.zaksen.deathLabyrinth.item.ItemType
 import me.zaksen.deathLabyrinth.item.settings.ItemSettings
 import me.zaksen.deathLabyrinth.keys.PluginKeys
 import me.zaksen.deathLabyrinth.util.*
+import net.kyori.adventure.key.Key
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 
@@ -18,8 +19,9 @@ open class WeaponItem(private val weaponType: WeaponType, id: String, settings: 
         val stack = ItemStack(settings.material)
             .customModel(settings.customModel())
             .name(settings.displayName())
-            .loreMap(settings.lore())
+            .loreLine(settings.quality().visualText.asText().font(Key.key("dl:icons")))
             .loreLine("<dark_purple>Тип:</dark_purple> <light_purple>${getWeaponType().displayName}</light_purple>".asText())
+            .loreMap(settings.lore())
 
         if(settings.damage() > 0) {
             stack.loreLine("<green>Урон: ${settings.damage()}</green>".asText())

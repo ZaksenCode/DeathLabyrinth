@@ -11,11 +11,12 @@ class MageClass : PlayerClass {
     }
 
     override fun availableWeapons(): Set<WeaponType> {
-        return setOf(WeaponType.ATTACK_STAFF, WeaponType.MISC_STAFF)
+        return setOf(WeaponType.ATTACK_STUFF, WeaponType.MISC_STUFF)
     }
 
     override fun launchSetup(player: Player) {
         player.inventory.addItem(ItemsController.get("frost_ball_stuff")!!.asItemStack())
+        player.inventory.addItem(ItemsController.get("heal_potion")!!.asItemStack())
     }
 
 }

@@ -1,9 +1,7 @@
 package me.zaksen.deathLabyrinth.util
 
 import net.kyori.adventure.text.Component
-import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
-import org.bukkit.persistence.PersistentDataType
 
 fun ItemStack.name(name: Component): ItemStack {
     val meta = this.itemMeta
@@ -13,9 +11,9 @@ fun ItemStack.name(name: Component): ItemStack {
 }
 
 fun ItemStack.loreMap(lore: List<Component>): ItemStack {
-    val meta = this.itemMeta
-    meta.lore(lore)
-    itemMeta = meta
+    lore.forEach {
+        loreLine(it)
+    }
     return this
 }
 

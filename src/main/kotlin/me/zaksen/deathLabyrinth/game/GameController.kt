@@ -3,9 +3,12 @@ package me.zaksen.deathLabyrinth.game
 import me.zaksen.deathLabyrinth.config.ConfigContainer
 import me.zaksen.deathLabyrinth.data.PlayerData
 import me.zaksen.deathLabyrinth.entity.trader.TraderType
+import me.zaksen.deathLabyrinth.game.hud.HudController
 import me.zaksen.deathLabyrinth.game.room.RoomController
+import me.zaksen.deathLabyrinth.item.ItemsController
 import me.zaksen.deathLabyrinth.menu.Menus
 import me.zaksen.deathLabyrinth.trading.TradeOffer
+import me.zaksen.deathLabyrinth.trading.pricing.PricingStrategies
 import me.zaksen.deathLabyrinth.trading.pricing.PricingStrategy
 import me.zaksen.deathLabyrinth.util.*
 import me.zaksen.deathLabyrinth.util.ChatUtil.title
@@ -16,13 +19,14 @@ import org.bukkit.Material
 import org.bukkit.attribute.Attribute
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
+import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.entity.EntityRegainHealthEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.Plugin
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scheduler.BukkitTask
 
-
+// TODO - Decompose
 object GameController {
     private lateinit var plugin: Plugin
     val players: MutableMap<Player, PlayerData> = mutableMapOf()
@@ -33,11 +37,15 @@ object GameController {
     private var startCooldownTask: BukkitTask? = null
     private var startCooldownTime: Short = 5
 
+    private val hudController: HudController = HudController()
+
     fun getStatus(): GameStatus {
         return status
     }
 
     fun reload() {
+        hudController.stopDrawingTask()
+        hudController.clearDrawers()
         players.clear()
         Bukkit.getOnlinePlayers().forEach { join(it) }
 
@@ -53,6 +61,7 @@ object GameController {
 
     fun join(player: Player) {
         players[player] = PlayerData()
+        hudController.addPlayerToDraw(player, players[player]!!)
 
         setupPlayer(player)
     }
@@ -60,7 +69,8 @@ object GameController {
     private fun setupPlayer(player: Player) {
         player.gameMode = GameMode.ADVENTURE
 
-        player.heal(20.0, EntityRegainHealthEvent.RegainReason.REGEN)
+        player.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.baseValue = 40.0
+        player.heal(40.0, EntityRegainHealthEvent.RegainReason.REGEN)
         player.saturation = 20.0f
 
         player.teleport(locationOf(configs.mainConfig().playerSpawnLocation))
@@ -142,6 +152,8 @@ object GameController {
     fun startGame() {
         status = GameStatus.PRE_PROCESS
 
+        hudController.initDrawingTask()
+
         ChatUtil.broadcast(configs.langConfig().gameStartingCloseClassMenu)
         players.forEach {
             it.key.inventory.clear()
@@ -176,14 +188,14 @@ object GameController {
     fun endGameWin() {
         status = GameStatus.GAME_END
 
-        ChatUtil.broadcast("<aqua>Вы выиграли!<aqua>")
+        ChatUtil.broadcastTitle("<aqua>Вы выиграли!<aqua>")
         reload()
     }
 
     private fun endGameLose() {
         status = GameStatus.GAME_END
 
-        ChatUtil.broadcast("<red>Игра окончена!<red>")
+        ChatUtil.broadcastTitle("<red>Игра окончена!<red>")
         reload()
     }
 
@@ -219,11 +231,11 @@ object GameController {
 
         when(traderType) {
             TraderType.NORMAL ->  {
-                TradeOffer(players.size, 10, ItemStack(Material.STONE_AXE), object: PricingStrategy {
-                    override fun scale(base: Int): Int {
-                        return base * ((RoomController.roomGenerated * 0.4).toInt() + 1)
-                    }
-                })
+                result.add(TradeOffer(
+                    players.size,
+                    PricingStrategies.MULTIPLY_BY_BOSS_COMPLIED.strategy.scale(75),
+                    ItemsController.get("heal_potion")!!.asItemStack()
+                ))
             }
         }
 
@@ -241,5 +253,12 @@ object GameController {
                 TextColor.color(124, 242, 81)
             )
         ))
+    }
+
+    fun processPotBreaking(event: BlockBreakEvent) {
+        event.block.location.world.dropItemNaturally(
+            event.block.location,
+            ItemsController.get("small_heal_potion")!!.asItemStack()
+        )
     }
 }

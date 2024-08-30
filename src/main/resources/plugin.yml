@@ -8,6 +8,9 @@ commands:
   game_status:
     description: check game status
     usage: /<command>
+  game_join:
+    description: join into game
+    usage: /<command>
   class:
     description: class
     usage: /<command>
@@ -28,4 +31,6 @@ commands:
     usage: /<command>
   start_generation:
     description: start room generating
+    usage: /<command>
+  money:
     usage: /<command>
