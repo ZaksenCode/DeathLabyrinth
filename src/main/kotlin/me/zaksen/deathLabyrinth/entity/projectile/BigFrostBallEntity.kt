@@ -1,6 +1,7 @@
 package me.zaksen.deathLabyrinth.entity.projectile
 
 import me.zaksen.deathLabyrinth.entity.friendly.FriendlyEntity
+import me.zaksen.deathLabyrinth.event.EventManager
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.world.effect.MobEffectInstance
@@ -44,12 +45,12 @@ class BigFrostBallEntity(location: Location): WindCharge(EntityType.WIND_CHARGE,
         val entities = level().getEntities(
             EntityTypeTest.forClass(LivingEntity::class.java),
             AABB(
-            x - 1.0,
-            y - 1.0,
-            z - 1.0,
-            x + 1.0,
-            y + 1.0,
-            z + 1.0
+            x - 3.0,
+            y - 3.0,
+            z - 3.0,
+            x + 3.0,
+            y + 3.0,
+            z + 3.0
             )
         ) {
             it.isAlive && it !is Player && it !is FriendlyEntity
@@ -57,9 +58,9 @@ class BigFrostBallEntity(location: Location): WindCharge(EntityType.WIND_CHARGE,
 
         for (entity in entities) {
             if(owner == null) {
-                entity.hurt(this.damageSources().freeze(), 20.0f)
+                EventManager.callSpellEntityDamageEvent(entity, 20.0)
             } else {
-                entity.hurt(this.damageSources().explosion(this, owner), 20.0f)
+                EventManager.callPlayerSpellEntityDamageEvent(owner!!.bukkitEntity as org.bukkit.entity.Player, entity, 20.0)
             }
 
             entity.addEffect(MobEffectInstance(

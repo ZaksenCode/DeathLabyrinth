@@ -1,6 +1,7 @@
 package me.zaksen.deathLabyrinth.item.weapon.weapons.stuff
 
 import me.zaksen.deathLabyrinth.entity.friendly.FriendlyEntity
+import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.item.ItemQuality
 import me.zaksen.deathLabyrinth.item.settings.ItemSettings
 import me.zaksen.deathLabyrinth.item.weapon.WeaponItem
@@ -10,6 +11,7 @@ import me.zaksen.deathLabyrinth.util.asText
 import me.zaksen.deathLabyrinth.util.particleLine
 import org.bukkit.Material
 import org.bukkit.Particle
+import org.bukkit.craftbukkit.entity.CraftLivingEntity
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerInteractEvent
@@ -20,7 +22,7 @@ class ElectricStuff(id: String): WeaponItem(
     ItemSettings(Material.STICK)
         .customModel(109)
         .displayName(ChatUtil.format("<gray>Шокирующий посох</gray>"))
-        .abilityCooldown(600)
+        .abilityCooldown(500)
         .lore(mutableListOf(
             "<dark_purple>Выпускает молнию поражающую нескольких врагов</dark_purple>".asText(),
             "<green>Урон: 4</green>".asText()
@@ -48,7 +50,7 @@ class ElectricStuff(id: String): WeaponItem(
             event.player.location.add(0.0, 1.6, 0.0).particleLine(Particle.ENCHANTED_HIT, entity.location.add(0.0, 1.0, 0.0))
 
             toDamage.forEach {
-                it.damage(4.0, event.player)
+                EventManager.callPlayerSpellEntityDamageEvent(event.player, it as CraftLivingEntity, 4.0)
             }
 
             drawParticles(toDamage)

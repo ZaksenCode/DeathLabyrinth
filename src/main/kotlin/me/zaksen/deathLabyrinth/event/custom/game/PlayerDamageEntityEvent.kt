@@ -5,7 +5,6 @@ import org.bukkit.entity.LivingEntity
 import org.bukkit.event.HandlerList
 import org.bukkit.event.entity.EntityDamageEvent
 
-// TODO - Добавить события на все случаи жизни
 class PlayerDamageEntityEvent(entity: LivingEntity, damageCause: DamageCause, damageSource: DamageSource, damage: Double):
     EntityDamageEvent(entity, damageCause, damageSource, damage) {
 

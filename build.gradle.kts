@@ -30,6 +30,8 @@ dependencies {
     implementation("xyz.xenondevs.invui:invui:" + property("invui_version"))
     implementation("xyz.xenondevs.invui:invui-kotlin:" + property("invui_version"))
 
+    implementation("io.github.skytasul:guardianbeam:2.3.6")
+
     compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.3.6")
 
     paperweight.paperDevBundle("1.21-R0.1-SNAPSHOT")

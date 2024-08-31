@@ -1,6 +1,7 @@
 package me.zaksen.deathLabyrinth.entity.projectile
 
 import me.zaksen.deathLabyrinth.entity.friendly.FriendlyEntity
+import me.zaksen.deathLabyrinth.event.EventManager
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.world.effect.MobEffectInstance
@@ -56,11 +57,10 @@ class BigWitherBallEntity(location: Location): WindCharge(EntityType.WIND_CHARGE
 
         for (entity in entities) {
             if(owner == null) {
-                entity.hurt(this.damageSources().onFire(), 16.0f)
+                EventManager.callSpellEntityDamageEvent(entity, 13.0)
             } else {
-                entity.hurt(this.damageSources().explosion(this, owner), 16.0f)
+                EventManager.callPlayerSpellEntityDamageEvent(owner!!.bukkitEntity as org.bukkit.entity.Player, entity, 13.0)
             }
-
             entity.addEffect(
                 MobEffectInstance(
                 MobEffects.WITHER,

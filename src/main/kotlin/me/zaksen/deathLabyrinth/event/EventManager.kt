@@ -9,6 +9,8 @@ import me.zaksen.deathLabyrinth.util.tryAddEntity
 import org.bukkit.Location
 import org.bukkit.World
 import org.bukkit.block.Block
+import org.bukkit.craftbukkit.entity.CraftLivingEntity
+import org.bukkit.craftbukkit.entity.CraftPlayer
 import org.bukkit.damage.DamageSource
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
@@ -85,6 +87,30 @@ object EventManager {
         if(!coolEvent.isCancelled) {
             world.tryAddEntity(entity)
         }
+    }
+
+    fun callPlayerSpellEntityDamageEvent(player: Player, entity: net.minecraft.world.entity.LivingEntity, damage: Double) {
+        val coolEvent = PlayerSpellEntityDamageEvent(player, entity, damage)
+        coolEvent.callEvent()
+        if(!coolEvent.isCancelled) {
+            coolEvent.entity.hurt(entity.damageSources().playerAttack((player as CraftPlayer).handle), coolEvent.damage.toFloat())
+        }
+    }
+
+    fun callPlayerSpellEntityDamageEvent(player: Player, entity: LivingEntity, damage: Double) {
+        this.callPlayerSpellEntityDamageEvent(player, (entity as CraftLivingEntity).handle, damage)
+    }
+
+    fun callSpellEntityDamageEvent(entity: net.minecraft.world.entity.LivingEntity, damage: Double) {
+        val coolEvent = SpellEntityDamageEvent(entity, damage)
+        coolEvent.callEvent()
+        if(!coolEvent.isCancelled) {
+            coolEvent.entity.hurt(entity.damageSources().generic(), coolEvent.damage.toFloat())
+        }
+    }
+
+    fun callSpellEntityDamageEvent(entity: LivingEntity, damage: Double) {
+        this.callSpellEntityDamageEvent((entity as CraftLivingEntity).handle, damage)
     }
 
 }

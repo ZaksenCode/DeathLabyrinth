@@ -19,12 +19,12 @@ class BigFireBallStuff(id: String): WeaponItem(
     ItemSettings(Material.STICK)
         .customModel(104)
         .displayName(ChatUtil.format("<gold>Сжигающий посох</gold>"))
-        .abilityCooldown(4000)
+        .abilityCooldown(3200)
         .lore(mutableListOf(
             "<dark_purple>Выпускает поджигающий огненный шар</dark_purple>".asText(),
             "<green>Урон: 20</green>".asText()
         ))
-        .quality(ItemQuality.RARE)
+        .quality(ItemQuality.UNCOMMON)
 )
 {
     override fun onUse(event: PlayerInteractEvent) {

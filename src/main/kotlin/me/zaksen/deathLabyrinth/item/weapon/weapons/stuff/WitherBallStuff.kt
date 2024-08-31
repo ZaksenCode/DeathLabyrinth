@@ -19,11 +19,11 @@ class WitherBallStuff(id: String): WeaponItem(
     ItemSettings(Material.STICK)
         .customModel(106)
         .displayName(ChatUtil.format("<gray>Засушливый посох</gray>"))
-        .abilityCooldown(1500)
+        .abilityCooldown(1333)
         .lore(mutableListOf(
             "<dark_purple>Выпускает ослабляющий шар</dark_purple>".asText(),
-            "<green>Урон: 7</green>".asText()
-        )).quality(ItemQuality.UNCOMMON)
+            "<green>Урон: 8</green>".asText()
+        ))
 )
 {
     override fun onUse(event: PlayerInteractEvent) {

@@ -8,6 +8,7 @@ import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.keys.PluginKeys
 import me.zaksen.deathLabyrinth.menu.Menus
+import me.zaksen.deathLabyrinth.util.LaserManager
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 
@@ -21,6 +22,7 @@ class DeathLabyrinth : JavaPlugin(), ConfigContainer {
 
     override fun onEnable() {
         reloadConfigs()
+        LaserManager.setup(this)
         Menus.setup(this)
         PluginKeys.setup(this)
         RoomController.reloadRooms(roomDirectory)

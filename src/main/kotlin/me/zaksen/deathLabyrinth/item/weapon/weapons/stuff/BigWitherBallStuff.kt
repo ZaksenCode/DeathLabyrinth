@@ -19,11 +19,11 @@ class BigWitherBallStuff(id: String): WeaponItem(
     ItemSettings(Material.STICK)
         .customModel(107)
         .displayName(ChatUtil.format("<gray>Иссушающий посох</gray>"))
-        .abilityCooldown(4600)
+        .abilityCooldown(4000)
         .lore(mutableListOf(
             "<dark_purple>Выпускает ослабляющий шар</dark_purple>".asText(),
-            "<green>Урон: 16</green>".asText()
-        )).quality(ItemQuality.RARE)
+            "<green>Урон: 13</green>".asText()
+        )).quality(ItemQuality.UNCOMMON)
 )
 {
     override fun onUse(event: PlayerInteractEvent) {

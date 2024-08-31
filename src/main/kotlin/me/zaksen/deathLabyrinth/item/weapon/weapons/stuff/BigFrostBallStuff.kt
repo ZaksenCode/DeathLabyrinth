@@ -19,12 +19,12 @@ class BigFrostBallStuff(id: String): WeaponItem(
     ItemSettings(Material.STICK)
         .customModel(103)
         .displayName(ChatUtil.format("<aqua>Замораживающий посох</aqua>"))
-        .abilityCooldown(4000)
+        .abilityCooldown(3200)
         .lore(mutableListOf(
             "<dark_purple>Выпускает замедляющий ледяной шар</dark_purple>".asText(),
             "<green>Урон: 20</green>".asText()
         ))
-        .quality(ItemQuality.RARE)
+        .quality(ItemQuality.UNCOMMON)
 )
 {
     override fun onUse(event: PlayerInteractEvent) {

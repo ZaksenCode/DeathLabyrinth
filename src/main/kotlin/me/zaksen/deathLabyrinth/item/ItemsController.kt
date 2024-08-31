@@ -159,6 +159,7 @@ object ItemsController {
         register("big_wither_ball_stuff", BigWitherBallStuff("big_wither_ball_stuff"))
         register("necromantic_stuff", NecromanticStuff("necromantic_stuff"))
         register("electric_stuff", ElectricStuff("electric_stuff"))
+        register("laser_stuff", LaserStuff("laser_stuff"))
 
         register("heal_potion", HealPotion("heal_potion"))
         register("small_heal_potion", SmallHealPotion("small_heal_potion"))
