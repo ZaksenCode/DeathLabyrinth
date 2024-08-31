@@ -1,8 +1,11 @@
 package me.zaksen.deathLabyrinth.item.settings
 
 import me.zaksen.deathLabyrinth.item.ItemQuality
+import me.zaksen.deathLabyrinth.trading.pricing.PricingStrategies
+import me.zaksen.deathLabyrinth.trading.pricing.PricingStrategy
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
+import org.bukkit.inventory.ItemStack
 
 open class ItemSettings(val material: Material) {
 
@@ -15,6 +18,10 @@ open class ItemSettings(val material: Material) {
     private var range: Double = 0.0
     private var hitRange: Double = 0.0
     private var quality: ItemQuality = ItemQuality.COMMON
+
+    private var tradePrice: Int = 0
+    private var tradeItems: MutableSet<ItemStack> = mutableSetOf()
+    private var tradePriceStrategy: PricingStrategy = PricingStrategies.FIXED.strategy
 
     fun customModel(model: Int): ItemSettings {
         this.customModelData = model
@@ -66,6 +73,26 @@ open class ItemSettings(val material: Material) {
         return this
     }
 
+    fun tradePrice(tradePrice: Int): ItemSettings {
+        this.tradePrice = tradePrice
+        return this
+    }
+
+    fun tradeItems(tradeItems: MutableSet<ItemStack>): ItemSettings {
+        this.tradeItems = tradeItems
+        return this
+    }
+
+    fun addTradeItem(item: ItemStack): ItemSettings {
+        this.tradeItems.add(item)
+        return this
+    }
+
+    fun tradePriceStrategy(pricingStrategy: PricingStrategy): ItemSettings {
+        this.tradePriceStrategy = pricingStrategy
+        return this
+    }
+
     fun customModel(): Int {
         return customModelData
     }
@@ -100,5 +127,17 @@ open class ItemSettings(val material: Material) {
 
     fun quality(): ItemQuality {
         return quality
+    }
+
+    fun tradePrice(): Int {
+        return tradePrice
+    }
+
+    fun tradeItems(): MutableSet<ItemStack> {
+        return tradeItems
+    }
+
+    fun tradePriceStrategy(): PricingStrategy {
+        return tradePriceStrategy
     }
 }
