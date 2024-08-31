@@ -34,12 +34,7 @@ class SkeletonEntity(location: Location): Skeleton(EntityType.SKELETON, (locatio
     }
 
     override fun registerGoals() {
-        goalSelector.addGoal(
-            1, AvoidEntityGoal(
-                this,
-                Player::class.java, 6.0f, 0.4, 0.6
-            )
-        )
+        goalSelector.addGoal(1, MeleeAttackGoal(this, 1.0, false))
         goalSelector.addGoal(2, WaterAvoidingRandomStrollGoal(this, 1.0))
         targetSelector.addGoal(1, HurtByTargetGoal(this, *arrayOfNulls(0)))
         targetSelector.addGoal(

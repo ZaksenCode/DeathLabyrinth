@@ -5,6 +5,8 @@ import me.zaksen.deathLabyrinth.event.custom.game.*
 import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.game.room.Room
 import me.zaksen.deathLabyrinth.game.room.RoomController
+import me.zaksen.deathLabyrinth.util.tryAddEntity
+import org.bukkit.Location
 import org.bukkit.World
 import org.bukkit.block.Block
 import org.bukkit.damage.DamageSource
@@ -76,4 +78,13 @@ object EventManager {
         coolEvent.callEvent()
         GameController.processPotBreaking(coolEvent)
     }
+
+    fun callPlayerSummonFriendlyEntityEvent(player: Player, entity: net.minecraft.world.entity.LivingEntity, world: World) {
+        val coolEvent = PlayerSummonFriendlyEntityEvent(player, entity)
+        coolEvent.callEvent()
+        if(!coolEvent.isCancelled) {
+            world.tryAddEntity(entity)
+        }
+    }
+
 }

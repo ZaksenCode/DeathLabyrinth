@@ -1,6 +1,7 @@
 package me.zaksen.deathLabyrinth.item.weapon.weapons.stuff
 
 import me.zaksen.deathLabyrinth.entity.friendly.skeleton.FriendlySkeletonArcherEntity
+import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.item.ItemQuality
 import me.zaksen.deathLabyrinth.item.settings.ItemSettings
 import me.zaksen.deathLabyrinth.item.weapon.WeaponItem
@@ -28,9 +29,9 @@ class NecromanticStuff(id: String): WeaponItem(
 
         if(checkAndUpdateCooldown(item)) {
             val skeleton = FriendlySkeletonArcherEntity(event.player.location.add(2.0, 1.0, 1.0))
-            event.player.world.tryAddEntity(skeleton)
+            EventManager.callPlayerSummonFriendlyEntityEvent(event.player, skeleton, event.player.world)
             val skeletonTwo = FriendlySkeletonArcherEntity(event.player.location.add(-2.0, 1.0, -1.0))
-            event.player.world.tryAddEntity(skeletonTwo)
+            EventManager.callPlayerSummonFriendlyEntityEvent(event.player, skeletonTwo, event.player.world)
         }
     }
 }
