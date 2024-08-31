@@ -59,7 +59,7 @@ object GameController {
     }
 
     fun join(player: Player) {
-        if(status == GameStatus.PREPARE) {
+        if(status == GameStatus.WAITING) {
             players[player] = PlayerData()
             hudController.addPlayerToDraw(player, players[player]!!)
 
@@ -85,6 +85,8 @@ object GameController {
 
     fun leave(player: Player) {
         players.remove(player)
+
+        checkAlivePlayers()
     }
 
     fun toggleReadyState(player: Player) {
