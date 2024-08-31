@@ -59,10 +59,15 @@ object GameController {
     }
 
     fun join(player: Player) {
-        players[player] = PlayerData()
-        hudController.addPlayerToDraw(player, players[player]!!)
+        if(status == GameStatus.PREPARE) {
+            players[player] = PlayerData()
+            hudController.addPlayerToDraw(player, players[player]!!)
 
-        setupPlayer(player)
+            setupPlayer(player)
+        } else {
+            player.gameMode = GameMode.SPECTATOR
+            player.teleport(locationOf(configs.mainConfig().playerSpawnLocation))
+        }
     }
 
     private fun setupPlayer(player: Player) {

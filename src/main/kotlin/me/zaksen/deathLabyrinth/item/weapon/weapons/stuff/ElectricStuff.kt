@@ -24,7 +24,7 @@ class ElectricStuff(id: String): WeaponItem(
         .abilityCooldown(600)
         .lore(mutableListOf(
             "<dark_purple>Выпускает молнию поражающую нескольких врагов</dark_purple>".asText(),
-            "<green>Урон: 3</green>".asText()
+            "<green>Урон: 4</green>".asText()
         )).quality(ItemQuality.UNCOMMON)
 )
 {

@@ -8,7 +8,6 @@ import me.zaksen.deathLabyrinth.item.weapon.WeaponItem
 import me.zaksen.deathLabyrinth.item.weapon.WeaponType
 import me.zaksen.deathLabyrinth.util.ChatUtil
 import me.zaksen.deathLabyrinth.util.asText
-import me.zaksen.deathLabyrinth.util.tryAddEntity
 import org.bukkit.Material
 import org.bukkit.event.player.PlayerInteractEvent
 
