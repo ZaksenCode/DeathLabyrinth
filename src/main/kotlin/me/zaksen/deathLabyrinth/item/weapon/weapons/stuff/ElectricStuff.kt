@@ -7,13 +7,12 @@ import me.zaksen.deathLabyrinth.item.weapon.WeaponItem
 import me.zaksen.deathLabyrinth.item.weapon.WeaponType
 import me.zaksen.deathLabyrinth.util.ChatUtil
 import me.zaksen.deathLabyrinth.util.asText
-import org.bukkit.Location
+import me.zaksen.deathLabyrinth.util.particleLine
 import org.bukkit.Material
 import org.bukkit.Particle
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerInteractEvent
-import org.bukkit.util.Vector
 
 class ElectricStuff(id: String): WeaponItem(
     WeaponType.ATTACK_STUFF,
@@ -46,7 +45,7 @@ class ElectricStuff(id: String): WeaponItem(
                 return
             }
 
-            particleLine(event.player.location.add(0.0, 1.6, 0.0), entity.location.add(0.0, 1.0, 0.0))
+            event.player.location.add(0.0, 1.6, 0.0).particleLine(Particle.ENCHANTED_HIT, entity.location.add(0.0, 1.0, 0.0))
 
             toDamage.forEach {
                 it.damage(4.0, event.player)
@@ -83,31 +82,12 @@ class ElectricStuff(id: String): WeaponItem(
             return
         }
         var secondLocation = between.removeFirst().location.add(0.0, 1.0, 0.0)
-        particleLine(firstLocation, secondLocation)
+        firstLocation.particleLine(Particle.ENCHANTED_HIT, secondLocation)
 
         while(between.isNotEmpty()) {
             firstLocation = secondLocation
             secondLocation = between.removeFirst().location.add(0.0, 1.0, 0.0)
-            particleLine(firstLocation, secondLocation)
-        }
-    }
-
-    private fun particleLine(first: Location, second: Location, space: Double = 0.2) {
-        val world = first.getWorld()
-
-        val distance = first.distance(second)
-
-        val p1 = first.toVector()
-        val p2 = second.toVector()
-
-        val vector: Vector = p2.clone().subtract(p1).normalize().multiply(space)
-
-        var covered = 0.0
-
-        while (covered < distance) {
-            world.spawnParticle(Particle.ENCHANTED_HIT, p1.x, p1.y, p1.z, 0, 0.1, 0.1, 0.1)
-            covered += space
-            p1.add(vector)
+            firstLocation.particleLine(Particle.ENCHANTED_HIT, secondLocation)
         }
     }
 }
