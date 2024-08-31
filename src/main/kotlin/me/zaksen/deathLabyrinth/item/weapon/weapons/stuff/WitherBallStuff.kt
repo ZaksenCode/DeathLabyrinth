@@ -1,7 +1,6 @@
 package me.zaksen.deathLabyrinth.item.weapon.weapons.stuff
 
 import me.zaksen.deathLabyrinth.entity.projectile.WitherBallEntity
-import me.zaksen.deathLabyrinth.item.ItemQuality
 import me.zaksen.deathLabyrinth.item.settings.ItemSettings
 import me.zaksen.deathLabyrinth.item.weapon.WeaponItem
 import me.zaksen.deathLabyrinth.item.weapon.WeaponType
@@ -24,6 +23,7 @@ class WitherBallStuff(id: String): WeaponItem(
             "<dark_purple>Выпускает ослабляющий шар</dark_purple>".asText(),
             "<green>Урон: 8</green>".asText()
         ))
+        .tradePrice(45)
 )
 {
     override fun onUse(event: PlayerInteractEvent) {

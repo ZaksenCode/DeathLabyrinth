@@ -23,6 +23,7 @@ class FireBallStuff(id: String): WeaponItem(
             "<dark_purple>Выпускает ненадолго поджигающий огненный шар</dark_purple>".asText(),
             "<green>Урон: 4</green>".asText()
         ))
+        .tradePrice(35)
 )
 {
     override fun onUse(event: PlayerInteractEvent) {

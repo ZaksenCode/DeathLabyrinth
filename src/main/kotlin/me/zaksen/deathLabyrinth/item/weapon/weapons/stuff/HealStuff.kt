@@ -18,6 +18,7 @@ class HealStuff(id: String): WeaponItem(
         .displayName(ChatUtil.format("<green>Посох исцеления</green>"))
         .abilityCooldown(30000)
         .quality(ItemQuality.RARE)
+        .tradePrice(100)
 )
 {
     override fun onUse(event: PlayerInteractEvent) {

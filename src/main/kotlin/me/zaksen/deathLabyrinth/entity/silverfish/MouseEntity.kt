@@ -1,5 +1,7 @@
 package me.zaksen.deathLabyrinth.entity.silverfish
 
+import me.zaksen.deathLabyrinth.entity.difficulty.Scaleable
+import me.zaksen.deathLabyrinth.entity.difficulty.ScalingStrategies
 import net.kyori.adventure.text.format.TextColor
 import net.minecraft.network.chat.Component
 import net.minecraft.world.entity.Entity
@@ -11,19 +13,19 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
 import net.minecraft.world.entity.monster.Silverfish
 import net.minecraft.world.entity.player.Player
-import org.bukkit.Color
 import org.bukkit.Location
 import org.bukkit.craftbukkit.CraftWorld
 
-class MouseEntity(location: Location): Silverfish(EntityType.SILVERFISH, (location.getWorld() as CraftWorld).handle) {
+class MouseEntity(location: Location): Silverfish(EntityType.SILVERFISH, (location.getWorld() as CraftWorld).handle),
+    Scaleable {
 
     init {
-        this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = 10.0
-        this.health = 10.0f
+        this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = defaultMaxHealth
+        this.health = defaultMaxHealth.toFloat()
         this.customName = Component.literal("Мышь").withColor(TextColor.color(124, 242, 81).value())
         this.isCustomNameVisible = true
 
-        this.getAttribute(Attributes.ATTACK_DAMAGE)?.baseValue = 4.0
+        this.getAttribute(Attributes.ATTACK_DAMAGE)?.baseValue = defaultAttackDamage
 
         this.setPos(location.x, location.y, location.z)
     }
@@ -52,5 +54,16 @@ class MouseEntity(location: Location): Silverfish(EntityType.SILVERFISH, (locati
 
     override fun shouldDropLoot(): Boolean {
         return false
+    }
+
+    override fun scale() {
+        this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = ScalingStrategies.DEFAULT.strategy.scale(defaultMaxHealth)
+        this.health = ScalingStrategies.DEFAULT.strategy.scale(defaultMaxHealth).toFloat()
+        this.getAttribute(Attributes.ATTACK_DAMAGE)?.baseValue = ScalingStrategies.DEFAULT.strategy.scale(defaultAttackDamage)
+    }
+
+    companion object {
+        const val defaultMaxHealth = 10.0
+        const val defaultAttackDamage = 4.0
     }
 }

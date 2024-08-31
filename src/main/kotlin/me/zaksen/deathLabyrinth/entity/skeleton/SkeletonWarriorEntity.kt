@@ -1,5 +1,7 @@
 package me.zaksen.deathLabyrinth.entity.skeleton
 
+import me.zaksen.deathLabyrinth.entity.difficulty.Scaleable
+import me.zaksen.deathLabyrinth.entity.difficulty.ScalingStrategies
 import net.kyori.adventure.text.format.TextColor
 import net.minecraft.network.chat.Component
 import net.minecraft.world.entity.Entity
@@ -13,15 +15,15 @@ import net.minecraft.world.entity.monster.Skeleton
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
-import org.bukkit.Color
 import org.bukkit.Location
 import org.bukkit.craftbukkit.CraftWorld
 
-class SkeletonWarriorEntity(location: Location): Skeleton(EntityType.SKELETON, (location.getWorld() as CraftWorld).handle) {
+class SkeletonWarriorEntity(location: Location): Skeleton(EntityType.SKELETON, (location.getWorld() as CraftWorld).handle),
+    Scaleable {
 
     init {
-        this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = 30.0
-        this.health = 30.0f
+        this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = defaultMaxHealth
+        this.health = defaultMaxHealth.toFloat()
         this.customName = Component.literal("Скелет-воин").withColor(TextColor.color(124, 242, 81).value())
         this.isCustomNameVisible = true
 
@@ -29,6 +31,8 @@ class SkeletonWarriorEntity(location: Location): Skeleton(EntityType.SKELETON, (
 
         this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack(Items.WOODEN_SWORD))
         this.setItemSlot(EquipmentSlot.OFFHAND, ItemStack(Items.SHIELD))
+
+        this.getAttribute(Attributes.ATTACK_DAMAGE)?.baseValue = defaultAttackDamage
 
         this.setPos(location.x, location.y, location.z)
     }
@@ -57,5 +61,16 @@ class SkeletonWarriorEntity(location: Location): Skeleton(EntityType.SKELETON, (
 
     override fun shouldDropLoot(): Boolean {
         return false
+    }
+
+    override fun scale() {
+        this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = ScalingStrategies.DEFAULT.strategy.scale(defaultMaxHealth)
+        this.health = ScalingStrategies.DEFAULT.strategy.scale(defaultMaxHealth).toFloat()
+        this.getAttribute(Attributes.ATTACK_DAMAGE)?.baseValue = ScalingStrategies.DEFAULT.strategy.scale(defaultAttackDamage)
+    }
+
+    companion object {
+        const val defaultMaxHealth = 30.0
+        const val defaultAttackDamage = 4.0
     }
 }

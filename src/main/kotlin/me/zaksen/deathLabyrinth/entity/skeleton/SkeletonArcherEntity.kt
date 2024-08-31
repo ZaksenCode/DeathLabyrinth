@@ -1,5 +1,7 @@
 package me.zaksen.deathLabyrinth.entity.skeleton
 
+import me.zaksen.deathLabyrinth.entity.difficulty.Scaleable
+import me.zaksen.deathLabyrinth.entity.difficulty.ScalingStrategies
 import net.kyori.adventure.text.format.TextColor
 import net.minecraft.network.chat.Component
 import net.minecraft.world.entity.Entity
@@ -13,19 +15,19 @@ import net.minecraft.world.entity.monster.Skeleton
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
-import org.bukkit.Color
 import org.bukkit.Location
 import org.bukkit.craftbukkit.CraftWorld
 
-class SkeletonArcherEntity(location: Location): Skeleton(EntityType.SKELETON, (location.getWorld() as CraftWorld).handle) {
+class SkeletonArcherEntity(location: Location): Skeleton(EntityType.SKELETON, (location.getWorld() as CraftWorld).handle),
+    Scaleable {
 
     init {
-        this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = 20.0
-        this.health = 20.0f
+        this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = defaultMaxHealth
+        this.health = defaultMaxHealth.toFloat()
         this.customName = Component.literal("Скелет-лучник").withColor(TextColor.color(124, 242, 81).value())
         this.isCustomNameVisible = true
 
-        this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.25
+        this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.24
 
         this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack(Items.BOW))
 
@@ -57,5 +59,14 @@ class SkeletonArcherEntity(location: Location): Skeleton(EntityType.SKELETON, (l
 
     override fun shouldDropLoot(): Boolean {
         return false
+    }
+
+    override fun scale() {
+        this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = ScalingStrategies.DEFAULT.strategy.scale(defaultMaxHealth)
+        this.health = ScalingStrategies.DEFAULT.strategy.scale(defaultMaxHealth).toFloat()
+    }
+
+    companion object {
+        const val defaultMaxHealth = 20.0
     }
 }

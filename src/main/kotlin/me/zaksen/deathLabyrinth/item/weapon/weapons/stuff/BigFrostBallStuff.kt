@@ -25,6 +25,7 @@ class BigFrostBallStuff(id: String): WeaponItem(
             "<green>Урон: 20</green>".asText()
         ))
         .quality(ItemQuality.UNCOMMON)
+        .tradePrice(55)
 )
 {
     override fun onUse(event: PlayerInteractEvent) {

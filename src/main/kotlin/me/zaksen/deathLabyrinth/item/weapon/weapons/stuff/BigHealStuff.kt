@@ -19,6 +19,7 @@ class BigHealStuff(id: String): WeaponItem(
         .loreLine("<dark_purple>Лечит всех игроков в радиусе 4 блоков</dark_purple>".asText())
         .abilityCooldown(40000)
         .quality(ItemQuality.EPIC)
+        .tradePrice(180)
 )
 {
     override fun onUse(event: PlayerInteractEvent) {

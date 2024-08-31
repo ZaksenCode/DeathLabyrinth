@@ -1,5 +1,7 @@
 package me.zaksen.deathLabyrinth.entity.creeper
 
+import me.zaksen.deathLabyrinth.entity.difficulty.Scaleable
+import me.zaksen.deathLabyrinth.entity.difficulty.ScalingStrategies
 import net.kyori.adventure.text.format.TextColor
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerLevel
@@ -16,11 +18,12 @@ import net.minecraft.world.entity.player.Player
 import org.bukkit.Location
 import org.bukkit.craftbukkit.CraftWorld
 
-class SizzleEntity(location: Location): Creeper(EntityType.CREEPER, (location.getWorld() as CraftWorld).handle) {
+class SizzleEntity(location: Location): Creeper(EntityType.CREEPER, (location.getWorld() as CraftWorld).handle),
+    Scaleable {
 
     init {
-        this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = 12.0
-        this.health = 12.0f
+        this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = defaultMaxHealth
+        this.health = defaultMaxHealth.toFloat()
         this.customName = Component.literal("Шипучка").withColor(TextColor.color(124, 242, 81).value())
         this.isCustomNameVisible = true
 
@@ -54,5 +57,14 @@ class SizzleEntity(location: Location): Creeper(EntityType.CREEPER, (location.ge
 
     override fun shouldDropLoot(): Boolean {
         return false
+    }
+
+    override fun scale() {
+        this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = ScalingStrategies.DEFAULT.strategy.scale(defaultMaxHealth)
+        this.health = ScalingStrategies.DEFAULT.strategy.scale(defaultMaxHealth).toFloat()
+    }
+
+    companion object {
+        const val defaultMaxHealth = 12.0
     }
 }

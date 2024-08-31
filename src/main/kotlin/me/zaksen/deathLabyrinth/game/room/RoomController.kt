@@ -12,6 +12,7 @@ import com.sk89q.worldedit.world.AbstractWorld
 import me.zaksen.deathLabyrinth.config.*
 import me.zaksen.deathLabyrinth.config.data.Position
 import me.zaksen.deathLabyrinth.entity.EntityController
+import me.zaksen.deathLabyrinth.entity.difficulty.Scaleable
 import me.zaksen.deathLabyrinth.entity.trader.Trader
 import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.game.GameController
@@ -289,6 +290,9 @@ object RoomController {
         world.tryAddEntity(entity)
         if(entity is Trader) {
             entity.updateOffers(GameController.generateTradeOffers(entity.getTraderType()))
+        }
+        if(entity is Scaleable) {
+            entity.scale()
         }
         if(!debug) {
             if(requireKill) {

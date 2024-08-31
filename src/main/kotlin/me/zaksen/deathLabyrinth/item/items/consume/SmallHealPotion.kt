@@ -14,6 +14,7 @@ class SmallHealPotion(id: String): CustomItem(id, ItemType.CONSUMABLE,
         .customModel(101)
         .displayName("<color:#f54290>Зелье исцеления".asText())
         .lore(mutableListOf("Восстанавливает 25% от максимального здоровья".asText()))
+        .tradePrice(25)
 ) {
 
     override fun onConsume(event: PlayerItemConsumeEvent) {

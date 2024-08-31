@@ -27,6 +27,7 @@ class ElectricStuff(id: String): WeaponItem(
             "<dark_purple>Выпускает молнию поражающую нескольких врагов</dark_purple>".asText(),
             "<green>Урон: 4</green>".asText()
         )).quality(ItemQuality.UNCOMMON)
+        .tradePrice(60)
 )
 {
     override fun onUse(event: PlayerInteractEvent) {

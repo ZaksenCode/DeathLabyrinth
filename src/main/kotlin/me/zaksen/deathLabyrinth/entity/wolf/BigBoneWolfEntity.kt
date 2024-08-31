@@ -1,5 +1,7 @@
 package me.zaksen.deathLabyrinth.entity.wolf
 
+import me.zaksen.deathLabyrinth.entity.difficulty.Scaleable
+import me.zaksen.deathLabyrinth.entity.difficulty.ScalingStrategies
 import net.kyori.adventure.text.format.TextColor
 import net.minecraft.network.chat.Component
 import net.minecraft.world.entity.Entity
@@ -10,18 +12,18 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
 import net.minecraft.world.entity.animal.Wolf
 import net.minecraft.world.entity.player.Player
-import org.bukkit.Color
 import org.bukkit.Location
 import org.bukkit.craftbukkit.CraftWorld
 
-class BigBoneWolfEntity(location: Location): Wolf(EntityType.WOLF, (location.getWorld() as CraftWorld).handle) {
+class BigBoneWolfEntity(location: Location): Wolf(EntityType.WOLF, (location.getWorld() as CraftWorld).handle), Scaleable {
 
     init {
-        this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = 32.0
-        this.health = 32.0f
+        this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = defaultMaxHealth
+        this.health = defaultMaxHealth.toFloat()
         this.customName = Component.literal("Большой волк").withColor(TextColor.color(124, 242, 81).value())
         this.isCustomNameVisible = true
         this.getAttribute(Attributes.SCALE)?.baseValue = 1.5
+        this.getAttribute(Attributes.ATTACK_DAMAGE)?.baseValue = defaultAttackDamage
         this.setPos(location.x, location.y, location.z)
     }
 
@@ -53,5 +55,16 @@ class BigBoneWolfEntity(location: Location): Wolf(EntityType.WOLF, (location.get
 
     override fun shouldDropLoot(): Boolean {
         return false
+    }
+
+    override fun scale() {
+        this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = ScalingStrategies.DEFAULT.strategy.scale(defaultMaxHealth)
+        this.health = ScalingStrategies.DEFAULT.strategy.scale(defaultMaxHealth).toFloat()
+        this.getAttribute(Attributes.ATTACK_DAMAGE)?.baseValue = ScalingStrategies.DEFAULT.strategy.scale(defaultAttackDamage)
+    }
+
+    companion object {
+        const val defaultMaxHealth = 32.0
+        const val defaultAttackDamage = 8.0
     }
 }

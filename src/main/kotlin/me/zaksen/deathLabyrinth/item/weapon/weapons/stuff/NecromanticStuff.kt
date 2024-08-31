@@ -21,6 +21,7 @@ class NecromanticStuff(id: String): WeaponItem(
         .lore(mutableListOf(
             "<dark_purple>Призывает 2х скелетов лучников</dark_purple>".asText()
         )).quality(ItemQuality.RARE)
+        .tradePrice(90)
 )
 {
     override fun onUse(event: PlayerInteractEvent) {

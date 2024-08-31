@@ -23,6 +23,7 @@ class FrostBallStuff(id: String): WeaponItem(
             "<dark_purple>Выпускает ненадолго замедляющий ледяной шар</dark_purple>".asText(),
             "<green>Урон: 4</green>".asText()
         ))
+        .tradePrice(35)
 )
 {
     override fun onUse(event: PlayerInteractEvent) {

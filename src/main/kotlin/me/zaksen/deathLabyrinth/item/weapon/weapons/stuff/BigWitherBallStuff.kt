@@ -24,6 +24,7 @@ class BigWitherBallStuff(id: String): WeaponItem(
             "<dark_purple>Выпускает ослабляющий шар</dark_purple>".asText(),
             "<green>Урон: 13</green>".asText()
         )).quality(ItemQuality.UNCOMMON)
+        .tradePrice(70)
 )
 {
     override fun onUse(event: PlayerInteractEvent) {
