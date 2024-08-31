@@ -6,7 +6,6 @@ import org.bukkit.event.HandlerList
 import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.inventory.ItemStack
 
-// TODO - Добавить события на все случаи жизни
 class PlayerKillEntityEvent(entity: LivingEntity, damageSource: DamageSource, drops: List<ItemStack>):
     EntityDeathEvent(entity, damageSource, drops) {
 
