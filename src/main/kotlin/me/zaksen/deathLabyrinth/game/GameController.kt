@@ -46,11 +46,10 @@ object GameController {
         hudController.stopDrawingTask()
         hudController.clearDrawers()
         players.clear()
-        Bukkit.getOnlinePlayers().forEach { join(it) }
-
         RoomController.clearGeneration()
 
         status = GameStatus.WAITING
+        Bukkit.getOnlinePlayers().forEach { join(it) }
     }
 
     fun setup(plugin: Plugin, configs: ConfigContainer) {
