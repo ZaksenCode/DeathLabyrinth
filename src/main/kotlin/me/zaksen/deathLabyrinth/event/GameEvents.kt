@@ -11,6 +11,7 @@ import org.bukkit.entity.Player
 import org.bukkit.entity.Projectile
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
+import org.bukkit.event.block.Action
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.entity.EntityChangeBlockEvent
@@ -121,7 +122,7 @@ class GameEvents(private val config: MainConfig): Listener {
         if(event.hasBlock()) {
             val block = event.clickedBlock!!
 
-            if(block.type == Material.DECORATED_POT) {
+            if(event.action == Action.RIGHT_CLICK_BLOCK && block.type == Material.DECORATED_POT) {
                 event.isCancelled = true
             }
         }

@@ -9,7 +9,6 @@ import me.zaksen.deathLabyrinth.item.ItemsController
 import me.zaksen.deathLabyrinth.menu.Menus
 import me.zaksen.deathLabyrinth.trading.TradeOffer
 import me.zaksen.deathLabyrinth.trading.pricing.PricingStrategies
-import me.zaksen.deathLabyrinth.trading.pricing.PricingStrategy
 import me.zaksen.deathLabyrinth.util.*
 import me.zaksen.deathLabyrinth.util.ChatUtil.title
 import net.kyori.adventure.text.format.TextColor
@@ -67,7 +66,7 @@ object GameController {
     }
 
     private fun setupPlayer(player: Player) {
-        player.gameMode = GameMode.ADVENTURE
+        player.gameMode = GameMode.SURVIVAL
 
         player.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.baseValue = 40.0
         player.heal(40.0, EntityRegainHealthEvent.RegainReason.REGEN)

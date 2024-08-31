@@ -64,12 +64,12 @@ class WitherBallEntity(location: Location): WindCharge(EntityType.WIND_CHARGE, (
             entity.addEffect(
                 MobEffectInstance(
                 MobEffects.WITHER,
-                40
+                50
             ), this.effectSource)
             entity.addEffect(
             MobEffectInstance(
                 MobEffects.WEAKNESS,
-                40
+                50
             ), this.effectSource)
         }
     }

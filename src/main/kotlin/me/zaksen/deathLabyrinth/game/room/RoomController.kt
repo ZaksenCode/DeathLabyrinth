@@ -131,11 +131,8 @@ object RoomController {
 
     fun startGeneration() {
         for(i in 0..<configs.generationConfig().roomLimit) {
-            val room: Room? = if(i in configs.generationConfig().shopRooms) {
-                getRandomRoom(RoomType.SHOP)
-            } else {
-                getRandomRoom(RoomType.NORMAL)
-            }
+            val roomTypes = configs.generationConfig().customRooms[i] ?: listOf("NORMAL")
+            val room: Room? = getRandomRoom(RoomType.valueOf(roomTypes.random()))
 
             if(room != null) {
                 generationQuery.add(room)
