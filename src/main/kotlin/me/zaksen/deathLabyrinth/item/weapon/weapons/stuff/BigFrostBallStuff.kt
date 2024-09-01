@@ -1,6 +1,7 @@
 package me.zaksen.deathLabyrinth.item.weapon.weapons.stuff
 
 import me.zaksen.deathLabyrinth.entity.projectile.BigFrostBallEntity
+import me.zaksen.deathLabyrinth.entity.trader.TraderType
 import me.zaksen.deathLabyrinth.item.ItemQuality
 import me.zaksen.deathLabyrinth.item.settings.ItemSettings
 import me.zaksen.deathLabyrinth.item.weapon.WeaponItem
@@ -26,6 +27,7 @@ class BigFrostBallStuff(id: String): WeaponItem(
         ))
         .quality(ItemQuality.UNCOMMON)
         .tradePrice(55)
+        .addAviableTrader(TraderType.NORMAL)
 )
 {
     override fun onUse(event: PlayerInteractEvent) {

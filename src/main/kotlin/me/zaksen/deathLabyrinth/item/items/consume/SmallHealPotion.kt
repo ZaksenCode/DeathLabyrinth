@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.item.items.consume
 
+import me.zaksen.deathLabyrinth.entity.trader.TraderType
 import me.zaksen.deathLabyrinth.item.CustomItem
 import me.zaksen.deathLabyrinth.item.ItemType
 import me.zaksen.deathLabyrinth.item.settings.ItemSettings
@@ -15,6 +16,7 @@ class SmallHealPotion(id: String): CustomItem(id, ItemType.CONSUMABLE,
         .displayName("<color:#f54290>Зелье исцеления".asText())
         .lore(mutableListOf("Восстанавливает 25% от максимального здоровья".asText()))
         .tradePrice(25)
+        .addAviableTrader(TraderType.NORMAL)
 ) {
 
     override fun onConsume(event: PlayerItemConsumeEvent) {

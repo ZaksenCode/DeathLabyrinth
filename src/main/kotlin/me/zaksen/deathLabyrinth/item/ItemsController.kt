@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.item
 
+import me.zaksen.deathLabyrinth.entity.trader.TraderType
 import me.zaksen.deathLabyrinth.item.settings.ItemSettings
 import me.zaksen.deathLabyrinth.item.items.consume.*
 import me.zaksen.deathLabyrinth.item.items.ingredient.*
@@ -20,36 +21,42 @@ object ItemsController {
             ItemSettings(Material.WOODEN_SWORD).customModel(1000).damage(2.0).attackSpeed(-1.6)
                 .displayName(ChatUtil.format("<gray>Деревянный клинок</gray>"))
                 .tradePrice(35)
+                .addAviableTrader(TraderType.NORMAL)
         ))
         register("golden_dagger", BaseDagger(
             "golden_dagger",
             ItemSettings(Material.GOLDEN_SWORD).customModel(1000).damage(2.0).attackSpeed(-1.4)
                 .displayName(ChatUtil.format("<gray>Золотой клинок</gray>"))
                 .tradePrice(35)
+                .addAviableTrader(TraderType.NORMAL)
         ))
         register("stone_dagger", BaseDagger(
             "stone_dagger",
             ItemSettings(Material.STONE_SWORD).customModel(1000).damage(3.0).attackSpeed(-1.6)
                 .displayName(ChatUtil.format("<gray>Каменный клинок</gray>")).quality(ItemQuality.UNCOMMON)
                 .tradePrice(50)
+                .addAviableTrader(TraderType.NORMAL)
         ))
         register("iron_dagger", BaseDagger(
             "iron_dagger",
             ItemSettings(Material.IRON_SWORD).customModel(1000).damage(4.0).attackSpeed(-1.6)
                 .displayName(ChatUtil.format("<gray>Железный клинок</gray>")).quality(ItemQuality.UNCOMMON)
                 .tradePrice(50)
+                .addAviableTrader(TraderType.NORMAL)
         ))
         register("diamond_dagger", BaseDagger(
             "diamond_dagger",
             ItemSettings(Material.DIAMOND_SWORD).customModel(1000).damage(5.0).attackSpeed(-1.6)
                 .displayName(ChatUtil.format("<gray>Алмазный клинок</gray>")).quality(ItemQuality.UNCOMMON)
                 .tradePrice(60)
+                .addAviableTrader(TraderType.NORMAL)
         ))
         register("netherite_dagger", BaseDagger(
             "netherite_dagger",
             ItemSettings(Material.NETHERITE_SWORD).customModel(1000).damage(6.0).attackSpeed(-1.6)
                 .displayName(ChatUtil.format("<gray>Незеритовый клинок</gray>")).quality(ItemQuality.RARE)
                 .tradePrice(80)
+                .addAviableTrader(TraderType.NORMAL)
         ))
 
         register("wooden_sword", BaseSword(
@@ -57,36 +64,42 @@ object ItemsController {
             ItemSettings(Material.WOODEN_SWORD).damage(4.0).attackSpeed(-2.3).range(1.0)
                 .displayName(ChatUtil.format("<gray>Деревянный меч</gray>"))
                 .tradePrice(35)
+                .addAviableTrader(TraderType.NORMAL)
         ))
         register("golden_sword", BaseSword(
             "golden_sword",
             ItemSettings(Material.GOLDEN_SWORD).damage(4.0).attackSpeed(-2.1).range(1.0)
                 .displayName(ChatUtil.format("<gray>Золотой меч</gray>"))
                 .tradePrice(35)
+                .addAviableTrader(TraderType.NORMAL)
         ))
         register("stone_sword", BaseSword(
             "stone_sword",
             ItemSettings(Material.STONE_SWORD).damage(5.0).attackSpeed(-2.3).range(1.0)
                 .displayName(ChatUtil.format("<gray>Каменный меч</gray>")).quality(ItemQuality.UNCOMMON)
                 .tradePrice(50)
+                .addAviableTrader(TraderType.NORMAL)
         ))
         register("iron_sword", BaseSword(
             "iron_sword",
             ItemSettings(Material.IRON_SWORD).damage(6.0).attackSpeed(-2.3).range(1.0)
                 .displayName(ChatUtil.format("<gray>Железный меч</gray>")).quality(ItemQuality.UNCOMMON)
                 .tradePrice(50)
+                .addAviableTrader(TraderType.NORMAL)
         ))
         register("diamond_sword", BaseSword(
             "diamond_sword",
             ItemSettings(Material.DIAMOND_SWORD).damage(7.0).attackSpeed(-2.3).range(1.0)
                 .displayName(ChatUtil.format("<gray>Алмазный меч</gray>")).quality(ItemQuality.UNCOMMON)
                 .tradePrice(60)
+                .addAviableTrader(TraderType.NORMAL)
         ))
         register("netherite_sword", BaseSword(
             "netherite_sword",
             ItemSettings(Material.NETHERITE_SWORD).damage(8.0).attackSpeed(-2.3).range(1.0)
                 .displayName(ChatUtil.format("<gray>Незеритовый меч</gray>")).quality(ItemQuality.RARE)
                 .tradePrice(80)
+                .addAviableTrader(TraderType.NORMAL)
         ))
 
         register("wooden_hammer", BaseHammer(
@@ -95,6 +108,7 @@ object ItemsController {
                 .displayName(ChatUtil.format("<gray>Деревянный молот</gray>"))
                 .lore(mutableListOf("Наносит урон в радиусе 0.5 блоков".asText()))
                 .tradePrice(35)
+                .addAviableTrader(TraderType.NORMAL)
         ))
         register("golden_hammer", BaseHammer(
             "golden_hammer",
@@ -102,6 +116,7 @@ object ItemsController {
                 .displayName(ChatUtil.format("<gray>Золотой молот</gray>"))
                 .lore(mutableListOf("Наносит урон в радиусе 0.5 блоков".asText()))
                 .tradePrice(35)
+                .addAviableTrader(TraderType.NORMAL)
         ))
         register("stone_hammer", BaseHammer(
             "stone_hammer",
@@ -110,6 +125,7 @@ object ItemsController {
                 .lore(mutableListOf("Наносит урон в радиусе 0.5 блоков".asText()))
                 .quality(ItemQuality.UNCOMMON)
                 .tradePrice(50)
+                .addAviableTrader(TraderType.NORMAL)
         ))
         register("iron_hammer", BaseHammer(
             "iron_hammer",
@@ -118,6 +134,7 @@ object ItemsController {
                 .lore(mutableListOf("Наносит урон в радиусе 1 блока".asText()))
                 .quality(ItemQuality.UNCOMMON)
                 .tradePrice(50)
+                .addAviableTrader(TraderType.NORMAL)
         ))
         register("diamond_hammer", BaseHammer(
             "diamond_hammer",
@@ -126,6 +143,7 @@ object ItemsController {
                 .lore(mutableListOf("Наносит урон в радиусе 1 блока".asText()))
                 .quality(ItemQuality.UNCOMMON)
                 .tradePrice(60)
+                .addAviableTrader(TraderType.NORMAL)
         ))
         register("netherite_hammer", BaseHammer(
             "netherite_hammer",
@@ -134,6 +152,7 @@ object ItemsController {
                 .lore(mutableListOf("Наносит урон в радиусе 1.5 блока".asText()))
                 .quality(ItemQuality.RARE)
                 .tradePrice(80)
+                .addAviableTrader(TraderType.NORMAL)
         ))
 
         register("wooden_spear", BaseSpear(
@@ -141,36 +160,42 @@ object ItemsController {
             ItemSettings(Material.WOODEN_SWORD).customModel(1001).damage(5.0).attackSpeed(-3.0).range(2.5)
                 .displayName(ChatUtil.format("<gray>Деревянное копьё</gray>"))
                 .tradePrice(35)
+                .addAviableTrader(TraderType.NORMAL)
         ))
         register("golden_spear", BaseSpear(
             "golden_spear",
             ItemSettings(Material.GOLDEN_SWORD).customModel(1001).damage(5.0).attackSpeed(-2.8).range(2.5)
                 .displayName(ChatUtil.format("<gray>Золотое копьё</gray>"))
                 .tradePrice(35)
+                .addAviableTrader(TraderType.NORMAL)
         ))
         register("stone_spear", BaseSpear(
             "stone_dagger",
             ItemSettings(Material.STONE_SWORD).customModel(1001).damage(6.0).attackSpeed(-3.0).range(2.5)
                 .displayName(ChatUtil.format("<gray>Каменное копьё</gray>")).quality(ItemQuality.UNCOMMON)
                 .tradePrice(50)
+                .addAviableTrader(TraderType.NORMAL)
         ))
         register("iron_spear", BaseSpear(
             "iron_spear",
             ItemSettings(Material.IRON_SWORD).customModel(1001).damage(7.0).attackSpeed(-3.0).range(2.5)
                 .displayName(ChatUtil.format("<gray>Железное копьё</gray>")).quality(ItemQuality.UNCOMMON)
                 .tradePrice(50)
+                .addAviableTrader(TraderType.NORMAL)
         ))
         register("diamond_spear", BaseSpear(
             "diamond_spear",
             ItemSettings(Material.DIAMOND_SWORD).customModel(1001).damage(8.0).attackSpeed(-3.0).range(2.5)
                 .displayName(ChatUtil.format("<gray>Алмазное копьё</gray>")).quality(ItemQuality.UNCOMMON)
                 .tradePrice(60)
+                .addAviableTrader(TraderType.NORMAL)
         ))
         register("netherite_spear", BaseSpear(
             "netherite_spear",
             ItemSettings(Material.NETHERITE_SWORD).customModel(1001).damage(9.0).attackSpeed(-3.0).range(2.5)
                 .displayName(ChatUtil.format("<gray>Незеритовое копьё</gray>")).quality(ItemQuality.RARE)
                 .tradePrice(80)
+                .addAviableTrader(TraderType.NORMAL)
         ))
 
         register("heal_stuff", HealStuff("heal_stuff"))

@@ -1,6 +1,7 @@
 package me.zaksen.deathLabyrinth.item.weapon.weapons.stuff
 
 import me.zaksen.deathLabyrinth.entity.projectile.FireBallEntity
+import me.zaksen.deathLabyrinth.entity.trader.TraderType
 import me.zaksen.deathLabyrinth.item.settings.ItemSettings
 import me.zaksen.deathLabyrinth.item.weapon.WeaponItem
 import me.zaksen.deathLabyrinth.item.weapon.WeaponType
@@ -24,6 +25,7 @@ class FireBallStuff(id: String): WeaponItem(
             "<green>Урон: 4</green>".asText()
         ))
         .tradePrice(35)
+        .addAviableTrader(TraderType.NORMAL)
 )
 {
     override fun onUse(event: PlayerInteractEvent) {

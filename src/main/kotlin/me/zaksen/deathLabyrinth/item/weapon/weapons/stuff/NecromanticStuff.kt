@@ -1,6 +1,7 @@
 package me.zaksen.deathLabyrinth.item.weapon.weapons.stuff
 
 import me.zaksen.deathLabyrinth.entity.friendly.skeleton.FriendlySkeletonArcherEntity
+import me.zaksen.deathLabyrinth.entity.trader.TraderType
 import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.item.ItemQuality
 import me.zaksen.deathLabyrinth.item.settings.ItemSettings
@@ -22,6 +23,7 @@ class NecromanticStuff(id: String): WeaponItem(
             "<dark_purple>Призывает 2х скелетов лучников</dark_purple>".asText()
         )).quality(ItemQuality.RARE)
         .tradePrice(90)
+        .addAviableTrader(TraderType.NORMAL)
 )
 {
     override fun onUse(event: PlayerInteractEvent) {

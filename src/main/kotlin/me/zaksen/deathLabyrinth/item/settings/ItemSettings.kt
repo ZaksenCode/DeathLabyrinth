@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.item.settings
 
+import me.zaksen.deathLabyrinth.entity.trader.TraderType
 import me.zaksen.deathLabyrinth.item.ItemQuality
 import me.zaksen.deathLabyrinth.trading.pricing.PricingStrategies
 import me.zaksen.deathLabyrinth.trading.pricing.PricingStrategy
@@ -22,6 +23,7 @@ open class ItemSettings(val material: Material) {
     private var tradePrice: Int = 0
     private var tradeItems: MutableSet<ItemStack> = mutableSetOf()
     private var tradePriceStrategy: PricingStrategy = PricingStrategies.FIXED.strategy
+    private var aviableFromTraders: MutableSet<TraderType> = mutableSetOf()
 
     fun customModel(model: Int): ItemSettings {
         this.customModelData = model
@@ -93,6 +95,16 @@ open class ItemSettings(val material: Material) {
         return this
     }
 
+    fun aviableFromTraders(traderTypes: MutableSet<TraderType>): ItemSettings {
+        this.aviableFromTraders = traderTypes
+        return this
+    }
+
+    fun addAviableTrader(traderType: TraderType): ItemSettings {
+        this.aviableFromTraders.add(traderType)
+        return this
+    }
+
     fun customModel(): Int {
         return customModelData
     }
@@ -139,5 +151,9 @@ open class ItemSettings(val material: Material) {
 
     fun tradePriceStrategy(): PricingStrategy {
         return tradePriceStrategy
+    }
+
+    fun aviableFromTraders(): MutableSet<TraderType> {
+        return aviableFromTraders
     }
 }

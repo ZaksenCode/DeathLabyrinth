@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.item.weapon.weapons.stuff
 
+import me.zaksen.deathLabyrinth.entity.trader.TraderType
 import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.item.ItemQuality
 import me.zaksen.deathLabyrinth.item.settings.ItemSettings
@@ -26,6 +27,7 @@ class LaserStuff(id: String): WeaponItem(
             "<green>Урон: 12</green>".asText()
         )).quality(ItemQuality.UNCOMMON)
         .tradePrice(60)
+        .addAviableTrader(TraderType.NORMAL)
 )
 {
     override fun onUse(event: PlayerInteractEvent) {

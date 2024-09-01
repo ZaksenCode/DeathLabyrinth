@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.item.weapon.weapons.stuff
 
+import me.zaksen.deathLabyrinth.entity.trader.TraderType
 import me.zaksen.deathLabyrinth.item.ItemQuality
 import me.zaksen.deathLabyrinth.item.settings.ItemSettings
 import me.zaksen.deathLabyrinth.item.weapon.WeaponItem
@@ -20,6 +21,7 @@ class BigHealStuff(id: String): WeaponItem(
         .abilityCooldown(40000)
         .quality(ItemQuality.EPIC)
         .tradePrice(180)
+        .addAviableTrader(TraderType.NORMAL)
 )
 {
     override fun onUse(event: PlayerInteractEvent) {

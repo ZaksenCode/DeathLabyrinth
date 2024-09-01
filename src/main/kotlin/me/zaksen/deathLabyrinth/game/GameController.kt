@@ -47,6 +47,7 @@ object GameController {
         hudController.clearDrawers()
         players.clear()
         RoomController.clearGeneration()
+        TradeController.reload()
 
         status = GameStatus.WAITING
         Bukkit.getOnlinePlayers().forEach { join(it) }
@@ -164,8 +165,6 @@ object GameController {
             it.key.inventory.clear()
             Menus.classChoice(it.key)
         }
-
-        RoomController.startGeneration()
     }
 
     fun checkClasses() {
@@ -188,12 +187,15 @@ object GameController {
         players.forEach {
             it.value.playerClass?.launchSetup(it.key)
         }
+
+        TradeController.initTrades(players)
+        RoomController.startGeneration()
     }
 
     fun endGameWin() {
         status = GameStatus.GAME_END
 
-        ChatUtil.broadcastTitle("<aqua>Вы выиграли!<aqua>")
+        ChatUtil.broadcastTitle("<green>Вы выиграли!<green>")
         reload()
     }
 
@@ -234,15 +236,17 @@ object GameController {
     fun generateTradeOffers(traderType: TraderType): List<TradeOffer> {
         val result: MutableList<TradeOffer> = mutableListOf()
 
-        when(traderType) {
-            TraderType.NORMAL ->  {
-                result.add(TradeOffer(
-                    players.size,
-                    PricingStrategies.MULTIPLY_BY_BOSS_COMPLIED.strategy.scale(75),
-                    ItemsController.get("heal_potion")!!.asItemStack()
-                ))
-            }
+        TradeController.getOffersSpan(players.size * 3, traderType).forEach {
+            result.add(it)
         }
+
+        val healPotion = ItemsController.get("heal_potion")!!
+
+        result.add(TradeOffer(
+            players.size,
+            healPotion.settings.tradePriceStrategy().scale(healPotion.settings.tradePrice()),
+            healPotion.asItemStack()
+        ))
 
         return result
     }

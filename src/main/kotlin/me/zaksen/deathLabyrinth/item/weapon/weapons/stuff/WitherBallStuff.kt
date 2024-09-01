@@ -1,6 +1,7 @@
 package me.zaksen.deathLabyrinth.item.weapon.weapons.stuff
 
 import me.zaksen.deathLabyrinth.entity.projectile.WitherBallEntity
+import me.zaksen.deathLabyrinth.entity.trader.TraderType
 import me.zaksen.deathLabyrinth.item.settings.ItemSettings
 import me.zaksen.deathLabyrinth.item.weapon.WeaponItem
 import me.zaksen.deathLabyrinth.item.weapon.WeaponType
@@ -24,6 +25,7 @@ class WitherBallStuff(id: String): WeaponItem(
             "<green>Урон: 8</green>".asText()
         ))
         .tradePrice(45)
+        .addAviableTrader(TraderType.NORMAL)
 )
 {
     override fun onUse(event: PlayerInteractEvent) {
