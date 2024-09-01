@@ -53,13 +53,18 @@ object TradeController {
 
         if(validItems.size > count) {
             for (i in 1..4) {
-                val toBuy = validItems.random()
-                validItems.remove(toBuy)
-                result.add(toBuy)
+                result.add(getRandomItem(validItems))
             }
         }
 
         return result
+    }
+
+    // TODO - Make item quality valuable into random
+    private fun getRandomItem(from: MutableList<CustomItem>): CustomItem {
+        val toBuy = from.random()
+        from.remove(toBuy)
+        return toBuy
     }
 
     private fun isValidWeapon(item: CustomItem, players: Map<Player, PlayerData>): Boolean {
