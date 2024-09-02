@@ -6,6 +6,7 @@ import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.game.room.Room
 import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.util.tryAddEntity
+import net.minecraft.world.entity.Entity
 import org.bukkit.Location
 import org.bukkit.World
 import org.bukkit.block.Block
@@ -67,7 +68,7 @@ object EventManager {
         RoomController.processRoomCompletion(coolEvent.reward)
     }
 
-    fun callEntitySpawnEvent(world: World, entity: net.minecraft.world.entity.Entity, requireKill: Boolean, debug: Boolean = false) {
+    fun callEntitySpawnEvent(world: World, entity: Entity, requireKill: Boolean, debug: Boolean = false) {
         val coolEvent = EntitySpawnEvent(world, entity, requireKill, debug)
         coolEvent.callEvent()
         if(!coolEvent.isCancelled) {
@@ -81,11 +82,11 @@ object EventManager {
         GameController.processPotBreaking(coolEvent)
     }
 
-    fun callPlayerSummonFriendlyEntityEvent(player: Player, entity: net.minecraft.world.entity.LivingEntity, world: World) {
+    fun callPlayerSummonFriendlyEntityEvent(player: Player, entity: net.minecraft.world.entity.LivingEntity) {
         val coolEvent = PlayerSummonFriendlyEntityEvent(player, entity)
         coolEvent.callEvent()
         if(!coolEvent.isCancelled) {
-            world.tryAddEntity(entity)
+            coolEvent.player.world.tryAddEntity(entity)
         }
     }
 
@@ -111,6 +112,14 @@ object EventManager {
 
     fun callSpellEntityDamageEvent(entity: LivingEntity, damage: Double) {
         this.callSpellEntityDamageEvent((entity as CraftLivingEntity).handle, damage)
+    }
+
+    fun callPlayerSummonSpellEvent(player: Player, entity: Entity) {
+        val coolEvent = PlayerSummonSpellEvent(player, entity)
+        coolEvent.callEvent()
+        if(!coolEvent.isCancelled) {
+            coolEvent.player.world.tryAddEntity(coolEvent.spell)
+        }
     }
 
 }

@@ -31,9 +31,9 @@ class NecromanticStuff(id: String): WeaponItem(
 
         if(checkAndUpdateCooldown(item)) {
             val skeleton = FriendlySkeletonArcherEntity(event.player.location.add(2.0, 1.0, 1.0))
-            EventManager.callPlayerSummonFriendlyEntityEvent(event.player, skeleton, event.player.world)
+            EventManager.callPlayerSummonFriendlyEntityEvent(event.player, skeleton)
             val skeletonTwo = FriendlySkeletonArcherEntity(event.player.location.add(-2.0, 1.0, -1.0))
-            EventManager.callPlayerSummonFriendlyEntityEvent(event.player, skeletonTwo, event.player.world)
+            EventManager.callPlayerSummonFriendlyEntityEvent(event.player, skeletonTwo)
         }
     }
 }

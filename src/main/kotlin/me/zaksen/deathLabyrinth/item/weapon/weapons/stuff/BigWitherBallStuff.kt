@@ -2,6 +2,7 @@ package me.zaksen.deathLabyrinth.item.weapon.weapons.stuff
 
 import me.zaksen.deathLabyrinth.entity.projectile.BigWitherBallEntity
 import me.zaksen.deathLabyrinth.entity.trader.TraderType
+import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.item.ItemQuality
 import me.zaksen.deathLabyrinth.item.settings.ItemSettings
 import me.zaksen.deathLabyrinth.item.weapon.WeaponItem
@@ -38,7 +39,7 @@ class BigWitherBallStuff(id: String): WeaponItem(
             val projectile = BigWitherBallEntity(event.player.location.add(shotVelocity).add(0.0, 1.6, 0.0))
             projectile.deltaMovement = Vec3(shotVelocity.x, shotVelocity.y, shotVelocity.z)
             projectile.setOwner((event.player as CraftPlayer).handle)
-            event.player.world.tryAddEntity(projectile)
+            EventManager.callPlayerSummonSpellEvent(event.player, projectile)
         }
     }
 }

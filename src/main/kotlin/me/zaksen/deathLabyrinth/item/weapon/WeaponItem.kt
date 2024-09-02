@@ -9,6 +9,7 @@ import net.kyori.adventure.key.Key
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 
+// TODO - Сделать статы динамическими
 open class WeaponItem(private val weaponType: WeaponType, id: String, settings: ItemSettings): CustomItem(id, ItemType.WEAPON, settings) {
 
     fun getWeaponType(): WeaponType {

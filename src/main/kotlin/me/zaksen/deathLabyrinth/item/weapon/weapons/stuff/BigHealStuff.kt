@@ -7,6 +7,7 @@ import me.zaksen.deathLabyrinth.item.weapon.WeaponItem
 import me.zaksen.deathLabyrinth.item.weapon.WeaponType
 import me.zaksen.deathLabyrinth.util.asText
 import org.bukkit.Material
+import org.bukkit.Particle
 import org.bukkit.entity.Player
 import org.bukkit.event.entity.EntityRegainHealthEvent
 import org.bukkit.event.player.PlayerInteractEvent
@@ -36,6 +37,14 @@ class BigHealStuff(id: String): WeaponItem(
 
             players.forEach {
                 it.heal(12.0, EntityRegainHealthEvent.RegainReason.MAGIC)
+                it.world.spawnParticle(
+                    Particle.TOTEM_OF_UNDYING,
+                    event.player.location,
+                    50,
+                    0.5,
+                    0.5,
+                    0.5
+                )
             }
         }
     }
