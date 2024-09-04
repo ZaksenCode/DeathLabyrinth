@@ -7,9 +7,7 @@ import me.zaksen.deathLabyrinth.item.ItemQuality
 import me.zaksen.deathLabyrinth.item.settings.ItemSettings
 import me.zaksen.deathLabyrinth.item.weapon.WeaponItem
 import me.zaksen.deathLabyrinth.item.weapon.WeaponType
-import me.zaksen.deathLabyrinth.util.ChatUtil
 import me.zaksen.deathLabyrinth.util.asText
-import me.zaksen.deathLabyrinth.util.tryAddEntity
 import net.minecraft.world.phys.Vec3
 import org.bukkit.Material
 import org.bukkit.craftbukkit.entity.CraftPlayer
@@ -20,7 +18,7 @@ class BigFrostBallStuff(id: String): WeaponItem(
     id,
     ItemSettings(Material.STICK)
         .customModel(103)
-        .displayName(ChatUtil.format("<aqua>Замораживающий посох</aqua>"))
+        .displayName("<aqua>Замораживающий посох</aqua>".asText())
         .abilityCooldown(3200)
         .lore(mutableListOf(
             "<dark_purple>Выпускает замедляющий ледяной шар</dark_purple>".asText(),

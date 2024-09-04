@@ -2,18 +2,19 @@ package me.zaksen.deathLabyrinth.event.custom.game
 
 import org.bukkit.block.Block
 import org.bukkit.entity.Player
+import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
-import org.bukkit.event.block.BlockBreakEvent
+import org.bukkit.inventory.ItemStack
 
-class PlayerBreakPotEvent(player: Player, decoratedPot: Block): BlockBreakEvent(decoratedPot, player) {
-    override fun getHandlers(): HandlerList {
-        return HANDLER_LIST
-    }
+class PlayerBreakPotEvent(val player: Player, val decoratedPot: Block, var output: ItemStack): Event() {
+    override fun getHandlers(): HandlerList = HANDLER_LIST
 
     companion object {
+        @JvmStatic
         private val HANDLER_LIST: HandlerList = HandlerList()
 
-        fun getHandlersList(): HandlerList {
+        @JvmStatic
+        fun getHandlerList(): HandlerList {
             return HANDLER_LIST
         }
     }

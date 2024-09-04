@@ -34,3 +34,5 @@ commands:
     usage: /<command>
   money:
     usage: /<command>
+  artifacts:
+    usage: /<command>

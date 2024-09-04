@@ -25,6 +25,12 @@ data class LangConfig(
     @SerialName("game_Starting_close_class_menu")
     val gameStartingCloseClassMenu: String = "<aqua>Если вы закрыли меню выбора класса до его выбора, его можно открыть снова командой /class</aqua>",
 
+    @SerialName("items_menu_title")
+    val itemsMenuTitle: String = "Список предметов",
     @SerialName("class_choice_menu_title")
     val classChoiceMenuTitle: String = "Выберите ваш класс:",
+    @SerialName("trader_menu_title")
+    val traderMenuTitle: String = "\uE203<white>\uE000",
+    @SerialName("artifacts_menu_title")
+    val artifactsMenuTitle: String = "\uE203<white>\uE000",
 )

@@ -34,7 +34,7 @@ object TradeController {
         availableItems.clear()
     }
 
-    fun getOffersSpan(count: Int = 4, traderType: TraderType = TraderType.NORMAL): List<TradeOffer> {
+    fun getOffersSpan(count: Int = 2, traderType: TraderType = TraderType.NORMAL): List<TradeOffer> {
         return getTradesSpan(count, traderType).map {
             TradeOffer(
                 1,
@@ -44,7 +44,7 @@ object TradeController {
         }
     }
 
-    fun getTradesSpan(count: Int = 4, traderType: TraderType = TraderType.NORMAL): MutableList<CustomItem> {
+    fun getTradesSpan(count: Int = 2, traderType: TraderType = TraderType.NORMAL): MutableList<CustomItem> {
         val result = mutableListOf<CustomItem>()
 
         val validItems = availableItems.filter {
@@ -52,7 +52,7 @@ object TradeController {
         }.toMutableList()
 
         if(validItems.size > count) {
-            for (i in 1..4) {
+            for (i in 1..count) {
                 result.add(getRandomItem(validItems))
             }
         }

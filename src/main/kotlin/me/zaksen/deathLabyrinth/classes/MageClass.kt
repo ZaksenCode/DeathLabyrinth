@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.classes
 
+import me.zaksen.deathLabyrinth.data.PlayerData
 import me.zaksen.deathLabyrinth.item.ItemsController
 import me.zaksen.deathLabyrinth.item.weapon.WeaponType
 import org.bukkit.entity.Player
@@ -14,7 +15,7 @@ class MageClass : PlayerClass {
         return setOf(WeaponType.ATTACK_STUFF, WeaponType.MISC_STUFF)
     }
 
-    override fun launchSetup(player: Player) {
+    override fun launchSetup(player: Player, playerData: PlayerData) {
         player.inventory.addItem(ItemsController.get("frost_ball_stuff")!!.asItemStack())
         player.inventory.addItem(ItemsController.get("heal_potion")!!.asItemStack())
     }

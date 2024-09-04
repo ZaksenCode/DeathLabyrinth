@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerItemConsumeEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 
-abstract class CustomItem(val id: String, val type: ItemType, val settings: ItemSettings) {
+open class CustomItem(val id: String, val type: ItemType, val settings: ItemSettings) {
 
     open fun onHit(event: EntityDamageByEntityEvent) {
 

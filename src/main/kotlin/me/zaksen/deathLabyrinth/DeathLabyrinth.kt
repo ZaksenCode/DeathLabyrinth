@@ -58,6 +58,7 @@ class DeathLabyrinth : JavaPlugin(), ConfigContainer {
         getCommand("start_generation")?.setExecutor(StartGenerationCommand())
         getCommand("money")?.setExecutor(MoneyCommand())
         getCommand("money")?.tabCompleter = MoneyCommand()
+        getCommand("artifacts")?.setExecutor(ArtifactsCommand())
     }
 
     override fun reloadConfigs() {

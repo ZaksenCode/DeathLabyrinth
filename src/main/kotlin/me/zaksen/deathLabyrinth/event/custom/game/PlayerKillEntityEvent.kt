@@ -1,23 +1,30 @@
 package me.zaksen.deathLabyrinth.event.custom.game
 
-import org.bukkit.damage.DamageSource
 import org.bukkit.entity.LivingEntity
+import org.bukkit.entity.Player
+import org.bukkit.event.Cancellable
+import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
-import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.inventory.ItemStack
 
-class PlayerKillEntityEvent(entity: LivingEntity, damageSource: DamageSource, drops: List<ItemStack>):
-    EntityDeathEvent(entity, damageSource, drops) {
+class PlayerKillEntityEvent(val player: Player?, val entity: LivingEntity, val drops: List<ItemStack>): Event(), Cancellable {
+    private var cancelled = false
 
-    override fun getHandlers(): HandlerList {
-        return HANDLER_LIST
+    override fun isCancelled(): Boolean {
+        return this.cancelled
     }
 
+    override fun setCancelled(cancel: Boolean) {
+        this.cancelled = cancel
+    }
+
+    override fun getHandlers(): HandlerList = HANDLER_LIST
+
     companion object {
+        @JvmStatic
         private val HANDLER_LIST: HandlerList = HandlerList()
 
-        fun getHandlersList(): HandlerList {
-            return HANDLER_LIST
-        }
+        @JvmStatic
+        fun getHandlerList(): HandlerList = HANDLER_LIST
     }
 }

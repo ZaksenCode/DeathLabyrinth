@@ -10,10 +10,6 @@ class EntitySpawnEvent(val world: World, var entity: net.minecraft.world.entity.
 
     private var cancelled = false
 
-    override fun getHandlers(): HandlerList {
-        return HANDLER_LIST
-    }
-
     override fun isCancelled(): Boolean {
         return this.cancelled
     }
@@ -22,11 +18,13 @@ class EntitySpawnEvent(val world: World, var entity: net.minecraft.world.entity.
         this.cancelled = cancel
     }
 
+    override fun getHandlers(): HandlerList = HANDLER_LIST
+
     companion object {
+        @JvmStatic
         private val HANDLER_LIST: HandlerList = HandlerList()
 
-        fun getHandlersList(): HandlerList {
-            return HANDLER_LIST
-        }
+        @JvmStatic
+        fun getHandlerList(): HandlerList = HANDLER_LIST
     }
 }

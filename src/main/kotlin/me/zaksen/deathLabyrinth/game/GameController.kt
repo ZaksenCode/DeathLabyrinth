@@ -3,6 +3,7 @@ package me.zaksen.deathLabyrinth.game
 import me.zaksen.deathLabyrinth.config.ConfigContainer
 import me.zaksen.deathLabyrinth.data.PlayerData
 import me.zaksen.deathLabyrinth.entity.trader.TraderType
+import me.zaksen.deathLabyrinth.event.custom.game.PlayerBreakPotEvent
 import me.zaksen.deathLabyrinth.game.hud.HudController
 import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.item.ItemsController
@@ -18,6 +19,7 @@ import org.bukkit.Material
 import org.bukkit.attribute.Attribute
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
+import org.bukkit.event.Event
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.entity.EntityRegainHealthEvent
 import org.bukkit.inventory.ItemStack
@@ -49,8 +51,23 @@ object GameController {
         RoomController.clearGeneration()
         TradeController.reload()
 
+        fillEntrace()
+
         status = GameStatus.WAITING
         Bukkit.getOnlinePlayers().forEach { join(it) }
+    }
+
+    fun fillEntrace() {
+        val fillStart = locationOf(configs.mainConfig().entranceStart)
+        val fillEnd = locationOf(configs.mainConfig().entranceEnd)
+        val world = fillStart.world
+        for(y in fillStart.y.toInt()..fillEnd.y.toInt()) {
+            for(x in fillStart.x.toInt()..fillEnd.x.toInt()) {
+                for(z in fillStart.z.toInt()..fillEnd.z.toInt()) {
+                    world.setType(x, y, z, Material.BLACK_CONCRETE)
+                }
+            }
+        }
     }
 
     fun setup(plugin: Plugin, configs: ConfigContainer) {
@@ -185,7 +202,7 @@ object GameController {
         status = GameStatus.PROCESS
 
         players.forEach {
-            it.value.playerClass?.launchSetup(it.key)
+            it.value.playerClass?.launchSetup(it.key, it.value)
         }
 
         TradeController.initTrades(players)
@@ -236,7 +253,7 @@ object GameController {
     fun generateTradeOffers(traderType: TraderType): List<TradeOffer> {
         val result: MutableList<TradeOffer> = mutableListOf()
 
-        TradeController.getOffersSpan(players.size * 3, traderType).forEach {
+        TradeController.getOffersSpan(players.size * 2, traderType).forEach {
             result.add(it)
         }
 
@@ -264,10 +281,15 @@ object GameController {
         ))
     }
 
-    fun processPotBreaking(event: BlockBreakEvent) {
-        event.block.location.world.dropItemNaturally(
-            event.block.location,
-            ItemsController.get("small_heal_potion")!!.asItemStack()
-        )
+    fun processPotBreaking(event: PlayerBreakPotEvent) {
+        event.decoratedPot.location.world.dropItemNaturally(event.decoratedPot.location, event.output)
+    }
+
+    fun processAnyEvent(event: Event) {
+        players.forEach { player ->
+            player.value.artifacts.forEach {
+                it.processAnyEvent(event)
+            }
+        }
     }
 }

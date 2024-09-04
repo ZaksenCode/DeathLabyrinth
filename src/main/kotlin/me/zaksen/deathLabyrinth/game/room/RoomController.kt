@@ -15,6 +15,7 @@ import me.zaksen.deathLabyrinth.entity.EntityController
 import me.zaksen.deathLabyrinth.entity.difficulty.Scaleable
 import me.zaksen.deathLabyrinth.entity.trader.Trader
 import me.zaksen.deathLabyrinth.event.EventManager
+import me.zaksen.deathLabyrinth.event.custom.game.PlayerKillEntityEvent
 import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.util.tryAddEntity
 import net.minecraft.world.entity.Entity
@@ -109,7 +110,7 @@ object RoomController {
         }
     }
 
-    fun processEntityRoomDeath(event: EntityDeathEvent) {
+    fun processEntityRoomDeath(event: PlayerKillEntityEvent) {
         val entity = (event.entity as CraftEntity).handle
 
         if(actualRoomEntities.contains(entity)) {
@@ -121,7 +122,9 @@ object RoomController {
     private fun checkRoomCompletion() {
         if(actualRoomEntities.isEmpty()) {
             val reward = getRoomReward()
-            EventManager.callRoomCompleteEvent(actualRoomNumber, actualQueryRoom!!, reward)
+            GameController.players.filter { it.value.isAlive }.forEach {
+                EventManager.callRoomCompleteEvent(it.key, actualRoomNumber, actualQueryRoom!!, reward)
+            }
         }
     }
 

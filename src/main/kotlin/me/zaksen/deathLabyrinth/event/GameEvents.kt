@@ -3,12 +3,9 @@ package me.zaksen.deathLabyrinth.event
 import me.zaksen.deathLabyrinth.config.MainConfig
 import me.zaksen.deathLabyrinth.entity.friendly.FriendlyEntity
 import me.zaksen.deathLabyrinth.game.GameController
-import me.zaksen.deathLabyrinth.game.room.RoomController
 import org.bukkit.Material
-import org.bukkit.entity.AbstractArrow
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
-import org.bukkit.entity.Projectile
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
@@ -59,9 +56,9 @@ class GameEvents(private val config: MainConfig): Listener {
     @EventHandler
     fun processRoomEntityDeath(event: EntityDeathEvent) {
         if(event.damageSource.causingEntity is Player) {
-            EventManager.callPlayerKillEntityEvent(event.entity, event.damageSource, event.drops)
+            EventManager.callPlayerKillEntityEvent(event.damageSource.causingEntity!! as Player, event.entity, event.drops)
         } else {
-            RoomController.processEntityRoomDeath(event)
+            EventManager.callPlayerKillEntityEvent(null, event.entity, event.drops)
         }
     }
 
@@ -73,7 +70,7 @@ class GameEvents(private val config: MainConfig): Listener {
 
         val entity = event.entity
         if(entity is Player && entity.health - event.damage <= 0) {
-            EventManager.callPlayerDeathEvent(entity, event.cause, event.damageSource, event.damage)
+            EventManager.callPlayerDeathEvent(entity, event.damage)
             event.isCancelled = true
         }
     }
@@ -93,11 +90,11 @@ class GameEvents(private val config: MainConfig): Listener {
     }
 
     @EventHandler
-    fun processHitEntity(event: EntityDamageEvent) {
+    fun processHitEntity(event: EntityDamageByEntityEvent) {
         val entity = event.entity
 
-        if(entity is LivingEntity) {
-            EventManager.callEntityHitEvent(entity, event.cause, event.damageSource, event.damage)
+        if(event.damager is Player && entity is LivingEntity) {
+            EventManager.callPlayerDamageEntityEvent(event.damager as Player, entity, event.damage)
         }
     }
 

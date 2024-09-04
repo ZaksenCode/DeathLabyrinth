@@ -9,7 +9,6 @@ import me.zaksen.deathLabyrinth.item.weapon.WeaponItem
 import me.zaksen.deathLabyrinth.item.weapon.WeaponType
 import me.zaksen.deathLabyrinth.util.ChatUtil
 import me.zaksen.deathLabyrinth.util.asText
-import me.zaksen.deathLabyrinth.util.tryAddEntity
 import net.minecraft.world.phys.Vec3
 import org.bukkit.Material
 import org.bukkit.craftbukkit.entity.CraftPlayer
@@ -26,7 +25,7 @@ class BigWitherBallStuff(id: String): WeaponItem(
             "<dark_purple>Выпускает ослабляющий шар</dark_purple>".asText(),
             "<green>Урон: 13</green>".asText()
         )).quality(ItemQuality.UNCOMMON)
-        .tradePrice(70)
+        .tradePrice(80)
         .addAviableTrader(TraderType.NORMAL)
 )
 {

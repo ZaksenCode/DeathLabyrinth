@@ -5,20 +5,9 @@ import org.bukkit.event.Cancellable
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 
-class SpellEntityDamageEvent(var entity: LivingEntity, var damage: Double, async: Boolean = false): Event(async), Cancellable {
+class SpellEntityDamageEvent(var entity: LivingEntity, var damage: Double): Event(),
+    Cancellable {
     private var cancelled = false
-
-    override fun getHandlers(): HandlerList {
-        return HANDLER_LIST
-    }
-
-    companion object {
-        private val HANDLER_LIST: HandlerList = HandlerList()
-
-        fun getHandlersList(): HandlerList {
-            return HANDLER_LIST
-        }
-    }
 
     override fun isCancelled(): Boolean {
         return this.cancelled
@@ -26,5 +15,15 @@ class SpellEntityDamageEvent(var entity: LivingEntity, var damage: Double, async
 
     override fun setCancelled(cancel: Boolean) {
         this.cancelled = cancel
+    }
+
+    override fun getHandlers(): HandlerList = HANDLER_LIST
+
+    companion object {
+        @JvmStatic
+        private val HANDLER_LIST: HandlerList = HandlerList()
+
+        @JvmStatic
+        fun getHandlerList(): HandlerList = HANDLER_LIST
     }
 }
