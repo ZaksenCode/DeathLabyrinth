@@ -9,6 +9,7 @@ import me.zaksen.deathLabyrinth.entity.text_display.ArtifactsCardName
 import me.zaksen.deathLabyrinth.game.GameController
 import org.bukkit.Location
 import org.bukkit.craftbukkit.entity.CraftEntity
+import org.bukkit.entity.Player
 import java.util.Timer
 import java.util.UUID
 import kotlin.concurrent.timer
@@ -82,5 +83,15 @@ object ArtifactsController {
             it.value.despawn()
         }
         summonedCards.clear()
+    }
+
+    fun processArtifactPickup(player: Player, cardHolder: CardHolder) {
+        cardHolder.despawn()
+        val playerData = GameController.players[player] ?: return
+        playerData.addArtifact(cardHolder.artifact)
+    }
+
+    fun startArtifactsChain(location: Location, count: Int = 1) {
+
     }
 }

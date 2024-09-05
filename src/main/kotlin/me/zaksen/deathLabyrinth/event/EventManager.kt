@@ -1,5 +1,8 @@
 package me.zaksen.deathLabyrinth.event
 
+import me.zaksen.deathLabyrinth.artifacts.ArtifactsController
+import me.zaksen.deathLabyrinth.artifacts.card.CardHolder
+import me.zaksen.deathLabyrinth.command.PlayerPickupArtifactEvent
 import me.zaksen.deathLabyrinth.event.custom.PlayerReadyEvent
 import me.zaksen.deathLabyrinth.event.custom.game.*
 import me.zaksen.deathLabyrinth.game.GameController
@@ -140,7 +143,16 @@ object EventManager {
         coolEvent.callEvent()
         GameController.processAnyEvent(coolEvent)
         if(!coolEvent.isCancelled) {
-            TradeController.processTrade(player, offer)
+            TradeController.processTrade(player, coolEvent.offer)
+        }
+    }
+
+    fun callPlayerPickupArtifactsEvent(player: Player, cardHolder: CardHolder) {
+        val coolEvent = PlayerPickupArtifactEvent(player, cardHolder)
+        coolEvent.callEvent()
+        GameController.processAnyEvent(coolEvent)
+        if(!coolEvent.isCancelled) {
+            ArtifactsController.processArtifactPickup(player, cardHolder)
         }
     }
 }

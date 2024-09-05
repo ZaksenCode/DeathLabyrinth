@@ -1,6 +1,7 @@
 package me.zaksen.deathLabyrinth.entity.interaction
 
 import me.zaksen.deathLabyrinth.artifacts.ArtifactsController
+import me.zaksen.deathLabyrinth.event.EventManager
 import net.minecraft.world.InteractionHand
 import net.minecraft.world.InteractionResult
 import net.minecraft.world.entity.EntityType
@@ -19,7 +20,11 @@ class ArtifactsCardHitbox(location: Location): Interaction(EntityType.INTERACTIO
 
     override fun interact(player: Player, hand: InteractionHand): InteractionResult {
         if(hand == InteractionHand.MAIN_HAND) {
-            ArtifactsController.summonedCards[this]?.despawn()
+            val cardHolder = ArtifactsController.summonedCards[this]
+
+            if(cardHolder != null) {
+                EventManager.callPlayerPickupArtifactsEvent(player.bukkitEntity as org.bukkit.entity.Player, cardHolder)
+            }
         }
 
         return super.interact(player, hand)
