@@ -6,7 +6,7 @@ import org.bukkit.event.Event
 import org.bukkit.inventory.ItemStack
 
 // TODO - добавить игрокам артифакты
-abstract class Artifact {
+abstract class Artifact(val name: String) {
     var count = 1
     val abilityContainer = AbilityContainer()
 

@@ -13,7 +13,7 @@ import org.bukkit.Material
 import org.bukkit.event.entity.EntityRegainHealthEvent
 import org.bukkit.inventory.ItemStack
 
-class GreenHeart: Artifact() {
+class GreenHeart: Artifact("Зелёное сердце") {
 
     init {
         abilityContainer.add {
@@ -25,7 +25,7 @@ class GreenHeart: Artifact() {
     override fun asItemStack(): ItemStack {
         return ItemStack(Material.APPLE)
             .customModel(100)
-            .name("<green>Зелёное сердце</green>".asText())
+            .name("<green>$name</green>".asText())
             .loreLine("<gray>Восстанавливает</gray> <gold>${6.0 * count}</gold> <gray>здоровья за каждую комнату</gray>".asText())
     }
 

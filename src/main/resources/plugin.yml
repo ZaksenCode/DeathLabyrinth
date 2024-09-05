@@ -36,3 +36,7 @@ commands:
     usage: /<command>
   artifacts:
     usage: /<command>
+  summon_artifact:
+    usage: /<command>
+  despawn_artifacts:
+    usage: /<command>
