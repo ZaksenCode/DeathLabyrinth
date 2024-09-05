@@ -82,4 +82,24 @@ object TradeController {
 
         return false
     }
+
+    fun processTrade(player: Player, offer: TradeOffer) {
+        val playerData = GameController.players[player] ?: return
+
+        if(offer.buy) {
+            if(playerData.money >= offer.price && offer.count >= 1) {
+                player.inventory.addItem(offer.stack)
+                playerData.money -= offer.price
+                GameController.players[player] = playerData
+                offer.count--
+            }
+        } else {
+            if(player.inventory.contains(offer.stack) && offer.count >= 1) {
+                player.inventory.removeItem(offer.stack)
+                playerData.money += offer.price
+                GameController.players[player] = playerData
+                offer.count--
+            }
+        }
+    }
 }

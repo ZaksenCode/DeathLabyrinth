@@ -3,9 +3,11 @@ package me.zaksen.deathLabyrinth.event
 import me.zaksen.deathLabyrinth.event.custom.PlayerReadyEvent
 import me.zaksen.deathLabyrinth.event.custom.game.*
 import me.zaksen.deathLabyrinth.game.GameController
+import me.zaksen.deathLabyrinth.game.TradeController
 import me.zaksen.deathLabyrinth.game.room.Room
 import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.item.ItemsController
+import me.zaksen.deathLabyrinth.trading.TradeOffer
 import me.zaksen.deathLabyrinth.util.tryAddEntity
 import net.minecraft.world.entity.Entity
 import org.bukkit.World
@@ -133,4 +135,12 @@ object EventManager {
         }
     }
 
+    fun callPlayerTradeEvent(player: Player, offer: TradeOffer) {
+        val coolEvent = PlayerTradeEvent(player, offer)
+        coolEvent.callEvent()
+        GameController.processAnyEvent(coolEvent)
+        if(!coolEvent.isCancelled) {
+            TradeController.processTrade(player, offer)
+        }
+    }
 }

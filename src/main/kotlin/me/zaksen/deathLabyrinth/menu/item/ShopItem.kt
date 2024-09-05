@@ -1,6 +1,6 @@
 package me.zaksen.deathLabyrinth.menu.item
 
-import me.zaksen.deathLabyrinth.game.GameController
+import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.trading.TradeOffer
 import me.zaksen.deathLabyrinth.util.asText
 import me.zaksen.deathLabyrinth.util.toWrapper
@@ -39,24 +39,7 @@ class ShopItem(private val offer: TradeOffer): AbstractItem() {
     }
 
     override fun handleClick(click: ClickType, player: Player, event: InventoryClickEvent) {
-        val playerData = GameController.players[player] ?: return
-
-        if(offer.buy) {
-            if(playerData.money >= offer.price && offer.count >= 1) {
-                player.inventory.addItem(offer.stack)
-                playerData.money -= offer.price
-                GameController.players[player] = playerData
-                offer.count--
-            }
-        } else {
-            if(player.inventory.contains(offer.stack) && offer.count >= 1) {
-                player.inventory.removeItem(offer.stack)
-                playerData.money += offer.price
-                GameController.players[player] = playerData
-                offer.count--
-            }
-        }
-
+        EventManager.callPlayerTradeEvent(player, offer)
         notifyWindows()
     }
 }
