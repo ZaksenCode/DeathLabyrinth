@@ -13,6 +13,8 @@ object PluginKeys {
     lateinit var customItemRangeBlockKey: NamespacedKey
     lateinit var customItemRangeEntityKey: NamespacedKey
 
+    lateinit var speedModifierKey: NamespacedKey
+
     fun setup(plugin: Plugin) {
         customItemKey = NamespacedKey(plugin, "custom_item_id")
         customItemCooldownKey = NamespacedKey(plugin, "custom_item_cooldown")
@@ -21,5 +23,7 @@ object PluginKeys {
         customItemAttackSpeedKey = NamespacedKey(plugin, "custom_item_attack_speed")
         customItemRangeBlockKey = NamespacedKey(plugin, "custom_item_block_range")
         customItemRangeEntityKey = NamespacedKey(plugin, "custom_item_entity_range")
+
+        speedModifierKey = NamespacedKey(plugin, "speed_modifier")
     }
 }

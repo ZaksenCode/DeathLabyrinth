@@ -14,7 +14,6 @@ object TradeController {
     private val availableItems = mutableSetOf<CustomItem>()
 
     fun initTrades(players: Map<Player, PlayerData>) {
-        println(ItemsController.itemsMap.size)
         ItemsController.itemsMap.forEach {
             if(it.value.settings.aviableFromTraders().isNotEmpty()) {
                 val item = it.value
@@ -34,7 +33,7 @@ object TradeController {
         availableItems.clear()
     }
 
-    fun getOffersSpan(count: Int = 2, traderType: TraderType = TraderType.NORMAL): List<TradeOffer> {
+    fun getOffersSnap(count: Int = 2, traderType: TraderType = TraderType.NORMAL): List<TradeOffer> {
         return getTradesSpan(count, traderType).map {
             TradeOffer(
                 1,

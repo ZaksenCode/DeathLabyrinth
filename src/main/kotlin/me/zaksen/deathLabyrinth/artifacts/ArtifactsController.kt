@@ -1,12 +1,17 @@
 package me.zaksen.deathLabyrinth.artifacts
 
 import me.zaksen.deathLabyrinth.artifacts.api.Artifact
+import me.zaksen.deathLabyrinth.artifacts.api.ArtifactRarity
 import me.zaksen.deathLabyrinth.artifacts.card.CardHolder
+import me.zaksen.deathLabyrinth.artifacts.custom.BloodLust
+import me.zaksen.deathLabyrinth.artifacts.custom.GreenHeart
+import me.zaksen.deathLabyrinth.artifacts.custom.MysticPotion
 import me.zaksen.deathLabyrinth.entity.interaction.ArtifactsCardHitbox
 import me.zaksen.deathLabyrinth.entity.item_display.ArtifactsCard
 import me.zaksen.deathLabyrinth.entity.item_display.ArtifactsCardIcon
 import me.zaksen.deathLabyrinth.entity.text_display.ArtifactsCardName
 import me.zaksen.deathLabyrinth.game.GameController
+import me.zaksen.deathLabyrinth.util.WeightedRandomList
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.craftbukkit.entity.CraftEntity
@@ -17,6 +22,7 @@ import kotlin.concurrent.timer
 
 object ArtifactsController {
 
+    val rarityList = WeightedRandomList<ArtifactRarity>()
     val summonedCards: MutableMap<ArtifactsCardHitbox, CardHolder> = mutableMapOf()
     val artifacts: MutableMap<String, Class<out Artifact>> = mutableMapOf()
 
@@ -67,7 +73,20 @@ object ArtifactsController {
     }
 
     init {
+        rarityList.addEntry(ArtifactRarity.COMMON, 0.6)
+        rarityList.addEntry(ArtifactRarity.RARE, 0.3)
+        rarityList.addEntry(ArtifactRarity.EPIC, 0.1)
+
+        // COMMON
         artifacts["green_heart"] = GreenHeart::class.java
+
+        // RARE
+        artifacts["mystic_potion"] = MysticPotion::class.java
+
+        // EPIC
+        artifacts["blood_lust"] = BloodLust::class.java
+
+        // GODLY
     }
 
     fun summonArtifactCard(location: Location, artifact: Artifact) {
@@ -105,21 +124,21 @@ object ArtifactsController {
         if(remainingChains > 0) {
             summonArtifactCard(
                 lastChainLocation,
-                artifacts.map { it.value }.random().getDeclaredConstructor().newInstance()
+                getRandomArtifact()
             )
             summonArtifactCard(
                 lastChainLocation.subtract(0.0, 1.0, 3.0),
-                artifacts.map { it.value }.random().getDeclaredConstructor().newInstance()
+                getRandomArtifact()
             )
             summonArtifactCard(
                 lastChainLocation.subtract(0.0, 1.0, 3.0),
-                artifacts.map { it.value }.random().getDeclaredConstructor().newInstance()
+                getRandomArtifact()
             )
             remainingChains--
         }
     }
 
-    private fun getRandomArtifact() {
-
+    private fun getRandomArtifact(rarity: ArtifactRarity = rarityList.random()!!): Artifact {
+        return artifacts.map { it.value.getDeclaredConstructor().newInstance() }.filter { it.rarity == rarity }.random()
     }
 }

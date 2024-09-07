@@ -227,6 +227,9 @@ object RoomController {
     private fun clearCachedData() {
         generationQuery.clear()
         actualQueryRoom = null
+        actualRoomEntities.forEach {
+            it.discard()
+        }
         actualRoomEntities.clear()
 
         actualRoomNumber = 0

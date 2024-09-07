@@ -7,6 +7,7 @@ import me.zaksen.deathLabyrinth.event.custom.game.PlayerBreakPotEvent
 import me.zaksen.deathLabyrinth.game.hud.HudController
 import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.item.ItemsController
+import me.zaksen.deathLabyrinth.keys.PluginKeys.speedModifierKey
 import me.zaksen.deathLabyrinth.menu.Menus
 import me.zaksen.deathLabyrinth.trading.TradeOffer
 import me.zaksen.deathLabyrinth.util.*
@@ -22,6 +23,8 @@ import org.bukkit.event.Event
 import org.bukkit.event.entity.EntityRegainHealthEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.Plugin
+import org.bukkit.potion.PotionEffect
+import org.bukkit.potion.PotionEffectType
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scheduler.BukkitTask
 
@@ -85,12 +88,26 @@ object GameController {
         }
     }
 
+    private fun clearAttributeModifier(player: Player) {
+        player.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.removeModifier(speedModifierKey)
+    }
+
     private fun setupPlayer(player: Player) {
+        clearAttributeModifier(player)
         player.gameMode = GameMode.SURVIVAL
 
         player.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.baseValue = 40.0
         player.heal(40.0, EntityRegainHealthEvent.RegainReason.REGEN)
         player.saturation = 20.0f
+
+        player.addPotionEffect(PotionEffect(
+            PotionEffectType.SATURATION,
+            -1,
+            255,
+            false,
+            false,
+            false
+        ))
 
         player.teleport(locationOf(configs.mainConfig().playerSpawnLocation))
 
@@ -251,7 +268,7 @@ object GameController {
     fun generateTradeOffers(traderType: TraderType): List<TradeOffer> {
         val result: MutableList<TradeOffer> = mutableListOf()
 
-        TradeController.getOffersSpan(players.size * 2, traderType).forEach {
+        TradeController.getOffersSnap(players.size * 2, traderType).forEach {
             result.add(it)
         }
 

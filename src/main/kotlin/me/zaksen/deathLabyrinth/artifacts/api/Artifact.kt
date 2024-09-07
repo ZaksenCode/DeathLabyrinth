@@ -1,7 +1,6 @@
 package me.zaksen.deathLabyrinth.artifacts.api
 
 import me.zaksen.deathLabyrinth.artifacts.ability.AbilityContainer
-import me.zaksen.deathLabyrinth.classes.PlayerClass
 import org.bukkit.event.Event
 import org.bukkit.inventory.ItemStack
 
@@ -14,8 +13,6 @@ abstract class Artifact(val name: String, val rarity: ArtifactRarity) {
     }
 
     abstract fun asItemStack(): ItemStack
-
-    abstract fun usableFor(): Set<Class<out PlayerClass>>
 
     // Maybe not good idea checking by name
     override fun equals(other: Any?): Boolean {

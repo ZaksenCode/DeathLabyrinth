@@ -1,10 +1,7 @@
-package me.zaksen.deathLabyrinth.artifacts
+package me.zaksen.deathLabyrinth.artifacts.custom
 
 import me.zaksen.deathLabyrinth.artifacts.api.Artifact
 import me.zaksen.deathLabyrinth.artifacts.api.ArtifactRarity
-import me.zaksen.deathLabyrinth.classes.MageClass
-import me.zaksen.deathLabyrinth.classes.PlayerClass
-import me.zaksen.deathLabyrinth.classes.WarriorClass
 import me.zaksen.deathLabyrinth.event.custom.game.RoomCompleteEvent
 import me.zaksen.deathLabyrinth.util.asText
 import me.zaksen.deathLabyrinth.util.customModel
@@ -28,9 +25,5 @@ class GreenHeart: Artifact("Зелёное сердце", ArtifactRarity.RARE) {
             .customModel(100)
             .name("<green>$name</green>".asText())
             .loreLine("<gray>Восстанавливает</gray> <gold>${6.0 * count}</gold> <gray>здоровья за каждую комнату</gray>".asText())
-    }
-
-    override fun usableFor(): Set<Class<out PlayerClass>> {
-        return setOf(MageClass::class.java, WarriorClass::class.java)
     }
 }

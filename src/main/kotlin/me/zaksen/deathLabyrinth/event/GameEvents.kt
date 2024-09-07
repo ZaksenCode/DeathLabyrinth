@@ -94,7 +94,7 @@ class GameEvents(private val config: MainConfig): Listener {
         val entity = event.entity
 
         if(event.damager is Player && entity is LivingEntity) {
-            EventManager.callPlayerDamageEntityEvent(event.damager as Player, entity, event.damage)
+            EventManager.callPlayerDamageEntityEvent(event.damager as Player, entity, event.damage, event)
         }
     }
 

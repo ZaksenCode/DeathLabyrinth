@@ -1,6 +1,6 @@
 package me.zaksen.deathLabyrinth.classes
 
-import me.zaksen.deathLabyrinth.artifacts.GreenHeart
+import me.zaksen.deathLabyrinth.artifacts.custom.GreenHeart
 import me.zaksen.deathLabyrinth.data.PlayerData
 import me.zaksen.deathLabyrinth.item.ItemsController
 import me.zaksen.deathLabyrinth.item.weapon.WeaponType
