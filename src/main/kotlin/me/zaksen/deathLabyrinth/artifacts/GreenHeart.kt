@@ -1,6 +1,7 @@
 package me.zaksen.deathLabyrinth.artifacts
 
 import me.zaksen.deathLabyrinth.artifacts.api.Artifact
+import me.zaksen.deathLabyrinth.artifacts.api.ArtifactRarity
 import me.zaksen.deathLabyrinth.classes.MageClass
 import me.zaksen.deathLabyrinth.classes.PlayerClass
 import me.zaksen.deathLabyrinth.classes.WarriorClass
@@ -13,7 +14,7 @@ import org.bukkit.Material
 import org.bukkit.event.entity.EntityRegainHealthEvent
 import org.bukkit.inventory.ItemStack
 
-class GreenHeart: Artifact("Зелёное сердце") {
+class GreenHeart: Artifact("Зелёное сердце", ArtifactRarity.RARE) {
 
     init {
         abilityContainer.add {

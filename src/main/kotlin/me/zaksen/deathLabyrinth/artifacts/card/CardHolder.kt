@@ -8,11 +8,10 @@ import me.zaksen.deathLabyrinth.entity.text_display.ArtifactsCardName
 import me.zaksen.deathLabyrinth.util.tryAddEntity
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.sound.Sound
-import org.bukkit.Location
 import org.bukkit.Particle
 import org.bukkit.World
 
-data class CardHolder(
+class CardHolder(
     val artifact: Artifact,
     val cardEntity: ArtifactsCard,
     val artifactEntity: ArtifactsCardIcon,
@@ -29,7 +28,17 @@ data class CardHolder(
     fun despawn() {
         val world = cardEntity.level().world
 
-        world.spawnParticle(Particle.EFFECT, cardEntity.x, cardEntity.y, cardEntity.z, 50)
+        world.spawnParticle(
+            Particle.EFFECT,
+            cardEntity.x,
+            cardEntity.y,
+            cardEntity.z,
+            100,
+            0.4,
+            0.6,
+            0.4
+        )
+
         world.playSound(
             Sound.sound(Key.key("minecraft:entity.player.levelup"), Sound.Source.PLAYER, 1.0f, 1.0f),
             cardEntity.x,

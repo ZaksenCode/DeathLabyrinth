@@ -7,6 +7,7 @@ import me.zaksen.deathLabyrinth.entity.item_display.ArtifactsCard
 import me.zaksen.deathLabyrinth.entity.item_display.ArtifactsCardIcon
 import me.zaksen.deathLabyrinth.entity.text_display.ArtifactsCardName
 import me.zaksen.deathLabyrinth.game.GameController
+import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.craftbukkit.entity.CraftEntity
 import org.bukkit.entity.Player
@@ -14,13 +15,15 @@ import java.util.Timer
 import java.util.UUID
 import kotlin.concurrent.timer
 
-// TODO - Add spawn chains like in isaac coop mod
 object ArtifactsController {
 
     val summonedCards: MutableMap<ArtifactsCardHitbox, CardHolder> = mutableMapOf()
     val artifacts: MutableMap<String, Class<out Artifact>> = mutableMapOf()
 
-    var lastHightlitedCards: MutableMap<UUID, CardHolder> = mutableMapOf()
+    private var lastChainLocation: Location = Location(Bukkit.getWorld("world"), 0.0, 0.0, 0.0)
+    private var remainingChains: Int = 0
+
+    private var lastHightlitedCards: MutableMap<UUID, CardHolder> = mutableMapOf()
     var highlightTimer: Timer = timer(period = 200) {
         if(summonedCards.isEmpty()) {
             return@timer
@@ -86,12 +89,37 @@ object ArtifactsController {
     }
 
     fun processArtifactPickup(player: Player, cardHolder: CardHolder) {
-        cardHolder.despawn()
+        processArtifactsChain()
         val playerData = GameController.players[player] ?: return
         playerData.addArtifact(cardHolder.artifact)
     }
 
     fun startArtifactsChain(location: Location, count: Int = 1) {
+        lastChainLocation = location
+        remainingChains = count
+        processArtifactsChain()
+    }
+
+    fun processArtifactsChain() {
+        despawnArtifacts()
+        if(remainingChains > 0) {
+            summonArtifactCard(
+                lastChainLocation,
+                artifacts.map { it.value }.random().getDeclaredConstructor().newInstance()
+            )
+            summonArtifactCard(
+                lastChainLocation.subtract(0.0, 1.0, 3.0),
+                artifacts.map { it.value }.random().getDeclaredConstructor().newInstance()
+            )
+            summonArtifactCard(
+                lastChainLocation.subtract(0.0, 1.0, 3.0),
+                artifacts.map { it.value }.random().getDeclaredConstructor().newInstance()
+            )
+            remainingChains--
+        }
+    }
+
+    private fun getRandomArtifact() {
 
     }
 }

@@ -9,7 +9,6 @@ import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.item.ItemsController
 import me.zaksen.deathLabyrinth.menu.Menus
 import me.zaksen.deathLabyrinth.trading.TradeOffer
-import me.zaksen.deathLabyrinth.trading.pricing.PricingStrategies
 import me.zaksen.deathLabyrinth.util.*
 import me.zaksen.deathLabyrinth.util.ChatUtil.title
 import net.kyori.adventure.text.format.TextColor
@@ -20,7 +19,6 @@ import org.bukkit.attribute.Attribute
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.Event
-import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.entity.EntityRegainHealthEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.plugin.Plugin

@@ -9,7 +9,9 @@ import com.sk89q.worldedit.function.operation.Operations
 import com.sk89q.worldedit.math.BlockVector3
 import com.sk89q.worldedit.session.ClipboardHolder
 import com.sk89q.worldedit.world.AbstractWorld
+import me.zaksen.deathLabyrinth.artifacts.ArtifactsController
 import me.zaksen.deathLabyrinth.config.*
+import me.zaksen.deathLabyrinth.config.data.ObjectType
 import me.zaksen.deathLabyrinth.config.data.Position
 import me.zaksen.deathLabyrinth.entity.EntityController
 import me.zaksen.deathLabyrinth.entity.difficulty.Scaleable
@@ -24,7 +26,6 @@ import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.World
 import org.bukkit.craftbukkit.entity.CraftEntity
-import org.bukkit.event.entity.EntityDeathEvent
 import java.io.File
 import java.io.FileInputStream
 import kotlin.random.Random
@@ -253,17 +254,38 @@ object RoomController {
         }
 
         for(entityEntry in room.roomConfig.roomEntities.random()) {
-            val entity = EntityController.entities[entityEntry.entityName]
+            when(entityEntry.objectType) {
+                ObjectType.ENTITY -> {
+                    val entity = EntityController.entities[entityEntry.entityName]
 
-            if(entity != null) {
-                val toSpawn = entity.getDeclaredConstructor(Location::class.java).newInstance(Location(roomWorld,
-                    x - entityEntry.spawnPosition.x,
-                    y + entityEntry.spawnPosition.y,
-                    z - entityEntry.spawnPosition.z
-                ))
-                EventManager.callEntitySpawnEvent(roomWorld, toSpawn, entityEntry.requireKill, debug)
-            } else {
-                println("Unable to found entity with id ${entityEntry.entityName}")
+                    if(entity != null) {
+                        val toSpawn = entity.getDeclaredConstructor(Location::class.java).newInstance(Location(roomWorld,
+                            x - entityEntry.spawnPosition.x,
+                            y + entityEntry.spawnPosition.y,
+                            z - entityEntry.spawnPosition.z
+                        ))
+                        EventManager.callEntitySpawnEvent(roomWorld, toSpawn, entityEntry.requireKill, debug)
+                    } else {
+                        println("Unable to found entity with id ${entityEntry.entityName}")
+                    }
+                }
+                ObjectType.ARTIFACTS_CHAIN -> {
+                    val spawnPos = Location(roomWorld,
+                        x - entityEntry.spawnPosition.x,
+                        y + entityEntry.spawnPosition.y,
+                        z - entityEntry.spawnPosition.z
+                    )
+
+                    spawnPos.yaw = -90f
+
+                    val size: Int = if(debug) {
+                        Bukkit.getOnlinePlayers().size
+                    } else {
+                        GameController.players.map{ it.value.isAlive }.size
+                    }
+
+                    ArtifactsController.startArtifactsChain(spawnPos, size)
+                }
             }
         }
 
