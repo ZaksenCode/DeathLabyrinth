@@ -1,14 +1,17 @@
 package me.zaksen.deathLabyrinth.item
 
 import me.zaksen.deathLabyrinth.entity.trader.TraderType
+import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.item.settings.ItemSettings
 import me.zaksen.deathLabyrinth.item.items.consume.*
 import me.zaksen.deathLabyrinth.item.items.ingredient.*
 import me.zaksen.deathLabyrinth.item.weapon.weapons.stuff.*
 import me.zaksen.deathLabyrinth.item.weapon.weapons.sword.*
 import me.zaksen.deathLabyrinth.util.ChatUtil
+import me.zaksen.deathLabyrinth.util.WeightedRandomList
 import me.zaksen.deathLabyrinth.util.asText
 import org.bukkit.Material
+import org.bukkit.inventory.ItemStack
 
 // FIXME - Recode this crap, make items data-driven
 object ItemsController {
@@ -219,10 +222,23 @@ object ItemsController {
         register("bone", Bone("bone"))
         register("flesh", Flesh("flesh"))
         register("gunpowder", Gunpowder("gunpowder"))
+
+        loadPotLoot()
     }
 
     private fun register(id: String, item: CustomItem) {
         itemsMap[id] = item
+    }
+
+    private fun loadPotLoot() {
+        val potLoot = WeightedRandomList<ItemStack>()
+
+        potLoot.addEntry(itemsMap["small_heal_potion"]!!.asItemStack(), 1.0)
+        potLoot.addEntry(itemsMap["bone"]!!.asItemStack(), 1.0)
+        potLoot.addEntry(itemsMap["flesh"]!!.asItemStack(), 1.0)
+        potLoot.addEntry(itemsMap["gunpowder"]!!.asItemStack(), 1.0)
+
+        GameController.initPotLootList(potLoot)
     }
 
     fun get(id: String): CustomItem? {

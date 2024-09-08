@@ -8,6 +8,6 @@ import org.bukkit.Material
 
 class Bone(id: String): CustomItem(id, ItemType.DRINK_INGREDIENT,
     ItemSettings(Material.BONE).displayName("Кость".asText())
-        .loreLine("Жаль что скелеты не умеют шутить...".asText())
+        .loreLine("Жаль, что скелеты не умеют шутить...".asText())
 ) {
 }

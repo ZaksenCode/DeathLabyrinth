@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.game
 
+import me.zaksen.deathLabyrinth.artifacts.api.ArtifactRarity
 import me.zaksen.deathLabyrinth.config.ConfigContainer
 import me.zaksen.deathLabyrinth.data.PlayerData
 import me.zaksen.deathLabyrinth.entity.trader.TraderType
@@ -40,6 +41,16 @@ object GameController {
     private var startCooldownTime: Short = 5
 
     private val hudController: HudController = HudController()
+
+    private lateinit var potLootList: WeightedRandomList<ItemStack>
+
+    fun initPotLootList(list: WeightedRandomList<ItemStack>) {
+        potLootList = list
+    }
+
+    fun getRandomPotLoot(): ItemStack {
+        return potLootList.random()!!
+    }
 
     fun getStatus(): GameStatus {
         return status
@@ -298,6 +309,10 @@ object GameController {
 
     fun processPotBreaking(event: PlayerBreakPotEvent) {
         event.decoratedPot.location.world.dropItemNaturally(event.decoratedPot.location, event.output)
+    }
+
+    fun generateRandomPotLoot() {
+
     }
 
     fun processAnyEvent(event: Event) {

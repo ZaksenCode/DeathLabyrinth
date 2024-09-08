@@ -1,5 +1,7 @@
 package me.zaksen.deathLabyrinth.item.weapon.weapons.sword
 
+import me.zaksen.deathLabyrinth.entity.friendly.FriendlyEntity
+import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.item.settings.ItemSettings
 import me.zaksen.deathLabyrinth.item.weapon.WeaponType
 import me.zaksen.deathLabyrinth.item.weapon.weapons.SwordLike
@@ -13,8 +15,8 @@ open class BaseHammer(id: String, settings: ItemSettings): SwordLike(WeaponType.
         val affectedEntities = event.entity.getNearbyEntities(settings.hitRange(), settings.hitRange(), settings.hitRange())
 
         for(entity in affectedEntities) {
-            if(entity is LivingEntity && entity !is Player) {
-                entity.damage(event.damage)
+            if(entity is LivingEntity && entity !is Player && entity !is FriendlyEntity) {
+                EventManager.callPlayerDamageEntityEvent(event.damager as Player, event.entity as LivingEntity, event.damage, event)
             }
         }
     }

@@ -55,6 +55,16 @@ object EventManager {
         }
     }
 
+    fun callPlayerDamageEntityEvent(player: Player, entity: LivingEntity, damage: Double) {
+        val coolEvent = PlayerDamageEntityEvent(player, entity, damage)
+        coolEvent.callEvent()
+        GameController.processAnyEvent(coolEvent)
+        if (!coolEvent.isCancelled) {
+            entity.damage(coolEvent.damage, coolEvent.player)
+            GameController.processEntityHit(coolEvent.entity)
+        }
+    }
+
     fun callPlayerKillEntityEvent(player: Player?, entity: LivingEntity, drops: List<ItemStack>) {
         val coolEvent = PlayerKillEntityEvent(player, entity, drops)
         coolEvent.callEvent()
@@ -89,9 +99,8 @@ object EventManager {
         }
     }
 
-    // TODO - Random pot loot
     fun callBreakPotEvent(player: Player, pot: Block) {
-        val coolEvent = PlayerBreakPotEvent(player, pot, ItemsController.get("small_heal_potion")!!.asItemStack())
+        val coolEvent = PlayerBreakPotEvent(player, pot, GameController.getRandomPotLoot())
         coolEvent.callEvent()
         GameController.processAnyEvent(coolEvent)
         GameController.processPotBreaking(coolEvent)
