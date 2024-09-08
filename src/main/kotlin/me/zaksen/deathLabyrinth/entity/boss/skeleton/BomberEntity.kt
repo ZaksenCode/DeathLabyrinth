@@ -3,7 +3,6 @@ package me.zaksen.deathLabyrinth.entity.boss.skeleton
 import me.zaksen.deathLabyrinth.entity.difficulty.Scaleable
 import me.zaksen.deathLabyrinth.entity.difficulty.ScalingStrategies
 import me.zaksen.deathLabyrinth.entity.goal.ability.BomberAbilityGoal
-import me.zaksen.deathLabyrinth.entity.skeleton.SkeletonEntity
 import net.kyori.adventure.text.format.TextColor
 import net.minecraft.network.chat.Component
 import net.minecraft.world.entity.Entity
