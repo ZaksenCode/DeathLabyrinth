@@ -2,6 +2,7 @@ package me.zaksen.deathLabyrinth.entity.boss.skeleton
 
 import me.zaksen.deathLabyrinth.entity.difficulty.Scaleable
 import me.zaksen.deathLabyrinth.entity.difficulty.ScalingStrategies
+import me.zaksen.deathLabyrinth.entity.goal.ability.BomberAbilityGoal
 import me.zaksen.deathLabyrinth.entity.skeleton.SkeletonEntity
 import net.kyori.adventure.text.format.TextColor
 import net.minecraft.network.chat.Component
@@ -22,10 +23,10 @@ import org.bukkit.craftbukkit.CraftWorld
 class BomberEntity(location: Location): Skeleton(EntityType.SKELETON, (location.world as CraftWorld).handle), Scaleable {
 
     init {
-        this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.23
+        this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.24
         this.getAttribute(Attributes.ATTACK_DAMAGE)?.baseValue = defaultAttackDamage
-        this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = SkeletonEntity.defaultMaxHealth
-        this.health = SkeletonEntity.defaultMaxHealth.toFloat()
+        this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = defaultMaxHealth
+        this.health = defaultMaxHealth.toFloat()
 
         this.customName = Component.literal("Подрывник").withColor(TextColor.color(124, 242, 81).value())
         this.isCustomNameVisible = true
@@ -38,6 +39,7 @@ class BomberEntity(location: Location): Skeleton(EntityType.SKELETON, (location.
 
     override fun registerGoals() {
         goalSelector.addGoal(1, MeleeAttackGoal(this, 1.0, false))
+        goalSelector.addGoal(2, BomberAbilityGoal(this))
 
         targetSelector.addGoal(1, HurtByTargetGoal(this, *arrayOfNulls(0)))
         targetSelector.addGoal(
