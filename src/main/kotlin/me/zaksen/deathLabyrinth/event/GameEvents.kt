@@ -3,6 +3,7 @@ package me.zaksen.deathLabyrinth.event
 import me.zaksen.deathLabyrinth.config.MainConfig
 import me.zaksen.deathLabyrinth.entity.friendly.FriendlyEntity
 import me.zaksen.deathLabyrinth.game.GameController
+import me.zaksen.deathLabyrinth.game.GameStatus
 import org.bukkit.Material
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
@@ -100,7 +101,7 @@ class GameEvents(private val config: MainConfig): Listener {
 
     @EventHandler
     fun preventItemDrop(event: PlayerDropItemEvent) {
-        if(!config.debug) {
+        if(!config.debug && GameController.getStatus() != GameStatus.PROCESS) {
             event.isCancelled = true
         }
     }

@@ -33,7 +33,7 @@ class DeathLabyrinth : JavaPlugin(), ConfigContainer {
     }
 
     override fun onDisable() {
-        RoomController.clearGeneration()
+        GameController.reload()
     }
 
     private fun registerEvents() {

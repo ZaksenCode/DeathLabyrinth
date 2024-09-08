@@ -16,7 +16,7 @@ open class BaseHammer(id: String, settings: ItemSettings): SwordLike(WeaponType.
 
         for(entity in affectedEntities) {
             if(entity is LivingEntity && entity !is Player && entity !is FriendlyEntity) {
-                EventManager.callPlayerDamageEntityEvent(event.damager as Player, event.entity as LivingEntity, event.damage, event)
+                EventManager.callPlayerDamageEntityEvent(event.damager as Player, event.entity as LivingEntity, event.damage)
             }
         }
     }

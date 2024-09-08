@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.entity
 
+import me.zaksen.deathLabyrinth.entity.boss.skeleton.BomberEntity
 import me.zaksen.deathLabyrinth.entity.creeper.SizzleEntity
 import me.zaksen.deathLabyrinth.entity.enderman.EndermanEntity
 import me.zaksen.deathLabyrinth.entity.enderman.SpeedyEndermanEntity
@@ -50,6 +51,7 @@ object EntityController {
         // NPC
 
         // Bosses
+        entities["bomber_boss"] = BomberEntity::class.java
 
         // Final bosses
     }

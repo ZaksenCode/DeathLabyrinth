@@ -8,5 +8,8 @@ enum class ScalingStrategies(val strategy: ScalingStrategy) {
     }),
     BY_PLAYERS(ScalingStrategy { base ->
         DEFAULT.strategy.scale(base) * org.bukkit.Bukkit.getOnlinePlayers().size
-    })
+    }),
+    BY_COMPLETED_BOSSES(ScalingStrategy { base ->
+        (base * (RoomController.bossRoomCompleted + 1))
+    }),
 }
