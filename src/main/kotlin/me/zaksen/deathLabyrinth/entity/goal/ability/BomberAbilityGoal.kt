@@ -5,7 +5,7 @@ import net.minecraft.world.entity.Mob
 import org.bukkit.Location
 import org.bukkit.entity.EntityType
 
-class BomberAbilityGoal(mob: Mob): AbilityGoal(mob, 400) {
+class BomberAbilityGoal(mob: Mob): AbilityGoal(mob, 10) {
 
     override fun useAbility() {
         val world = mob.level().world

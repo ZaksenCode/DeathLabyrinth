@@ -1,4 +1,4 @@
-package me.zaksen.deathLabyrinth.entity.iron_golem
+package me.zaksen.deathLabyrinth.entity.ravager
 
 import me.zaksen.deathLabyrinth.entity.difficulty.Scaleable
 import me.zaksen.deathLabyrinth.entity.difficulty.ScalingStrategies
@@ -11,22 +11,22 @@ import net.minecraft.world.entity.ai.goal.FloatGoal
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
-import net.minecraft.world.entity.animal.IronGolem
+import net.minecraft.world.entity.monster.Ravager
 import net.minecraft.world.entity.player.Player
 import org.bukkit.Location
 import org.bukkit.craftbukkit.CraftWorld
 
-class IronGolemEntity(location: Location): IronGolem(EntityType.IRON_GOLEM, (location.world as CraftWorld).handle),
+class RavagerEntity(location: Location): Ravager(EntityType.RAVAGER, (location.world as CraftWorld).handle),
     Scaleable {
 
     init {
         this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = defaultMaxHealth
         this.health = defaultMaxHealth.toFloat()
-        this.customName = Component.literal("Голем").withColor(TextColor.color(124, 242, 81).value())
+        this.customName = Component.literal("Разоритель").withColor(TextColor.color(124, 242, 81).value())
         this.isCustomNameVisible = true
 
         this.getAttribute(Attributes.SCALE)?.baseValue = 0.7
-        this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.22
+        this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.23
         this.getAttribute(Attributes.ATTACK_DAMAGE)?.baseValue = defaultAttackDamage
 
         this.setPos(location.x, location.y, location.z)
@@ -64,7 +64,7 @@ class IronGolemEntity(location: Location): IronGolem(EntityType.IRON_GOLEM, (loc
     }
 
     companion object {
-        const val defaultMaxHealth = 30.0
-        const val defaultAttackDamage = 12.0
+        const val defaultMaxHealth = 40.0
+        const val defaultAttackDamage = 8.0
     }
 }

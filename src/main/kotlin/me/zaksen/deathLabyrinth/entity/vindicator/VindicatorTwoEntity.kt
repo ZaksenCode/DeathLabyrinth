@@ -1,4 +1,4 @@
-package me.zaksen.deathLabyrinth.entity.villager
+package me.zaksen.deathLabyrinth.entity.vindicator
 
 import me.zaksen.deathLabyrinth.entity.difficulty.Scaleable
 import me.zaksen.deathLabyrinth.entity.difficulty.ScalingStrategies
@@ -12,28 +12,26 @@ import net.minecraft.world.entity.ai.goal.FloatGoal
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
-import net.minecraft.world.entity.npc.Villager
+import net.minecraft.world.entity.monster.Vindicator
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import org.bukkit.Location
-import org.bukkit.attribute.Attribute
 import org.bukkit.craftbukkit.CraftWorld
 
-class VillagerThreeEntity(location: Location): Villager(EntityType.VILLAGER, (location.getWorld() as CraftWorld).handle),
+class VindicatorTwoEntity(location: Location): Vindicator(EntityType.VINDICATOR, (location.world as CraftWorld).handle),
     Scaleable {
 
     init {
+        this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.24
+        this.getAttribute(Attributes.ATTACK_DAMAGE)?.baseValue = defaultAttackDamage
         this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = defaultMaxHealth
         this.health = defaultMaxHealth.toFloat()
-        this.customName = Component.literal("Крестьянин").withColor(TextColor.color(124, 242, 81).value())
-        this.isCustomNameVisible = true
-        
-        this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack(Items.STONE_AXE))
 
-        this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.235
-        this.craftAttributes.registerAttribute(Attribute.GENERIC_ATTACK_DAMAGE)
-        this.getAttribute(Attributes.ATTACK_DAMAGE)?.baseValue = defaultAttackDamage
+        this.customName = Component.literal("Поборник").withColor(TextColor.color(124, 242, 81).value())
+        this.isCustomNameVisible = true
+
+        this.setItemSlot(EquipmentSlot.OFFHAND, ItemStack(Items.IRON_AXE))
 
         this.setPos(location.x, location.y, location.z)
     }
@@ -70,7 +68,7 @@ class VillagerThreeEntity(location: Location): Villager(EntityType.VILLAGER, (lo
     }
 
     companion object {
-        const val defaultMaxHealth = 20.0
-        const val defaultAttackDamage = 4.0
+        const val defaultMaxHealth = 30.0
+        const val defaultAttackDamage = 12.0
     }
 }

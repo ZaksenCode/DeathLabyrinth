@@ -11,11 +11,14 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
 import org.bukkit.event.block.BlockBreakEvent
+import org.bukkit.event.block.BlockDamageEvent
+import org.bukkit.event.block.BlockExplodeEvent
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.entity.EntityChangeBlockEvent
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.entity.EntityDeathEvent
+import org.bukkit.event.entity.EntityExplodeEvent
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
@@ -153,5 +156,12 @@ class GameEvents(private val config: MainConfig): Listener {
         if(!config.debug) {
             GameController.leave(event.player)
         }
+    }
+
+    // FIXME - Didn't work
+    @EventHandler
+    fun preventExplosion(event: BlockExplodeEvent) {
+        event.blockList().clear()
+        event.isCancelled = true
     }
 }

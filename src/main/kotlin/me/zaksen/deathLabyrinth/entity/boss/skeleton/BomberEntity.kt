@@ -3,8 +3,12 @@ package me.zaksen.deathLabyrinth.entity.boss.skeleton
 import me.zaksen.deathLabyrinth.entity.difficulty.Scaleable
 import me.zaksen.deathLabyrinth.entity.difficulty.ScalingStrategies
 import me.zaksen.deathLabyrinth.entity.goal.ability.BomberAbilityGoal
+import me.zaksen.deathLabyrinth.entity.goal.ability.BomberTeleportAbilityGoal
+import me.zaksen.deathLabyrinth.entity.goal.ability.LeapAbility
 import net.kyori.adventure.text.format.TextColor
 import net.minecraft.network.chat.Component
+import net.minecraft.tags.DamageTypeTags
+import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.EquipmentSlot
@@ -22,9 +26,10 @@ import org.bukkit.craftbukkit.CraftWorld
 class BomberEntity(location: Location): Skeleton(EntityType.SKELETON, (location.world as CraftWorld).handle), Scaleable {
 
     init {
-        this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.24
+        this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.28
         this.getAttribute(Attributes.ATTACK_DAMAGE)?.baseValue = defaultAttackDamage
         this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = defaultMaxHealth
+        this.getAttribute(Attributes.SCALE)?.baseValue = 1.5
         this.health = defaultMaxHealth.toFloat()
 
         this.customName = Component.literal("Подрывник").withColor(TextColor.color(124, 242, 81).value())
@@ -39,6 +44,8 @@ class BomberEntity(location: Location): Skeleton(EntityType.SKELETON, (location.
     override fun registerGoals() {
         goalSelector.addGoal(1, MeleeAttackGoal(this, 1.0, false))
         goalSelector.addGoal(2, BomberAbilityGoal(this))
+        goalSelector.addGoal(3, BomberTeleportAbilityGoal(this))
+        goalSelector.addGoal(4, LeapAbility(this))
 
         targetSelector.addGoal(1, HurtByTargetGoal(this, *arrayOfNulls(0)))
         targetSelector.addGoal(
@@ -59,6 +66,14 @@ class BomberEntity(location: Location): Skeleton(EntityType.SKELETON, (location.
         return false
     }
 
+    override fun hurt(source: DamageSource, amount: Float): Boolean {
+        if(source.`is`(DamageTypeTags.IS_EXPLOSION)) {
+            return false
+        }
+
+        return super.hurt(source, amount)
+    }
+
     override fun scale() {
         this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = ScalingStrategies.BY_COMPLETED_BOSSES.strategy.scale(defaultMaxHealth)
         this.health = ScalingStrategies.BY_COMPLETED_BOSSES.strategy.scale(defaultMaxHealth).toFloat()
@@ -66,7 +81,7 @@ class BomberEntity(location: Location): Skeleton(EntityType.SKELETON, (location.
     }
 
     companion object {
-        const val defaultMaxHealth = 500.0
-        const val defaultAttackDamage = 10.0
+        const val defaultMaxHealth = 750.0
+        const val defaultAttackDamage = 14.0
     }
 }

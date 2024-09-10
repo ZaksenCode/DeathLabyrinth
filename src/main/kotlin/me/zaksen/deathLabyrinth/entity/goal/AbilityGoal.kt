@@ -5,19 +5,25 @@ import net.minecraft.world.entity.ai.goal.Goal
 
 abstract class AbilityGoal(val mob: Mob, val abilityPeriod: Int): Goal() {
 
-    private var currentAbilityTick = 0
+    private var lastCheck = 0
+    private var currentAbilitySec = 0
 
     override fun canUse(): Boolean {
-        return true
+        lastCheck++
+        if(lastCheck > 20) {
+            abilitySecond()
+            lastCheck = 0
+        }
+        return lastCheck >= 20
     }
 
-    override fun tick() {
-        if(currentAbilityTick >= abilityPeriod) {
+    open fun abilitySecond() {
+        if(currentAbilitySec >= abilityPeriod) {
             useAbility()
-            currentAbilityTick = 0
+            currentAbilitySec = 0
             return
         }
-        currentAbilityTick++
+        currentAbilitySec++
     }
 
     abstract fun useAbility()

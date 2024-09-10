@@ -15,6 +15,7 @@ import me.zaksen.deathLabyrinth.config.data.ObjectType
 import me.zaksen.deathLabyrinth.config.data.Position
 import me.zaksen.deathLabyrinth.entity.EntityController
 import me.zaksen.deathLabyrinth.entity.difficulty.Scaleable
+import me.zaksen.deathLabyrinth.entity.room.RoomCycle
 import me.zaksen.deathLabyrinth.entity.trader.Trader
 import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.event.custom.game.PlayerKillEntityEvent
@@ -44,6 +45,7 @@ object RoomController {
     private var actualQueryRoom: Room? = null
 
     private val actualRoomEntities: MutableList<Entity> = mutableListOf()
+    private val roomCycleEntities: MutableList<Entity> = mutableListOf()
 
     var actualRoomNumber: Int = 0
     var bossRoomCompleted: Int = 0
@@ -131,6 +133,12 @@ object RoomController {
 
     fun processRoomCompletion(reward: Int) {
         grantRoomReward(reward)
+
+        roomCycleEntities.forEach {
+            it.discard()
+        }
+        roomCycleEntities.clear()
+
         generateAndUpdateQueryRoom()
     }
 
@@ -321,6 +329,9 @@ object RoomController {
         }
         if(entity is Scaleable) {
             entity.scale()
+        }
+        if(entity is RoomCycle) {
+            roomCycleEntities.add(entity)
         }
         if(!debug) {
             if(requireKill) {

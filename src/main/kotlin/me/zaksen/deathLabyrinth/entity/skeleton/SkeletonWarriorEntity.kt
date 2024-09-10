@@ -27,7 +27,7 @@ class SkeletonWarriorEntity(location: Location): Skeleton(EntityType.SKELETON, (
         this.customName = Component.literal("Скелет-воин").withColor(TextColor.color(124, 242, 81).value())
         this.isCustomNameVisible = true
 
-        this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.22
+        this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.23
 
         this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack(Items.WOODEN_SWORD))
         this.setItemSlot(EquipmentSlot.OFFHAND, ItemStack(Items.SHIELD))

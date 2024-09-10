@@ -1,4 +1,4 @@
-package me.zaksen.deathLabyrinth.entity.iron_golem
+package me.zaksen.deathLabyrinth.entity.pillager
 
 import me.zaksen.deathLabyrinth.entity.difficulty.Scaleable
 import me.zaksen.deathLabyrinth.entity.difficulty.ScalingStrategies
@@ -6,35 +6,39 @@ import net.kyori.adventure.text.format.TextColor
 import net.minecraft.network.chat.Component
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.ai.goal.FloatGoal
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal
+import net.minecraft.world.entity.ai.goal.RangedCrossbowAttackGoal
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
-import net.minecraft.world.entity.animal.IronGolem
+import net.minecraft.world.entity.monster.Pillager
 import net.minecraft.world.entity.player.Player
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Items
 import org.bukkit.Location
 import org.bukkit.craftbukkit.CraftWorld
 
-class IronGolemEntity(location: Location): IronGolem(EntityType.IRON_GOLEM, (location.world as CraftWorld).handle),
+class PillagerEntity(location: Location): Pillager(EntityType.PILLAGER, (location.world as CraftWorld).handle),
     Scaleable {
 
     init {
+        this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.25
         this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = defaultMaxHealth
         this.health = defaultMaxHealth.toFloat()
-        this.customName = Component.literal("Голем").withColor(TextColor.color(124, 242, 81).value())
+        this.customName = Component.literal("Разбойник").withColor(TextColor.color(124, 242, 81).value())
         this.isCustomNameVisible = true
 
-        this.getAttribute(Attributes.SCALE)?.baseValue = 0.7
-        this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.22
-        this.getAttribute(Attributes.ATTACK_DAMAGE)?.baseValue = defaultAttackDamage
+        this.setItemSlot(EquipmentSlot.OFFHAND, ItemStack(Items.CROSSBOW))
 
         this.setPos(location.x, location.y, location.z)
     }
 
     override fun registerGoals() {
         goalSelector.addGoal(1, FloatGoal(this))
-        goalSelector.addGoal(2, MeleeAttackGoal(this, 1.0, false))
+        goalSelector.addGoal(2, RangedCrossbowAttackGoal(this, 1.0, 8.0F))
+
         targetSelector.addGoal(
             1,
             HurtByTargetGoal(this, *arrayOfNulls(0)).setAlertOthers()
@@ -60,11 +64,9 @@ class IronGolemEntity(location: Location): IronGolem(EntityType.IRON_GOLEM, (loc
     override fun scale() {
         this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = ScalingStrategies.DEFAULT.strategy.scale(defaultMaxHealth)
         this.health = ScalingStrategies.DEFAULT.strategy.scale(defaultMaxHealth).toFloat()
-        this.getAttribute(Attributes.ATTACK_DAMAGE)?.baseValue = ScalingStrategies.DEFAULT.strategy.scale(defaultAttackDamage)
     }
 
     companion object {
-        const val defaultMaxHealth = 30.0
-        const val defaultAttackDamage = 12.0
+        const val defaultMaxHealth = 20.0
     }
 }
