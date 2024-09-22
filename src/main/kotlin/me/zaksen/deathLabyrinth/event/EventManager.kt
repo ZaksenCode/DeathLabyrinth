@@ -99,6 +99,15 @@ object EventManager {
         }
     }
 
+    fun callEntityCloneSpawnEvent(world: World, entity: Entity, requireKill: Boolean, debug: Boolean = false) {
+        val coolEvent = EntityCloneSpawnEvent(world, entity, requireKill, debug)
+        coolEvent.callEvent()
+        GameController.processAnyEvent(coolEvent)
+        if(!coolEvent.isCancelled) {
+            RoomController.processEntitySpawn(coolEvent.world, coolEvent.entity, coolEvent.requireKill, coolEvent.debug)
+        }
+    }
+
     fun callBreakPotEvent(player: Player, pot: Block) {
         val coolEvent = PlayerBreakPotEvent(player, pot, GameController.getRandomPotLoot())
         coolEvent.callEvent()

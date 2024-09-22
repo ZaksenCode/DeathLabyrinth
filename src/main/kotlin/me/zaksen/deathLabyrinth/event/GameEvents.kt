@@ -164,4 +164,9 @@ class GameEvents(private val config: MainConfig): Listener {
         event.blockList().clear()
         event.isCancelled = true
     }
+
+    @EventHandler
+    fun preventExplosion(event: EntityExplodeEvent) {
+        event.blockList().clear()
+    }
 }

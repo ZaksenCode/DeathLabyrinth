@@ -26,7 +26,7 @@ import org.bukkit.craftbukkit.CraftWorld
 class BomberEntity(location: Location): Skeleton(EntityType.SKELETON, (location.world as CraftWorld).handle), Scaleable {
 
     init {
-        this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.28
+        this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.29
         this.getAttribute(Attributes.ATTACK_DAMAGE)?.baseValue = defaultAttackDamage
         this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = defaultMaxHealth
         this.getAttribute(Attributes.SCALE)?.baseValue = 1.5
@@ -81,7 +81,7 @@ class BomberEntity(location: Location): Skeleton(EntityType.SKELETON, (location.
     }
 
     companion object {
-        const val defaultMaxHealth = 750.0
+        const val defaultMaxHealth = 1500.0
         const val defaultAttackDamage = 14.0
     }
 }

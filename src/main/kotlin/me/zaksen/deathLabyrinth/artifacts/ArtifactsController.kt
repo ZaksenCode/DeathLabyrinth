@@ -3,9 +3,8 @@ package me.zaksen.deathLabyrinth.artifacts
 import me.zaksen.deathLabyrinth.artifacts.api.Artifact
 import me.zaksen.deathLabyrinth.artifacts.api.ArtifactRarity
 import me.zaksen.deathLabyrinth.artifacts.card.CardHolder
-import me.zaksen.deathLabyrinth.artifacts.custom.BloodLust
-import me.zaksen.deathLabyrinth.artifacts.custom.GreenHeart
-import me.zaksen.deathLabyrinth.artifacts.custom.MysticPotion
+import me.zaksen.deathLabyrinth.artifacts.custom.*
+import me.zaksen.deathLabyrinth.artifacts.custom.godly.Greediness
 import me.zaksen.deathLabyrinth.entity.interaction.ArtifactsCardHitbox
 import me.zaksen.deathLabyrinth.entity.item_display.ArtifactsCard
 import me.zaksen.deathLabyrinth.entity.item_display.ArtifactsCardIcon
@@ -79,14 +78,17 @@ object ArtifactsController {
 
         // COMMON
         artifacts["green_heart"] = GreenHeart::class.java
+        artifacts["mystic_potion"] = MysticPotion::class.java
 
         // RARE
-        artifacts["mystic_potion"] = MysticPotion::class.java
+        artifacts["rusty_dagger"] = RustyDagger::class.java
 
         // EPIC
         artifacts["blood_lust"] = BloodLust::class.java
+        artifacts["jewel"] = Jewel::class.java
 
         // GODLY
+        artifacts["greediness"] = Greediness::class.java
     }
 
     fun summonArtifactCard(location: Location, artifact: Artifact) {
@@ -119,20 +121,28 @@ object ArtifactsController {
         processArtifactsChain()
     }
 
-    fun processArtifactsChain() {
+    fun processArtifactsChain(isGoodly: Boolean = false) {
         despawnArtifacts()
+
+        if(isGoodly) {
+            remainingChains = 1
+        }
+
         if(remainingChains > 0) {
             summonArtifactCard(
                 lastChainLocation,
-                getRandomArtifact()
+                if(isGoodly) getRandomArtifact(ArtifactRarity.GODLY)
+                else getRandomArtifact()
             )
             summonArtifactCard(
                 lastChainLocation.subtract(0.0, 1.0, 3.0),
-                getRandomArtifact()
+                if(isGoodly) getRandomArtifact(ArtifactRarity.GODLY)
+                else getRandomArtifact()
             )
             summonArtifactCard(
                 lastChainLocation.subtract(0.0, 1.0, 3.0),
-                getRandomArtifact()
+                if(isGoodly) getRandomArtifact(ArtifactRarity.GODLY)
+                else getRandomArtifact()
             )
             remainingChains--
         }

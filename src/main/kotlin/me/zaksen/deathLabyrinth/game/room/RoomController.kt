@@ -339,4 +339,15 @@ object RoomController {
             }
         }
     }
+
+    fun spawnEntityClone(entity: Entity, requireKill: Boolean) {
+        val newEntity = entity::class.java.getDeclaredConstructor(Location::class.java).newInstance(Location(
+            entity.level().world, entity.x, entity.y, entity.z
+        ))
+        EventManager.callEntityCloneSpawnEvent(entity.level().world, newEntity, requireKill)
+    }
+
+    fun startBossArtifactsChain() {
+        
+    }
 }

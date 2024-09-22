@@ -22,7 +22,7 @@ open class ItemSettings(val material: Material) {
 
     private var tradePrice: Int = 0
     private var tradeItems: MutableSet<ItemStack> = mutableSetOf()
-    private var tradePriceStrategy: PricingStrategy = PricingStrategies.FIXED.strategy
+    private var tradePriceStrategy: PricingStrategy = PricingStrategies.DEFAULT.strategy
     private var aviableFromTraders: MutableSet<TraderType> = mutableSetOf()
 
     fun customModel(model: Int): ItemSettings {

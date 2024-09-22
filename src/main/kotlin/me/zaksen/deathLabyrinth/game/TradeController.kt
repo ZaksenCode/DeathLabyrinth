@@ -3,15 +3,26 @@ package me.zaksen.deathLabyrinth.game
 import me.zaksen.deathLabyrinth.data.PlayerData
 import me.zaksen.deathLabyrinth.entity.trader.TraderType
 import me.zaksen.deathLabyrinth.item.CustomItem
+import me.zaksen.deathLabyrinth.item.ItemQuality
 import me.zaksen.deathLabyrinth.item.ItemsController
 import me.zaksen.deathLabyrinth.item.weapon.WeaponItem
 import me.zaksen.deathLabyrinth.trading.TradeOffer
-import me.zaksen.deathLabyrinth.trading.pricing.PricingStrategies
+import me.zaksen.deathLabyrinth.util.WeightedRandomList
 import org.bukkit.entity.Player
 
 object TradeController {
 
+    val rarityList = WeightedRandomList<ItemQuality>()
     private val availableItems = mutableSetOf<CustomItem>()
+
+    init {
+        rarityList.addEntry(ItemQuality.COMMON, 0.35)
+        rarityList.addEntry(ItemQuality.UNCOMMON, 0.25)
+        rarityList.addEntry(ItemQuality.RARE, 0.2)
+        rarityList.addEntry(ItemQuality.EPIC, 0.1)
+        rarityList.addEntry(ItemQuality.LEGENDARY, 0.08)
+        rarityList.addEntry(ItemQuality.FANTASIC, 0.02)
+    }
 
     fun initTrades(players: Map<Player, PlayerData>) {
         ItemsController.itemsMap.forEach {
@@ -37,7 +48,7 @@ object TradeController {
         return getTradesSpan(count, traderType).map {
             TradeOffer(
                 1,
-                PricingStrategies.FIXED.strategy.scale(it.settings.tradePrice()),
+                it.settings.tradePriceStrategy().scale(it.settings.tradePrice()),
                 it.asItemStack()
             )
         }
@@ -59,11 +70,17 @@ object TradeController {
         return result
     }
 
-    // TODO - Make item quality valuable into random
-    private fun getRandomItem(from: MutableList<CustomItem>): CustomItem {
-        val toBuy = from.random()
-        from.remove(toBuy)
-        return toBuy
+    private fun getRandomItem(from: MutableList<CustomItem>, rarity: ItemQuality = rarityList.random()!!): CustomItem {
+        val toBuyMap = from.filter { it.settings.quality() == rarity }
+
+
+        if(toBuyMap.isNotEmpty()) {
+            val toBuy = toBuyMap.random()
+            from.remove(toBuy)
+            return toBuy
+        }
+
+        return ItemsController.get("small_heal_potion")!!
     }
 
     private fun isValidWeapon(item: CustomItem, players: Map<Player, PlayerData>): Boolean {

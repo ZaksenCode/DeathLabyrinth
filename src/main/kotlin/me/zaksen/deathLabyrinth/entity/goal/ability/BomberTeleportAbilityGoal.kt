@@ -9,7 +9,7 @@ import org.bukkit.Location
 import org.bukkit.entity.EntityType
 import kotlin.random.Random
 
-class BomberTeleportAbilityGoal(mob: Mob): AbilityGoal(mob, 20) {
+class BomberTeleportAbilityGoal(mob: Mob): AbilityGoal(mob, 16) {
 
     private var returning = false
     private var returningSec = 0

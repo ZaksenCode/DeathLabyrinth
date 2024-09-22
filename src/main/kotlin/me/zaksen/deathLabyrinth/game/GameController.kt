@@ -1,6 +1,7 @@
 package me.zaksen.deathLabyrinth.game
 
 import me.zaksen.deathLabyrinth.artifacts.api.ArtifactRarity
+import me.zaksen.deathLabyrinth.artifacts.api.ArtifactsStates
 import me.zaksen.deathLabyrinth.config.ConfigContainer
 import me.zaksen.deathLabyrinth.data.PlayerData
 import me.zaksen.deathLabyrinth.entity.trader.TraderType
@@ -62,6 +63,7 @@ object GameController {
         players.clear()
         RoomController.clearGeneration()
         TradeController.reload()
+        ArtifactsStates.cache.clear()
 
         fillEntrace()
 
@@ -279,17 +281,21 @@ object GameController {
     fun generateTradeOffers(traderType: TraderType): List<TradeOffer> {
         val result: MutableList<TradeOffer> = mutableListOf()
 
-        TradeController.getOffersSnap(players.size * 2, traderType).forEach {
-            result.add(it)
+        when(traderType) {
+            TraderType.NORMAL -> {
+                TradeController.getOffersSnap(players.size * 2, traderType).forEach {
+                    result.add(it)
+                }
+
+                val healPotion = ItemsController.get("heal_potion")!!
+
+                result.add(TradeOffer(
+                    players.size,
+                    healPotion.settings.tradePriceStrategy().scale(healPotion.settings.tradePrice()),
+                    healPotion.asItemStack()
+                ))
+            }
         }
-
-        val healPotion = ItemsController.get("heal_potion")!!
-
-        result.add(TradeOffer(
-            players.size,
-            healPotion.settings.tradePriceStrategy().scale(healPotion.settings.tradePrice()),
-            healPotion.asItemStack()
-        ))
 
         return result
     }
