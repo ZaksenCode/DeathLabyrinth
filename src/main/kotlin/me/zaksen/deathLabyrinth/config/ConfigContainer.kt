@@ -5,6 +5,5 @@ interface ConfigContainer {
     fun reloadConfigs()
 
     fun mainConfig(): MainConfig
-    fun langConfig(): LangConfig
     fun generationConfig(): GenerationConfig
 }

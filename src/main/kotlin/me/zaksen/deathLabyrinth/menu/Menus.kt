@@ -9,11 +9,12 @@ import me.zaksen.deathLabyrinth.item.ItemsController
 import me.zaksen.deathLabyrinth.menu.item.ArtifactItem
 import me.zaksen.deathLabyrinth.menu.item.ShopItem
 import me.zaksen.deathLabyrinth.menu.item.TabItem
+import me.zaksen.deathLabyrinth.menu.item.util.NextPageItem
+import me.zaksen.deathLabyrinth.menu.item.util.PreviousPageItem
 import me.zaksen.deathLabyrinth.trading.TradeOffer
-import me.zaksen.deathLabyrinth.util.ChatUtil
-import me.zaksen.deathLabyrinth.util.asText
-import me.zaksen.deathLabyrinth.util.toWrapper
+import me.zaksen.deathLabyrinth.util.*
 import net.kyori.adventure.key.Key
+import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
@@ -47,7 +48,9 @@ object Menus {
             .addIngredient('#', SimpleItem(ItemBuilder(Material.GRAY_STAINED_GLASS_PANE)))
             .addIngredient('M', object: AbstractItem(){
                 override fun getItemProvider(): ItemProvider {
-                    return ItemBuilder(Material.EXPERIENCE_BOTTLE).setDisplayName("<blue>Маг</blue>".toWrapper())
+                    return ItemBuilder(Material.EXPERIENCE_BOTTLE).setDisplayName(
+                        "class.mage.name".asTranslate().color(TextColor.color(30,144,255)).toWrapper()
+                    )
                 }
 
                 override fun handleClick(cilck: ClickType, player: Player, event: InventoryClickEvent) {
@@ -56,7 +59,9 @@ object Menus {
                     if(playerData != null) {
                         playerData.playerClass = MageClass()
 
-                        ChatUtil.broadcast("<green>{player} выбрал класс</green> <blue>мага!</blue>", Pair("{player}", player.name))
+                        "text.game.choice_class".asTranslate(player.name(), playerData.playerClass!!.getClassName())
+                            .color(TextColor.color(50,205,50))
+                            .broadcast()
                         player.closeInventory()
                         GameController.checkClasses()
                     }
@@ -64,7 +69,9 @@ object Menus {
             })
             .addIngredient('W', object: AbstractItem(){
                 override fun getItemProvider(): ItemProvider {
-                    return ItemBuilder(Material.IRON_SWORD).setDisplayName("<red>Воин</red>".toWrapper())
+                    return ItemBuilder(Material.IRON_SWORD).setDisplayName(
+                        "class.warrior.name".asTranslate().color(TextColor.color(220,20,60)).toWrapper()
+                    )
                 }
 
                 override fun handleClick(cilck: ClickType, player: Player, event: InventoryClickEvent) {
@@ -72,7 +79,9 @@ object Menus {
                     if(playerData != null) {
                         playerData.playerClass = WarriorClass()
 
-                        ChatUtil.broadcast("<green>{player} выбрал класс</green> <red>война!</red>", Pair("{player}", player.name))
+                        "text.game.choice_class".asTranslate(player.name(), playerData.playerClass!!.getClassName())
+                            .color(TextColor.color(50,205,50))
+                            .broadcast()
                         player.closeInventory()
                         GameController.checkClasses()
                     }
@@ -82,7 +91,7 @@ object Menus {
 
         val window: Window = Window.single()
             .setViewer(player)
-            .setTitle(configs.langConfig().classChoiceMenuTitle.toWrapper())
+            .setTitle("ui.class_choice.title".asTranslate().toWrapper())
             .setGui(gui)
             .build()
 
@@ -102,40 +111,21 @@ object Menus {
                 ". < . . . . . > ."
             )
             .addIngredient('X', Markers.CONTENT_LIST_SLOT_HORIZONTAL)
-            .addIngredient('<', object: PageItem(false) {
-                override fun getItemProvider(gui: PagedGui<*>): ItemProvider {
-                    val builder = ItemBuilder(Material.RED_STAINED_GLASS_PANE)
-                    builder.setDisplayName("<green>Предыдущая страница</green>".toWrapper()).addLoreLines(
-                        if (gui.hasPreviousPage())
-                            "Перейти на страницу: " + gui.currentPage + "/" + gui.pageAmount
-                        else "Больше нет страниц"
-                    )
-                    return builder
-                }
-            })
-            .addIngredient('>', object: PageItem(true) {
-                override fun getItemProvider(gui: PagedGui<*>): ItemProvider {
-                    val builder = ItemBuilder(Material.GREEN_STAINED_GLASS_PANE)
-                    builder.setDisplayName("<green>Следующая страница</green>".toWrapper()).addLoreLines(
-                        if (gui.hasNextPage())
-                            "Перейти на страницу: " + (gui.currentPage + 2) + "/" + gui.pageAmount
-                        else "Больше нет страниц"
-                    )
-                    return builder
-                }
-            })
+            .addIngredient('<', PreviousPageItem())
+            .addIngredient('>', NextPageItem())
             .setContent(items)
             .build()
 
         val window: Window = Window.single()
             .setViewer(player)
-            .setTitle(configs.langConfig().itemsMenuTitle.toWrapper())
+            .setTitle("ui.item_tab.title".asTranslate().toWrapper())
             .setGui(gui)
             .build()
 
         window.open()
     }
 
+    // FIXME - Menu name (texture) didn't work
     fun traderMenu(player: Player, tradeOffers: List<TradeOffer>) {
         val items = tradeOffers.map {
             ShopItem(it)
@@ -149,50 +139,21 @@ object Menus {
             )
             .addIngredient('#', SimpleItem(ItemBuilder(Material.GRAY_STAINED_GLASS_PANE).setDisplayName("")))
             .addIngredient('T', Markers.CONTENT_LIST_SLOT_HORIZONTAL)
-            .addIngredient('<', object: PageItem(false) {
-                override fun getItemProvider(gui: PagedGui<*>): ItemProvider {
-                    val builder = ItemBuilder(Material.PAPER)
-                    builder.setDisplayName("<green>Предыдущая страница</green>".toWrapper())
-
-                    if(gui.hasPreviousPage()) {
-                        builder.setCustomModelData(250)
-                        builder.addLoreLines("Перейти на страницу: " + gui.currentPage + "/" + gui.pageAmount)
-                    } else {
-                        builder.setCustomModelData(251)
-                        builder.addLoreLines("Вы на первой странице")
-                    }
-
-                    return builder
-                }
-            })
-            .addIngredient('>', object: PageItem(true) {
-                override fun getItemProvider(gui: PagedGui<*>): ItemProvider {
-                    val builder = ItemBuilder(Material.PAPER)
-                    builder.setDisplayName("<green>Следующая страница</green>".toWrapper())
-
-                    if(gui.hasNextPage()) {
-                        builder.setCustomModelData(252)
-                        builder.addLoreLines("Перейти на страницу: " + (gui.currentPage + 2) + "/" + gui.pageAmount)
-                    } else {
-                        builder.setCustomModelData(253)
-                        builder.addLoreLines("Вы на последней странице")
-                    }
-
-                    return builder
-                }
-            })
+            .addIngredient('<', PreviousPageItem())
+            .addIngredient('>', NextPageItem())
             .setContent(items)
             .build()
 
         val window: Window = Window.single()
             .setViewer(player)
-            .setTitle(configs.langConfig().traderMenuTitle.toWrapper())
+            .setTitle("ui.trader_menu.title".asTranslate().color(TextColor.color(255, 255, 255)).toWrapper())
             .setGui(gui)
             .build()
 
         window.open()
     }
 
+    // FIXME - Menu name (texture) didn't work
     fun artifactsMenu(player: Player, artifacts: List<Artifact>) {
         val items = artifacts.map {
             ArtifactItem(it)
@@ -208,44 +169,14 @@ object Menus {
                 ". < . . . . . > ."
             )
             .addIngredient('T', Markers.CONTENT_LIST_SLOT_HORIZONTAL)
-            .addIngredient('<', object: PageItem(false) {
-                override fun getItemProvider(gui: PagedGui<*>): ItemProvider {
-                    val builder = ItemBuilder(Material.PAPER)
-                    builder.setDisplayName("<green>Предыдущая страница</green>".toWrapper())
-
-                    if(gui.hasPreviousPage()) {
-                        builder.setCustomModelData(250)
-                        builder.addLoreLines("Перейти на страницу: " + gui.currentPage + "/" + gui.pageAmount)
-                    } else {
-                        builder.setCustomModelData(251)
-                        builder.addLoreLines("Вы на первой странице")
-                    }
-
-                    return builder
-                }
-            })
-            .addIngredient('>', object: PageItem(true) {
-                override fun getItemProvider(gui: PagedGui<*>): ItemProvider {
-                    val builder = ItemBuilder(Material.PAPER)
-                    builder.setDisplayName("<green>Следующая страница</green>".toWrapper())
-
-                    if(gui.hasNextPage()) {
-                        builder.setCustomModelData(252)
-                        builder.addLoreLines("Перейти на страницу: " + (gui.currentPage + 2) + "/" + gui.pageAmount)
-                    } else {
-                        builder.setCustomModelData(253)
-                        builder.addLoreLines("Вы на последней странице")
-                    }
-
-                    return builder
-                }
-            })
+            .addIngredient('<', PreviousPageItem())
+            .addIngredient('>', NextPageItem())
             .setContent(items)
             .build()
 
         val window: Window = Window.single()
             .setViewer(player)
-            .setTitle(configs.langConfig().artifactsMenuTitle.toWrapper())
+            .setTitle("ui.artifacts_menu.title".asTranslate().color(TextColor.color(255, 255, 255)).toWrapper())
             .setGui(gui)
             .build()
 

@@ -3,7 +3,8 @@ package me.zaksen.deathLabyrinth.command
 import me.zaksen.deathLabyrinth.config.ConfigContainer
 import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.game.room.RoomController
-import me.zaksen.deathLabyrinth.util.ChatUtil.message
+import me.zaksen.deathLabyrinth.util.asTranslate
+import net.kyori.adventure.text.format.TextColor
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabExecutor
@@ -39,7 +40,7 @@ class GameReloadCommand(private val configs: ConfigContainer, private val roomsD
             }
         }
 
-        sender.message(configs.langConfig().reloadSuccessText)
+        sender.sendMessage("text.game.success_reload".asTranslate().color(TextColor.color(50,205,50)))
 
         return true
     }

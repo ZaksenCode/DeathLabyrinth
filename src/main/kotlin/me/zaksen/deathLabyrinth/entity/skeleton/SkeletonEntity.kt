@@ -18,13 +18,13 @@ import net.minecraft.world.item.Items
 import org.bukkit.Location
 import org.bukkit.craftbukkit.CraftWorld
 
-class SkeletonEntity(location: Location): Skeleton(EntityType.SKELETON, (location.getWorld() as CraftWorld).handle),
+class SkeletonEntity(location: Location): Skeleton(EntityType.SKELETON, (location.world as CraftWorld).handle),
     Scaleable {
 
     init {
         this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = defaultMaxHealth
         this.health = defaultMaxHealth.toFloat()
-        this.customName = Component.literal("Скелет").withColor(TextColor.color(124, 242, 81).value())
+        this.customName = Component.translatable("entity.skeleton.name").withColor(TextColor.color(124, 242, 81).value())
         this.isCustomNameVisible = true
 
         this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.23

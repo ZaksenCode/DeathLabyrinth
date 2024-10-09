@@ -1,10 +1,11 @@
 package me.zaksen.deathLabyrinth.artifacts.api
 
 import me.zaksen.deathLabyrinth.artifacts.ability.AbilityContainer
+import net.kyori.adventure.text.Component
 import org.bukkit.event.Event
 import org.bukkit.inventory.ItemStack
 
-abstract class Artifact(val name: String, val rarity: ArtifactRarity) {
+abstract class Artifact(val name: Component, val rarity: ArtifactRarity) {
     var count = 1
     val abilityContainer = AbilityContainer()
 
@@ -14,7 +15,6 @@ abstract class Artifact(val name: String, val rarity: ArtifactRarity) {
 
     abstract fun asItemStack(): ItemStack
 
-    // Maybe not good idea checking by name
     override fun equals(other: Any?): Boolean {
         if(other !is Artifact) {
             return false

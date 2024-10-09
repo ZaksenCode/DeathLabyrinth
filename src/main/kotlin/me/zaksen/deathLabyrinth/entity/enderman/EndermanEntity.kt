@@ -23,7 +23,7 @@ class EndermanEntity(location:Location): EnderMan(EntityType.ENDERMAN, (location
     init {
         this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = defaultMaxHealth
         this.health = defaultMaxHealth.toFloat()
-        this.customName = Component.literal("Странник края").withColor(TextColor.color(124, 242, 81).value())
+        this.customName = Component.translatable("entity.enderman.name").withColor(TextColor.color(124, 242, 81).value())
         this.isCustomNameVisible = true
 
         this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.23

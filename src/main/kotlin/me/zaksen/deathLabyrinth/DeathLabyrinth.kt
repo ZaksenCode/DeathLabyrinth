@@ -12,12 +12,10 @@ import me.zaksen.deathLabyrinth.util.LaserManager
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 
-// TODO - Удалить Singleton и переделать на обычных классах
 class DeathLabyrinth : JavaPlugin(), ConfigContainer {
 
     private val roomDirectory = File(dataFolder, "rooms")
     private lateinit var mainConfig: MainConfig
-    private lateinit var langConfig: LangConfig
     private lateinit var generationConfig: GenerationConfig
 
     override fun onEnable() {
@@ -66,16 +64,11 @@ class DeathLabyrinth : JavaPlugin(), ConfigContainer {
 
     override fun reloadConfigs() {
         mainConfig = loadConfig(dataFolder, "main-config.yml")
-        langConfig = loadConfig(dataFolder, "lang-config.yml")
         generationConfig = loadConfig(dataFolder, "generation-config.yml")
     }
 
     override fun mainConfig(): MainConfig {
         return mainConfig
-    }
-
-    override fun langConfig(): LangConfig {
-        return langConfig
     }
 
     override fun generationConfig(): GenerationConfig {

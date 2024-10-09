@@ -3,16 +3,19 @@ package me.zaksen.deathLabyrinth.classes
 import me.zaksen.deathLabyrinth.data.PlayerData
 import me.zaksen.deathLabyrinth.item.ItemsController
 import me.zaksen.deathLabyrinth.item.weapon.WeaponType
+import me.zaksen.deathLabyrinth.util.asTranslate
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.TextColor
 import org.bukkit.entity.Player
 
 class MageClass : PlayerClass {
 
-    override fun getClassName(): String {
-        return "<blue>Маг</blue>"
+    override fun getClassName(): Component {
+        return "class.mage.name".asTranslate().color(TextColor.color(30,144,255))
     }
 
     override fun availableWeapons(): Set<WeaponType> {
-        return setOf(WeaponType.ATTACK_STUFF, WeaponType.MISC_STUFF)
+        return setOf(WeaponType.ATTACK_STAFF, WeaponType.MISC_STAFF)
     }
 
     override fun launchSetup(player: Player, playerData: PlayerData) {

@@ -22,7 +22,7 @@ class BigMouseEntity(location: Location): Silverfish(EntityType.SILVERFISH, (loc
     init {
         this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = defaultMaxHealth
         this.health = defaultMaxHealth.toFloat()
-        this.customName = Component.literal("Большая мышь").withColor(TextColor.color(124, 242, 81).value())
+        this.customName = Component.translatable("entity.big_mouse.name").withColor(TextColor.color(124, 242, 81).value())
         this.isCustomNameVisible = true
 
         this.getAttribute(Attributes.SCALE)?.baseValue = 1.5

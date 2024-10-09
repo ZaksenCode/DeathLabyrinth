@@ -19,7 +19,7 @@ class PiggyBankEntity(location: Location): Pig(EntityType.PIG, (location.getWorl
     init {
         this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = 2.0
         this.health = 2.0f
-        this.customName = Component.literal("Свинья-копилка").withColor(TextColor.color(124, 242, 81).value())
+        this.customName = Component.translatable("entity.piggy_bank.name").withColor(TextColor.color(124, 242, 81).value())
         this.isCustomNameVisible = true
         this.getAttribute(Attributes.SCALE)?.baseValue = 0.7
 

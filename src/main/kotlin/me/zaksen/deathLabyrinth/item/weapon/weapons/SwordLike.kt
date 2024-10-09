@@ -6,6 +6,8 @@ import me.zaksen.deathLabyrinth.item.weapon.WeaponType
 import me.zaksen.deathLabyrinth.keys.PluginKeys
 import me.zaksen.deathLabyrinth.util.*
 import net.kyori.adventure.key.Key
+import net.kyori.adventure.text.format.TextColor
+import net.kyori.adventure.text.format.TextDecoration
 import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeModifier
 import org.bukkit.inventory.EquipmentSlotGroup
@@ -19,7 +21,8 @@ open class SwordLike(weaponType: WeaponType, id: String, settings: ItemSettings)
             .customModel(settings.customModel())
             .name(settings.displayName())
             .loreLine(settings.quality().visualText.asText().font(Key.key("dl:icons")))
-            .loreLine("<dark_purple>Тип:</dark_purple> <light_purple>${getWeaponType().displayName}</light_purple>".asText())
+            .loreLine("item.lore.weapon.type".asTranslate(getWeaponType().displayName).color(TextColor.color(128, 0, 128)).decoration(
+                TextDecoration.ITALIC, false))
             .loreMap(settings.lore())
 
         val meta = stack.itemMeta

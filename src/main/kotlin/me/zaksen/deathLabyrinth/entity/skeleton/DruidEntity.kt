@@ -18,12 +18,12 @@ import net.minecraft.world.item.Items
 import org.bukkit.Location
 import org.bukkit.craftbukkit.CraftWorld
 
-class DruidEntity(location: Location): Stray(EntityType.STRAY, (location.getWorld() as CraftWorld).handle), Scaleable {
+class DruidEntity(location: Location): Stray(EntityType.STRAY, (location.world as CraftWorld).handle), Scaleable {
 
     init {
         this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = defaultMaxHealth
         this.health = defaultMaxHealth.toFloat()
-        this.customName = Component.literal("Друид").withColor(TextColor.color(124, 242, 81).value())
+        this.customName = Component.translatable("entity.druid.name").withColor(TextColor.color(124, 242, 81).value())
         this.isCustomNameVisible = true
 
         this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.23

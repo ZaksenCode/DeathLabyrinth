@@ -28,7 +28,7 @@ class VindicatorTwoEntity(location: Location): Vindicator(EntityType.VINDICATOR,
         this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = defaultMaxHealth
         this.health = defaultMaxHealth.toFloat()
 
-        this.customName = Component.literal("Поборник").withColor(TextColor.color(124, 242, 81).value())
+        this.customName = Component.translatable("entity.vindicator_two.name").withColor(TextColor.color(124, 242, 81).value())
         this.isCustomNameVisible = true
 
         this.setItemSlot(EquipmentSlot.OFFHAND, ItemStack(Items.IRON_AXE))

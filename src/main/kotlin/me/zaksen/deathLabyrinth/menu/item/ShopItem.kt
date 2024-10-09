@@ -3,8 +3,10 @@ package me.zaksen.deathLabyrinth.menu.item
 import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.trading.TradeOffer
 import me.zaksen.deathLabyrinth.util.asText
+import me.zaksen.deathLabyrinth.util.asTranslate
 import me.zaksen.deathLabyrinth.util.toWrapper
 import net.kyori.adventure.key.Key
+import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
@@ -20,7 +22,7 @@ class ShopItem(private val offer: TradeOffer): AbstractItem() {
             if(offer.buy) {
                 ItemBuilder(offer.stack).setLore(offer.stack.lore()!!.map{ it.toWrapper() }).addLoreLines(
                     "<white>\uE000${offer.price}</white>".asText().font(Key.key("dl:icons")).toWrapper(),
-                    "<gold>В наличии: ${offer.count}</gold>".toWrapper()
+                    "ui.shop.item_count".asTranslate(offer.count.toString().asText()).color(TextColor.color(255,165,0)).toWrapper()
                 )
             } else {
                 ItemBuilder(offer.stack).setLore(offer.stack.lore()!!.map{ it.toWrapper() }).addLoreLines(
@@ -30,10 +32,14 @@ class ShopItem(private val offer: TradeOffer): AbstractItem() {
         } else {
             if(offer.buy) {
                 ItemBuilder(Material.BARRIER).setDisplayName(offer.stack.itemMeta.itemName().toWrapper())
-                    .addLoreLines("<red>Нет в наличии</red>".toWrapper())
+                    .addLoreLines(
+                        "ui.shop.item_count.empty.buy".asTranslate().color(TextColor.color(220,20,60)).toWrapper()
+                    )
             } else {
                 ItemBuilder(Material.BARRIER).setDisplayName(offer.stack.itemMeta.itemName().toWrapper())
-                    .addLoreLines("<red>Больше не принимается</red>".toWrapper())
+                    .addLoreLines(
+                        "ui.shop.item_count.empty.sell".asTranslate().color(TextColor.color(220,20,60)).toWrapper()
+                    )
             }
         }
     }

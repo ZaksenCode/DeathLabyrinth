@@ -180,6 +180,10 @@ object RoomController {
             return
         }
 
+        if(actualQueryRoom != null && actualQueryRoom!!.roomConfig.roomType == RoomType.BOSS) {
+            startBossArtifactsChain()
+        }
+
         val queryRoom: Room = generationQuery.first()
         generationQuery.remove(queryRoom)
         actualQueryRoom = queryRoom
@@ -347,7 +351,18 @@ object RoomController {
         EventManager.callEntityCloneSpawnEvent(entity.level().world, newEntity, requireKill)
     }
 
-    fun startBossArtifactsChain() {
-        
+    private fun startBossArtifactsChain() {
+        if(actualQueryRoom == null) {
+            return
+        }
+
+        ArtifactsController.startArtifactsChain(
+            Location(
+                Bukkit.getWorld(configs.mainConfig().world),
+                nextRoomX.toDouble() - actualQueryRoom!!.roomConfig.bossArtifactsSpawnOffset.x,
+                nextRoomY.toDouble() - actualQueryRoom!!.roomConfig.bossArtifactsSpawnOffset.y,
+                nextRoomZ.toDouble() - actualQueryRoom!!.roomConfig.bossArtifactsSpawnOffset.z
+            )
+        )
     }
 }

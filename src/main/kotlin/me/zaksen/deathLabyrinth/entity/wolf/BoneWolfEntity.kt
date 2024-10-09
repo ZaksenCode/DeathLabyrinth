@@ -20,7 +20,7 @@ class BoneWolfEntity(location: Location): Wolf(EntityType.WOLF, (location.getWor
     init {
         this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = defaultMaxHealth
         this.health = defaultMaxHealth.toFloat()
-        this.customName = Component.literal("Волк").withColor(TextColor.color(124, 242, 81).value())
+        this.customName = Component.translatable("entity.wolf.name").withColor(TextColor.color(124, 242, 81).value())
         this.isCustomNameVisible = true
         this.getAttribute(Attributes.ATTACK_DAMAGE)?.baseValue = defaultAttackDamage
         this.setPos(location.x, location.y, location.z)

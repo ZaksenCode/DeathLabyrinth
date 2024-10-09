@@ -20,7 +20,7 @@ class BigBoneWolfEntity(location: Location): Wolf(EntityType.WOLF, (location.get
     init {
         this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = defaultMaxHealth
         this.health = defaultMaxHealth.toFloat()
-        this.customName = Component.literal("Большой волк").withColor(TextColor.color(124, 242, 81).value())
+        this.customName = Component.translatable("entity.big_wolf.name").withColor(TextColor.color(124, 242, 81).value())
         this.isCustomNameVisible = true
         this.getAttribute(Attributes.SCALE)?.baseValue = 1.5
         this.getAttribute(Attributes.ATTACK_DAMAGE)?.baseValue = defaultAttackDamage

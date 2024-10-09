@@ -31,5 +31,7 @@ data class RoomConfig(
     @SerialName("pot_spawns")
     val potSpawns: List<Position> = listOf(
         Position("world", 16.0, 3.0, 16.0)
-    )
+    ),
+    @SerialName("boss_artifacts_offset")
+    val bossArtifactsSpawnOffset: Position = Position("world", 24.0, 24.0, 24.0),
 )

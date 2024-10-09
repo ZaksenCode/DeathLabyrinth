@@ -22,7 +22,7 @@ class BigRavagerEntity(location: Location): Ravager(EntityType.RAVAGER, (locatio
     init {
         this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = defaultMaxHealth
         this.health = defaultMaxHealth.toFloat()
-        this.customName = Component.literal("Разоритель").withColor(TextColor.color(124, 242, 81).value())
+        this.customName = Component.translatable("entity.big_ravager.name").withColor(TextColor.color(124, 242, 81).value())
         this.isCustomNameVisible = true
 
         this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.22

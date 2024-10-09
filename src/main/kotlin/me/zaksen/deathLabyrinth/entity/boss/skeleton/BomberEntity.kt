@@ -32,7 +32,7 @@ class BomberEntity(location: Location): Skeleton(EntityType.SKELETON, (location.
         this.getAttribute(Attributes.SCALE)?.baseValue = 1.5
         this.health = defaultMaxHealth.toFloat()
 
-        this.customName = Component.literal("Подрывник").withColor(TextColor.color(124, 242, 81).value())
+        this.customName = Component.translatable("entity.bomber.name").withColor(TextColor.color(124, 242, 81).value())
         this.isCustomNameVisible = true
 
         this.setItemSlot(EquipmentSlot.MAINHAND, ItemStack(Items.TNT))

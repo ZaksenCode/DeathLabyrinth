@@ -1,7 +1,8 @@
 package me.zaksen.deathLabyrinth.command
 
 import me.zaksen.deathLabyrinth.entity.EntityController
-import me.zaksen.deathLabyrinth.util.ChatUtil.message
+import me.zaksen.deathLabyrinth.util.asTranslate
+import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Location
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -41,11 +42,11 @@ class CustomSummonCommand: TabExecutor {
                         val world = (sender.world as CraftWorld).handle
                         world.tryAddFreshEntityWithPassengers(entity)
                     } else {
-                        sender.message("<red>Указанная сущность не существует!")
+                        sender.sendMessage("text.command.custom_summon.entity_not_found".asTranslate().color(TextColor.color(240,128,128)))
                     }
                 }
             } catch (_: IndexOutOfBoundsException) {
-                sender.message("<red>Укажите имя сущности!")
+                sender.sendMessage("text.command.custom_summon.entity_not_specified".asTranslate().color(TextColor.color(240,128,128)))
             }
         }
 

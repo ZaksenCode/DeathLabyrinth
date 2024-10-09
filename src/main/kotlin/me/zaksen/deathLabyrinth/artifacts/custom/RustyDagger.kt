@@ -5,15 +5,16 @@ import me.zaksen.deathLabyrinth.artifacts.api.Artifact
 import me.zaksen.deathLabyrinth.artifacts.api.ArtifactRarity
 import me.zaksen.deathLabyrinth.artifacts.api.ArtifactsStates
 import me.zaksen.deathLabyrinth.event.custom.game.PlayerDamageEntityEvent
-import me.zaksen.deathLabyrinth.util.asText
-import me.zaksen.deathLabyrinth.util.customModel
-import me.zaksen.deathLabyrinth.util.loreLine
-import me.zaksen.deathLabyrinth.util.name
+import me.zaksen.deathLabyrinth.util.*
+import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Material
 import org.bukkit.event.Event
 import org.bukkit.inventory.ItemStack
 
-class RustyDagger: Artifact("Ржавый клинок", ArtifactRarity.RARE) {
+class RustyDagger: Artifact(
+    "artifact.rusty_dagger.name".asTranslate().color(TextColor.color(50,205,50)),
+    ArtifactRarity.RARE
+) {
 
     init {
         abilityContainer.add(object: Ability {
@@ -44,7 +45,9 @@ class RustyDagger: Artifact("Ржавый клинок", ArtifactRarity.RARE) {
     override fun asItemStack(): ItemStack {
         return ItemStack(Material.APPLE)
             .customModel(103)
-            .name("<green>$name</green>".asText())
-            .loreLine("<gray>Увеличивает урон каждого третьего удара в ближнем бою на <gold>${1 + (0.5 * count)}x</gold>".asText())
+            .name(name)
+            .loreLine("artifact.rusty_dagger.lore.0".asTranslate(
+                "${1 + (0.5 * count)}x".asText().color(TextColor.color(255,165,0))
+            ))
     }
 }

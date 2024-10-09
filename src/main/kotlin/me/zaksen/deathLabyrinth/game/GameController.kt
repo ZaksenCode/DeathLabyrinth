@@ -1,6 +1,5 @@
 package me.zaksen.deathLabyrinth.game
 
-import me.zaksen.deathLabyrinth.artifacts.api.ArtifactRarity
 import me.zaksen.deathLabyrinth.artifacts.api.ArtifactsStates
 import me.zaksen.deathLabyrinth.config.ConfigContainer
 import me.zaksen.deathLabyrinth.data.PlayerData
@@ -13,7 +12,6 @@ import me.zaksen.deathLabyrinth.keys.PluginKeys.speedModifierKey
 import me.zaksen.deathLabyrinth.menu.Menus
 import me.zaksen.deathLabyrinth.trading.TradeOffer
 import me.zaksen.deathLabyrinth.util.*
-import me.zaksen.deathLabyrinth.util.ChatUtil.title
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
@@ -125,7 +123,9 @@ object GameController {
         player.teleport(locationOf(configs.mainConfig().playerSpawnLocation))
 
         player.inventory.clear()
-        player.inventory.setItem(4, ItemStack(Material.PAPER).name(configs.langConfig().notReady.asText()).customModel(200))
+        player.inventory.setItem(4, ItemStack(Material.PAPER).name(
+            "item.not_ready.name".asTranslate().color(TextColor.color(240,128,128))
+        ).customModel(200))
     }
 
     fun leave(player: Player) {
@@ -141,12 +141,12 @@ object GameController {
 
             if(playerData.isReady) {
                 player.inventory.setItemInMainHand(ItemStack(Material.PAPER).customModel(201).name(
-                    configs.langConfig().ready.asText()
+                    "item.ready.name".asTranslate().color(TextColor.color(50,205,50))
                 ))
                 startGameCooldown()
             } else {
                 player.inventory.setItemInMainHand(ItemStack(Material.PAPER).customModel(200).name(
-                    configs.langConfig().notReady.asText()
+                    "item.not_ready.name".asTranslate().color(TextColor.color(240,128,128))
                 ))
                 stopGameCooldown()
             }
@@ -167,7 +167,7 @@ object GameController {
                         startCooldownTask = null
                         startCooldownTime = 5
                     } else {
-                        ChatUtil.broadcastTitle(configs.langConfig().gameStartingTitle, "", Pair("{time}", startCooldownTime.toString()))
+                        "ui.game.starting".asTranslate(startCooldownTime.toString().asText()).color(TextColor.color(50,205,50)).broadcastTitle()
                     }
 
                     startCooldownTime--
@@ -184,7 +184,7 @@ object GameController {
             startCooldownTask = null
             startCooldownTime = 5
 
-            ChatUtil.broadcastTitle(configs.langConfig().gameStartingStopTitle)
+            "ui.game.starting.stopped".asTranslate().color(TextColor.color(220,20,60)).broadcastTitle()
         }
     }
 
@@ -205,7 +205,7 @@ object GameController {
 
         hudController.initDrawingTask()
 
-        ChatUtil.broadcast(configs.langConfig().gameStartingCloseClassMenu)
+        "text.game.close_class_menu".asTranslate().color(TextColor.color(32,178,170)).broadcast()
         players.forEach {
             it.key.inventory.clear()
             Menus.classChoice(it.key)
@@ -240,14 +240,14 @@ object GameController {
     fun endGameWin() {
         status = GameStatus.GAME_END
 
-        ChatUtil.broadcastTitle("<green>Вы выиграли!<green>")
+        "ui.game.win".asTranslate().color(TextColor.color(50,205,50)).broadcastTitle()
         reload()
     }
 
     private fun endGameLose() {
         status = GameStatus.GAME_END
 
-        ChatUtil.broadcastTitle("<red>Игра окончена!<red>")
+        "ui.game.lose".asTranslate().color(TextColor.color(220,20,60)).broadcastTitle()
         reload()
     }
 
@@ -255,7 +255,7 @@ object GameController {
         val playerData = players[player]
 
         player.gameMode = GameMode.SPECTATOR
-        player.title("<red>Вы умерли!</red>")
+        player.title("ui.game.death".asTranslate().color(TextColor.color(220,20,60)))
 
         if(playerData != null) {
             players[player]!!.isAlive = false

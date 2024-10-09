@@ -5,19 +5,25 @@ import me.zaksen.deathLabyrinth.item.ItemQuality
 import me.zaksen.deathLabyrinth.item.settings.ItemSettings
 import me.zaksen.deathLabyrinth.item.weapon.WeaponItem
 import me.zaksen.deathLabyrinth.item.weapon.WeaponType
-import me.zaksen.deathLabyrinth.util.ChatUtil
+import me.zaksen.deathLabyrinth.util.asTranslate
+import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Material
 import org.bukkit.Particle
+import org.bukkit.attribute.Attribute
 import org.bukkit.event.entity.EntityRegainHealthEvent
 import org.bukkit.event.player.PlayerInteractEvent
 
-class HealStuff(id: String): WeaponItem(
-    WeaponType.MISC_STUFF,
+class HealingStaff(id: String): WeaponItem(
+    WeaponType.MISC_STAFF,
     id,
     ItemSettings(Material.STICK)
         .customModel(100)
-        .displayName(ChatUtil.format("<green>Посох исцеления</green>"))
+        .displayName("item.healing_staff.name".asTranslate().color(TextColor.color(50,205,50)))
         .abilityCooldown(30000)
+        .lore(mutableListOf(
+            "item.healing_staff.lore.0".asTranslate().color(TextColor.color(128, 0, 128)),
+            "item.healing_staff.lore.1".asTranslate().color(TextColor.color(65,105,225))
+        ))
         .quality(ItemQuality.RARE)
         .tradePrice(100)
         .addAviableTrader(TraderType.NORMAL)
@@ -27,7 +33,10 @@ class HealStuff(id: String): WeaponItem(
         val item = event.item!!
 
         if(checkAndUpdateCooldown(item)) {
-            event.player.heal(6.0, EntityRegainHealthEvent.RegainReason.MAGIC)
+            val maxHealth = event.player.getAttribute(Attribute.GENERIC_MAX_HEALTH)!!.baseValue
+            val toHeal = maxHealth * 0.15
+
+            event.player.heal(toHeal, EntityRegainHealthEvent.RegainReason.MAGIC)
 
             event.player.world.spawnParticle(
                 Particle.TOTEM_OF_UNDYING,

@@ -27,7 +27,7 @@ class PillagerEntity(location: Location): Pillager(EntityType.PILLAGER, (locatio
         this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.25
         this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = defaultMaxHealth
         this.health = defaultMaxHealth.toFloat()
-        this.customName = Component.literal("Разбойник").withColor(TextColor.color(124, 242, 81).value())
+        this.customName = Component.translatable("entity.pillager.name").withColor(TextColor.color(124, 242, 81).value())
         this.isCustomNameVisible = true
 
         this.setItemSlot(EquipmentSlot.OFFHAND, ItemStack(Items.CROSSBOW))

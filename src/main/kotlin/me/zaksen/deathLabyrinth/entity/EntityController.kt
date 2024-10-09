@@ -5,6 +5,7 @@ import me.zaksen.deathLabyrinth.entity.creeper.SizzleEntity
 import me.zaksen.deathLabyrinth.entity.enderman.EndermanEntity
 import me.zaksen.deathLabyrinth.entity.enderman.SpeedyEndermanEntity
 import me.zaksen.deathLabyrinth.entity.enderman.StrongEndermanEntity
+import me.zaksen.deathLabyrinth.entity.final_boss.warden.AncientEntity
 import me.zaksen.deathLabyrinth.entity.husk.DeceasedEntity
 import me.zaksen.deathLabyrinth.entity.iron_golem.BigIronGolemEntity
 import me.zaksen.deathLabyrinth.entity.iron_golem.IronGolemEntity
@@ -65,5 +66,6 @@ object EntityController {
         entities["bomber_boss"] = BomberEntity::class.java
 
         // Final bosses
+        entities["ancient_final_boss"] = AncientEntity::class.java
     }
 }

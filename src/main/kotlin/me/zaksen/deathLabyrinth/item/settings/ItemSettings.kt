@@ -20,6 +20,9 @@ open class ItemSettings(val material: Material) {
     private var hitRange: Double = 0.0
     private var quality: ItemQuality = ItemQuality.COMMON
 
+    private var defence: Double = 0.0
+    private var thoroughness: Double = 0.0
+
     private var tradePrice: Int = 0
     private var tradeItems: MutableSet<ItemStack> = mutableSetOf()
     private var tradePriceStrategy: PricingStrategy = PricingStrategies.DEFAULT.strategy
@@ -105,6 +108,18 @@ open class ItemSettings(val material: Material) {
         return this
     }
 
+    fun defence(value: Double): ItemSettings {
+        this.defence = value
+        return this
+    }
+
+    fun thoroughness(value: Double): ItemSettings {
+        this.thoroughness = value
+        return this
+    }
+
+    // Getters
+
     fun customModel(): Int {
         return customModelData
     }
@@ -155,5 +170,13 @@ open class ItemSettings(val material: Material) {
 
     fun aviableFromTraders(): MutableSet<TraderType> {
         return aviableFromTraders
+    }
+
+    fun defence(): Double {
+        return defence
+    }
+
+    fun thoroughness(): Double {
+        return thoroughness
     }
 }

@@ -22,7 +22,7 @@ class IronGolemEntity(location: Location): IronGolem(EntityType.IRON_GOLEM, (loc
     init {
         this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = defaultMaxHealth
         this.health = defaultMaxHealth.toFloat()
-        this.customName = Component.literal("Голем").withColor(TextColor.color(124, 242, 81).value())
+        this.customName = Component.translatable("entity.iron_golem.name").withColor(TextColor.color(124, 242, 81).value())
         this.isCustomNameVisible = true
 
         this.getAttribute(Attributes.SCALE)?.baseValue = 0.7

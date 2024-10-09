@@ -158,7 +158,6 @@ class GameEvents(private val config: MainConfig): Listener {
         }
     }
 
-    // FIXME - Didn't work
     @EventHandler
     fun preventExplosion(event: BlockExplodeEvent) {
         event.blockList().clear()

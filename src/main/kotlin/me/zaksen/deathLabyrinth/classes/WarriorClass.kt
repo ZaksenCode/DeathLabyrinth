@@ -4,13 +4,16 @@ import me.zaksen.deathLabyrinth.artifacts.custom.GreenHeart
 import me.zaksen.deathLabyrinth.data.PlayerData
 import me.zaksen.deathLabyrinth.item.ItemsController
 import me.zaksen.deathLabyrinth.item.weapon.WeaponType
+import me.zaksen.deathLabyrinth.util.asTranslate
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.TextColor
 import org.bukkit.entity.Player
 import org.bukkit.inventory.EquipmentSlot
 
 class WarriorClass : PlayerClass {
 
-    override fun getClassName(): String {
-        return "<red>Воин</red>"
+    override fun getClassName(): Component {
+        return "class.warrior.name".asTranslate().color(TextColor.color(220,20,60))
     }
 
     override fun availableWeapons(): Set<WeaponType> {

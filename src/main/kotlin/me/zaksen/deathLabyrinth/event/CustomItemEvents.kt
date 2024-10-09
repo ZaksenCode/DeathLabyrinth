@@ -5,7 +5,8 @@ import me.zaksen.deathLabyrinth.item.ItemType
 import me.zaksen.deathLabyrinth.item.ItemsController
 import me.zaksen.deathLabyrinth.item.weapon.WeaponItem
 import me.zaksen.deathLabyrinth.keys.PluginKeys
-import me.zaksen.deathLabyrinth.util.ChatUtil.actionBar
+import me.zaksen.deathLabyrinth.util.asTranslate
+import net.kyori.adventure.text.format.TextColor
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -30,7 +31,7 @@ class CustomItemEvents: Listener {
                     val playerData = GameController.players[damager]
 
                     if(playerData?.playerClass != null && !playerData.playerClass!!.availableWeapons().contains(customWeapon.getWeaponType())) {
-                        damager.actionBar("<red>Вы не можете пользоваться данным предметом!</red>")
+                        damager.sendActionBar("ui.item.wrong_class".asTranslate().color(TextColor.color(220,20,60)))
                         event.isCancelled = true
                         return
                     }
@@ -52,7 +53,7 @@ class CustomItemEvents: Listener {
                 val playerData = GameController.players[event.player]
 
                 if(playerData?.playerClass != null && !playerData.playerClass!!.availableWeapons().contains(customWeapon.getWeaponType())) {
-                    event.player.actionBar("<red>Вы не можете пользоваться данным предметом!</red>")
+                    event.player.sendActionBar("ui.item.wrong_class".asTranslate().color(TextColor.color(220,20,60)))
                     event.isCancelled = true
                     return
                 }

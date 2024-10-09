@@ -1,7 +1,8 @@
 package me.zaksen.deathLabyrinth.command
 
 import me.zaksen.deathLabyrinth.game.room.RoomController
-import me.zaksen.deathLabyrinth.util.ChatUtil.message
+import me.zaksen.deathLabyrinth.util.asTranslate
+import net.kyori.adventure.text.format.TextColor
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabExecutor
@@ -46,12 +47,12 @@ class BuildRoomCommand: TabExecutor {
                     if (room != null) {
                         RoomController.buildRoom(room, sender.x.toInt(), sender.y.toInt(), sender.z.toInt(), true, numOfPots, numOfPots)
                     } else {
-                        sender.message("<red>Комната не найдена!</red>")
+                        sender.sendMessage("text.game.room_not_found".asTranslate().color(TextColor.color(220,20,60)))
                     }
                 } catch (_: IndexOutOfBoundsException) {
-                    sender.message("<red>Укажите имя комнаты и количество горшков</red>")
+                    sender.sendMessage("text.game.select_pots_num".asTranslate().color(TextColor.color(220,20,60)))
                 } catch (_: NumberFormatException) {
-                    sender.message("<red>Укажите количество горшков в виде числа</red>")
+                    sender.sendMessage("text.game.select_pots_not_num".asTranslate().color(TextColor.color(220,20,60)))
                 }
             }
         }

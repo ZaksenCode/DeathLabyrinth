@@ -86,6 +86,7 @@ object ArtifactsController {
         // EPIC
         artifacts["blood_lust"] = BloodLust::class.java
         artifacts["jewel"] = Jewel::class.java
+        artifacts["mirror_of_revenge"] = MirrorOfRevenge::class.java
 
         // GODLY
         artifacts["greediness"] = Greediness::class.java
@@ -115,10 +116,10 @@ object ArtifactsController {
         playerData.addArtifact(cardHolder.artifact)
     }
 
-    fun startArtifactsChain(location: Location, count: Int = 1) {
+    fun startArtifactsChain(location: Location, count: Int = 1, isGoodly: Boolean = false) {
         lastChainLocation = location
         remainingChains = count
-        processArtifactsChain()
+        processArtifactsChain(isGoodly)
     }
 
     fun processArtifactsChain(isGoodly: Boolean = false) {
@@ -134,6 +135,7 @@ object ArtifactsController {
                 if(isGoodly) getRandomArtifact(ArtifactRarity.GODLY)
                 else getRandomArtifact()
             )
+            println("Last chain location: ${lastChainLocation.x} ${lastChainLocation.y} ${lastChainLocation.z}")
             summonArtifactCard(
                 lastChainLocation.subtract(0.0, 1.0, 3.0),
                 if(isGoodly) getRandomArtifact(ArtifactRarity.GODLY)

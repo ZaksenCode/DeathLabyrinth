@@ -4,7 +4,8 @@ import me.zaksen.deathLabyrinth.config.ConfigContainer
 import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.game.GameStatus
 import me.zaksen.deathLabyrinth.menu.Menus
-import me.zaksen.deathLabyrinth.util.ChatUtil.message
+import me.zaksen.deathLabyrinth.util.asTranslate
+import net.kyori.adventure.text.format.TextColor
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -20,11 +21,11 @@ class ClassCommand(private val configs: ConfigContainer): CommandExecutor {
                 if(GameController.getStatus() == GameStatus.PRE_PROCESS) {
                     Menus.classChoice(sender)
                 } else {
-                    sender.message(configs.langConfig().classGameNotStarted)
+                    sender.sendMessage("text.game.not_started".asTranslate().color(TextColor.color(240,128,128)))
                 }
             } else {
                 val playerClass = playerData.playerClass!!
-                sender.message(configs.langConfig().classAlreadySelected, Pair("{class_name}", playerClass.getClassName()))
+                sender.sendMessage("text.game.not_started".asTranslate(playerClass.getClassName()).color(TextColor.color(50,205,50)))
             }
         }
 

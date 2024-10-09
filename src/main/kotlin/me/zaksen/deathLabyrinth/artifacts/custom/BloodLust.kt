@@ -3,26 +3,29 @@ package me.zaksen.deathLabyrinth.artifacts.custom
 import me.zaksen.deathLabyrinth.artifacts.api.Artifact
 import me.zaksen.deathLabyrinth.artifacts.api.ArtifactRarity
 import me.zaksen.deathLabyrinth.event.custom.game.PlayerDamageEntityEvent
-import me.zaksen.deathLabyrinth.util.asText
-import me.zaksen.deathLabyrinth.util.customModel
-import me.zaksen.deathLabyrinth.util.loreLine
-import me.zaksen.deathLabyrinth.util.name
+import me.zaksen.deathLabyrinth.util.*
+import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 
-class BloodLust: Artifact("Жажда крови", ArtifactRarity.EPIC) {
+class BloodLust: Artifact(
+    "artifact.blood_lust.name".asTranslate().color(TextColor.color(50,205,50)),
+    ArtifactRarity.EPIC
+) {
 
     init {
         abilityContainer.add {
             if(it !is PlayerDamageEntityEvent) return@add
-            it.damage += it.damage * (0.15 * count)
+            it.damage += it.damage * (0.2 * count)
         }
     }
 
     override fun asItemStack(): ItemStack {
         return ItemStack(Material.APPLE)
             .customModel(102)
-            .name("<green>$name</green>".asText())
-            .loreLine("<gray>Увеличивает урон ближнего боя на</gray> <gold>${15 * count}%</gold>".asText())
+            .name(name)
+            .loreLine("artifact.blood_lust.lore.0".asTranslate(
+                "${20 * count}%".asText().color(TextColor.color(255,165,0))
+            ))
     }
 }

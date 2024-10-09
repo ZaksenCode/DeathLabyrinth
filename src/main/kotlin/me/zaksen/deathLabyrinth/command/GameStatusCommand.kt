@@ -1,7 +1,8 @@
 package me.zaksen.deathLabyrinth.command
 
 import me.zaksen.deathLabyrinth.game.GameController
-import me.zaksen.deathLabyrinth.util.ChatUtil.message
+import me.zaksen.deathLabyrinth.util.asText
+import me.zaksen.deathLabyrinth.util.asTranslate
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -12,10 +13,11 @@ class GameStatusCommand: CommandExecutor {
             return true
         }
 
-        sender.message("Статус: {status}", Pair("{status}", GameController.getStatus().toString()))
-        sender.message("Игроки:")
+        sender.sendMessage("text.command.status.status".asTranslate(GameController.getStatus().toString().asText()))
+        sender.sendMessage("text.command.status.players".asTranslate())
+
         GameController.players.forEach {
-            sender.message(" {player}", Pair("{player}", it.key.name))
+            sender.sendMessage("text.command.status.player".asTranslate(it.key.name.asText()))
         }
 
         return true

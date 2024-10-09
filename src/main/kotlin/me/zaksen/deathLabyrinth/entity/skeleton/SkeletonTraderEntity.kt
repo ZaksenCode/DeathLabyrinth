@@ -30,7 +30,7 @@ class SkeletonTraderEntity(location: Location): Skeleton(EntityType.SKELETON, (l
     init {
         this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = 50.0
         this.health = 50.0f
-        this.customName = Component.literal("Скелет-торговец").withColor(TextColor.color(124, 242, 81).value())
+        this.customName = Component.translatable( "entity.skeleton_trader.name").withColor(TextColor.color(124, 242, 81).value())
         this.isCustomNameVisible = true
 
         this.setPos(location.x, location.y, location.z)

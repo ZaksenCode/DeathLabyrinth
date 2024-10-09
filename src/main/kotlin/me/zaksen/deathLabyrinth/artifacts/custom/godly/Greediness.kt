@@ -7,19 +7,23 @@ import me.zaksen.deathLabyrinth.event.custom.game.EntitySpawnEvent
 import me.zaksen.deathLabyrinth.event.custom.game.RoomCompleteEvent
 import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.util.*
+import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 
-class Greediness: Artifact("Алчность", ArtifactRarity.GODLY) {
+class Greediness: Artifact(
+    "artifact.greediness.name".asTranslate().color(TextColor.color(50,205,50)),
+    ArtifactRarity.GODLY
+) {
 
     init {
         abilityContainer.add {
             if(it !is RoomCompleteEvent) return@add
-            it.reward *= 1 * (count + 1)
+            it.reward *= 2 * count
         }
         abilityContainer.add {
             if(it !is EntitySpawnEvent) return@add
-            for(i in 1..<1 * (count + 1)) {
+            for(i in 1..<2 * count) {
                 val entity = it.entity
 
                 if(entity is Trader) {
@@ -34,7 +38,10 @@ class Greediness: Artifact("Алчность", ArtifactRarity.GODLY) {
     override fun asItemStack(): ItemStack {
         return ItemStack(Material.APPLE)
             .customModel(1000)
-            .name("<green>$name</green>".asText())
-            .loreLine("<gray>Вы получаете в <gold>${1 * (count + 1)}x <gray>больше золота за прохождение комнат, но в комнатах появляется в <gold>${1 * (count + 1)}x <gray>больше мобов".asText())
+            .name(name)
+            .loreLine("artifact.greediness.lore.0".asTranslate(
+                "${2 * count}x".asText().color(TextColor.color(255,165,0)),
+                "${2 * count}x".asText().color(TextColor.color(255,165,0))
+            ))
     }
 }

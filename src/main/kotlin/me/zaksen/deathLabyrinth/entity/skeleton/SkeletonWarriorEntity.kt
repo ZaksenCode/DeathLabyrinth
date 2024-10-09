@@ -24,7 +24,7 @@ class SkeletonWarriorEntity(location: Location): Skeleton(EntityType.SKELETON, (
     init {
         this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = defaultMaxHealth
         this.health = defaultMaxHealth.toFloat()
-        this.customName = Component.literal("Скелет-воин").withColor(TextColor.color(124, 242, 81).value())
+        this.customName = Component.translatable("entity.skeleton_warrior.name").withColor(TextColor.color(124, 242, 81).value())
         this.isCustomNameVisible = true
 
         this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.23

@@ -1,7 +1,8 @@
 package me.zaksen.deathLabyrinth.command
 
 import me.zaksen.deathLabyrinth.artifacts.ArtifactsController
-import me.zaksen.deathLabyrinth.util.ChatUtil.message
+import me.zaksen.deathLabyrinth.util.asTranslate
+import net.kyori.adventure.text.format.TextColor
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabExecutor
@@ -42,11 +43,13 @@ class SummonArtifactCommand: TabExecutor {
                         val artifact = artifactClass.getDeclaredConstructor().newInstance()
                         ArtifactsController.summonArtifactCard(sender.location, artifact)
                     } else {
-                        sender.message("<red>Указанный артефакт не существует!")
+                        sender.sendMessage("text.command.artifact_summon.artifact_not_found".asTranslate().color(
+                            TextColor.color(240,128,128)))
                     }
                 }
             } catch (_: IndexOutOfBoundsException) {
-                sender.message("<red>Укажите имя артефакта!")
+                sender.sendMessage("text.command.artifact_summon.artifact_not_specified".asTranslate().color(
+                    TextColor.color(240,128,128)))
             }
         }
 
