@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack
 
 class MirrorOfRevenge: Artifact(
     "artifact.mirror_of_revenge.name".asTranslate().color(TextColor.color(50,205,50)),
-    ArtifactRarity.EPIC
+    ArtifactRarity.RARE
 ) {
     init {
         abilityContainer.add {

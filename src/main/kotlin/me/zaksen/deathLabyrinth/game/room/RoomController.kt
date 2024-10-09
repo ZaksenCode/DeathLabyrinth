@@ -356,13 +356,14 @@ object RoomController {
             return
         }
 
-        ArtifactsController.startArtifactsChain(
-            Location(
-                Bukkit.getWorld(configs.mainConfig().world),
-                nextRoomX.toDouble() - actualQueryRoom!!.roomConfig.bossArtifactsSpawnOffset.x,
-                nextRoomY.toDouble() - actualQueryRoom!!.roomConfig.bossArtifactsSpawnOffset.y,
-                nextRoomZ.toDouble() - actualQueryRoom!!.roomConfig.bossArtifactsSpawnOffset.z
-            )
+        val spawnPos = Location(Bukkit.getWorld(configs.mainConfig().world),
+            nextRoomX.toDouble() - actualQueryRoom!!.roomConfig.bossArtifactsSpawnOffset.x,
+            nextRoomY.toDouble() + actualQueryRoom!!.roomConfig.bossArtifactsSpawnOffset.y,
+            nextRoomZ.toDouble() - actualQueryRoom!!.roomConfig.bossArtifactsSpawnOffset.z
         )
+
+        spawnPos.yaw = -90f
+
+        ArtifactsController.startArtifactsChain(spawnPos, 1, true)
     }
 }

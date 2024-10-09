@@ -125,7 +125,6 @@ object Menus {
         window.open()
     }
 
-    // FIXME - Menu name (texture) didn't work
     fun traderMenu(player: Player, tradeOffers: List<TradeOffer>) {
         val items = tradeOffers.map {
             ShopItem(it)
@@ -146,14 +145,13 @@ object Menus {
 
         val window: Window = Window.single()
             .setViewer(player)
-            .setTitle("ui.trader_menu.title".asTranslate().color(TextColor.color(255, 255, 255)).toWrapper())
+            .setTitle("ui.trader_menu.title".asTranslate().color(TextColor.color(255, 255, 255)).font(Key.key("dl:menus")).toWrapper())
             .setGui(gui)
             .build()
 
         window.open()
     }
 
-    // FIXME - Menu name (texture) didn't work
     fun artifactsMenu(player: Player, artifacts: List<Artifact>) {
         val items = artifacts.map {
             ArtifactItem(it)
@@ -176,7 +174,7 @@ object Menus {
 
         val window: Window = Window.single()
             .setViewer(player)
-            .setTitle("ui.artifacts_menu.title".asTranslate().color(TextColor.color(255, 255, 255)).toWrapper())
+            .setTitle("ui.artifacts_menu.title".asTranslate().color(TextColor.color(255, 255, 255)).font(Key.key("dl:menus")).toWrapper())
             .setGui(gui)
             .build()
 

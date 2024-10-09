@@ -9,6 +9,7 @@ import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 
+// FIXME - didn't damage in radius
 open class BaseHammer(id: String, settings: ItemSettings): SwordLike(WeaponType.HAMMER, id, settings) {
 
     override fun onHit(event: EntityDamageByEntityEvent) {

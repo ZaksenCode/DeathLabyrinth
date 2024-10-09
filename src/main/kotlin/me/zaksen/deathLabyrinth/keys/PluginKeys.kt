@@ -17,6 +17,7 @@ object PluginKeys {
     lateinit var customItemArmorToughnessKey: NamespacedKey
 
     lateinit var speedModifierKey: NamespacedKey
+    lateinit var maxHealthModifierKey: NamespacedKey
 
     fun setup(plugin: Plugin) {
         customItemKey = NamespacedKey(plugin, "custom_item_id")
@@ -31,5 +32,6 @@ object PluginKeys {
         customItemArmorToughnessKey = NamespacedKey(plugin, "custom_item_armor_toughness")
 
         speedModifierKey = NamespacedKey(plugin, "speed_modifier")
+        maxHealthModifierKey = NamespacedKey(plugin, "max_health_modifier")
     }
 }

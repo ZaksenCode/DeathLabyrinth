@@ -8,6 +8,7 @@ import me.zaksen.deathLabyrinth.event.custom.game.PlayerBreakPotEvent
 import me.zaksen.deathLabyrinth.game.hud.HudController
 import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.item.ItemsController
+import me.zaksen.deathLabyrinth.keys.PluginKeys.maxHealthModifierKey
 import me.zaksen.deathLabyrinth.keys.PluginKeys.speedModifierKey
 import me.zaksen.deathLabyrinth.menu.Menus
 import me.zaksen.deathLabyrinth.trading.TradeOffer
@@ -101,6 +102,7 @@ object GameController {
 
     private fun clearAttributeModifier(player: Player) {
         player.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.removeModifier(speedModifierKey)
+        player.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.removeModifier(maxHealthModifierKey)
     }
 
     private fun setupPlayer(player: Player) {
