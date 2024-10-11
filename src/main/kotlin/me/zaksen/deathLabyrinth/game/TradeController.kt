@@ -44,12 +44,13 @@ object TradeController {
         availableItems.clear()
     }
 
-    fun getOffersSnap(count: Int = 2, traderType: TraderType = TraderType.NORMAL): List<TradeOffer> {
+    fun getOffersSnap(count: Int = 2, traderType: TraderType = TraderType.NORMAL, isBuying: Boolean = true): List<TradeOffer> {
         return getTradesSpan(count, traderType).map {
             TradeOffer(
                 1,
                 it.settings.tradePriceStrategy().scale(it.settings.tradePrice()),
-                it.asItemStack()
+                it.asItemStack(),
+                isBuying
             )
         }
     }
@@ -99,6 +100,8 @@ object TradeController {
         return false
     }
 
+
+    // FIXME - Selling didn't work
     fun processTrade(player: Player, offer: TradeOffer) {
         val playerData = GameController.players[player] ?: return
 

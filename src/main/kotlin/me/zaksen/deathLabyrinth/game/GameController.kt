@@ -298,6 +298,12 @@ object GameController {
                 ))
             }
 
+            TraderType.ALCHEMIST -> {
+                TradeController.getOffersSnap(players.size * 2, traderType, false).forEach {
+                    result.add(it)
+                }
+            }
+
             else -> {
                 TradeController.getOffersSnap(players.size * 2, traderType).forEach {
                     result.add(it)

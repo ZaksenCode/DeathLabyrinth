@@ -6,6 +6,7 @@ import me.zaksen.deathLabyrinth.entity.enderman.EndermanEntity
 import me.zaksen.deathLabyrinth.entity.enderman.SpeedyEndermanEntity
 import me.zaksen.deathLabyrinth.entity.enderman.StrongEndermanEntity
 import me.zaksen.deathLabyrinth.entity.final_boss.warden.AncientEntity
+import me.zaksen.deathLabyrinth.entity.husk.AlchemistTraderEntity
 import me.zaksen.deathLabyrinth.entity.husk.DeceasedEntity
 import me.zaksen.deathLabyrinth.entity.iron_golem.BigIronGolemEntity
 import me.zaksen.deathLabyrinth.entity.iron_golem.IronGolemEntity
@@ -61,6 +62,7 @@ object EntityController {
         // Traders
         entities["skeleton_trader"] = SkeletonTraderEntity::class.java
         entities["zombie_trader"] = ZombieTraderEntity::class.java
+        entities["alchemist_trader"] = AlchemistTraderEntity::class.java
 
         // NPC
 
