@@ -18,6 +18,7 @@ import me.zaksen.deathLabyrinth.entity.silverfish.BigMouseEntity
 import me.zaksen.deathLabyrinth.entity.silverfish.MouseEntity
 import me.zaksen.deathLabyrinth.entity.skeleton.*
 import me.zaksen.deathLabyrinth.entity.teleport.BomberReturnPoint
+import me.zaksen.deathLabyrinth.entity.villager.VillagerTraderEntity
 import me.zaksen.deathLabyrinth.entity.vindicator.VindicatorOneEntity
 import me.zaksen.deathLabyrinth.entity.vindicator.VindicatorTwoEntity
 import me.zaksen.deathLabyrinth.entity.wolf.BigBoneWolfEntity
@@ -59,6 +60,7 @@ object EntityController {
 
         // Traders
         entities["skeleton_trader"] = SkeletonTraderEntity::class.java
+        entities["villager_trader"] = VillagerTraderEntity::class.java
 
         // NPC
 

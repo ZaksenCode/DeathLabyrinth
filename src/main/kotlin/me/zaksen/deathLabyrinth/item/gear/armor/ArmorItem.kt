@@ -6,6 +6,7 @@ import me.zaksen.deathLabyrinth.item.settings.ItemSettings
 import me.zaksen.deathLabyrinth.keys.PluginKeys
 import me.zaksen.deathLabyrinth.util.*
 import net.kyori.adventure.key.Key
+import org.bukkit.NamespacedKey
 import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeModifier
 import org.bukkit.inventory.EquipmentSlotGroup
@@ -36,23 +37,32 @@ open class ArmorItem(id: String, settings: ItemSettings): CustomItem(id, ItemTyp
     fun applyAttributes(meta: ItemMeta) {
         val name = settings.material.toString()
         val equipmentSlotGroup: EquipmentSlotGroup
+        val modifierKey: NamespacedKey
+        val modifierToughnessKey: NamespacedKey
 
         if(name.endsWith("HELMET")) {
             equipmentSlotGroup = EquipmentSlotGroup.HEAD
+            modifierKey = PluginKeys.armorHelmetModifierKey
+            modifierToughnessKey = PluginKeys.armorToughnessHelmetModifierKey
         } else if(name.endsWith("CHESTPLATE")) {
             equipmentSlotGroup = EquipmentSlotGroup.CHEST
+            modifierKey = PluginKeys.armorChestplateModifierKey
+            modifierToughnessKey = PluginKeys.armorToughnessChestplateModifierKey
         } else if(name.endsWith("LEGGINGS")) {
             equipmentSlotGroup = EquipmentSlotGroup.LEGS
+            modifierKey = PluginKeys.armorLeggingsModifierKey
+            modifierToughnessKey = PluginKeys.armorToughnessLeggingsModifierKey
         }else {
             equipmentSlotGroup = EquipmentSlotGroup.FEET
+            modifierKey = PluginKeys.armorBootsModifierKey
+            modifierToughnessKey = PluginKeys.armorToughnessBootsModifierKey
         }
 
-        // FIXME - Attributes didn't count. Applying only last item attributes
         meta.removeAttributeModifier(Attribute.GENERIC_ARMOR)
         if(settings.defence() != 0.0) {
             meta.addAttributeModifier(
                 Attribute.GENERIC_ARMOR, AttributeModifier(
-                    PluginKeys.customItemArmorKey,
+                    modifierKey,
                     settings.defence(),
                     AttributeModifier.Operation.ADD_NUMBER,
                     equipmentSlotGroup
@@ -64,7 +74,7 @@ open class ArmorItem(id: String, settings: ItemSettings): CustomItem(id, ItemTyp
         if(settings.thoroughness() != 0.0) {
             meta.addAttributeModifier(
                 Attribute.GENERIC_ARMOR_TOUGHNESS, AttributeModifier(
-                    PluginKeys.customItemArmorToughnessKey,
+                    modifierToughnessKey,
                     settings.thoroughness(),
                     AttributeModifier.Operation.ADD_NUMBER,
                     equipmentSlotGroup

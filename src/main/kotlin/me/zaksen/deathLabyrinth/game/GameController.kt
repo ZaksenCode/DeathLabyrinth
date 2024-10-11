@@ -297,6 +297,12 @@ object GameController {
                     healPotion.asItemStack()
                 ))
             }
+
+            else -> {
+                TradeController.getOffersSnap(players.size * 2, traderType).forEach {
+                    result.add(it)
+                }
+            }
         }
 
         return result

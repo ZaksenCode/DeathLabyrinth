@@ -211,7 +211,7 @@ object ItemsController {
             "shield",
             ItemType.MISC,
             ItemSettings(Material.SHIELD)
-                .displayName("Щит".asText())
+                .displayName("item.shield.name".asTranslate())
                 .tradePrice(90)
                 .addAviableTrader(TraderType.NORMAL)
         ))
@@ -236,23 +236,31 @@ object ItemsController {
         register("gunpowder", Gunpowder("gunpowder"))
 
         register("leather_helmet", ArmorItem("leather_helmet", ItemSettings(Material.LEATHER_HELMET)
-            .displayName("Кожаный шлем".asText())
+            .displayName("item.leather_helmet.name".asTranslate())
             .defence(1.0)
+            .tradePrice(25)
+            .addAviableTrader(TraderType.ARMOR)
         ))
 
         register("leather_chestplate", ArmorItem("leather_chestplate", ItemSettings(Material.LEATHER_CHESTPLATE)
-            .displayName("Кожаный шлем".asText())
+            .displayName("item.leather_chestplate.name".asTranslate())
             .defence(3.0)
+            .tradePrice(45)
+            .addAviableTrader(TraderType.ARMOR)
         ))
 
         register("leather_leggings", ArmorItem("leather_leggings", ItemSettings(Material.LEATHER_LEGGINGS)
-            .displayName("Кожаные поножи".asText())
+            .displayName("item.leather_leggings.name".asTranslate())
             .defence(2.0)
+            .tradePrice(35)
+            .addAviableTrader(TraderType.ARMOR)
         ))
 
         register("leather_boots", ArmorItem("leather_boots", ItemSettings(Material.LEATHER_BOOTS)
-            .displayName("Кожаные ботинки".asText())
+            .displayName("item.leather_boots.name".asTranslate())
             .defence(1.0)
+            .tradePrice(25)
+            .addAviableTrader(TraderType.ARMOR)
         ))
 
         loadPotLoot()
