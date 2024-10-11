@@ -1,4 +1,4 @@
-package me.zaksen.deathLabyrinth.entity.villager
+package me.zaksen.deathLabyrinth.entity.zombie
 
 import me.zaksen.deathLabyrinth.entity.trader.Trader
 import me.zaksen.deathLabyrinth.entity.trader.TraderType
@@ -15,12 +15,12 @@ import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal
-import net.minecraft.world.entity.npc.Villager
+import net.minecraft.world.entity.monster.Zombie
 import net.minecraft.world.entity.player.Player
 import org.bukkit.Location
 import org.bukkit.craftbukkit.CraftWorld
 
-class VillagerTraderEntity(location: Location): Villager(EntityType.VILLAGER, (location.world as CraftWorld).handle),
+class ZombieTraderEntity(location: Location): Zombie(EntityType.ZOMBIE, (location.world as CraftWorld).handle),
     Trader {
 
     private var tradeOffers: List<TradeOffer> = listOf()
@@ -29,7 +29,7 @@ class VillagerTraderEntity(location: Location): Villager(EntityType.VILLAGER, (l
     init {
         this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = 50.0
         this.health = 50.0f
-        this.customName = Component.translatable( "entity.villager_trader.name").withColor(TextColor.color(124, 242, 81).value())
+        this.customName = Component.translatable( "entity.zombie_trader.name").withColor(TextColor.color(124, 242, 81).value())
         this.isCustomNameVisible = true
 
         this.setPos(location.x, location.y, location.z)
