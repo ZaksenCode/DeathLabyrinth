@@ -22,6 +22,7 @@ open class ItemSettings(val material: Material) {
 
     private var defence: Double = 0.0
     private var thoroughness: Double = 0.0
+    private var knockbackResistance: Double = 0.0
 
     private var tradePrice: Int = 0
     private var tradeItems: MutableSet<ItemStack> = mutableSetOf()
@@ -118,6 +119,11 @@ open class ItemSettings(val material: Material) {
         return this
     }
 
+    fun knockbackResistance(value: Double): ItemSettings {
+        this.knockbackResistance = value
+        return this
+    }
+
     // Getters
 
     fun customModel(): Int {
@@ -178,5 +184,9 @@ open class ItemSettings(val material: Material) {
 
     fun thoroughness(): Double {
         return thoroughness
+    }
+
+    fun knockbackResistance(): Double {
+        return knockbackResistance
     }
 }

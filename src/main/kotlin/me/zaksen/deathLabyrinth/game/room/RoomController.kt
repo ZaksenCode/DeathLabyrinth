@@ -351,6 +351,7 @@ object RoomController {
         EventManager.callEntityCloneSpawnEvent(entity.level().world, newEntity, requireKill)
     }
 
+    // FIXME - Spawn location outside room (Probably add an option in the room config)
     private fun startBossArtifactsChain() {
         if(actualQueryRoom == null) {
             return

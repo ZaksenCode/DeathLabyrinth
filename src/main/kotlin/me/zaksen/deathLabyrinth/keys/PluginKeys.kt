@@ -16,6 +16,7 @@ object PluginKeys {
     lateinit var speedModifierKey: NamespacedKey
     lateinit var maxHealthModifierKey: NamespacedKey
 
+    // ARMOR
     lateinit var armorHelmetModifierKey: NamespacedKey
     lateinit var armorChestplateModifierKey: NamespacedKey
     lateinit var armorLeggingsModifierKey: NamespacedKey
@@ -25,6 +26,11 @@ object PluginKeys {
     lateinit var armorToughnessChestplateModifierKey: NamespacedKey
     lateinit var armorToughnessLeggingsModifierKey: NamespacedKey
     lateinit var armorToughnessBootsModifierKey: NamespacedKey
+
+    lateinit var armorKnockbackHelmetModifierKey: NamespacedKey
+    lateinit var armorKnockbackChestplateModifierKey: NamespacedKey
+    lateinit var armorKnockbackLeggingsModifierKey: NamespacedKey
+    lateinit var armorKnockbackBootsModifierKey: NamespacedKey
 
     fun setup(plugin: Plugin) {
         customItemKey = NamespacedKey(plugin, "custom_item_id")
@@ -47,5 +53,10 @@ object PluginKeys {
         armorToughnessChestplateModifierKey = NamespacedKey(plugin, "armor_chestplate_toughness_modifier")
         armorToughnessLeggingsModifierKey = NamespacedKey(plugin, "armor_leggings_toughness_modifier")
         armorToughnessBootsModifierKey = NamespacedKey(plugin, "armor_boots_toughness_modifier")
+
+        armorKnockbackHelmetModifierKey = NamespacedKey(plugin, "armor_helmet_knockback_modifier")
+        armorKnockbackChestplateModifierKey = NamespacedKey(plugin, "armor_chestplate_knockback_modifier")
+        armorKnockbackLeggingsModifierKey = NamespacedKey(plugin, "armor_leggings_knockback_modifier")
+        armorKnockbackBootsModifierKey = NamespacedKey(plugin, "armor_boots_knockback_modifier")
     }
 }

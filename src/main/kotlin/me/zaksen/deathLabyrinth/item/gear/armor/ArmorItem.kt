@@ -39,23 +39,28 @@ open class ArmorItem(id: String, settings: ItemSettings): CustomItem(id, ItemTyp
         val equipmentSlotGroup: EquipmentSlotGroup
         val modifierKey: NamespacedKey
         val modifierToughnessKey: NamespacedKey
+        val modifierKnockbackKey: NamespacedKey
 
         if(name.endsWith("HELMET")) {
             equipmentSlotGroup = EquipmentSlotGroup.HEAD
             modifierKey = PluginKeys.armorHelmetModifierKey
             modifierToughnessKey = PluginKeys.armorToughnessHelmetModifierKey
+            modifierKnockbackKey = PluginKeys.armorKnockbackHelmetModifierKey
         } else if(name.endsWith("CHESTPLATE")) {
             equipmentSlotGroup = EquipmentSlotGroup.CHEST
             modifierKey = PluginKeys.armorChestplateModifierKey
             modifierToughnessKey = PluginKeys.armorToughnessChestplateModifierKey
+            modifierKnockbackKey = PluginKeys.armorKnockbackChestplateModifierKey
         } else if(name.endsWith("LEGGINGS")) {
             equipmentSlotGroup = EquipmentSlotGroup.LEGS
             modifierKey = PluginKeys.armorLeggingsModifierKey
             modifierToughnessKey = PluginKeys.armorToughnessLeggingsModifierKey
+            modifierKnockbackKey = PluginKeys.armorKnockbackLeggingsModifierKey
         }else {
             equipmentSlotGroup = EquipmentSlotGroup.FEET
             modifierKey = PluginKeys.armorBootsModifierKey
             modifierToughnessKey = PluginKeys.armorToughnessBootsModifierKey
+            modifierKnockbackKey = PluginKeys.armorKnockbackBootsModifierKey
         }
 
         meta.removeAttributeModifier(Attribute.GENERIC_ARMOR)
@@ -81,5 +86,21 @@ open class ArmorItem(id: String, settings: ItemSettings): CustomItem(id, ItemTyp
                 )
             )
         }
+
+        meta.removeAttributeModifier(Attribute.GENERIC_KNOCKBACK_RESISTANCE)
+        if(settings.knockbackResistance() != 0.0) {
+            meta.addAttributeModifier(
+                Attribute.GENERIC_KNOCKBACK_RESISTANCE, AttributeModifier(
+                    modifierKnockbackKey,
+                    settings.knockbackResistance(),
+                    AttributeModifier.Operation.ADD_NUMBER,
+                    equipmentSlotGroup
+                )
+            )
+        }
+
+        applyOtherAttributes(meta)
     }
+
+    open fun applyOtherAttributes(meta: ItemMeta) { }
 }
