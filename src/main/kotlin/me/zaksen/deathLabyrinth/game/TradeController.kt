@@ -100,8 +100,6 @@ object TradeController {
         return false
     }
 
-
-    // FIXME - Selling didn't work
     fun processTrade(player: Player, offer: TradeOffer) {
         val playerData = GameController.players[player] ?: return
 

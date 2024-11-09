@@ -4,9 +4,13 @@ import me.zaksen.deathLabyrinth.config.MainConfig
 import me.zaksen.deathLabyrinth.entity.friendly.FriendlyEntity
 import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.game.GameStatus
+import org.bukkit.Bukkit
 import org.bukkit.Material
+import org.bukkit.craftbukkit.entity.CraftEntity
+import org.bukkit.entity.Entity
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
+import org.bukkit.entity.Projectile
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
@@ -82,9 +86,33 @@ class GameEvents(private val config: MainConfig): Listener {
     @EventHandler
     fun processPlayerDamage(event: EntityDamageByEntityEvent) {
         val damager = event.damager
+        var projectile_owner: Entity? = null
 
-        if(damager is FriendlyEntity && event.entity is Player) {
-            event.isCancelled = true
+        if(damager is Projectile) {
+            projectile_owner = Bukkit.getEntity(damager.ownerUniqueId!!)
+
+            if(projectile_owner == null) {
+                return
+            }
+
+            if((projectile_owner as CraftEntity).handle is FriendlyEntity) {
+                if(event.entity is Player) {
+                    event.isCancelled = true
+                }
+                else {
+                    EventManager.callFriendlyEntityDamageEventProjectile(event)
+                }
+                return
+            }
+        }
+
+        if((damager as CraftEntity).handle is FriendlyEntity) {
+            if(event.entity is Player) {
+                event.isCancelled = true
+            }
+            else {
+                EventManager.callFriendlyEntityDamageEvent(event)
+            }
             return
         }
 

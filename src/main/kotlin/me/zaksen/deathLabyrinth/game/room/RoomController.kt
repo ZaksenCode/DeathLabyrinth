@@ -27,6 +27,8 @@ import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.World
 import org.bukkit.craftbukkit.entity.CraftEntity
+import org.bukkit.entity.LivingEntity
+import org.bukkit.entity.Player
 import java.io.File
 import java.io.FileInputStream
 import kotlin.random.Random
@@ -349,6 +351,13 @@ object RoomController {
             entity.level().world, entity.x, entity.y, entity.z
         ))
         EventManager.callEntityCloneSpawnEvent(entity.level().world, newEntity, requireKill)
+    }
+
+    fun spawnFriendlyEntityClone(player: Player, entity: Entity) {
+        val newEntity = entity::class.java.getDeclaredConstructor(Location::class.java).newInstance(Location(
+            entity.level().world, entity.x, entity.y, entity.z
+        ))
+        EventManager.callPlayerSummonFriendlyEntityCloneEvent(player, newEntity as net.minecraft.world.entity.LivingEntity)
     }
 
     // FIXME - Spawn location outside room (Probably add an option in the room config)

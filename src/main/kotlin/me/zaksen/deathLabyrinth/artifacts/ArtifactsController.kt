@@ -83,10 +83,12 @@ object ArtifactsController {
         // RARE
         artifacts["rusty_dagger"] = RustyDagger::class.java
         artifacts["mirror_of_revenge"] = MirrorOfRevenge::class.java
+        artifacts["token"] = Token::class.java
 
         // EPIC
         artifacts["blood_lust"] = BloodLust::class.java
         artifacts["jewel"] = Jewel::class.java
+        artifacts["mossy_skull"] = MossySkull::class.java
 
         // GODLY
         artifacts["greediness"] = Greediness::class.java

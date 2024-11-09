@@ -22,14 +22,14 @@ import org.bukkit.Location
 import org.bukkit.craftbukkit.CraftWorld
 
 class FriendlySkeletonArcherEntity(location: Location):
-    Skeleton(EntityType.SKELETON, (location.getWorld() as CraftWorld).handle), FriendlyEntity {
+    Skeleton(EntityType.SKELETON, (location.world as CraftWorld).handle), FriendlyEntity {
 
     private var despawnTime = 60 * 20
 
     init {
         this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = 30.0
         this.health = 30.0f
-        this.customName = Component.translatable("entity.friendly_sekeleton.name").withColor(TextColor.color(124, 242, 81).value())
+        this.customName = Component.translatable("entity.friendly_skeleton.name").withColor(TextColor.color(124, 242, 81).value())
         this.isCustomNameVisible = true
 
         this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.25

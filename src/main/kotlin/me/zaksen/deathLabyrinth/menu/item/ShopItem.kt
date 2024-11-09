@@ -15,7 +15,6 @@ import xyz.xenondevs.invui.item.ItemProvider
 import xyz.xenondevs.invui.item.builder.ItemBuilder
 import xyz.xenondevs.invui.item.impl.AbstractItem
 
-// FIXME - Selling didn't work
 class ShopItem(private val offer: TradeOffer): AbstractItem() {
 
     override fun getItemProvider(): ItemProvider {

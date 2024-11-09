@@ -9,19 +9,19 @@ import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.game.TradeController
 import me.zaksen.deathLabyrinth.game.room.Room
 import me.zaksen.deathLabyrinth.game.room.RoomController
-import me.zaksen.deathLabyrinth.item.ItemsController
 import me.zaksen.deathLabyrinth.trading.TradeOffer
 import me.zaksen.deathLabyrinth.util.tryAddEntity
 import net.minecraft.world.entity.Entity
+import org.bukkit.Bukkit
 import org.bukkit.World
 import org.bukkit.block.Block
 import org.bukkit.craftbukkit.entity.CraftLivingEntity
 import org.bukkit.craftbukkit.entity.CraftPlayer
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
+import org.bukkit.entity.Projectile
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.inventory.ItemStack
-
 
 object EventManager {
 
@@ -83,6 +83,41 @@ object EventManager {
         }
     }
 
+    fun callFriendlyEntityDamageEvent(event: EntityDamageByEntityEvent) {
+        val coolEvent = FriendlyEntityDamageEntityEvent(event.damager as LivingEntity, event.entity as LivingEntity, event.damage)
+        coolEvent.callEvent()
+        GameController.processAnyEvent(coolEvent)
+        if (!coolEvent.isCancelled) {
+            event.damage = coolEvent.damage
+            GameController.processEntityHit(coolEvent.entity)
+        } else {
+            event.isCancelled = true
+        }
+    }
+
+    fun callFriendlyEntityDamageEventProjectile(event: EntityDamageByEntityEvent) {
+        val damager = event.damager
+        var projectile_owner: org.bukkit.entity.Entity?
+
+        if(damager is Projectile) {
+            projectile_owner = Bukkit.getEntity(damager.ownerUniqueId!!)
+
+            if(projectile_owner == null) {
+                return
+            }
+
+            val coolEvent = FriendlyEntityDamageEntityEvent(projectile_owner as LivingEntity, event.entity as LivingEntity, event.damage)
+            coolEvent.callEvent()
+            GameController.processAnyEvent(coolEvent)
+            if (!coolEvent.isCancelled) {
+                event.damage = coolEvent.damage
+                GameController.processEntityHit(coolEvent.entity)
+            } else {
+                event.isCancelled = true
+            }
+        }
+    }
+
     fun callRoomCompleteEvent(player: Player, roomNumber: Int, room: Room, reward: Int) {
         val coolEvent = RoomCompleteEvent(player, roomNumber, room, reward)
         coolEvent.callEvent()
@@ -117,6 +152,15 @@ object EventManager {
 
     fun callPlayerSummonFriendlyEntityEvent(player: Player, entity: net.minecraft.world.entity.LivingEntity) {
         val coolEvent = PlayerSummonFriendlyEntityEvent(player, entity)
+        coolEvent.callEvent()
+        GameController.processAnyEvent(coolEvent)
+        if(!coolEvent.isCancelled) {
+            coolEvent.player.world.tryAddEntity(entity)
+        }
+    }
+
+    fun callPlayerSummonFriendlyEntityCloneEvent(player: Player, entity: net.minecraft.world.entity.LivingEntity) {
+        val coolEvent = FriendlyEntityCloneSummonEvent(player, entity)
         coolEvent.callEvent()
         GameController.processAnyEvent(coolEvent)
         if(!coolEvent.isCancelled) {
