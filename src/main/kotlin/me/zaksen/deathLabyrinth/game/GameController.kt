@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.game
 
+import me.zaksen.deathLabyrinth.artifacts.ArtifactsController
 import me.zaksen.deathLabyrinth.artifacts.api.ArtifactsStates
 import me.zaksen.deathLabyrinth.config.ConfigContainer
 import me.zaksen.deathLabyrinth.data.PlayerData
@@ -60,6 +61,7 @@ object GameController {
         hudController.stopDrawingTask()
         hudController.clearDrawers()
         players.clear()
+        ArtifactsController.despawnArtifacts()
         RoomController.clearGeneration()
         TradeController.reload()
         ArtifactsStates.cache.clear()

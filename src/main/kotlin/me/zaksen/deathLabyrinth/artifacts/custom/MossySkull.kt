@@ -25,7 +25,7 @@ class MossySkull: Artifact(
         }
         abilityContainer.add {
             if(it !is FriendlyEntityDamageEntityEvent) return@add
-            it.damage *= 1 + (0.5 * count)
+            it.damage *= 1 + (1 * count)
         }
     }
 
@@ -35,7 +35,7 @@ class MossySkull: Artifact(
             .name(name)
             .loreLine("artifact.mossy_skull.lore.0".asTranslate(
                 "${1 + (1 * count)}x".asText().color(TextColor.color(255,165,0)),
-                "${1 + (0.5 * count)}x".asText().color(TextColor.color(255,165,0))
+                "${1 + (1 * count)}x".asText().color(TextColor.color(255,165,0))
             ))
     }
 
