@@ -12,7 +12,7 @@ class ArtifactsCardIcon(location: Location, artifact: Artifact): ItemDisplay(Ent
     init {
         this.itemStack = CraftItemStack.asNMSCopy(artifact.asItemStack())
 
-        this.absRotateTo(location.yaw, 0f)
+        this.absRotateTo(location.yaw + 180f, 0f)
         this.setPos(location.x, location.y, location.z)
     }
 
