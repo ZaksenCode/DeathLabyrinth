@@ -4,7 +4,7 @@ import me.zaksen.deathLabyrinth.artifacts.api.Artifact
 import me.zaksen.deathLabyrinth.artifacts.api.ArtifactRarity
 import me.zaksen.deathLabyrinth.entity.trader.Trader
 import me.zaksen.deathLabyrinth.event.custom.game.EntitySpawnEvent
-import me.zaksen.deathLabyrinth.event.custom.game.RoomCompleteEvent
+import me.zaksen.deathLabyrinth.event.custom.game.PlayerRoomCompleteEvent
 import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.util.*
 import net.kyori.adventure.text.format.TextColor
@@ -18,7 +18,7 @@ class Greediness: Artifact(
 
     init {
         abilityContainer.add {
-            if(it !is RoomCompleteEvent) return@add
+            if(it !is PlayerRoomCompleteEvent) return@add
             it.reward *= 2 * count
         }
         abilityContainer.add {

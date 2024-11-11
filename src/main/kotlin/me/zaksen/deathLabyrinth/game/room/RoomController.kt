@@ -29,6 +29,8 @@ import org.bukkit.World
 import org.bukkit.craftbukkit.entity.CraftEntity
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
+import org.bukkit.potion.PotionEffect
+import org.bukkit.potion.PotionEffectType
 import java.io.File
 import java.io.FileInputStream
 import kotlin.random.Random
@@ -127,15 +129,16 @@ object RoomController {
     private fun checkRoomCompletion() {
         if(actualRoomEntities.isEmpty()) {
             val reward = getRoomReward()
+
             GameController.players.filter { it.value.isAlive }.forEach {
-                EventManager.callRoomCompleteEvent(it.key, actualRoomNumber, actualQueryRoom!!, reward)
+                EventManager.callPlayerRoomCompleteEvent(it.key, actualRoomNumber, actualQueryRoom!!, reward)
             }
+
+            EventManager.callRoomCompleteEvent(GameController.players.filter { it.value.isAlive }.map { it.key }, actualRoomNumber, actualQueryRoom!!)
         }
     }
 
-    fun processRoomCompletion(reward: Int) {
-        grantRoomReward(reward)
-
+    fun processRoomCompletion() {
         roomCycleEntities.forEach {
             it.discard()
         }
@@ -161,12 +164,11 @@ object RoomController {
         generateAndUpdateQueryRoom()
     }
 
-    private fun grantRoomReward(reward: Int) {
-        GameController.players.forEach {
-            val data = it.value
-            data.money += reward
-            GameController.players[it.key] = data
-        }
+    // TODO - Change rewarding method.
+    fun grantRoomReward(player: Player, reward: Int) {
+        val data = GameController.players[player] ?: return
+        data.money += reward
+        GameController.players[player] = data
     }
 
     private fun getRoomReward(): Int {

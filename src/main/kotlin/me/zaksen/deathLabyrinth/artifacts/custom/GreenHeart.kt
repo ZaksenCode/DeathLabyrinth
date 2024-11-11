@@ -2,7 +2,7 @@ package me.zaksen.deathLabyrinth.artifacts.custom
 
 import me.zaksen.deathLabyrinth.artifacts.api.Artifact
 import me.zaksen.deathLabyrinth.artifacts.api.ArtifactRarity
-import me.zaksen.deathLabyrinth.event.custom.game.RoomCompleteEvent
+import me.zaksen.deathLabyrinth.event.custom.game.PlayerRoomCompleteEvent
 import me.zaksen.deathLabyrinth.util.*
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Material
@@ -16,7 +16,7 @@ class GreenHeart: Artifact(
 
     init {
         abilityContainer.add {
-            if(it !is RoomCompleteEvent) return@add
+            if(it !is PlayerRoomCompleteEvent) return@add
             it.player.heal(8.0 * count, EntityRegainHealthEvent.RegainReason.REGEN)
         }
     }

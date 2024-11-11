@@ -111,7 +111,7 @@ object ItemsController {
             "wooden_hammer",
             ItemSettings(Material.MACE).customModel(1000).damage(5.0).attackSpeed(-3.2).hitRange(0.5)
                 .displayName("item.wooden_hammer.name".asTranslate().color(TextColor.color(128, 128, 128)))
-                .lore(mutableListOf("item.wooden_hammer.lore.0".asTranslate()))
+                .lore(mutableListOf("item.wooden_hammer.lore.0".asTranslate().color(TextColor.color(128, 0, 128))))
                 .tradePrice(35)
                 .addAviableTrader(TraderType.NORMAL)
         ))
@@ -119,7 +119,7 @@ object ItemsController {
             "golden_hammer",
             ItemSettings(Material.MACE).customModel(1001).damage(7.0).attackSpeed(-3.0).hitRange(0.5)
                 .displayName("item.golden_hammer.name".asTranslate().color(TextColor.color(128, 128, 128)))
-                .lore(mutableListOf("item.golden_hammer.lore.0".asTranslate()))
+                .lore(mutableListOf("item.golden_hammer.lore.0".asTranslate().color(TextColor.color(128, 0, 128))))
                 .tradePrice(45)
                 .addAviableTrader(TraderType.NORMAL)
         ))
@@ -127,7 +127,7 @@ object ItemsController {
             "stone_hammer",
             ItemSettings(Material.MACE).customModel(1002).damage(10.0).attackSpeed(-3.2).hitRange(0.5)
                 .displayName("item.stone_hammer.name".asTranslate().color(TextColor.color(128, 128, 128)))
-                .lore(mutableListOf("item.stone_hammer.lore.0".asTranslate()))
+                .lore(mutableListOf("item.stone_hammer.lore.0".asTranslate().color(TextColor.color(128, 0, 128))))
                 .quality(ItemQuality.UNCOMMON)
                 .tradePrice(75)
                 .addAviableTrader(TraderType.NORMAL)
@@ -136,7 +136,7 @@ object ItemsController {
             "iron_hammer",
             ItemSettings(Material.MACE).customModel(1003).damage(13.0).attackSpeed(-3.2).hitRange(1.0)
                 .displayName("item.iron_hammer.name".asTranslate().color(TextColor.color(128, 128, 128)))
-                .lore(mutableListOf("item.iron_hammer.lore.0".asTranslate()))
+                .lore(mutableListOf("item.iron_hammer.lore.0".asTranslate().color(TextColor.color(128, 0, 128))))
                 .quality(ItemQuality.UNCOMMON)
                 .tradePrice(85)
                 .addAviableTrader(TraderType.NORMAL)
@@ -145,7 +145,7 @@ object ItemsController {
             "diamond_hammer",
             ItemSettings(Material.MACE).customModel(1004).damage(16.0).attackSpeed(-3.2).hitRange(1.0)
                 .displayName("item.diamond_hammer.name".asTranslate().color(TextColor.color(128, 128, 128)))
-                .lore(mutableListOf("item.diamond_hammer.lore.0".asTranslate()))
+                .lore(mutableListOf("item.diamond_hammer.lore.0".asTranslate().color(TextColor.color(128, 0, 128))))
                 .quality(ItemQuality.UNCOMMON)
                 .tradePrice(110)
                 .addAviableTrader(TraderType.NORMAL)
@@ -154,7 +154,7 @@ object ItemsController {
             "netherite_hammer",
             ItemSettings(Material.MACE).customModel(1005).damage(20.0).attackSpeed(-3.2).hitRange(1.5)
                 .displayName("item.netherite_hammer.name".asTranslate().color(TextColor.color(128, 128, 128)))
-                .lore(mutableListOf("item.netherite_hammer.lore.0".asTranslate()))
+                .lore(mutableListOf("item.netherite_hammer.lore.0".asTranslate().color(TextColor.color(128, 0, 128))))
                 .quality(ItemQuality.RARE)
                 .tradePrice(130)
                 .addAviableTrader(TraderType.NORMAL)

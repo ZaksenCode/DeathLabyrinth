@@ -60,6 +60,7 @@ object EventManager {
         coolEvent.callEvent()
         GameController.processAnyEvent(coolEvent)
         if (!coolEvent.isCancelled) {
+            print("Damage entity!!")
             entity.damage(coolEvent.damage, coolEvent.player)
             GameController.processEntityHit(coolEvent.entity)
         }
@@ -118,11 +119,18 @@ object EventManager {
         }
     }
 
-    fun callRoomCompleteEvent(player: Player, roomNumber: Int, room: Room, reward: Int) {
-        val coolEvent = RoomCompleteEvent(player, roomNumber, room, reward)
+    fun callRoomCompleteEvent(players: List<Player>, roomNumber: Int, room: Room) {
+        val coolEvent = RoomCompleteEvent(players, roomNumber, room)
         coolEvent.callEvent()
         GameController.processAnyEvent(coolEvent)
-        RoomController.processRoomCompletion(coolEvent.reward)
+        RoomController.processRoomCompletion()
+    }
+
+    fun callPlayerRoomCompleteEvent(player: Player, roomNumber: Int, room: Room, reward: Int) {
+        val coolEvent = PlayerRoomCompleteEvent(player, roomNumber, room, reward)
+        coolEvent.callEvent()
+        GameController.processAnyEvent(coolEvent)
+        RoomController.grantRoomReward(coolEvent.player, coolEvent.reward)
     }
 
     fun callEntitySpawnEvent(world: World, entity: Entity, requireKill: Boolean, debug: Boolean = false) {

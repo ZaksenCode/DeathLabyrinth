@@ -9,14 +9,17 @@ import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.entity.EntityDamageByEntityEvent
 
-// FIXME - didn't damage in radius
+// FIXME - Recourse infinity call
 open class BaseHammer(id: String, settings: ItemSettings): SwordLike(WeaponType.HAMMER, id, settings) {
 
     override fun onHit(event: EntityDamageByEntityEvent) {
         val affectedEntities = event.entity.getNearbyEntities(settings.hitRange(), settings.hitRange(), settings.hitRange())
 
+        print("Attack!")
+
         for(entity in affectedEntities) {
             if(entity is LivingEntity && entity !is Player && entity !is FriendlyEntity) {
+                // FIXME - Event didn't calling
                 EventManager.callPlayerDamageEntityEvent(event.damager as Player, event.entity as LivingEntity, event.damage)
             }
         }
