@@ -362,12 +362,12 @@ object RoomController {
         EventManager.callPlayerSummonFriendlyEntityCloneEvent(player, newEntity as net.minecraft.world.entity.LivingEntity)
     }
 
-    // FIXME - Spawn location outside room (Probably add an option in the room config)
     private fun startBossArtifactsChain() {
         if(actualQueryRoom == null) {
             return
         }
 
+        // The nextRoom location is the entrance to the next room, so bossArtifactsSpawnOffset should take into account the offset from it
         val spawnPos = Location(Bukkit.getWorld(configs.mainConfig().world),
             nextRoomX.toDouble() - actualQueryRoom!!.roomConfig.bossArtifactsSpawnOffset.x,
             nextRoomY.toDouble() + actualQueryRoom!!.roomConfig.bossArtifactsSpawnOffset.y,

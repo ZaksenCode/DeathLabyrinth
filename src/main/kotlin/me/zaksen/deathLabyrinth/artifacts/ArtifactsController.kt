@@ -124,7 +124,7 @@ object ArtifactsController {
         processArtifactsChain(isGoodly)
     }
 
-    fun processArtifactsChain(isGoodly: Boolean = false) {
+    private fun processArtifactsChain(isGoodly: Boolean = false) {
         despawnArtifacts()
 
         if(isGoodly) {
@@ -137,7 +137,6 @@ object ArtifactsController {
                 if(isGoodly) getRandomArtifact(ArtifactRarity.GODLY)
                 else getRandomArtifact()
             )
-            println("Last chain location: ${lastChainLocation.x} ${lastChainLocation.y} ${lastChainLocation.z}")
             summonArtifactCard(
                 lastChainLocation.subtract(0.0, 1.0, 3.0),
                 if(isGoodly) getRandomArtifact(ArtifactRarity.GODLY)
