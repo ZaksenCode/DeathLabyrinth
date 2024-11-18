@@ -16,10 +16,6 @@ class BigFrostballStaff(id: String): WeaponItem(
         .customModel(103)
         .displayName("item.big_frostball_staff.name".asTranslate().color(TextColor.color(0, 191, 255)))
         .abilityCooldown(3200)
-        .lore(mutableListOf(
-            "item.big_frostball_staff.lore.0".asTranslate().color(TextColor.color(128, 0, 128)),
-            "item.big_frostball_staff.lore.1".asTranslate().color(TextColor.color(65,105,225))
-        ))
         .quality(ItemQuality.UNCOMMON)
         .tradePrice(55)
         .addAviableTrader(TraderType.NORMAL)

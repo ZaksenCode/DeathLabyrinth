@@ -11,18 +11,18 @@ import org.bukkit.persistence.PersistentDataType
 
 object ItemAbilityManager {
 
-    private val abilityMap: MutableMap<String, ItemAbility> = mutableMapOf()
+    val abilityMap: MutableMap<String, ItemAbility> = mutableMapOf()
 
     init {
         // Weapon
-        abilityMap["slash_hit"] = SlashHit()
+        abilityMap["area_hit"] = AreaHit()
         // Stuff
         abilityMap["fireball_cast"] = FireballCast()
         abilityMap["big_fireball_cast"] = BigFireballCast()
         abilityMap["frostball_cast"] = FrostballCast()
         abilityMap["big_frostball_cast"] = BigFrostballCast()
         abilityMap["witherball_cast"] = WitherballCast()
-        abilityMap["big_fireball_cast"] = BigWitherballCast()
+        abilityMap["big_witherball_cast"] = BigWitherballCast()
         abilityMap["laser_cast"] = LaserCast()
         abilityMap["electric_cast"] = ElectricCast()
         abilityMap["healing_cast"] = HealingCast()

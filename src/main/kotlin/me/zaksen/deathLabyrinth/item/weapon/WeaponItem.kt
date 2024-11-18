@@ -2,10 +2,12 @@ package me.zaksen.deathLabyrinth.item.weapon
 
 import me.zaksen.deathLabyrinth.item.CustomItem
 import me.zaksen.deathLabyrinth.item.ItemType
+import me.zaksen.deathLabyrinth.item.ability.ItemAbilityManager
 import me.zaksen.deathLabyrinth.item.settings.ItemSettings
 import me.zaksen.deathLabyrinth.keys.PluginKeys
 import me.zaksen.deathLabyrinth.util.*
 import net.kyori.adventure.key.Key
+import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.text.format.TextDecoration
 import org.bukkit.inventory.ItemStack
@@ -27,14 +29,24 @@ open class WeaponItem(private val weaponType: WeaponType, id: String, settings: 
                 TextDecoration.ITALIC, false))
             .loreMap(settings.lore())
 
-        if(settings.damage() > 0) {
-            stack.loreLine("item.lore.damage".asTranslate(settings.damage().toString().asText()).color(TextColor.color(65,105,225)))
-        }
-
-        if(settings.abilityCooldown() > 0) {
-            stack.loreLine("item.lore.cooldown".asTranslate(
-                (settings.abilityCooldown() / 1000.0).toString().asText()).color(TextColor.color(65,105,225))
+        if(settings.abilities().isNotEmpty()) stack.loreLine(Component.translatable("text.item.abilities").decoration(TextDecoration.ITALIC, false).color(
+            TextColor.color(
+                222, 146, 47
             )
+        ))
+
+        settings.abilities().forEach {
+            val ability = ItemAbilityManager.abilityMap[it] ?: return@forEach
+            stack.loreLine(ability.name.decoration(TextDecoration.ITALIC, false).color(
+                TextColor.color(
+                    178, 91, 245
+                )
+            ))
+            stack.loreLine(ability.description.decoration(TextDecoration.ITALIC, false).color(
+                TextColor.color(
+                    147, 63, 212
+                )
+            ))
         }
 
         val meta = stack.itemMeta

@@ -16,10 +16,7 @@ class NecromanticStaff(id: String): WeaponItem(
         .customModel(108)
         .displayName("item.necromantic_staff.name".asTranslate().color(TextColor.color(128, 128, 128)))
         .abilityCooldown(60000)
-        .lore(mutableListOf(
-            "item.necromantic_staff.lore.0".asTranslate().color(TextColor.color(128, 0, 128)),
-            "item.necromantic_staff.lore.1".asTranslate().color(TextColor.color(65,105,225))
-        )).quality(ItemQuality.RARE)
+        .quality(ItemQuality.RARE)
         .tradePrice(90)
         .addAviableTrader(TraderType.NORMAL)
         .ability("necromantic_cast")

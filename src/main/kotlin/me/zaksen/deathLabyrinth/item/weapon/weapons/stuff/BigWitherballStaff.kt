@@ -21,10 +21,7 @@ class BigWitherballStaff(id: String): WeaponItem(
         .customModel(107)
         .displayName("item.big_witherball_staff.name".asTranslate().color(TextColor.color(128, 128, 128)))
         .abilityCooldown(4000)
-        .lore(mutableListOf(
-            "item.big_witherball_staff.lore.0".asTranslate().color(TextColor.color(128, 0, 128)),
-            "item.big_witherball_staff.lore.1".asTranslate().color(TextColor.color(65,105,225))
-        )).quality(ItemQuality.UNCOMMON)
+        .quality(ItemQuality.UNCOMMON)
         .tradePrice(80)
         .addAviableTrader(TraderType.NORMAL)
         .ability("big_witherball_cast")

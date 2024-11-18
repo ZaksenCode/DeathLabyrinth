@@ -20,10 +20,6 @@ class HealingStaff(id: String): WeaponItem(
         .customModel(100)
         .displayName("item.healing_staff.name".asTranslate().color(TextColor.color(50,205,50)))
         .abilityCooldown(30000)
-        .lore(mutableListOf(
-            "item.healing_staff.lore.0".asTranslate().color(TextColor.color(128, 0, 128)),
-            "item.healing_staff.lore.1".asTranslate().color(TextColor.color(65,105,225))
-        ))
         .quality(ItemQuality.RARE)
         .tradePrice(100)
         .addAviableTrader(TraderType.NORMAL)

@@ -1,11 +1,13 @@
 package me.zaksen.deathLabyrinth.item.weapon.weapons
 
+import me.zaksen.deathLabyrinth.item.ability.ItemAbilityManager
 import me.zaksen.deathLabyrinth.item.settings.ItemSettings
 import me.zaksen.deathLabyrinth.item.weapon.WeaponItem
 import me.zaksen.deathLabyrinth.item.weapon.WeaponType
 import me.zaksen.deathLabyrinth.keys.PluginKeys
 import me.zaksen.deathLabyrinth.util.*
 import net.kyori.adventure.key.Key
+import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.text.format.TextDecoration
 import org.bukkit.attribute.Attribute
@@ -24,6 +26,27 @@ open class SwordLike(weaponType: WeaponType, id: String, settings: ItemSettings)
             .loreLine("item.lore.weapon.type".asTranslate(getWeaponType().displayName).color(TextColor.color(128, 0, 128)).decoration(
                 TextDecoration.ITALIC, false))
             .loreMap(settings.lore())
+
+        if(settings.abilities().isNotEmpty()) stack.loreLine(Component.translatable("text.item.abilities").decoration(
+            TextDecoration.ITALIC, false).color(
+            TextColor.color(
+                222, 146, 47
+            )
+        ))
+
+        settings.abilities().forEach {
+            val ability = ItemAbilityManager.abilityMap[it] ?: return@forEach
+            stack.loreLine(ability.name.decoration(TextDecoration.ITALIC, false).color(
+                TextColor.color(
+                    178, 91, 245
+                )
+            ))
+            stack.loreLine(ability.description.decoration(TextDecoration.ITALIC, false).color(
+                TextColor.color(
+                    147, 63, 212
+                )
+            ))
+        }
 
         val meta = stack.itemMeta
         meta.persistentDataContainer.set(PluginKeys.customItemKey, PersistentDataType.STRING, id)

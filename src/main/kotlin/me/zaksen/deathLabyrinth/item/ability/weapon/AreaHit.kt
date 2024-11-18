@@ -9,9 +9,9 @@ import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.Event
 
-class SlashHit: ItemAbility(
-    Component.translatable("ability.slash_hit.name"),
-    Component.translatable("ability.slash_hit.description")
+class AreaHit: ItemAbility(
+    Component.translatable("ability.area_hit.name"),
+    Component.translatable("ability.area_hit.description")
 ) {
     override fun invoke(event: Event) {
         if(event !is ItemHitEvent) return

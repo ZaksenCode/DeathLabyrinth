@@ -20,10 +20,6 @@ class BigHealingStaff(id: String): WeaponItem(
     ItemSettings(Material.STICK)
         .customModel(105)
         .displayName("item.big_healing_staff.name".asTranslate().color(TextColor.color(50,205,50)))
-        .lore(mutableListOf(
-            "item.big_healing_staff.lore.0".asTranslate().color(TextColor.color(128, 0, 128)),
-            "item.big_healing_staff.lore.1".asTranslate().color(TextColor.color(65,105,225))
-        ))
         .abilityCooldown(40000)
         .quality(ItemQuality.EPIC)
         .tradePrice(180)

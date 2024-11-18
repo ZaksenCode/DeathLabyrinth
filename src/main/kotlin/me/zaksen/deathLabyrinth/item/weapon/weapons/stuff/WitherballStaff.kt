@@ -20,10 +20,6 @@ class WitherballStaff(id: String): WeaponItem(
         .customModel(106)
         .displayName("item.witherball_staff.name".asTranslate().color(TextColor.color(128, 128, 128)))
         .abilityCooldown(1333)
-        .lore(mutableListOf(
-            "item.witherball_staff.lore.0".asTranslate().color(TextColor.color(128, 0, 128)),
-            "item.witherball_staff.lore.1".asTranslate().color(TextColor.color(65,105,225))
-        ))
         .tradePrice(45)
         .addAviableTrader(TraderType.NORMAL)
         .ability("witherball_cast")

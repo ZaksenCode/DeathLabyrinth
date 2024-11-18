@@ -2,7 +2,6 @@ package me.zaksen.deathLabyrinth.item
 
 import me.zaksen.deathLabyrinth.entity.trader.TraderType
 import me.zaksen.deathLabyrinth.game.GameController
-import me.zaksen.deathLabyrinth.item.ability.weapon.SlashHit
 import me.zaksen.deathLabyrinth.item.gear.armor.ArmorItem
 import me.zaksen.deathLabyrinth.item.settings.ItemSettings
 import me.zaksen.deathLabyrinth.item.items.consume.*
@@ -10,7 +9,6 @@ import me.zaksen.deathLabyrinth.item.items.ingredient.*
 import me.zaksen.deathLabyrinth.item.weapon.weapons.stuff.*
 import me.zaksen.deathLabyrinth.item.weapon.weapons.sword.*
 import me.zaksen.deathLabyrinth.util.WeightedRandomList
-import me.zaksen.deathLabyrinth.util.asText
 import me.zaksen.deathLabyrinth.util.asTranslate
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Material
@@ -112,59 +110,53 @@ object ItemsController {
             "wooden_hammer",
             ItemSettings(Material.MACE).customModel(1000).damage(5.0).attackSpeed(-3.2).hitRange(0.5)
                 .displayName("item.wooden_hammer.name".asTranslate().color(TextColor.color(128, 128, 128)))
-                .lore(mutableListOf("item.wooden_hammer.lore.0".asTranslate().color(TextColor.color(128, 0, 128))))
                 .tradePrice(35)
                 .addAviableTrader(TraderType.NORMAL)
-                .ability("slash_hit")
+                .ability("area_hit")
         ))
         register("golden_hammer", BaseHammer(
             "golden_hammer",
             ItemSettings(Material.MACE).customModel(1001).damage(7.0).attackSpeed(-3.0).hitRange(0.5)
                 .displayName("item.golden_hammer.name".asTranslate().color(TextColor.color(128, 128, 128)))
-                .lore(mutableListOf("item.golden_hammer.lore.0".asTranslate().color(TextColor.color(128, 0, 128))))
                 .tradePrice(45)
                 .addAviableTrader(TraderType.NORMAL)
-                .ability("slash_hit")
+                .ability("area_hit")
         ))
         register("stone_hammer", BaseHammer(
             "stone_hammer",
             ItemSettings(Material.MACE).customModel(1002).damage(10.0).attackSpeed(-3.2).hitRange(0.5)
                 .displayName("item.stone_hammer.name".asTranslate().color(TextColor.color(128, 128, 128)))
-                .lore(mutableListOf("item.stone_hammer.lore.0".asTranslate().color(TextColor.color(128, 0, 128))))
                 .quality(ItemQuality.UNCOMMON)
                 .tradePrice(75)
                 .addAviableTrader(TraderType.NORMAL)
-                .ability("slash_hit")
+                .ability("area_hit")
         ))
         register("iron_hammer", BaseHammer(
             "iron_hammer",
             ItemSettings(Material.MACE).customModel(1003).damage(13.0).attackSpeed(-3.2).hitRange(1.0)
                 .displayName("item.iron_hammer.name".asTranslate().color(TextColor.color(128, 128, 128)))
-                .lore(mutableListOf("item.iron_hammer.lore.0".asTranslate().color(TextColor.color(128, 0, 128))))
                 .quality(ItemQuality.UNCOMMON)
                 .tradePrice(85)
                 .addAviableTrader(TraderType.NORMAL)
-                .ability("slash_hit")
+                .ability("area_hit")
         ))
         register("diamond_hammer", BaseHammer(
             "diamond_hammer",
             ItemSettings(Material.MACE).customModel(1004).damage(16.0).attackSpeed(-3.2).hitRange(1.0)
                 .displayName("item.diamond_hammer.name".asTranslate().color(TextColor.color(128, 128, 128)))
-                .lore(mutableListOf("item.diamond_hammer.lore.0".asTranslate().color(TextColor.color(128, 0, 128))))
                 .quality(ItemQuality.UNCOMMON)
                 .tradePrice(110)
                 .addAviableTrader(TraderType.NORMAL)
-                .ability("slash_hit")
+                .ability("area_hit")
         ))
         register("netherite_hammer", BaseHammer(
             "netherite_hammer",
             ItemSettings(Material.MACE).customModel(1005).damage(20.0).attackSpeed(-3.2).hitRange(1.5)
                 .displayName("item.netherite_hammer.name".asTranslate().color(TextColor.color(128, 128, 128)))
-                .lore(mutableListOf("item.netherite_hammer.lore.0".asTranslate().color(TextColor.color(128, 0, 128))))
                 .quality(ItemQuality.RARE)
                 .tradePrice(130)
                 .addAviableTrader(TraderType.NORMAL)
-                .ability("slash_hit")
+                .ability("area_hit")
         ))
 
         register("wooden_spear", BaseSpear(

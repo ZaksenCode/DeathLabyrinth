@@ -1,9 +1,13 @@
 package me.zaksen.deathLabyrinth.item
 
+import me.zaksen.deathLabyrinth.item.ability.ItemAbilityManager
 import me.zaksen.deathLabyrinth.item.settings.ItemSettings
 import me.zaksen.deathLabyrinth.keys.PluginKeys
 import me.zaksen.deathLabyrinth.util.*
 import net.kyori.adventure.key.Key
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.TextColor
+import net.kyori.adventure.text.format.TextDecoration
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 
@@ -21,6 +25,27 @@ open class CustomItem(val id: String, val type: ItemType, val settings: ItemSett
         meta.persistentDataContainer.set(PluginKeys.customItemAbilitiesKey, PersistentDataType.STRING, settings.abilities().string())
         meta.isUnbreakable = true
         stack.itemMeta = meta
+
+        if(settings.abilities().isNotEmpty()) stack.loreLine(Component.translatable("text.item.abilities").decoration(TextDecoration.ITALIC, false).color(
+            TextColor.color(
+                222, 146, 47
+            )
+        ))
+
+        settings.abilities().forEach {
+            val ability = ItemAbilityManager.abilityMap[it] ?: return@forEach
+            stack.loreLine(ability.name.decoration(TextDecoration.ITALIC, false).color(
+                TextColor.color(
+                    178, 91, 245
+                )
+            ))
+            stack.loreLine(ability.description.decoration(TextDecoration.ITALIC, false).color(
+                TextColor.color(
+                    147, 63, 212
+                )
+            ))
+        }
+
 
         return stack
     }

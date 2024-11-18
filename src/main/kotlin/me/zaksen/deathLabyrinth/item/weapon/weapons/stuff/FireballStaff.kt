@@ -21,10 +21,7 @@ class FireballStaff(id: String): WeaponItem(
         .customModel(102)
         .displayName("item.fireball_staff.name".asTranslate().color(TextColor.color(255,165,0)))
         .abilityCooldown(800)
-        .lore(mutableListOf(
-            "item.fireball_staff.lore.0".asTranslate().color(TextColor.color(128, 0, 128)),
-            "item.fireball_staff.lore.1".asTranslate().color(TextColor.color(65,105,225))
-        ))
+
         .tradePrice(35)
         .addAviableTrader(TraderType.NORMAL)
         .ability("fireball_cast")
