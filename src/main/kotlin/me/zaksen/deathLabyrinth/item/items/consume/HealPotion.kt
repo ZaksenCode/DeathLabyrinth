@@ -23,10 +23,6 @@ class HealPotion(id: String): CustomItem(id, ItemType.CONSUMABLE,
     ItemSettings(Material.POTION)
         .customModel(100)
         .displayName("item.heal_potion.name".asTranslate().color(TextColor.color(255,20,147)))
-        .lore(mutableListOf(
-            "item.heal_potion.lore.0".asTranslate().color(TextColor.color(128, 0, 128)),
-            "item.heal_potion.lore.1".asTranslate().color(TextColor.color(65,105,225))
-        ))
         .quality(ItemQuality.UNCOMMON)
         .tradePrice(40)
         .ability("heal_effect")
