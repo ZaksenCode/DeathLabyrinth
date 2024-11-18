@@ -27,6 +27,7 @@ open class SwordLike(weaponType: WeaponType, id: String, settings: ItemSettings)
 
         val meta = stack.itemMeta
         meta.persistentDataContainer.set(PluginKeys.customItemKey, PersistentDataType.STRING, id)
+        meta.persistentDataContainer.set(PluginKeys.customItemAbilitiesKey, PersistentDataType.STRING, settings.abilities().string())
 
         meta.addAttributeModifier(
             Attribute.GENERIC_ATTACK_DAMAGE, AttributeModifier(

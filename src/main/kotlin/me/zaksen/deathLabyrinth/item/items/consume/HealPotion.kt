@@ -26,13 +26,8 @@ class HealPotion(id: String): CustomItem(id, ItemType.CONSUMABLE,
         ))
         .quality(ItemQuality.UNCOMMON)
         .tradePrice(40)
+        .ability("heal_effect")
 ) {
-
-    override fun onConsume(event: PlayerItemConsumeEvent) {
-        val player =  event.player
-        val toRegen = player.getAttribute(Attribute.GENERIC_MAX_HEALTH)!!.value * 0.6
-        player.heal(toRegen, EntityRegainHealthEvent.RegainReason.REGEN)
-    }
 
     override fun asItemStack(): ItemStack {
         val stack = ItemStack(settings.material)
@@ -43,6 +38,7 @@ class HealPotion(id: String): CustomItem(id, ItemType.CONSUMABLE,
 
         val meta = stack.itemMeta
         meta.persistentDataContainer.set(PluginKeys.customItemKey, PersistentDataType.STRING, id)
+        meta.persistentDataContainer.set(PluginKeys.customItemAbilitiesKey, PersistentDataType.STRING, settings.abilities().string())
         meta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
         stack.itemMeta = meta
 

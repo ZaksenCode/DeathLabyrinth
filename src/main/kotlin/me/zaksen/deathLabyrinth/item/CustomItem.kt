@@ -4,25 +4,10 @@ import me.zaksen.deathLabyrinth.item.settings.ItemSettings
 import me.zaksen.deathLabyrinth.keys.PluginKeys
 import me.zaksen.deathLabyrinth.util.*
 import net.kyori.adventure.key.Key
-import org.bukkit.event.entity.EntityDamageByEntityEvent
-import org.bukkit.event.player.PlayerInteractEvent
-import org.bukkit.event.player.PlayerItemConsumeEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 
 open class CustomItem(val id: String, val type: ItemType, val settings: ItemSettings) {
-
-    open fun onHit(event: EntityDamageByEntityEvent) {
-
-    }
-
-    open fun onUse(event: PlayerInteractEvent) {
-
-    }
-
-    open fun onConsume(event: PlayerItemConsumeEvent) {
-
-    }
 
     open fun asItemStack(): ItemStack {
         val stack = ItemStack(settings.material)
@@ -33,6 +18,8 @@ open class CustomItem(val id: String, val type: ItemType, val settings: ItemSett
 
         val meta = stack.itemMeta
         meta.persistentDataContainer.set(PluginKeys.customItemKey, PersistentDataType.STRING, id)
+        meta.persistentDataContainer.set(PluginKeys.customItemAbilitiesKey, PersistentDataType.STRING, settings.abilities().string())
+        meta.isUnbreakable = true
         stack.itemMeta = meta
 
         return stack

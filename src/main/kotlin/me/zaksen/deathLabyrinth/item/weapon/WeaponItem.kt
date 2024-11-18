@@ -39,6 +39,7 @@ open class WeaponItem(private val weaponType: WeaponType, id: String, settings: 
 
         val meta = stack.itemMeta
         meta.persistentDataContainer.set(PluginKeys.customItemKey, PersistentDataType.STRING, id)
+        meta.persistentDataContainer.set(PluginKeys.customItemAbilitiesKey, PersistentDataType.STRING, settings.abilities().string())
         meta.isUnbreakable = true
         stack.itemMeta = meta
 

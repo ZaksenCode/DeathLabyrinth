@@ -27,25 +27,5 @@ class HealingStaff(id: String): WeaponItem(
         .quality(ItemQuality.RARE)
         .tradePrice(100)
         .addAviableTrader(TraderType.NORMAL)
+        .ability("healing_cast")
 )
-{
-    override fun onUse(event: PlayerInteractEvent) {
-        val item = event.item!!
-
-        if(checkAndUpdateCooldown(item)) {
-            val maxHealth = event.player.getAttribute(Attribute.GENERIC_MAX_HEALTH)!!.baseValue
-            val toHeal = maxHealth * 0.15
-
-            event.player.heal(toHeal, EntityRegainHealthEvent.RegainReason.MAGIC)
-
-            event.player.world.spawnParticle(
-                Particle.TOTEM_OF_UNDYING,
-                event.player.location,
-                50,
-                0.5,
-                0.5,
-                0.5
-            )
-        }
-    }
-}

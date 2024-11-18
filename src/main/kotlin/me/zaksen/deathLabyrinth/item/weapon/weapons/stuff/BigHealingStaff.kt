@@ -28,31 +28,5 @@ class BigHealingStaff(id: String): WeaponItem(
         .quality(ItemQuality.EPIC)
         .tradePrice(180)
         .addAviableTrader(TraderType.NORMAL)
+        .ability("big_healing_cast")
 )
-{
-    override fun onUse(event: PlayerInteractEvent) {
-        val item = event.item!!
-
-        if(checkAndUpdateCooldown(item)) {
-            val players = event.player.world.getNearbyEntitiesByType(
-                Player::class.java,
-                event.player.location,
-                4.0
-            )
-
-            players.forEach {
-                val maxHealth = it.getAttribute(Attribute.GENERIC_MAX_HEALTH)!!.baseValue
-                val toHeal = maxHealth * 0.3
-                it.heal(toHeal, EntityRegainHealthEvent.RegainReason.MAGIC)
-                it.world.spawnParticle(
-                    Particle.TOTEM_OF_UNDYING,
-                    event.player.location,
-                    50,
-                    0.5,
-                    0.5,
-                    0.5
-                )
-            }
-        }
-    }
-}

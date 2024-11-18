@@ -58,6 +58,7 @@ object TradeController {
     fun getTradesSpan(count: Int = 2, traderType: TraderType = TraderType.NORMAL): MutableList<CustomItem> {
         val result = mutableListOf<CustomItem>()
 
+
         val validItems = availableItems.filter {
             it.settings.aviableFromTraders().contains(traderType)
         }.toMutableList()

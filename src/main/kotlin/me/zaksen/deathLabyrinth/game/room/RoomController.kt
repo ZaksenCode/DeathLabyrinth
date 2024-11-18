@@ -164,7 +164,6 @@ object RoomController {
         generateAndUpdateQueryRoom()
     }
 
-    // TODO - Change rewarding method.
     fun grantRoomReward(player: Player, reward: Int) {
         val data = GameController.players[player] ?: return
         data.money += reward

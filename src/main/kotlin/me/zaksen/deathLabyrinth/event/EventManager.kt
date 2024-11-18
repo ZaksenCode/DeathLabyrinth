@@ -5,23 +5,34 @@ import me.zaksen.deathLabyrinth.artifacts.card.CardHolder
 import me.zaksen.deathLabyrinth.command.PlayerPickupArtifactEvent
 import me.zaksen.deathLabyrinth.event.custom.PlayerReadyEvent
 import me.zaksen.deathLabyrinth.event.custom.game.*
+import me.zaksen.deathLabyrinth.event.item.ItemConsumeEvent
+import me.zaksen.deathLabyrinth.event.item.ItemHitEvent
+import me.zaksen.deathLabyrinth.event.item.ItemUseEvent
 import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.game.TradeController
 import me.zaksen.deathLabyrinth.game.room.Room
 import me.zaksen.deathLabyrinth.game.room.RoomController
+import me.zaksen.deathLabyrinth.item.CustomItem
+import me.zaksen.deathLabyrinth.item.ability.ItemAbilityManager
 import me.zaksen.deathLabyrinth.trading.TradeOffer
 import me.zaksen.deathLabyrinth.util.tryAddEntity
 import net.minecraft.world.entity.Entity
 import org.bukkit.Bukkit
 import org.bukkit.World
 import org.bukkit.block.Block
+import org.bukkit.block.BlockFace
 import org.bukkit.craftbukkit.entity.CraftLivingEntity
 import org.bukkit.craftbukkit.entity.CraftPlayer
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.entity.Projectile
+import org.bukkit.event.block.Action
 import org.bukkit.event.entity.EntityDamageByEntityEvent
+import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.event.player.PlayerItemConsumeEvent
+import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
+import org.bukkit.util.Vector
 
 object EventManager {
 
@@ -226,6 +237,58 @@ object EventManager {
         GameController.processAnyEvent(coolEvent)
         if(!coolEvent.isCancelled) {
             ArtifactsController.processArtifactPickup(player, cardHolder)
+        }
+    }
+
+    // Item Events
+    fun callItemHitEvent(damager: org.bukkit.entity.Entity, damaged: org.bukkit.entity.Entity, stack: ItemStack, item: CustomItem, damage: Double) {
+        val coolEvent = ItemHitEvent(damager, damaged, stack, item, damage)
+        coolEvent.callEvent()
+        ItemAbilityManager.useStackAbilities(stack, coolEvent)
+
+        if(!coolEvent.isCancelled) {
+
+            if(damaged !is LivingEntity) return
+
+            if(damager is Player) {
+                callPlayerDamageEntityEvent(damager, damaged, damage)
+            } else {
+                (coolEvent.damaged as LivingEntity).damage(coolEvent.damage, damager)
+            }
+        }
+    }
+
+    fun callItemHitEvent(damager: org.bukkit.entity.Entity, damaged: org.bukkit.entity.Entity, stack: ItemStack, item: CustomItem, event: EntityDamageByEntityEvent) {
+        val coolEvent = ItemHitEvent(damager, damaged, stack, item, event.damage)
+        coolEvent.callEvent()
+        ItemAbilityManager.useStackAbilities(stack, coolEvent)
+
+        if(!coolEvent.isCancelled) {
+            event.damage = coolEvent.damage
+        } else {
+            event.isCancelled = true
+        }
+    }
+
+    fun callItemUseEvent(entity: Player, stack: ItemStack?, item: CustomItem?, event: PlayerInteractEvent) {
+        if(stack == null || item == null) return
+        val coolEvent = ItemUseEvent(entity, stack, item, event)
+        coolEvent.callEvent()
+        ItemAbilityManager.useStackAbilities(stack, coolEvent)
+
+        if(coolEvent.isCancelled) {
+            event.isCancelled = true
+        }
+    }
+
+    fun callItemConsumeEvent(entity: Player, stack: ItemStack?, item: CustomItem?, event: PlayerItemConsumeEvent) {
+        if(stack == null || item == null) return
+        val coolEvent = ItemConsumeEvent(entity, stack, item, event)
+        coolEvent.callEvent()
+        ItemAbilityManager.useStackAbilities(stack, coolEvent)
+
+        if(coolEvent.isCancelled) {
+            event.isCancelled = true
         }
     }
 }

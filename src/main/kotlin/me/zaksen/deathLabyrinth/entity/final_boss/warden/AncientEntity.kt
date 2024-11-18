@@ -30,7 +30,7 @@ class AncientEntity(val location: Location): Skeleton(EntityType.SKELETON, (loca
         this.getAttribute(Attributes.SCALE)?.baseValue = 1.5
         this.health = defaultMaxHealth.toFloat()
 
-        this.customName = Component.translatable("entity.anceint.name").withColor(TextColor.color(124, 242, 81).value())
+        this.customName = Component.translatable("entity.ancient.name").withColor(TextColor.color(124, 242, 81).value())
         this.isCustomNameVisible = true
 
         this.setPos(location.x, location.y, location.z)

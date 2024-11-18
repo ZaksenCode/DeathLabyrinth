@@ -1,5 +1,7 @@
 package me.zaksen.deathLabyrinth.item.settings
 
+import me.zaksen.deathLabyrinth.artifacts.ability.Ability
+import me.zaksen.deathLabyrinth.artifacts.ability.AbilityContainer
 import me.zaksen.deathLabyrinth.entity.trader.TraderType
 import me.zaksen.deathLabyrinth.item.ItemQuality
 import me.zaksen.deathLabyrinth.trading.pricing.PricingStrategies
@@ -28,6 +30,8 @@ open class ItemSettings(val material: Material) {
     private var tradeItems: MutableSet<ItemStack> = mutableSetOf()
     private var tradePriceStrategy: PricingStrategy = PricingStrategies.DEFAULT.strategy
     private var aviableFromTraders: MutableSet<TraderType> = mutableSetOf()
+
+    private var abilityContainer = mutableSetOf<String>()
 
     fun customModel(model: Int): ItemSettings {
         this.customModelData = model
@@ -124,6 +128,14 @@ open class ItemSettings(val material: Material) {
         return this
     }
 
+    /**
+     *  @param abilityId - Ability string id from ItemAbilityManager.kt
+     */
+    fun ability(abilityId: String): ItemSettings {
+        abilityContainer.add(abilityId)
+        return this
+    }
+
     // Getters
 
     fun customModel(): Int {
@@ -188,5 +200,9 @@ open class ItemSettings(val material: Material) {
 
     fun knockbackResistance(): Double {
         return knockbackResistance
+    }
+
+    fun abilities(): Set<String> {
+        return abilityContainer
     }
 }

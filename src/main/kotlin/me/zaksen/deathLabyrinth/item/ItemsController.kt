@@ -2,6 +2,7 @@ package me.zaksen.deathLabyrinth.item
 
 import me.zaksen.deathLabyrinth.entity.trader.TraderType
 import me.zaksen.deathLabyrinth.game.GameController
+import me.zaksen.deathLabyrinth.item.ability.weapon.SlashHit
 import me.zaksen.deathLabyrinth.item.gear.armor.ArmorItem
 import me.zaksen.deathLabyrinth.item.settings.ItemSettings
 import me.zaksen.deathLabyrinth.item.items.consume.*
@@ -114,6 +115,7 @@ object ItemsController {
                 .lore(mutableListOf("item.wooden_hammer.lore.0".asTranslate().color(TextColor.color(128, 0, 128))))
                 .tradePrice(35)
                 .addAviableTrader(TraderType.NORMAL)
+                .ability("slash_hit")
         ))
         register("golden_hammer", BaseHammer(
             "golden_hammer",
@@ -122,6 +124,7 @@ object ItemsController {
                 .lore(mutableListOf("item.golden_hammer.lore.0".asTranslate().color(TextColor.color(128, 0, 128))))
                 .tradePrice(45)
                 .addAviableTrader(TraderType.NORMAL)
+                .ability("slash_hit")
         ))
         register("stone_hammer", BaseHammer(
             "stone_hammer",
@@ -131,6 +134,7 @@ object ItemsController {
                 .quality(ItemQuality.UNCOMMON)
                 .tradePrice(75)
                 .addAviableTrader(TraderType.NORMAL)
+                .ability("slash_hit")
         ))
         register("iron_hammer", BaseHammer(
             "iron_hammer",
@@ -140,6 +144,7 @@ object ItemsController {
                 .quality(ItemQuality.UNCOMMON)
                 .tradePrice(85)
                 .addAviableTrader(TraderType.NORMAL)
+                .ability("slash_hit")
         ))
         register("diamond_hammer", BaseHammer(
             "diamond_hammer",
@@ -149,6 +154,7 @@ object ItemsController {
                 .quality(ItemQuality.UNCOMMON)
                 .tradePrice(110)
                 .addAviableTrader(TraderType.NORMAL)
+                .ability("slash_hit")
         ))
         register("netherite_hammer", BaseHammer(
             "netherite_hammer",
@@ -158,6 +164,7 @@ object ItemsController {
                 .quality(ItemQuality.RARE)
                 .tradePrice(130)
                 .addAviableTrader(TraderType.NORMAL)
+                .ability("slash_hit")
         ))
 
         register("wooden_spear", BaseSpear(

@@ -28,20 +28,5 @@ class LaserStaff(id: String): WeaponItem(
         )).quality(ItemQuality.UNCOMMON)
         .tradePrice(60)
         .addAviableTrader(TraderType.NORMAL)
+        .ability("laser_cast")
 )
-{
-    override fun onUse(event: PlayerInteractEvent) {
-        val item = event.item!!
-
-        val rayCastEntity = event.player.rayTraceEntities(64)
-
-        if(rayCastEntity != null && rayCastEntity.hitEntity != null && checkAndUpdateCooldown(item)) {
-            if(rayCastEntity.hitEntity!! !is LivingEntity) {
-                return
-            }
-            EventManager.callPlayerSpellEntityDamageEvent(event.player, rayCastEntity.hitEntity as CraftLivingEntity, 12.0)
-
-            event.player.eyeLocation.particleLine(Particle.WITCH, rayCastEntity.hitPosition.toLocation(event.player.world))
-        }
-    }
-}

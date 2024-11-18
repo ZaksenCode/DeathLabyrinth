@@ -28,18 +28,5 @@ class BigFireballStaff(id: String): WeaponItem(
         .quality(ItemQuality.UNCOMMON)
         .tradePrice(55)
         .addAviableTrader(TraderType.NORMAL)
+        .ability("big_fireball_staff")
 )
-{
-    override fun onUse(event: PlayerInteractEvent) {
-        val item = event.item!!
-
-        if(checkAndUpdateCooldown(item)) {
-            val shotVelocity = event.player.location.direction.multiply(2).normalize().multiply(0.3)
-
-            val projectile = BigFireBallEntity(event.player.location.add(shotVelocity).add(0.0, 1.6, 0.0))
-            projectile.deltaMovement = Vec3(shotVelocity.x, shotVelocity.y, shotVelocity.z)
-            projectile.setOwner((event.player as CraftPlayer).handle)
-            EventManager.callPlayerSummonSpellEvent(event.player, projectile)
-        }
-    }
-}

@@ -1,8 +1,6 @@
 package me.zaksen.deathLabyrinth.item.weapon.weapons.stuff
 
-import me.zaksen.deathLabyrinth.entity.friendly.skeleton.FriendlySkeletonArcherEntity
 import me.zaksen.deathLabyrinth.entity.trader.TraderType
-import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.item.ItemQuality
 import me.zaksen.deathLabyrinth.item.settings.ItemSettings
 import me.zaksen.deathLabyrinth.item.weapon.WeaponItem
@@ -10,7 +8,6 @@ import me.zaksen.deathLabyrinth.item.weapon.WeaponType
 import me.zaksen.deathLabyrinth.util.asTranslate
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Material
-import org.bukkit.event.player.PlayerInteractEvent
 
 class NecromanticStaff(id: String): WeaponItem(
     WeaponType.MISC_STAFF,
@@ -25,16 +22,5 @@ class NecromanticStaff(id: String): WeaponItem(
         )).quality(ItemQuality.RARE)
         .tradePrice(90)
         .addAviableTrader(TraderType.NORMAL)
+        .ability("necromantic_cast")
 )
-{
-    override fun onUse(event: PlayerInteractEvent) {
-        val item = event.item!!
-
-        if(checkAndUpdateCooldown(item)) {
-            val skeleton = FriendlySkeletonArcherEntity(event.player.location.add(2.0, 1.0, 1.0))
-            EventManager.callPlayerSummonFriendlyEntityEvent(event.player, skeleton)
-            val skeletonTwo = FriendlySkeletonArcherEntity(event.player.location.add(-2.0, 1.0, -1.0))
-            EventManager.callPlayerSummonFriendlyEntityEvent(event.player, skeletonTwo)
-        }
-    }
-}

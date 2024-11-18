@@ -1,6 +1,7 @@
 package me.zaksen.deathLabyrinth.entity
 
 import me.zaksen.deathLabyrinth.entity.boss.skeleton.BomberEntity
+import me.zaksen.deathLabyrinth.entity.creeper.ArtifactsTrader
 import me.zaksen.deathLabyrinth.entity.creeper.SizzleEntity
 import me.zaksen.deathLabyrinth.entity.enderman.EndermanEntity
 import me.zaksen.deathLabyrinth.entity.enderman.SpeedyEndermanEntity
@@ -63,6 +64,7 @@ object EntityController {
         entities["skeleton_trader"] = SkeletonTraderEntity::class.java
         entities["zombie_trader"] = ZombieTraderEntity::class.java
         entities["alchemist_trader"] = AlchemistTraderEntity::class.java
+        entities["artifacts_trader"] = ArtifactsTrader::class.java
 
         // NPC
 

@@ -17,6 +17,7 @@ import org.bukkit.persistence.PersistentDataType
 
 class CustomItemEvents: Listener {
 
+    // TODO - Add way to use ability from other entities (remove player check)
     @EventHandler
     fun processCustomItemHit(event: EntityDamageByEntityEvent) {
         val damager = event.damager
@@ -37,7 +38,7 @@ class CustomItemEvents: Listener {
                     }
                 }
 
-                customItem.onHit(event)
+                EventManager.callItemHitEvent(damager, event.entity, damager.inventory.itemInMainHand, customItem, event)
             }
         }
     }
@@ -59,7 +60,7 @@ class CustomItemEvents: Listener {
                 }
             }
 
-            customItem?.onUse(event)
+            EventManager.callItemUseEvent(event.player, event.item, customItem, event)
         }
     }
 
@@ -68,7 +69,7 @@ class CustomItemEvents: Listener {
         if(event.item.hasItemMeta() && event.item.itemMeta.persistentDataContainer.has(PluginKeys.customItemKey)) {
             val itemId = event.item.itemMeta.persistentDataContainer.get(PluginKeys.customItemKey, PersistentDataType.STRING)!!
             val customItem = ItemsController.get(itemId)
-            customItem?.onConsume(event)
+            EventManager.callItemConsumeEvent(event.player, event.item, customItem, event)
         }
     }
 }
