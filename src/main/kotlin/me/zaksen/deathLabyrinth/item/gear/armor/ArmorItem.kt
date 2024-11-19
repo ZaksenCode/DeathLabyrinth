@@ -2,63 +2,28 @@ package me.zaksen.deathLabyrinth.item.gear.armor
 
 import me.zaksen.deathLabyrinth.item.CustomItem
 import me.zaksen.deathLabyrinth.item.ItemType
-import me.zaksen.deathLabyrinth.item.ability.ItemAbilityManager
 import me.zaksen.deathLabyrinth.item.settings.ItemSettings
 import me.zaksen.deathLabyrinth.keys.PluginKeys
-import me.zaksen.deathLabyrinth.util.*
-import net.kyori.adventure.key.Key
-import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.format.TextColor
-import net.kyori.adventure.text.format.TextDecoration
 import org.bukkit.NamespacedKey
 import org.bukkit.attribute.Attribute
 import org.bukkit.attribute.AttributeModifier
 import org.bukkit.inventory.EquipmentSlotGroup
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
-import org.bukkit.persistence.PersistentDataType
 
 open class ArmorItem(id: String, settings: ItemSettings): CustomItem(id, ItemType.ARMOR, settings) {
 
     override fun asItemStack(): ItemStack {
-        val stack = ItemStack(settings.material)
-            .customModel(settings.customModel())
-            .name(settings.displayName())
-            .loreLine(settings.quality().visualText.asText().font(Key.key("dl:icons")))
-            .loreMap(settings.lore())
-
-        if(settings.abilities().isNotEmpty()) stack.loreLine(Component.translatable("text.item.abilities").decoration(
-            TextDecoration.ITALIC, false).color(
-            TextColor.color(
-                222, 146, 47
-            )
-        ))
-
-        settings.abilities().forEach {
-            val ability = ItemAbilityManager.abilityMap[it] ?: return@forEach
-            stack.loreLine(ability.name.decoration(TextDecoration.ITALIC, false).color(
-                TextColor.color(
-                    178, 91, 245
-                )
-            ))
-            stack.loreLine(ability.description.decoration(TextDecoration.ITALIC, false).color(
-                TextColor.color(
-                    147, 63, 212
-                )
-            ))
-        }
+        val stack = super.asItemStack()
 
         val meta = stack.itemMeta
-        meta.persistentDataContainer.set(PluginKeys.customItemKey, PersistentDataType.STRING, id)
-        meta.persistentDataContainer.set(PluginKeys.customItemAbilitiesKey, PersistentDataType.STRING, settings.abilities().string())
-        meta.isUnbreakable = true
         applyAttributes(meta)
         stack.itemMeta = meta
 
         return stack
     }
 
-    fun applyAttributes(meta: ItemMeta) {
+    private fun applyAttributes(meta: ItemMeta) {
         val name = settings.material.toString()
         val equipmentSlotGroup: EquipmentSlotGroup
         val modifierKey: NamespacedKey

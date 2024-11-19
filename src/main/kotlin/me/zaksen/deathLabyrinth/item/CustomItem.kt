@@ -39,11 +39,11 @@ open class CustomItem(val id: String, val type: ItemType, val settings: ItemSett
                     178, 91, 245
                 )
             ))
-            stack.loreLine(ability.description.decoration(TextDecoration.ITALIC, false).color(
+            stack.loreLine(Component.text(" - ").append(ability.description.decoration(TextDecoration.ITALIC, false).color(
                 TextColor.color(
                     147, 63, 212
                 )
-            ))
+            )))
         }
 
 

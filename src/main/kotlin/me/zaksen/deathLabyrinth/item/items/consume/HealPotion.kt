@@ -26,43 +26,4 @@ class HealPotion(id: String): CustomItem(id, ItemType.CONSUMABLE,
         .quality(ItemQuality.UNCOMMON)
         .tradePrice(40)
         .ability("heal_effect")
-) {
-
-    override fun asItemStack(): ItemStack {
-        val stack = ItemStack(settings.material)
-            .customModel(settings.customModel())
-            .name(settings.displayName())
-            .loreLine(settings.quality().visualText.asText().font(Key.key("dl:icons")))
-            .loreMap(settings.lore())
-
-        val meta = stack.itemMeta
-        meta.persistentDataContainer.set(PluginKeys.customItemKey, PersistentDataType.STRING, id)
-        meta.persistentDataContainer.set(PluginKeys.customItemAbilitiesKey, PersistentDataType.STRING, settings.abilities().string())
-        meta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP)
-        stack.itemMeta = meta
-
-        if(settings.abilities().isNotEmpty()) stack.loreLine(Component.translatable("text.item.abilities").decoration(
-            TextDecoration.ITALIC, false).color(
-            TextColor.color(
-                222, 146, 47
-            )
-        ))
-
-        settings.abilities().forEach {
-            val ability = ItemAbilityManager.abilityMap[it] ?: return@forEach
-            stack.loreLine(ability.name.decoration(TextDecoration.ITALIC, false).color(
-                TextColor.color(
-                    178, 91, 245
-                )
-            ))
-            stack.loreLine(ability.description.decoration(TextDecoration.ITALIC, false).color(
-                TextColor.color(
-                    147, 63, 212
-                )
-            ))
-        }
-
-
-        return stack
-    }
-}
+)
