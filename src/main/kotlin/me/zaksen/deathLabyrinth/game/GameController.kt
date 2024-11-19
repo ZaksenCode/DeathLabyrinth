@@ -134,9 +134,14 @@ object GameController {
     }
 
     fun leave(player: Player) {
+        // FIXME - Probably didn't remove player (not sure)
         players.remove(player)
 
         checkAlivePlayers()
+        // TODO - Find a better way, not sure that will be working in multiplayer
+        if(Bukkit.getOnlinePlayers().size == 1) {
+            players.clear()
+        }
     }
 
     fun toggleReadyState(player: Player) {
@@ -161,11 +166,16 @@ object GameController {
     }
 
     private fun startGameCooldown() {
+        println("Players: ${players.size}")
+        println("Ready: ${isPlayersReady()}")
+        println("Ready: $status")
+
         if(players.size >= configs.mainConfig().minimalPlayers && isPlayersReady() && status == GameStatus.WAITING) {
             status = GameStatus.PREPARE
 
             startCooldownTask = object: BukkitRunnable() {
                 override fun run() {
+
                     if(startCooldownTime <= 0) {
                         startGame()
                         cancel()
