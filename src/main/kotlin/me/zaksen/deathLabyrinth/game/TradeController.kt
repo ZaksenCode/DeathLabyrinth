@@ -6,6 +6,7 @@ import me.zaksen.deathLabyrinth.item.CustomItem
 import me.zaksen.deathLabyrinth.item.ItemQuality
 import me.zaksen.deathLabyrinth.item.ItemsController
 import me.zaksen.deathLabyrinth.item.weapon.WeaponItem
+import me.zaksen.deathLabyrinth.trading.ItemOffer
 import me.zaksen.deathLabyrinth.trading.TradeOffer
 import me.zaksen.deathLabyrinth.util.WeightedRandomList
 import org.bukkit.entity.Player
@@ -46,7 +47,7 @@ object TradeController {
 
     fun getOffersSnap(count: Int = 2, traderType: TraderType = TraderType.NORMAL, isBuying: Boolean = true): List<TradeOffer> {
         return getTradesSpan(count, traderType).map {
-            TradeOffer(
+            ItemOffer(
                 1,
                 it.settings.tradePriceStrategy().scale(it.settings.tradePrice()),
                 it.asItemStack(),
@@ -102,22 +103,6 @@ object TradeController {
     }
 
     fun processTrade(player: Player, offer: TradeOffer) {
-        val playerData = GameController.players[player] ?: return
-
-        if(offer.buy) {
-            if(playerData.money >= offer.price && offer.count >= 1) {
-                player.inventory.addItem(offer.stack)
-                playerData.money -= offer.price
-                GameController.players[player] = playerData
-                offer.count--
-            }
-        } else {
-            if(player.inventory.contains(offer.stack) && offer.count >= 1) {
-                player.inventory.removeItem(offer.stack)
-                playerData.money += offer.price
-                GameController.players[player] = playerData
-                offer.count--
-            }
-        }
+        offer.trade(player)
     }
 }

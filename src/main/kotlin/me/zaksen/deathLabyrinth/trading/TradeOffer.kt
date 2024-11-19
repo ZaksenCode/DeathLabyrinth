@@ -1,11 +1,26 @@
 package me.zaksen.deathLabyrinth.trading
 
-import org.bukkit.Material
-import org.bukkit.inventory.ItemStack
+import org.bukkit.entity.Player
+import xyz.xenondevs.invui.item.ItemProvider
 
-data class TradeOffer(
+abstract class TradeOffer(
     var count: Int = 1,
     val price: Int = 10,
-    val stack: ItemStack = ItemStack(Material.AIR),
     val buy: Boolean = true
-)
+) {
+    fun trade(player: Player) {
+        if(buy) {
+            buy(player)
+        } else {
+            sell(player)
+        }
+    }
+
+    abstract fun buy(player: Player)
+    abstract fun sell(player: Player)
+
+    /**
+     * @return ItemProvider from INVUI that will be displayed into trade menu
+     */
+    abstract fun displayItem(): ItemProvider
+}

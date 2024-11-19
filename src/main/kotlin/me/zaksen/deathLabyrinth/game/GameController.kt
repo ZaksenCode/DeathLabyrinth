@@ -12,6 +12,7 @@ import me.zaksen.deathLabyrinth.item.ItemsController
 import me.zaksen.deathLabyrinth.keys.PluginKeys.maxHealthModifierKey
 import me.zaksen.deathLabyrinth.keys.PluginKeys.speedModifierKey
 import me.zaksen.deathLabyrinth.menu.Menus
+import me.zaksen.deathLabyrinth.trading.ItemOffer
 import me.zaksen.deathLabyrinth.trading.TradeOffer
 import me.zaksen.deathLabyrinth.util.*
 import net.kyori.adventure.text.format.TextColor
@@ -293,7 +294,7 @@ object GameController {
 
                 val healPotion = ItemsController.get("heal_potion")!!
 
-                result.add(TradeOffer(
+                result.add(ItemOffer(
                     players.size,
                     healPotion.settings.tradePriceStrategy().scale(healPotion.settings.tradePrice()),
                     healPotion.asItemStack()
