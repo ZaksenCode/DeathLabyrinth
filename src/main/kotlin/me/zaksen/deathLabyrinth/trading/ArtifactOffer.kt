@@ -16,6 +16,7 @@ import xyz.xenondevs.invui.item.builder.ItemBuilder
 /**
  * @param artifact should be unique instance
  */
+// FIXME - Fix infinity artifact buying
 class ArtifactOffer(
     count: Int = 1,
     price: Int = 10,
@@ -26,6 +27,9 @@ class ArtifactOffer(
 
         if(playerData.money >= this.price && this.count >= 1) {
             playerData.addArtifact(artifact)
+            playerData.money -= this.price
+            GameController.players[player] = playerData
+            this.count--
         }
     }
 
