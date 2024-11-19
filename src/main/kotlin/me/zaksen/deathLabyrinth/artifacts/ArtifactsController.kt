@@ -151,7 +151,7 @@ object ArtifactsController {
         }
     }
 
-    private fun getRandomArtifact(rarity: ArtifactRarity = rarityList.random()!!): Artifact {
+    fun getRandomArtifact(rarity: ArtifactRarity = rarityList.random()!!): Artifact {
         return artifacts.map { it.value.getDeclaredConstructor().newInstance() }.filter { it.rarity == rarity }.random()
     }
 }
