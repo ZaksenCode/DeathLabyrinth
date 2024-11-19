@@ -46,7 +46,6 @@ open class CustomItem(val id: String, val type: ItemType, val settings: ItemSett
             )))
         }
 
-
         return stack
     }
 
