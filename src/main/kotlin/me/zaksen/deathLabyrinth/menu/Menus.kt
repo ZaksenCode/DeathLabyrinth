@@ -6,9 +6,7 @@ import me.zaksen.deathLabyrinth.classes.WarriorClass
 import me.zaksen.deathLabyrinth.config.ConfigContainer
 import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.item.ItemsController
-import me.zaksen.deathLabyrinth.menu.item.ArtifactItem
-import me.zaksen.deathLabyrinth.menu.item.ShopItem
-import me.zaksen.deathLabyrinth.menu.item.TabItem
+import me.zaksen.deathLabyrinth.menu.item.*
 import me.zaksen.deathLabyrinth.menu.item.util.NextPageItem
 import me.zaksen.deathLabyrinth.menu.item.util.PreviousPageItem
 import me.zaksen.deathLabyrinth.trading.TradeOffer
@@ -24,10 +22,8 @@ import xyz.xenondevs.invui.gui.PagedGui
 import xyz.xenondevs.invui.gui.structure.Markers
 import xyz.xenondevs.invui.item.ItemProvider
 import xyz.xenondevs.invui.item.builder.ItemBuilder
-import xyz.xenondevs.invui.item.builder.setLore
 import xyz.xenondevs.invui.item.impl.AbstractItem
 import xyz.xenondevs.invui.item.impl.SimpleItem
-import xyz.xenondevs.invui.item.impl.controlitem.PageItem
 import xyz.xenondevs.invui.window.Window
 
 object Menus {
@@ -175,6 +171,35 @@ object Menus {
         val window: Window = Window.single()
             .setViewer(player)
             .setTitle("ui.artifacts_menu.title".asTranslate().color(TextColor.color(255, 255, 255)).font(Key.key("dl:menus")).toWrapper())
+            .setGui(gui)
+            .build()
+
+        window.open()
+    }
+
+    // TODO - Add blacksmith menu.
+    fun blacksmithMenu(player: Player) {
+        val sourceSlot = SlotItem()
+        val inputSlot = SlotItem()
+        val outputSlot = OutputSlot(sourceSlot, inputSlot)
+
+        sourceSlot.setupOutputSlot(outputSlot)
+        inputSlot.setupOutputSlot(outputSlot)
+
+        val gui = Gui.normal()
+            .setStructure(
+                ". . . . . . . . .",
+                ". S . . I . . O .",
+                ". . . . . . . . ."
+            )
+            .addIngredient('S', sourceSlot)
+            .addIngredient('I', inputSlot)
+            .addIngredient('O', outputSlot)
+            .build()
+
+        val window: Window = Window.single()
+            .setViewer(player)
+            .setTitle("ui.blacksmith_menu.title".asTranslate().color(TextColor.color(255, 255, 255)).font(Key.key("dl:menus")).toWrapper())
             .setGui(gui)
             .build()
 

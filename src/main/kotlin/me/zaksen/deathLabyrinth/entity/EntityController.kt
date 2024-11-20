@@ -20,6 +20,7 @@ import me.zaksen.deathLabyrinth.entity.silverfish.BigMouseEntity
 import me.zaksen.deathLabyrinth.entity.silverfish.MouseEntity
 import me.zaksen.deathLabyrinth.entity.skeleton.*
 import me.zaksen.deathLabyrinth.entity.teleport.BomberReturnPoint
+import me.zaksen.deathLabyrinth.entity.villager.BlacksmithEntity
 import me.zaksen.deathLabyrinth.entity.vindicator.VindicatorOneEntity
 import me.zaksen.deathLabyrinth.entity.vindicator.VindicatorTwoEntity
 import me.zaksen.deathLabyrinth.entity.wolf.BigBoneWolfEntity
@@ -67,6 +68,7 @@ object EntityController {
         entities["artifacts_trader"] = ArtifactsTrader::class.java
 
         // NPC
+        entities["blacksmith"] = BlacksmithEntity::class.java
 
         // Bosses
         entities["bomber_boss"] = BomberEntity::class.java
