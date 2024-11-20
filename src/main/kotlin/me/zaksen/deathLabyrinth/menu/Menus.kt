@@ -177,7 +177,6 @@ object Menus {
         window.open()
     }
 
-    // TODO - Add blacksmith menu.
     fun blacksmithMenu(player: Player) {
         val sourceSlot = SlotItem()
         val inputSlot = SlotItem()

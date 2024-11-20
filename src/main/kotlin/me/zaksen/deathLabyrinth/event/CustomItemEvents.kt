@@ -17,7 +17,6 @@ import org.bukkit.persistence.PersistentDataType
 
 class CustomItemEvents: Listener {
 
-    // TODO - Add way to use ability from other entities (remove player check)
     @EventHandler
     fun processCustomItemHit(event: EntityDamageByEntityEvent) {
         val damager = event.damager

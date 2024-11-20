@@ -16,7 +16,6 @@ import xyz.xenondevs.invui.item.builder.ItemBuilder
 /**
  * @param artifact should be unique instance
  */
-// FIXME - Fix infinity artifact buying
 class ArtifactOffer(
     count: Int = 1,
     price: Int = 10,
