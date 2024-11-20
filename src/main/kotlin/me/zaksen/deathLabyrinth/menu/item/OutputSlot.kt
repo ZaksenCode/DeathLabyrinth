@@ -4,6 +4,7 @@ import me.zaksen.deathLabyrinth.item.ability.ItemAbilityManager
 import me.zaksen.deathLabyrinth.keys.PluginKeys
 import me.zaksen.deathLabyrinth.util.*
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.TranslatableComponent
 import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.text.format.TextDecoration
 import org.bukkit.Material
@@ -93,6 +94,15 @@ class OutputSlot(val firstSlot: SlotItem, val secondSlot: SlotItem): AbstractIte
 
         val meta = result.itemMeta
         meta.persistentDataContainer.set(PluginKeys.customItemAbilitiesKey, PersistentDataType.STRING, sourceAbilities.string())
+
+        if(meta.hasLore()) {
+            // TODO - Need to find a better way to removing old abilities lore
+            meta.lore(meta.lore()!!.filter {
+                val comp = it.toString()
+                return@filter !comp.contains("abilit")
+            })
+        }
+
         result.itemMeta = meta
 
         if(sourceAbilities.isNotEmpty()) result.loreLine(
