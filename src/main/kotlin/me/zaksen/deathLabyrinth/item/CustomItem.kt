@@ -23,6 +23,11 @@ open class CustomItem(val id: String, val type: ItemType, val settings: ItemSett
         val meta = stack.itemMeta
         meta.persistentDataContainer.set(PluginKeys.customItemKey, PersistentDataType.STRING, id)
         meta.persistentDataContainer.set(PluginKeys.customItemAbilitiesKey, PersistentDataType.STRING, settings.abilities().string())
+
+        if(settings.abilityCooldown() != 0) {
+            meta.persistentDataContainer.set(PluginKeys.customItemCooldownTimeKey, PersistentDataType.INTEGER, settings.abilityCooldown())
+        }
+
         meta.isUnbreakable = true
         stack.itemMeta = meta
 
@@ -46,14 +51,35 @@ open class CustomItem(val id: String, val type: ItemType, val settings: ItemSett
             )))
         }
 
+        if(settings.abilityCooldown() != 0) {
+            stack.loreLine("item.lore.cooldown".asTranslate(
+                (settings.abilityCooldown() / 1000.0).toString().asText()).color(TextColor.color(65,105,225))
+            )
+        }
+
         return stack
+    }
+
+    fun checkCooldown(item: ItemStack): Boolean {
+        if(item.itemMeta.persistentDataContainer.has(PluginKeys.customItemCooldownKey)) {
+            val cooldown = item.itemMeta.persistentDataContainer.get(PluginKeys.customItemCooldownKey, PersistentDataType.LONG)
+            val maxCooldown = item.itemMeta.persistentDataContainer.get(PluginKeys.customItemCooldownTimeKey, PersistentDataType.INTEGER)
+
+            return cooldown != null && maxCooldown != null && System.currentTimeMillis() - cooldown >= maxCooldown
+        } else {
+            val meta = item.itemMeta
+            meta.persistentDataContainer.set(PluginKeys.customItemCooldownKey, PersistentDataType.LONG, System.currentTimeMillis())
+            item.setItemMeta(meta)
+            return true
+        }
     }
 
     fun checkAndUpdateCooldown(item: ItemStack): Boolean {
         if(item.itemMeta.persistentDataContainer.has(PluginKeys.customItemCooldownKey)) {
             val cooldown = item.itemMeta.persistentDataContainer.get(PluginKeys.customItemCooldownKey, PersistentDataType.LONG)
+            val maxCooldown = item.itemMeta.persistentDataContainer.get(PluginKeys.customItemCooldownTimeKey, PersistentDataType.INTEGER)!!
 
-            if(cooldown != null && System.currentTimeMillis() - cooldown >= settings.abilityCooldown()) {
+            if(cooldown != null && System.currentTimeMillis() - cooldown >= maxCooldown) {
                 val meta = item.itemMeta
                 meta.persistentDataContainer.set(PluginKeys.customItemCooldownKey, PersistentDataType.LONG, System.currentTimeMillis())
                 item.setItemMeta(meta)

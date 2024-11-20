@@ -52,8 +52,19 @@ open class WeaponItem(private val weaponType: WeaponType, id: String, settings: 
         val meta = stack.itemMeta
         meta.persistentDataContainer.set(PluginKeys.customItemKey, PersistentDataType.STRING, id)
         meta.persistentDataContainer.set(PluginKeys.customItemAbilitiesKey, PersistentDataType.STRING, settings.abilities().string())
+
+        if(settings.abilityCooldown() != 0) {
+            meta.persistentDataContainer.set(PluginKeys.customItemCooldownTimeKey, PersistentDataType.INTEGER, settings.abilityCooldown())
+        }
+
         meta.isUnbreakable = true
         stack.itemMeta = meta
+
+        if(settings.abilityCooldown() != 0) {
+            stack.loreLine("item.lore.cooldown".asTranslate(
+                (settings.abilityCooldown() / 1000.0).toString().asText()).color(TextColor.color(65,105,225))
+            )
+        }
 
         return stack
     }

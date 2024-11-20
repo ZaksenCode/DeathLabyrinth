@@ -22,7 +22,7 @@ class LaserCast: ItemAbility(
 
         val rayCastEntity = event.player.rayTraceEntities(64)
 
-        if(rayCastEntity != null && rayCastEntity.hitEntity != null && item.checkAndUpdateCooldown(stack)) {
+        if(rayCastEntity != null && rayCastEntity.hitEntity != null && item.checkCooldown(stack)) {
             if(rayCastEntity.hitEntity!! !is LivingEntity) {
                 return
             }

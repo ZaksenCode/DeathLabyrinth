@@ -24,7 +24,7 @@ class ElectricCast: ItemAbility(
 
         val rayCast = event.player.rayTraceEntities(16)
 
-        if(rayCast != null && rayCast.hitEntity != null && item.checkAndUpdateCooldown(stack)) {
+        if(rayCast != null && rayCast.hitEntity != null && item.checkCooldown(stack)) {
             val entity = rayCast.hitEntity!!
 
             if(entity !is LivingEntity || entity is Player || entity is FriendlyEntity) {

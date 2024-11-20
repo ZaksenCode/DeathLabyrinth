@@ -330,6 +330,9 @@ object RoomController {
     }
 
     fun processEntitySpawn(world: World, entity: Entity, requireKill: Boolean, debug: Boolean = false) {
+        if (entity is net.minecraft.world.entity.LivingEntity) {
+            (entity.bukkitEntity as LivingEntity).maximumNoDamageTicks = 1
+        }
         world.tryAddEntity(entity)
         if(entity is Trader) {
             entity.updateOffers(GameController.generateTradeOffers(entity.getTraderType()))

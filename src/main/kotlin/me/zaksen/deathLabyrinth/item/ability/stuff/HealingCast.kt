@@ -18,7 +18,7 @@ class HealingCast: ItemAbility(
         val stack = event.stack!!
         val item = event.item!!
 
-        if(item.checkAndUpdateCooldown(stack)) {
+        if(item.checkCooldown(stack)) {
             val maxHealth = event.player.getAttribute(Attribute.GENERIC_MAX_HEALTH)!!.baseValue
             val toHeal = maxHealth * 0.15
 

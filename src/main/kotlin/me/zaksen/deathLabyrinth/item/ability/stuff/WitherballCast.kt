@@ -1,6 +1,5 @@
 package me.zaksen.deathLabyrinth.item.ability.stuff
 
-import me.zaksen.deathLabyrinth.entity.projectile.FireBallEntity
 import me.zaksen.deathLabyrinth.entity.projectile.WitherBallEntity
 import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.event.item.ItemUseEvent
@@ -20,7 +19,7 @@ class WitherballCast: ItemAbility(
         val stack = event.stack!!
         val item = event.item!!
 
-        if(item.checkAndUpdateCooldown(stack)) {
+        if(item.checkCooldown(stack)) {
             val shotVelocity = event.player.location.direction.multiply(2).normalize()
 
             val projectile = WitherBallEntity(event.player.location.add(shotVelocity).add(0.0, 1.6, 0.0))

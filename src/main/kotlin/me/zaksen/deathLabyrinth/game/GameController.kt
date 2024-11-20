@@ -30,6 +30,7 @@ import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scheduler.BukkitTask
+import kotlin.random.Random
 
 // TODO - Decompose
 object GameController {
@@ -298,7 +299,7 @@ object GameController {
 
         when(traderType) {
             TraderType.NORMAL -> {
-                TradeController.getOffersSnap(players.size * 2, traderType).forEach {
+                TradeController.getOffersSnap(players.size * Random.Default.nextInt(2, 3), traderType).forEach {
                     result.add(it)
                 }
 
@@ -312,6 +313,7 @@ object GameController {
             }
 
             TraderType.ALCHEMIST -> {
+                println("Start alchemist trade")
                 TradeController.getOffersSnap(players.size * 2, traderType, false).forEach {
                     result.add(it)
                 }

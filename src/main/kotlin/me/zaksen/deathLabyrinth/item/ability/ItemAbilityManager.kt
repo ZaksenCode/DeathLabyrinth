@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.item.ability
 
+import me.zaksen.deathLabyrinth.event.item.ItemUseEvent
 import me.zaksen.deathLabyrinth.item.ability.consume.*
 import me.zaksen.deathLabyrinth.item.ability.stuff.*
 import me.zaksen.deathLabyrinth.item.ability.weapon.*
@@ -45,5 +46,7 @@ object ItemAbilityManager {
             val ability = abilityMap[it] ?: return@forEach
             ability.invoke(event)
         }
+
+        if(event is ItemUseEvent) event.item!!.checkAndUpdateCooldown(event.stack!!)
     }
 }

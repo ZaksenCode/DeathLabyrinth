@@ -17,7 +17,7 @@ class NecromanticCast: ItemAbility(
         val stack = event.stack!!
         val item = event.item!!
 
-        if(item.checkAndUpdateCooldown(stack)) {
+        if(item.checkCooldown(stack)) {
             val skeleton = FriendlySkeletonArcherEntity(event.player.location.add(2.0, 1.0, 1.0))
             EventManager.callPlayerSummonFriendlyEntityEvent(event.player, skeleton)
             val skeletonTwo = FriendlySkeletonArcherEntity(event.player.location.add(-2.0, 1.0, -1.0))

@@ -19,6 +19,7 @@ import java.util.Timer
 import java.util.UUID
 import kotlin.concurrent.timer
 
+// TODO - Artifacts should work for each player
 object ArtifactsController {
 
     val rarityList = WeightedRandomList<ArtifactRarity>()
@@ -124,6 +125,7 @@ object ArtifactsController {
         processArtifactsChain(isGoodly)
     }
 
+    // FIXME - In multiplayer each new chain move by some offset (?)
     private fun processArtifactsChain(isGoodly: Boolean = false) {
         despawnArtifacts()
 

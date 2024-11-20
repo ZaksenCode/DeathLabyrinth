@@ -19,7 +19,7 @@ class FireballCast: ItemAbility(
         val stack = event.stack!!
         val item = event.item!!
 
-        if(item.checkAndUpdateCooldown(stack)) {
+        if(item.checkCooldown(stack)) {
             val shotVelocity = event.player.location.direction.multiply(2).normalize()
 
             val projectile = FireBallEntity(event.player.location.add(shotVelocity).add(0.0, 1.6, 0.0))

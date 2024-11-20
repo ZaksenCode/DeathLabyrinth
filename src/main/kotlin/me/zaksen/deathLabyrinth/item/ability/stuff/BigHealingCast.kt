@@ -19,7 +19,7 @@ class BigHealingCast: ItemAbility(
         val stack = event.stack!!
         val item = event.item!!
 
-        if(item.checkAndUpdateCooldown(stack)) {
+        if(item.checkCooldown(stack)) {
             val players = event.player.world.getNearbyEntitiesByType(
                 Player::class.java,
                 event.player.location,

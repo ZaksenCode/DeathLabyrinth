@@ -23,6 +23,7 @@ import net.minecraft.world.item.Items
 import org.bukkit.Location
 import org.bukkit.craftbukkit.CraftWorld
 
+// TODO - Add more different abilities
 class BomberEntity(location: Location): Skeleton(EntityType.SKELETON, (location.world as CraftWorld).handle), Scaleable {
 
     init {

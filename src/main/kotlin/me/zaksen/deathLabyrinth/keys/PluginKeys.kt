@@ -7,6 +7,7 @@ object PluginKeys {
 
     lateinit var customItemKey: NamespacedKey
     lateinit var customItemCooldownKey: NamespacedKey
+    lateinit var customItemCooldownTimeKey: NamespacedKey
 
     lateinit var customItemDamageKey: NamespacedKey
     lateinit var customItemAttackSpeedKey: NamespacedKey
@@ -37,6 +38,7 @@ object PluginKeys {
     fun setup(plugin: Plugin) {
         customItemKey = NamespacedKey(plugin, "custom_item_id")
         customItemCooldownKey = NamespacedKey(plugin, "custom_item_cooldown")
+        customItemCooldownTimeKey = NamespacedKey(plugin, "custom_item_time_cooldown")
 
         customItemDamageKey = NamespacedKey(plugin, "custom_item_damage")
         customItemAttackSpeedKey = NamespacedKey(plugin, "custom_item_attack_speed")

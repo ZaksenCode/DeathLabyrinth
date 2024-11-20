@@ -20,6 +20,7 @@ import net.minecraft.world.entity.player.Player
 import org.bukkit.Location
 import org.bukkit.craftbukkit.CraftWorld
 
+// FIXME - alchemist didn't have offers
 class AlchemistTraderEntity(location: Location): Husk(EntityType.HUSK, (location.world as CraftWorld).handle),
     Trader {
 
