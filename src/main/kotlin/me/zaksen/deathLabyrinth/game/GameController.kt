@@ -67,7 +67,7 @@ object GameController {
         return players.filter { !it.value.isAlive }
     }
 
-    fun revivePlayer(player: Player) {
+    fun revivePlayer(player: Player, reviewer: Player? = null) {
         val data = players[player]
 
         player.gameMode = GameMode.SURVIVAL
@@ -76,7 +76,9 @@ object GameController {
             players[player]!!.isAlive = true
         }
 
-        player.teleport(players.filter { it.value.isAlive }.entries.random().key)
+        if(reviewer != null) {
+            player.teleport(reviewer)
+        }
     }
 
     fun reload() {

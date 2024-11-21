@@ -61,11 +61,12 @@ object TradeController {
                 )
             }
         } else if(traderType == TraderType.ALCHEMIST) {
-            getArtifactsTradesSpan(count).map {
-                ArtifactOffer(
+            getTradesSpan(count, traderType).map {
+                ItemOffer(
                     Random.Default.nextInt(count, count * 2),
-                    getArtifactPrice(it),
-                    it
+                    it.settings.tradePriceStrategy().scale(it.settings.tradePrice()),
+                    it.asItemStack(),
+                    isBuying
                 )
             }
         } else {
@@ -115,9 +116,9 @@ object TradeController {
     private fun getArtifactPrice(artifact: Artifact): Int {
         return when(artifact.rarity) {
             ArtifactRarity.COMMON -> PricingStrategies.DEFAULT.strategy.scale(100)
-            ArtifactRarity.RARE -> PricingStrategies.DEFAULT.strategy.scale(400)
-            ArtifactRarity.EPIC -> PricingStrategies.DEFAULT.strategy.scale(1100)
-            ArtifactRarity.GODLY -> PricingStrategies.DEFAULT.strategy.scale(2000)
+            ArtifactRarity.RARE -> PricingStrategies.DEFAULT.strategy.scale(300)
+            ArtifactRarity.EPIC -> PricingStrategies.DEFAULT.strategy.scale(500)
+            ArtifactRarity.GODLY -> PricingStrategies.DEFAULT.strategy.scale(1000)
         }
     }
 

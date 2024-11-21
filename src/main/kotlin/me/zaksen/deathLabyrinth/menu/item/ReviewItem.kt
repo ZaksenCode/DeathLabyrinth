@@ -5,6 +5,7 @@ import me.zaksen.deathLabyrinth.trading.pricing.PricingStrategies
 import me.zaksen.deathLabyrinth.util.asText
 import me.zaksen.deathLabyrinth.util.asTranslate
 import me.zaksen.deathLabyrinth.util.toWrapper
+import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
@@ -16,9 +17,10 @@ import xyz.xenondevs.invui.item.impl.AbstractItem
 
 class ReviewItem: AbstractItem() {
     override fun getItemProvider(): ItemProvider {
-        return ItemBuilder(Material.END_CRYSTAL).setDisplayName("text.review_player.name".asTranslate().toWrapper())
-            .addLoreLines("text.review_player.description".asTranslate(PricingStrategies.DEFAULT.strategy.scale(50).toString().asText()).toWrapper())
-            .addLoreLines("text.review_player.description.players".asTranslate().toWrapper())
+        val price = PricingStrategies.DEFAULT.strategy.scale(50)
+        return ItemBuilder(Material.END_CRYSTAL).setDisplayName("text.review_player.name".asTranslate().color(TextColor.color(244, 247, 141)).toWrapper())
+            .addLoreLines("text.review_player.description".asTranslate("$price".asText()).color(TextColor.color(216, 219, 112)).toWrapper())
+            .addLoreLines("text.review_player.description.players".asTranslate().color(TextColor.color(216, 219, 112)).toWrapper())
             .addLoreLines(playersList())
     }
 
@@ -26,7 +28,7 @@ class ReviewItem: AbstractItem() {
         val result = mutableListOf<ComponentWrapper>()
 
         GameController.getDeadPlayers().forEach {
-            result.add(it.key.displayName().toWrapper())
+            result.add(" - ".asText().color(TextColor.color(128, 187, 80)).append(it.key.displayName().color(TextColor.color(160, 219, 112))).toWrapper())
         }
 
         return result
@@ -48,7 +50,7 @@ class ReviewItem: AbstractItem() {
             data.money -= price
             GameController.players[player] = data
 
-            GameController.revivePlayer(revivePlayer)
+            GameController.revivePlayer(revivePlayer, player)
         }
     }
 

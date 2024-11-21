@@ -34,6 +34,8 @@ class VindicatorOneEntity(location: Location): Vindicator(EntityType.VINDICATOR,
 
         this.setItemSlot(EquipmentSlot.OFFHAND, ItemStack(Items.STONE_AXE))
 
+        this.fireImmuneTicks
+
         this.setPos(location.x, location.y, location.z)
     }
 

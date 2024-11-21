@@ -34,4 +34,6 @@ data class RoomConfig(
     ),
     @SerialName("boss_artifacts_offset")
     val bossArtifactsSpawnOffset: Position = Position("world", -24.0, 2.0, 0.0),
+    @SerialName("necromancer_spawn_offset")
+    val necromancerSpawnOffset: Position = Position("world", -16.0, 2.0, 3.0),
 )

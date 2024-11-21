@@ -39,16 +39,7 @@ open class CustomItem(val id: String, val type: ItemType, val settings: ItemSett
 
         settings.abilities().forEach {
             val ability = ItemAbilityManager.abilityMap[it] ?: return@forEach
-            stack.loreLine(ability.name.decoration(TextDecoration.ITALIC, false).color(
-                TextColor.color(
-                    178, 91, 245
-                )
-            ))
-            stack.loreLine(Component.text(" - ").append(ability.description.decoration(TextDecoration.ITALIC, false).color(
-                TextColor.color(
-                    147, 63, 212
-                )
-            )))
+            ability.addAbilityDescription(stack)
         }
 
         if(settings.abilityCooldown() != 0) {

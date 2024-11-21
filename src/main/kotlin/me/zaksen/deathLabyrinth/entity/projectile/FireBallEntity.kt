@@ -18,7 +18,7 @@ import org.bukkit.Location
 import org.bukkit.craftbukkit.CraftWorld
 import java.util.*
 
-class FireBallEntity(location: Location): WindCharge(EntityType.WIND_CHARGE, (location.getWorld() as CraftWorld).handle) {
+class FireBallEntity(location: Location): WindCharge(EntityType.WIND_CHARGE, (location.world as CraftWorld).handle) {
     init {
         this.setPos(location.x, location.y, location.z)
     }
@@ -42,12 +42,12 @@ class FireBallEntity(location: Location): WindCharge(EntityType.WIND_CHARGE, (lo
         val entities = level().getEntities(
             EntityTypeTest.forClass(LivingEntity::class.java),
             AABB(
-            x - 1.0,
-            y - 1.0,
-            z - 1.0,
-            x + 1.0,
-            y + 1.0,
-            z + 1.0
+            x - 1.5,
+            y - 1.5,
+            z - 1.5,
+            x + 1.5,
+            y + 1.5,
+            z + 1.5
             )
         ) {
             it.isAlive && it !is Player && it !is FriendlyEntity

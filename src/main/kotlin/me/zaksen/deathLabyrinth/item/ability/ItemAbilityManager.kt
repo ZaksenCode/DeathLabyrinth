@@ -17,6 +17,9 @@ object ItemAbilityManager {
     init {
         // Weapon
         abilityMap["area_hit"] = AreaHit()
+        abilityMap["fire_blade"] = FireBlade()
+        // Weapon - Use
+        abilityMap["bubble_laser"] = BubbleLaser()
         // Stuff
         abilityMap["fireball_cast"] = FireballCast()
         abilityMap["big_fireball_cast"] = BigFireballCast()
@@ -29,6 +32,8 @@ object ItemAbilityManager {
         abilityMap["healing_cast"] = HealingCast()
         abilityMap["big_healing_cast"] = BigHealingCast()
         abilityMap["necromantic_cast"] = NecromanticCast()
+        // Stuff - other
+        abilityMap["wind_charge_cast"] = WindChargeCast()
         // Consume
         abilityMap["heal_effect"] = HealEffect()
         abilityMap["small_heal_effect"] = SmallHealEffect()

@@ -186,7 +186,25 @@ object RoomController {
                 startBossArtifactsChain()
             } else if(actualQueryRoom!!.roomConfig.roomType == RoomType.SHOP &&
                 GameController.hasDeadPlayers()) {
-                // TODO - Spawn Necromancer
+                val spawnX = nextRoomX - actualQueryRoom!!.roomConfig.necromancerSpawnOffset.x
+                val spawnY = nextRoomY + actualQueryRoom!!.roomConfig.necromancerSpawnOffset.y
+                val spawnZ = nextRoomZ - actualQueryRoom!!.roomConfig.necromancerSpawnOffset.z
+
+                println("$nextRoomX - ${actualQueryRoom!!.roomConfig.necromancerSpawnOffset.x} = $spawnX")
+                println("$nextRoomY - ${actualQueryRoom!!.roomConfig.necromancerSpawnOffset.y} = $spawnY")
+                println("$nextRoomZ - ${actualQueryRoom!!.roomConfig.necromancerSpawnOffset.z} = $spawnZ")
+
+                val roomWorld = Bukkit.getWorld(configs.generationConfig().firstRoomEntry.world) ?: return
+                val entity = EntityController.entities["necromancer"]
+
+                if(entity != null) {
+                    val toSpawn = entity.getDeclaredConstructor(Location::class.java).newInstance(Location(roomWorld,
+                        spawnX,
+                        spawnY,
+                        spawnZ
+                    ))
+                    EventManager.callEntitySpawnEvent(roomWorld, toSpawn, false, debug = false)
+                }
             }
         }
 

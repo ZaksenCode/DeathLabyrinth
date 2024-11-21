@@ -14,7 +14,8 @@ import org.bukkit.event.Event
 
 class ElectricCast: ItemAbility(
     Component.translatable("ability.electric_cast.name"),
-    Component.translatable("ability.electric_cast.description")
+    Component.translatable("ability.electric_cast.description"),
+    4.0
 ) {
     override fun invoke(event: Event) {
         if(event !is ItemUseEvent) return

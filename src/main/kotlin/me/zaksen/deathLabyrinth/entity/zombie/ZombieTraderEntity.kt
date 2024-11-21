@@ -24,7 +24,7 @@ class ZombieTraderEntity(location: Location): Zombie(EntityType.ZOMBIE, (locatio
     Trader {
 
     private var tradeOffers: List<TradeOffer> = listOf()
-    private var despawnTicks = 90 * 20
+    private var despawnTicks = 120 * 20
 
     init {
         this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = 50.0

@@ -20,12 +20,11 @@ import net.minecraft.world.entity.player.Player
 import org.bukkit.Location
 import org.bukkit.craftbukkit.CraftWorld
 
-// FIXME - alchemist didn't have offers
 class AlchemistTraderEntity(location: Location): Husk(EntityType.HUSK, (location.world as CraftWorld).handle),
     Trader {
 
     private var tradeOffers: List<TradeOffer> = listOf()
-    private var despawnTicks = 90 * 20
+    private var despawnTicks = 120 * 20
 
     init {
         this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = 50.0

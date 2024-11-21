@@ -27,7 +27,7 @@ class ArtifactsTrader(location: Location): Creeper(EntityType.CREEPER, (location
     Trader {
 
     private var tradeOffers: List<TradeOffer> = listOf()
-    private var despawnTicks = 90 * 20
+    private var despawnTicks = 120 * 20
 
     init {
         this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = 50.0

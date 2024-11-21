@@ -4,13 +4,12 @@ import me.zaksen.deathLabyrinth.entity.difficulty.Scaleable
 import me.zaksen.deathLabyrinth.entity.difficulty.ScalingStrategies
 import net.kyori.adventure.text.format.TextColor
 import net.minecraft.network.chat.Component
-import net.minecraft.server.level.ServerLevel
-import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.ai.goal.FloatGoal
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal
+import net.minecraft.world.entity.ai.goal.SwellGoal
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
 import net.minecraft.world.entity.monster.Creeper
@@ -35,7 +34,8 @@ class SizzleEntity(location: Location): Creeper(EntityType.CREEPER, (location.ge
 
     override fun registerGoals() {
         goalSelector.addGoal(1, FloatGoal(this))
-        goalSelector.addGoal(2, MeleeAttackGoal(this, 1.0, false))
+        goalSelector.addGoal(2, SwellGoal(this))
+        goalSelector.addGoal(3, MeleeAttackGoal(this, 1.0, false))
         targetSelector.addGoal(
             1,
             HurtByTargetGoal(this, *arrayOfNulls(0)).setAlertOthers()

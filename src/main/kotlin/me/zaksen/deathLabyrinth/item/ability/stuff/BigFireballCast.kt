@@ -11,7 +11,9 @@ import org.bukkit.event.Event
 
 class BigFireballCast: ItemAbility(
     Component.translatable("ability.big_fireball_cast.name"),
-    Component.translatable("ability.big_fireball_cast.description")
+    Component.translatable("ability.big_fireball_cast.description"),
+    20.0,
+    3.0
 ) {
     override fun invoke(event: Event) {
         if(event !is ItemUseEvent) return

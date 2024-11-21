@@ -1,4 +1,4 @@
-package me.zaksen.deathLabyrinth.item.ability.stuff
+package me.zaksen.deathLabyrinth.item.ability.weapon
 
 import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.event.item.ItemUseEvent
@@ -10,10 +10,10 @@ import org.bukkit.craftbukkit.entity.CraftLivingEntity
 import org.bukkit.entity.LivingEntity
 import org.bukkit.event.Event
 
-class LaserCast: ItemAbility(
-    Component.translatable("ability.laser_cast.name"),
-    Component.translatable("ability.laser_cast.description"),
-    12.0
+class BubbleLaser: ItemAbility(
+    Component.translatable("ability.bubble_laser.name"),
+    Component.translatable("ability.bubble_laser.description"),
+    30.0
 ) {
     override fun invoke(event: Event) {
         if(event !is ItemUseEvent) return
@@ -27,9 +27,9 @@ class LaserCast: ItemAbility(
             if(rayCastEntity.hitEntity!! !is LivingEntity) {
                 return
             }
-            EventManager.callPlayerSpellEntityDamageEvent(event.player, rayCastEntity.hitEntity as CraftLivingEntity, 12.0)
+            EventManager.callPlayerSpellEntityDamageEvent(event.player, rayCastEntity.hitEntity as CraftLivingEntity, 30.0)
 
-            event.player.eyeLocation.particleLine(Particle.WITCH, rayCastEntity.hitPosition.toLocation(event.player.world))
+            event.player.eyeLocation.particleLine(Particle.BUBBLE_POP, rayCastEntity.hitPosition.toLocation(event.player.world))
         }
     }
 }

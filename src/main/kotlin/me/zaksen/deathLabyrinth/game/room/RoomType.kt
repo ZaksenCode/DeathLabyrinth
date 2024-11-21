@@ -25,6 +25,11 @@ enum class RoomType(val reward: RewardStategy) {
             return 0
         }
     }),
+    FORGE(object: RewardStategy{
+        override fun generate(): Int {
+            return 0
+        }
+    }),
     BOILER_ROOM(object: RewardStategy{
         override fun generate(): Int {
             return 0

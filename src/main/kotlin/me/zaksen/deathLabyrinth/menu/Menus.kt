@@ -205,7 +205,6 @@ object Menus {
         window.open()
     }
 
-    // TODO - Make necromancer menu
     fun necromancerMenu(player: Player) {
         val gui = Gui.normal()
             .setStructure(

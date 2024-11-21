@@ -6,6 +6,8 @@ import me.zaksen.deathLabyrinth.item.gear.armor.ArmorItem
 import me.zaksen.deathLabyrinth.item.settings.ItemSettings
 import me.zaksen.deathLabyrinth.item.items.consume.*
 import me.zaksen.deathLabyrinth.item.items.ingredient.*
+import me.zaksen.deathLabyrinth.item.weapon.WeaponItem
+import me.zaksen.deathLabyrinth.item.weapon.WeaponType
 import me.zaksen.deathLabyrinth.item.weapon.weapons.stuff.*
 import me.zaksen.deathLabyrinth.item.weapon.weapons.sword.*
 import me.zaksen.deathLabyrinth.util.WeightedRandomList
@@ -206,6 +208,29 @@ object ItemsController {
                 .addAviableTrader(TraderType.NORMAL)
         ))
 
+        register("fish_sword", BaseSword(
+            "fish_sword",
+            ItemSettings(Material.SALMON).damage(18.0).attackSpeed(-2.3).range(1.0)
+                .customModel(100)
+                .displayName("item.fish_sword.name".asTranslate().color(TextColor.color(128, 128, 128)))
+                .quality(ItemQuality.RARE)
+                .tradePrice(130)
+                .addAviableTrader(TraderType.NORMAL)
+                .abilityCooldown(10000)
+                .ability("bubble_laser")
+        ))
+
+        register("fire_sword", BaseSword(
+            "fire_sword",
+            ItemSettings(Material.WOODEN_SWORD).damage(10.0).attackSpeed(-2.0).range(1.0)
+                .customModel(1002)
+                .displayName("item.fire_sword.name".asTranslate().color(TextColor.color(128, 128, 128)))
+                .tradePrice(70)
+                .quality(ItemQuality.UNCOMMON)
+                .addAviableTrader(TraderType.NORMAL)
+                .ability("fire_blade")
+        ))
+
         register("shield", CustomItem(
             "shield",
             ItemType.MISC,
@@ -226,6 +251,16 @@ object ItemsController {
         register("necromantic_stuff", NecromanticStaff("necromantic_stuff"))
         register("electric_stuff", ElectricStaff("electric_stuff"))
         register("laser_stuff", LaserStaff("laser_stuff"))
+
+        register("wind_charge_staff", WeaponItem(WeaponType.MISC_STAFF, "wind_charge_staff", ItemSettings(Material.STICK)
+            .customModel(111)
+            .displayName("item.wind_charge_staff.name".asTranslate().color(TextColor.color(0, 191, 255)))
+            .abilityCooldown(1200)
+            .quality(ItemQuality.UNCOMMON)
+            .tradePrice(75)
+            .addAviableTrader(TraderType.NORMAL)
+            .ability("wind_charge_cast")
+        ))
 
         register("heal_potion", HealPotion("heal_potion"))
         register("small_heal_potion", SmallHealPotion("small_heal_potion"))

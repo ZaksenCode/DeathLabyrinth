@@ -121,17 +121,7 @@ class OutputSlot(val firstSlot: SlotItem, val secondSlot: SlotItem): AbstractIte
 
         sourceAbilities.forEach {
             val ability = ItemAbilityManager.abilityMap[it] ?: return@forEach
-            result.loreLine(ability.name.decoration(TextDecoration.ITALIC, false).color(
-                TextColor.color(
-                    178, 91, 245
-                )
-            ))
-            result.loreLine(
-                Component.text(" - ").append(ability.description.decoration(TextDecoration.ITALIC, false).color(
-                TextColor.color(
-                    147, 63, 212
-                )
-            )))
+            ability.addAbilityDescription(result)
         }
 
         if(result.itemMeta.persistentDataContainer.has(PluginKeys.customItemCooldownTimeKey)) {

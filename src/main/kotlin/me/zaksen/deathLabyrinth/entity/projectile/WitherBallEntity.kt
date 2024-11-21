@@ -20,7 +20,7 @@ import org.bukkit.Location
 import org.bukkit.craftbukkit.CraftWorld
 import java.util.*
 
-class WitherBallEntity(location: Location): WindCharge(EntityType.WIND_CHARGE, (location.getWorld() as CraftWorld).handle) {
+class WitherBallEntity(location: Location): WindCharge(EntityType.WIND_CHARGE, (location.world as CraftWorld).handle) {
     init {
         this.setPos(location.x, location.y, location.z)
     }

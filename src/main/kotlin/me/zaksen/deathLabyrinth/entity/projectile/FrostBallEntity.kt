@@ -45,12 +45,12 @@ class FrostBallEntity(location: Location): WindCharge(EntityType.WIND_CHARGE, (l
         val entities = level().getEntities(
             EntityTypeTest.forClass(LivingEntity::class.java),
             AABB(
-            x - 1.0,
-            y - 1.0,
-            z - 1.0,
-            x + 1.0,
-            y + 1.0,
-            z + 1.0
+            x - 1.5,
+            y - 1.5,
+            z - 1.5,
+            x + 1.5,
+            y + 1.5,
+            z + 1.5
             )
         ) {
             it.isAlive && it !is Player && it !is FriendlyEntity

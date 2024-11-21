@@ -12,7 +12,9 @@ import org.bukkit.event.Event
 
 class FrostballCast: ItemAbility(
     Component.translatable("ability.frostball_cast.name"),
-    Component.translatable("ability.frostball_cast.description")
+    Component.translatable("ability.frostball_cast.description"),
+    4.0,
+    1.5
 ) {
     override fun invoke(event: Event) {
         if(event !is ItemUseEvent) return

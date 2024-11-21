@@ -11,7 +11,8 @@ import org.bukkit.event.entity.EntityRegainHealthEvent
 
 class BigHealingCast: ItemAbility(
     Component.translatable("ability.big_healing_cast.name"),
-    Component.translatable("ability.big_healing_cast.description")
+    Component.translatable("ability.big_healing_cast.description"),
+    displayRange = 4.0
 ) {
     override fun invoke(event: Event) {
         if(event !is ItemUseEvent) return

@@ -37,16 +37,7 @@ open class WeaponItem(private val weaponType: WeaponType, id: String, settings: 
 
         settings.abilities().forEach {
             val ability = ItemAbilityManager.abilityMap[it] ?: return@forEach
-            stack.loreLine(ability.name.decoration(TextDecoration.ITALIC, false).color(
-                TextColor.color(
-                    178, 91, 245
-                )
-            ))
-            stack.loreLine(Component.text(" - ").append(ability.description.decoration(TextDecoration.ITALIC, false).color(
-                TextColor.color(
-                    147, 63, 212
-                )
-            )))
+            ability.addAbilityDescription(stack)
         }
 
         val meta = stack.itemMeta
