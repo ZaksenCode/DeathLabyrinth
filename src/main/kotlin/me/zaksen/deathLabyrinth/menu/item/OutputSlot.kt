@@ -4,7 +4,6 @@ import me.zaksen.deathLabyrinth.item.ability.ItemAbilityManager
 import me.zaksen.deathLabyrinth.keys.PluginKeys
 import me.zaksen.deathLabyrinth.util.*
 import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.TranslatableComponent
 import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.text.format.TextDecoration
 import org.bukkit.Material
@@ -99,8 +98,16 @@ class OutputSlot(val firstSlot: SlotItem, val secondSlot: SlotItem): AbstractIte
             // TODO - Need to find a better way to removing old abilities lore
             meta.lore(meta.lore()!!.filter {
                 val comp = it.toString()
-                return@filter !comp.contains("abilit")
+                return@filter !comp.contains("abilit") && !comp.contains("cooldown")
             })
+        }
+
+        if(source.itemMeta.persistentDataContainer.has(PluginKeys.customItemCooldownTimeKey) &&
+            input.itemMeta.persistentDataContainer.has(PluginKeys.customItemCooldownTimeKey)) {
+            val sourceMeta = source.itemMeta
+            val sourceCooldownTime = sourceMeta.persistentDataContainer.get(PluginKeys.customItemCooldownTimeKey, PersistentDataType.INTEGER)!!
+            meta.persistentDataContainer.set(PluginKeys.customItemCooldownTimeKey, PersistentDataType.INTEGER, sourceCooldownTime +
+                    (input.persistentDataContainer.get(PluginKeys.customItemCooldownTimeKey, PersistentDataType.INTEGER)!! * 0.5).toInt())
         }
 
         result.itemMeta = meta
@@ -125,6 +132,13 @@ class OutputSlot(val firstSlot: SlotItem, val secondSlot: SlotItem): AbstractIte
                     147, 63, 212
                 )
             )))
+        }
+
+        if(result.itemMeta.persistentDataContainer.has(PluginKeys.customItemCooldownTimeKey)) {
+            result.loreLine("item.lore.cooldown".asTranslate(
+                (result.itemMeta.persistentDataContainer.get(PluginKeys.customItemCooldownTimeKey, PersistentDataType.INTEGER)!! / 1000.0).toString().asText())
+                .color(TextColor.color(65,105,225))
+            )
         }
 
         slotItem = result

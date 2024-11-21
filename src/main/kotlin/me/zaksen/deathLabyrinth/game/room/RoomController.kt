@@ -29,8 +29,6 @@ import org.bukkit.World
 import org.bukkit.craftbukkit.entity.CraftEntity
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
-import org.bukkit.potion.PotionEffect
-import org.bukkit.potion.PotionEffectType
 import java.io.File
 import java.io.FileInputStream
 import kotlin.random.Random
@@ -183,8 +181,13 @@ object RoomController {
             return
         }
 
-        if(actualQueryRoom != null && actualQueryRoom!!.roomConfig.roomType == RoomType.BOSS) {
-            startBossArtifactsChain()
+        if(actualQueryRoom != null) {
+            if(actualQueryRoom!!.roomConfig.roomType == RoomType.BOSS) {
+                startBossArtifactsChain()
+            } else if(actualQueryRoom!!.roomConfig.roomType == RoomType.SHOP &&
+                GameController.hasDeadPlayers()) {
+                // TODO - Spawn Necromancer
+            }
         }
 
         val queryRoom: Room = generationQuery.first()
@@ -331,7 +334,7 @@ object RoomController {
 
     fun processEntitySpawn(world: World, entity: Entity, requireKill: Boolean, debug: Boolean = false) {
         if (entity is net.minecraft.world.entity.LivingEntity) {
-            (entity.bukkitEntity as LivingEntity).maximumNoDamageTicks = 1
+            (entity.bukkitEntity as LivingEntity).maximumNoDamageTicks = 4
         }
         world.tryAddEntity(entity)
         if(entity is Trader) {

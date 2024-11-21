@@ -47,6 +47,9 @@ object ItemAbilityManager {
             ability.invoke(event)
         }
 
-        if(event is ItemUseEvent) event.item!!.checkAndUpdateCooldown(event.stack!!)
+        if(event is ItemUseEvent) {
+            if(event.item != null && event.stack != null)
+            event.item.checkAndUpdateCooldown(event.stack)
+        }
     }
 }

@@ -204,4 +204,24 @@ object Menus {
 
         window.open()
     }
+
+    // TODO - Make necromancer menu
+    fun necromancerMenu(player: Player) {
+        val gui = Gui.normal()
+            .setStructure(
+                ". . . . . . . . .",
+                ". . . . R . . . .",
+                ". . . . . . . . ."
+            )
+            .addIngredient('R', ReviewItem())
+            .build()
+
+        val window: Window = Window.single()
+            .setViewer(player)
+            .setTitle("ui.necromancer_menu.title".asTranslate().color(TextColor.color(255, 255, 255)).font(Key.key("dl:menus")).toWrapper())
+            .setGui(gui)
+            .build()
+
+        window.open()
+    }
 }

@@ -69,6 +69,7 @@ object EntityController {
 
         // NPC
         entities["blacksmith"] = BlacksmithEntity::class.java
+        entities["necromancer"] = NecromancerEntity::class.java
 
         // Bosses
         entities["bomber_boss"] = BomberEntity::class.java

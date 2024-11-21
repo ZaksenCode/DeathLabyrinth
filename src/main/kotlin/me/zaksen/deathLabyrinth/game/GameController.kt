@@ -59,6 +59,26 @@ object GameController {
         return status
     }
 
+    fun hasDeadPlayers(): Boolean {
+        return getDeadPlayers().isNotEmpty()
+    }
+
+    fun getDeadPlayers(): Map<Player, PlayerData> {
+        return players.filter { !it.value.isAlive }
+    }
+
+    fun revivePlayer(player: Player) {
+        val data = players[player]
+
+        player.gameMode = GameMode.SURVIVAL
+
+        if(data != null) {
+            players[player]!!.isAlive = true
+        }
+
+        player.teleport(players.filter { it.value.isAlive }.entries.random().key)
+    }
+
     fun reload() {
         hudController.stopDrawingTask()
         hudController.clearDrawers()
@@ -167,10 +187,6 @@ object GameController {
     }
 
     private fun startGameCooldown() {
-        println("Players: ${players.size}")
-        println("Ready: ${isPlayersReady()}")
-        println("Ready: $status")
-
         if(players.size >= configs.mainConfig().minimalPlayers && isPlayersReady() && status == GameStatus.WAITING) {
             status = GameStatus.PREPARE
 
@@ -313,8 +329,10 @@ object GameController {
             }
 
             TraderType.ALCHEMIST -> {
-                println("Start alchemist trade")
+                println("Start alchemist trade with size ${players.size * 2}")
+
                 TradeController.getOffersSnap(players.size * 2, traderType, false).forEach {
+                    println("Add new item!")
                     result.add(it)
                 }
             }

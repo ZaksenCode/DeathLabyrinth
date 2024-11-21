@@ -15,6 +15,7 @@ import me.zaksen.deathLabyrinth.trading.TradeOffer
 import me.zaksen.deathLabyrinth.trading.pricing.PricingStrategies
 import me.zaksen.deathLabyrinth.util.WeightedRandomList
 import org.bukkit.entity.Player
+import kotlin.random.Random
 
 object TradeController {
 
@@ -59,6 +60,14 @@ object TradeController {
                     it
                 )
             }
+        } else if(traderType == TraderType.ALCHEMIST) {
+            getArtifactsTradesSpan(count).map {
+                ArtifactOffer(
+                    Random.Default.nextInt(count, count * 2),
+                    getArtifactPrice(it),
+                    it
+                )
+            }
         } else {
             getTradesSpan(count, traderType).map {
                 ItemOffer(
@@ -80,6 +89,10 @@ object TradeController {
 
         if(validItems.size > count) {
             for (i in 1..count) {
+                result.add(getRandomItem(validItems))
+            }
+        } else {
+            for (i in 1..validItems.size) {
                 result.add(getRandomItem(validItems))
             }
         }

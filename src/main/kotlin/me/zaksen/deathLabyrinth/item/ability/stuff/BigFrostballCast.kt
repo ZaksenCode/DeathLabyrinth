@@ -12,8 +12,8 @@ import org.bukkit.craftbukkit.entity.CraftPlayer
 import org.bukkit.event.Event
 
 class BigFrostballCast: ItemAbility(
-    Component.translatable("ability.frostball_cast.name"),
-    Component.translatable("ability.frostball_cast.description")
+    Component.translatable("ability.big_frostball_cast.name"),
+    Component.translatable("ability.big_frostball_cast.description")
 ) {
     override fun invoke(event: Event) {
         if(event !is ItemUseEvent) return

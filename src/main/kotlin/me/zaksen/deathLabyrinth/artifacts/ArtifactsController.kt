@@ -29,7 +29,7 @@ object ArtifactsController {
     private var lastChainLocation: Location = Location(Bukkit.getWorld("world"), 0.0, 0.0, 0.0)
     private var remainingChains: Int = 0
 
-    private var lastHightlitedCards: MutableMap<UUID, CardHolder> = mutableMapOf()
+    private var lastHighlightedCards: MutableMap<UUID, CardHolder> = mutableMapOf()
     var highlightTimer: Timer = timer(period = 200) {
         if(summonedCards.isEmpty()) {
             return@timer
@@ -38,13 +38,13 @@ object ArtifactsController {
         for(entry in GameController.players.filter { it.value.isAlive }) {
             val player = entry.key
 
-            val lastEntity = lastHightlitedCards[player.uniqueId]
+            val lastEntity = lastHighlightedCards[player.uniqueId]
             val rayTrace = player.rayTraceEntities(6)
 
             if(rayTrace == null || rayTrace.hitEntity == null) {
                 if(lastEntity != null) {
                     lastEntity.deHighlight()
-                    lastHightlitedCards.remove(player.uniqueId)
+                    lastHighlightedCards.remove(player.uniqueId)
                 }
             } else {
                 val hitEntity = rayTrace.hitEntity!!
@@ -57,7 +57,7 @@ object ArtifactsController {
                             val cardHitbox = hitEntity.handle as ArtifactsCardHitbox
                             val holder = summonedCards[cardHitbox] ?: continue
                             holder.highlight()
-                            lastHightlitedCards[player.uniqueId] = holder
+                            lastHighlightedCards[player.uniqueId] = holder
                         }
                     }
                 } else {
@@ -65,7 +65,7 @@ object ArtifactsController {
                         val cardHitbox = hitEntity.handle as ArtifactsCardHitbox
                         val holder = summonedCards[cardHitbox] ?: continue
                         holder.highlight()
-                        lastHightlitedCards[player.uniqueId] = holder
+                        lastHighlightedCards[player.uniqueId] = holder
                     }
                 }
             }
@@ -116,6 +116,7 @@ object ArtifactsController {
     fun processArtifactPickup(player: Player, cardHolder: CardHolder) {
         processArtifactsChain()
         val playerData = GameController.players[player] ?: return
+
         playerData.addArtifact(cardHolder.artifact)
     }
 

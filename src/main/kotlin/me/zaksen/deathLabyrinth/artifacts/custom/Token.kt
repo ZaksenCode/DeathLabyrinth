@@ -17,14 +17,13 @@ class Token: Artifact(
     init {
         abilityContainer.add {
             if(it !is PlayerKillEntityEvent) return@add
+            if(it.player == null) return@add
+
             val player = it.player
+            val playerData = GameController.players[player] ?: return@add
 
-            if (player != null) {
-                val playerData = GameController.players[player] ?: return@add
-
-                playerData.money += 3 * count
-                GameController.players[player] = playerData
-            }
+            playerData.money += 3 * count
+            GameController.players[player] = playerData
         }
     }
 
