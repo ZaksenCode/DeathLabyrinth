@@ -18,12 +18,9 @@ class AreaHit: ItemAbility(
 
         val affectedEntities = event.damaged.getNearbyEntities(event.item.settings.hitRange(), event.item.settings.hitRange(), event.item.settings.hitRange())
 
-        println("Attack!")
-
         for(entity in affectedEntities) {
             if(entity is LivingEntity && entity !is Player && entity !is FriendlyEntity) {
-                // FIXME - Event didn't calling
-                EventManager.callPlayerDamageEntityEvent(event.damager as Player, event.damaged as LivingEntity, event.damage)
+                EventManager.callPlayerDamageEntityEvent(event.damager as Player, entity, event.damage)
             }
         }
     }

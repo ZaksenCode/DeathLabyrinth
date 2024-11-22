@@ -68,7 +68,6 @@ object EventManager {
         coolEvent.callEvent()
         GameController.processAnyEvent(coolEvent)
         if (!coolEvent.isCancelled) {
-            print("Damage entity!!")
             entity.damage(coolEvent.damage, coolEvent.player)
             GameController.processEntityHit(coolEvent.entity)
         }
