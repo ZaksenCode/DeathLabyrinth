@@ -3,6 +3,7 @@ package me.zaksen.deathLabyrinth.entity.zombie
 import me.zaksen.deathLabyrinth.entity.trader.Trader
 import me.zaksen.deathLabyrinth.entity.trader.TraderType
 import me.zaksen.deathLabyrinth.menu.Menus
+import me.zaksen.deathLabyrinth.menu.item.ShopItem
 import me.zaksen.deathLabyrinth.trading.TradeOffer
 import net.kyori.adventure.text.format.TextColor
 import net.minecraft.core.particles.ParticleTypes
@@ -26,6 +27,9 @@ class ZombieTraderEntity(location: Location): Zombie(EntityType.ZOMBIE, (locatio
     private var tradeOffers: List<TradeOffer> = listOf()
     private var despawnTicks = 120 * 20
 
+    private val shopItems = mutableListOf<ShopItem>()
+    private var isItemsInit = false
+
     init {
         this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = 50.0
         this.health = 50.0f
@@ -47,8 +51,13 @@ class ZombieTraderEntity(location: Location): Zombie(EntityType.ZOMBIE, (locatio
     }
 
     override fun mobInteract(player: Player, hand: InteractionHand): InteractionResult {
+        if(!isItemsInit) {
+            shopItems.addAll(tradeOffers.map { ShopItem(it) })
+            isItemsInit = true
+        }
+
         if(target == null) {
-            Menus.traderMenu(player.bukkitEntity as org.bukkit.entity.Player, tradeOffers)
+            Menus.traderMenu(player.bukkitEntity as org.bukkit.entity.Player, shopItems)
         }
         return super.mobInteract(player, hand)
     }

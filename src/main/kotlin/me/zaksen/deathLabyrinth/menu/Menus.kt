@@ -122,10 +122,7 @@ object Menus {
     }
 
     // Update trader menu for all players after one player buy
-    fun traderMenu(player: Player, tradeOffers: List<TradeOffer>) {
-        val items = tradeOffers.map {
-            ShopItem(it)
-        }
+    fun traderMenu(player: Player, items: List<ShopItem>) {
 
         val gui = PagedGui.items()
             .setStructure(
