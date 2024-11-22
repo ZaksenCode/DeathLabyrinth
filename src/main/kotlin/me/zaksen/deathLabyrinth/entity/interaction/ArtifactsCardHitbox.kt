@@ -23,7 +23,7 @@ class ArtifactsCardHitbox(location: Location): Interaction(EntityType.INTERACTIO
             val cardHolder = ArtifactsController.summonedCards[this]
 
             if(cardHolder != null) {
-                EventManager.callPlayerPickupArtifactsEvent(player.bukkitEntity as org.bukkit.entity.Player, cardHolder)
+                EventManager.callPlayerPickupArtifactsEvent(player.bukkitEntity as org.bukkit.entity.Player, cardHolder.artifact)
             }
         }
 

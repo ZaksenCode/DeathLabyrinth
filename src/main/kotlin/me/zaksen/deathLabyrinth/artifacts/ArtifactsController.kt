@@ -113,11 +113,11 @@ object ArtifactsController {
         summonedCards.clear()
     }
 
-    fun processArtifactPickup(player: Player, cardHolder: CardHolder) {
+    fun processArtifactPickup(player: Player, artifact: Artifact) {
         processArtifactsChain()
         val playerData = GameController.players[player] ?: return
 
-        playerData.addArtifact(cardHolder.artifact, player.uniqueId)
+        playerData.addArtifact(artifact, player.uniqueId)
     }
 
 

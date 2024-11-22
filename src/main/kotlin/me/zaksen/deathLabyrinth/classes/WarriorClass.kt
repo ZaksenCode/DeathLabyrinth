@@ -2,6 +2,7 @@ package me.zaksen.deathLabyrinth.classes
 
 import me.zaksen.deathLabyrinth.artifacts.custom.GreenHeart
 import me.zaksen.deathLabyrinth.data.PlayerData
+import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.item.ItemsController
 import me.zaksen.deathLabyrinth.item.weapon.WeaponType
 import me.zaksen.deathLabyrinth.util.asTranslate
@@ -25,7 +26,7 @@ class WarriorClass : PlayerClass {
         player.inventory.setItem(EquipmentSlot.OFF_HAND, ItemsController.get("shield")!!.asItemStack())
         player.inventory.addItem(ItemsController.get("heal_potion")!!.asItemStack())
 
-        playerData.addArtifact(GreenHeart(), player.uniqueId)
+        EventManager.callPlayerPickupArtifactsEvent(player, GreenHeart())
     }
 
 }

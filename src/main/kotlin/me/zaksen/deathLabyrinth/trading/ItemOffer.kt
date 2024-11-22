@@ -45,11 +45,12 @@ class ItemOffer(
             if(this.buy) {
                 ItemBuilder(this.stack).setLore(this.stack.lore()!!.map{ it.toWrapper() }).addLoreLines(
                     "<white>\uE000${this.price}</white>".asText().font(Key.key("dl:icons")).toWrapper(),
-                    "ui.shop.item_count".asTranslate(this.count.toString().asText()).color(TextColor.color(255,165,0)).toWrapper()
+                    "ui.shop.item_count.buy".asTranslate(this.count.toString().asText()).color(TextColor.color(255,165,0)).toWrapper()
                 )
             } else {
                 ItemBuilder(this.stack).setLore(this.stack.lore()!!.map{ it.toWrapper() }).addLoreLines(
-                    "<white>\uE000${this.price}</white>".asText().font(Key.key("dl:icons")).toWrapper()
+                    "<white>\uE000${this.price}</white>".asText().font(Key.key("dl:icons")).toWrapper(),
+                    "ui.shop.item_count.sell".asTranslate(this.count.toString().asText()).color(TextColor.color(255,165,0)).toWrapper()
                 )
             }
         } else {

@@ -28,7 +28,7 @@ class MysticPotion: Artifact(
             player.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.addModifier(
                 AttributeModifier(
                     speedModifierKey,
-                    0.1 * count,
+                    0.1 + (0.1 * count),
                     AttributeModifier.Operation.MULTIPLY_SCALAR_1
                 )
             )

@@ -2,6 +2,7 @@ package me.zaksen.deathLabyrinth.trading
 
 import me.zaksen.deathLabyrinth.artifacts.api.Artifact
 import me.zaksen.deathLabyrinth.artifacts.custom.GreenHeart
+import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.util.asText
 import me.zaksen.deathLabyrinth.util.asTranslate
@@ -25,7 +26,7 @@ class ArtifactOffer(
         val playerData = GameController.players[player] ?: return
 
         if(playerData.money >= this.price && this.count >= 1) {
-            playerData.addArtifact(artifact, player.uniqueId)
+            EventManager.callPlayerPickupArtifactsEvent(player, artifact)
             playerData.money -= this.price
             GameController.players[player] = playerData
             this.count--
@@ -42,11 +43,12 @@ class ArtifactOffer(
             if(this.buy) {
                 ItemBuilder(artifactItem).setLore(artifactItem.lore()!!.map { it.toWrapper() }).addLoreLines(
                     "<white>\uE000${this.price}</white>".asText().font(Key.key("dl:icons")).toWrapper(),
-                    "ui.shop.item_count".asTranslate(this.count.toString().asText()).color(TextColor.color(255,165,0)).toWrapper()
+                    "ui.shop.item_count.buy".asTranslate(this.count.toString().asText()).color(TextColor.color(255,165,0)).toWrapper()
                 )
             } else {
                 ItemBuilder(artifactItem).setLore(artifactItem.lore()!!.map { it.toWrapper() }).addLoreLines(
-                    "<white>\uE000${this.price}</white>".asText().font(Key.key("dl:icons")).toWrapper()
+                    "<white>\uE000${this.price}</white>".asText().font(Key.key("dl:icons")).toWrapper(),
+                    "ui.shop.item_count.sell".asTranslate(this.count.toString().asText()).color(TextColor.color(255,165,0)).toWrapper()
                 )
             }
         } else {

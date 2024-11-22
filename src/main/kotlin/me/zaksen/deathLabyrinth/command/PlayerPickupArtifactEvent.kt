@@ -1,12 +1,13 @@
 package me.zaksen.deathLabyrinth.command
 
+import me.zaksen.deathLabyrinth.artifacts.api.Artifact
 import me.zaksen.deathLabyrinth.artifacts.card.CardHolder
 import org.bukkit.entity.Player
 import org.bukkit.event.Cancellable
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 
-class PlayerPickupArtifactEvent(val player: Player, val cardHolder: CardHolder): Event(), Cancellable {
+class PlayerPickupArtifactEvent(val player: Player, val artifact: Artifact): Event(), Cancellable {
     private var cancelled = false
 
     override fun isCancelled(): Boolean {
