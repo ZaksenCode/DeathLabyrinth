@@ -2,6 +2,7 @@ package me.zaksen.deathLabyrinth.data
 
 import me.zaksen.deathLabyrinth.artifacts.api.Artifact
 import me.zaksen.deathLabyrinth.classes.PlayerClass
+import java.util.*
 
 data class PlayerData(
     var isReady: Boolean = false,
@@ -10,7 +11,11 @@ data class PlayerData(
     var playerClass: PlayerClass? = null,
     val artifacts: MutableList<Artifact> = mutableListOf()
 ) {
-    fun addArtifact(artifact: Artifact) {
+    fun addArtifact(artifact: Artifact, owner: UUID? = null) {
+        if(artifact.ownerUuid == null || owner != null) {
+            artifact.ownerUuid = owner
+        }
+
         if(artifacts.contains(artifact)) {
             val index = artifacts.indexOf(artifact)
             val artifact1 = artifacts[index]

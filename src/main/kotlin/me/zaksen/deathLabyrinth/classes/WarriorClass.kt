@@ -25,7 +25,7 @@ class WarriorClass : PlayerClass {
         player.inventory.setItem(EquipmentSlot.OFF_HAND, ItemsController.get("shield")!!.asItemStack())
         player.inventory.addItem(ItemsController.get("heal_potion")!!.asItemStack())
 
-        playerData.addArtifact(GreenHeart())
+        playerData.addArtifact(GreenHeart(), player.uniqueId)
     }
 
 }

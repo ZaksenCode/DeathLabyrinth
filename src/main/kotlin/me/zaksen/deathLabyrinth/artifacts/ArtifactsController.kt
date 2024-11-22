@@ -117,8 +117,9 @@ object ArtifactsController {
         processArtifactsChain()
         val playerData = GameController.players[player] ?: return
 
-        playerData.addArtifact(cardHolder.artifact)
+        playerData.addArtifact(cardHolder.artifact, player.uniqueId)
     }
+
 
     fun startArtifactsChain(location: Location, count: Int = 1, isGoodly: Boolean = false) {
         lastChainLocation = location
@@ -150,6 +151,7 @@ object ArtifactsController {
                 if(isGoodly) getRandomArtifact(ArtifactRarity.GODLY)
                 else getRandomArtifact()
             )
+            lastChainLocation.add(0.0, 2.0, 6.0)
             remainingChains--
         }
     }

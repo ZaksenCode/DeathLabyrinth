@@ -17,6 +17,7 @@ class MirrorOfRevenge: Artifact(
     init {
         abilityContainer.add {
             if(it !is PlayerDamagedByEntityEvent) return@add
+            if(it.damaged.uniqueId != ownerUuid) return@add
             val damager = it.damager
             if(damager !is LivingEntity) return@add
 

@@ -16,6 +16,7 @@ class Jewel: Artifact(
     init {
         abilityContainer.add {
             if(it !is PlayerSpellEntityDamageEvent) return@add
+            if(it.player.uniqueId != ownerUuid) return@add
             it.damage += it.damage * (0.2 * count)
         }
     }

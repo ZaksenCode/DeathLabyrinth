@@ -20,6 +20,8 @@ class RustyDagger: Artifact(
         abilityContainer.add(object: Ability {
             override fun invoke(event: Event) {
                 if(event !is PlayerDamageEntityEvent) return
+                if(event.player.uniqueId != ownerUuid) return
+
                 val player = event.player
                 val state = ArtifactsStates.get(player.uniqueId, this)
 

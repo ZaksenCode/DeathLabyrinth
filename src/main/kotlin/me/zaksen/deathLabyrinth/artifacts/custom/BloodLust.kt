@@ -16,6 +16,7 @@ class BloodLust: Artifact(
     init {
         abilityContainer.add {
             if(it !is PlayerDamageEntityEvent) return@add
+            if(it.player.uniqueId != ownerUuid) return@add
             it.damage += it.damage * (0.2 * count)
         }
     }

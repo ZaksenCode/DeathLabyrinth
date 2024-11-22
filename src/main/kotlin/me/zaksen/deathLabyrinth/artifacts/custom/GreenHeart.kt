@@ -17,6 +17,7 @@ class GreenHeart: Artifact(
     init {
         abilityContainer.add {
             if(it !is PlayerRoomCompleteEvent) return@add
+            if(it.player.uniqueId != ownerUuid) return@add
             it.player.heal(8.0 * count, EntityRegainHealthEvent.RegainReason.REGEN)
         }
     }

@@ -18,6 +18,7 @@ class Token: Artifact(
         abilityContainer.add {
             if(it !is PlayerKillEntityEvent) return@add
             if(it.player == null) return@add
+            if(it.player.uniqueId != ownerUuid) return@add
 
             val player = it.player
             val playerData = GameController.players[player] ?: return@add

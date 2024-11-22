@@ -25,7 +25,7 @@ class ArtifactOffer(
         val playerData = GameController.players[player] ?: return
 
         if(playerData.money >= this.price && this.count >= 1) {
-            playerData.addArtifact(artifact)
+            playerData.addArtifact(artifact, player.uniqueId)
             playerData.money -= this.price
             GameController.players[player] = playerData
             this.count--

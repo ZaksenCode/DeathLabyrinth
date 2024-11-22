@@ -19,6 +19,8 @@ class MysticPotion: Artifact(
     init {
         abilityContainer.add {
             if(it !is PlayerPickupArtifactEvent) return@add
+            if(it.player.uniqueId != ownerUuid) return@add
+
             val player = it.player
 
             player.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.removeModifier(speedModifierKey)

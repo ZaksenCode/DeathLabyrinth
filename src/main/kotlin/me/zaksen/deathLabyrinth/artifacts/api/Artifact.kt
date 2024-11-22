@@ -2,14 +2,15 @@ package me.zaksen.deathLabyrinth.artifacts.api
 
 import me.zaksen.deathLabyrinth.artifacts.ability.AbilityContainer
 import net.kyori.adventure.text.Component
-import org.bukkit.entity.Player
 import org.bukkit.event.Event
 import org.bukkit.inventory.ItemStack
+import java.util.UUID
 
 // TODO - Check artifacts working in multiplayer
 abstract class Artifact(val name: Component, val rarity: ArtifactRarity) {
     var count = 1
     val abilityContainer = AbilityContainer()
+    var ownerUuid: UUID? = null
 
     fun processAnyEvent(event: Event) {
         abilityContainer.invoke(event)

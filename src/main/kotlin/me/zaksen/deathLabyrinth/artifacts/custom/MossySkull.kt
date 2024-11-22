@@ -18,6 +18,7 @@ class MossySkull: Artifact(
     init {
         abilityContainer.add {
             if(it !is PlayerSummonFriendlyEntityEvent) return@add
+            if(it.player.uniqueId != ownerUuid) return@add
 
             for(i in 1..<1 + (1 * count)) {
                 RoomController.spawnFriendlyEntityClone(it.player, it.entity)

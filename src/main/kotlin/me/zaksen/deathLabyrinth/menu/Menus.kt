@@ -121,6 +121,7 @@ object Menus {
         window.open()
     }
 
+    // Update trader menu for all players after one player buy
     fun traderMenu(player: Player, tradeOffers: List<TradeOffer>) {
         val items = tradeOffers.map {
             ShopItem(it)
