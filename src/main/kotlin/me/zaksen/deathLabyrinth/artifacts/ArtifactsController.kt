@@ -127,7 +127,6 @@ object ArtifactsController {
         processArtifactsChain(isGoodly)
     }
 
-    // FIXME - In multiplayer each new chain move by some offset (?)
     private fun processArtifactsChain(isGoodly: Boolean = false) {
         despawnArtifacts()
 
@@ -151,7 +150,7 @@ object ArtifactsController {
                 if(isGoodly) getRandomArtifact(ArtifactRarity.GODLY)
                 else getRandomArtifact()
             )
-            lastChainLocation.add(0.0, 2.0, 6.0)
+            lastChainLocation.add(0.0, -1.0, 6.0)
             remainingChains--
         }
     }

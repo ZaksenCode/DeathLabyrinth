@@ -110,7 +110,7 @@ object ItemsController {
 
         register("wooden_hammer", BaseHammer(
             "wooden_hammer",
-            ItemSettings(Material.MACE).customModel(1000).damage(5.0).attackSpeed(-3.2).hitRange(0.5)
+            ItemSettings(Material.MACE).customModel(1000).damage(5.0).attackSpeed(-3.2)
                 .displayName("item.wooden_hammer.name".asTranslate().color(TextColor.color(128, 128, 128)))
                 .tradePrice(35)
                 .addAviableTrader(TraderType.NORMAL)
@@ -118,7 +118,7 @@ object ItemsController {
         ))
         register("golden_hammer", BaseHammer(
             "golden_hammer",
-            ItemSettings(Material.MACE).customModel(1001).damage(7.0).attackSpeed(-3.0).hitRange(0.5)
+            ItemSettings(Material.MACE).customModel(1001).damage(7.0).attackSpeed(-3.0)
                 .displayName("item.golden_hammer.name".asTranslate().color(TextColor.color(128, 128, 128)))
                 .tradePrice(45)
                 .addAviableTrader(TraderType.NORMAL)
@@ -126,7 +126,7 @@ object ItemsController {
         ))
         register("stone_hammer", BaseHammer(
             "stone_hammer",
-            ItemSettings(Material.MACE).customModel(1002).damage(10.0).attackSpeed(-3.2).hitRange(0.5)
+            ItemSettings(Material.MACE).customModel(1002).damage(10.0).attackSpeed(-3.2)
                 .displayName("item.stone_hammer.name".asTranslate().color(TextColor.color(128, 128, 128)))
                 .quality(ItemQuality.UNCOMMON)
                 .tradePrice(75)
@@ -135,30 +135,30 @@ object ItemsController {
         ))
         register("iron_hammer", BaseHammer(
             "iron_hammer",
-            ItemSettings(Material.MACE).customModel(1003).damage(13.0).attackSpeed(-3.2).hitRange(1.0)
+            ItemSettings(Material.MACE).customModel(1003).damage(13.0).attackSpeed(-3.2)
                 .displayName("item.iron_hammer.name".asTranslate().color(TextColor.color(128, 128, 128)))
                 .quality(ItemQuality.UNCOMMON)
                 .tradePrice(85)
                 .addAviableTrader(TraderType.NORMAL)
-                .ability("area_hit")
+                .ability("big_area_hit")
         ))
         register("diamond_hammer", BaseHammer(
             "diamond_hammer",
-            ItemSettings(Material.MACE).customModel(1004).damage(16.0).attackSpeed(-3.2).hitRange(1.0)
+            ItemSettings(Material.MACE).customModel(1004).damage(16.0).attackSpeed(-3.2)
                 .displayName("item.diamond_hammer.name".asTranslate().color(TextColor.color(128, 128, 128)))
                 .quality(ItemQuality.UNCOMMON)
                 .tradePrice(110)
                 .addAviableTrader(TraderType.NORMAL)
-                .ability("area_hit")
+                .ability("big_area_hit")
         ))
         register("netherite_hammer", BaseHammer(
             "netherite_hammer",
-            ItemSettings(Material.MACE).customModel(1005).damage(20.0).attackSpeed(-3.2).hitRange(1.5)
+            ItemSettings(Material.MACE).customModel(1005).damage(20.0).attackSpeed(-3.2)
                 .displayName("item.netherite_hammer.name".asTranslate().color(TextColor.color(128, 128, 128)))
                 .quality(ItemQuality.RARE)
                 .tradePrice(130)
                 .addAviableTrader(TraderType.NORMAL)
-                .ability("area_hit")
+                .ability("huge_area_hit")
         ))
 
         register("wooden_spear", BaseSpear(
@@ -229,6 +229,18 @@ object ItemsController {
                 .quality(ItemQuality.UNCOMMON)
                 .addAviableTrader(TraderType.NORMAL)
                 .ability("fire_blade")
+        ))
+
+        register("wind_sword", BaseSword(
+            "wind_sword",
+            ItemSettings(Material.WOODEN_SWORD).damage(13.0).attackSpeed(-1.8).range(1.0)
+                .customModel(1003)
+                .displayName("item.wind_sword.name".asTranslate().color(TextColor.color(128, 128, 128)))
+                .quality(ItemQuality.RARE)
+                .tradePrice(100)
+                .addAviableTrader(TraderType.NORMAL)
+                .abilityCooldown(1200)
+                .ability("wind_gust")
         ))
 
         register("shield", CustomItem(

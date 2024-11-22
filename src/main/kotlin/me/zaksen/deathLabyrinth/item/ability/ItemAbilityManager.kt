@@ -17,9 +17,12 @@ object ItemAbilityManager {
     init {
         // Weapon
         abilityMap["area_hit"] = AreaHit()
+        abilityMap["big_area_hit"] = BigAreaHit()
+        abilityMap["huge_area_hit"] = HugeAreaHit()
         abilityMap["fire_blade"] = FireBlade()
         // Weapon - Use
         abilityMap["bubble_laser"] = BubbleLaser()
+        abilityMap["wind_gust"] = WindGust()
         // Stuff
         abilityMap["fireball_cast"] = FireballCast()
         abilityMap["big_fireball_cast"] = BigFireballCast()

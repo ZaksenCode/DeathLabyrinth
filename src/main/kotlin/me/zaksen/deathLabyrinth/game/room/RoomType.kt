@@ -7,7 +7,7 @@ import me.zaksen.deathLabyrinth.game.room.reward.RewardStategy
 enum class RoomType(val reward: RewardStategy) {
     NORMAL(object: RewardStategy{
         override fun generate(): Int {
-            return 10 + (4 * RoomController.actualRoomNumber)
+            return 16 + (4 * RoomController.actualRoomNumber)
         }
     }),
     ELITE(object: RewardStategy{

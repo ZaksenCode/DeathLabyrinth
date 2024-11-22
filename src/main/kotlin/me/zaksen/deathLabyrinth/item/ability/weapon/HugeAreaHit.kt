@@ -9,16 +9,15 @@ import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.Event
 
-// FIXME - The amount of damage increases proportionally to the number of mobs hit.
-class AreaHit: ItemAbility(
+class HugeAreaHit: ItemAbility(
     Component.translatable("ability.area_hit.name"),
     Component.translatable("ability.area_hit.description"),
-    displayRange = 0.75
+    displayRange = 2.0
 ) {
     override fun invoke(event: Event) {
         if(event !is ItemHitEvent) return
 
-        val affectedEntities = event.damaged.getNearbyEntities(0.75, 0.75, 0.75).filter { it.uniqueId != event.damaged.uniqueId }
+        val affectedEntities = event.damaged.getNearbyEntities(2.0, 2.0, 2.0)
 
         for(entity in affectedEntities) {
             if(entity is LivingEntity && entity !is Player && entity !is FriendlyEntity) {
