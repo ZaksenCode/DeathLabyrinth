@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.item.settings
 
+import me.zaksen.deathLabyrinth.damage.DamageType
 import me.zaksen.deathLabyrinth.entity.trader.TraderType
 import me.zaksen.deathLabyrinth.item.ItemQuality
 import me.zaksen.deathLabyrinth.trading.pricing.PricingStrategies
@@ -18,6 +19,7 @@ open class ItemSettings(val material: Material) {
     private var attackSpeed: Double = 0.0
     private var range: Double = 0.0
     private var quality: ItemQuality = ItemQuality.COMMON
+    private var damageType: DamageType = DamageType.GENERAL
 
     private var defence: Double = 0.0
     private var thoroughness: Double = 0.0
@@ -128,6 +130,11 @@ open class ItemSettings(val material: Material) {
         return this
     }
 
+    fun damageType(damageType: DamageType): ItemSettings {
+        this.damageType = damageType
+        return this
+    }
+
     // Getters
 
     fun customModel(): Int {
@@ -192,5 +199,9 @@ open class ItemSettings(val material: Material) {
 
     fun abilities(): Set<String> {
         return abilityContainer
+    }
+
+    fun damageType(): DamageType {
+        return this.damageType
     }
 }

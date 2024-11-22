@@ -3,6 +3,7 @@ package me.zaksen.deathLabyrinth.event
 import me.zaksen.deathLabyrinth.artifacts.ArtifactsController
 import me.zaksen.deathLabyrinth.artifacts.api.Artifact
 import me.zaksen.deathLabyrinth.command.PlayerPickupArtifactEvent
+import me.zaksen.deathLabyrinth.damage.DamageType
 import me.zaksen.deathLabyrinth.event.custom.PlayerReadyEvent
 import me.zaksen.deathLabyrinth.event.custom.game.*
 import me.zaksen.deathLabyrinth.event.item.ItemConsumeEvent
@@ -29,7 +30,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerItemConsumeEvent
 import org.bukkit.inventory.ItemStack
-import org.bukkit.util.Vector
 
 object EventManager {
 
@@ -51,8 +51,8 @@ object EventManager {
         }
     }
 
-    fun callPlayerDamageEntityEvent(player: Player, entity: LivingEntity, damage: Double, event: EntityDamageByEntityEvent) {
-        val coolEvent = PlayerDamageEntityEvent(player, entity, damage)
+    fun callPlayerDamageEntityEvent(player: Player, entity: LivingEntity, damage: Double, event: EntityDamageByEntityEvent, damageType: DamageType = DamageType.GENERAL) {
+        val coolEvent = PlayerDamageEntityEvent(player, entity, damage, damageType)
         coolEvent.callEvent()
         GameController.processAnyEvent(coolEvent)
         if (!coolEvent.isCancelled) {
@@ -63,8 +63,8 @@ object EventManager {
         }
     }
 
-    fun callPlayerDamageEntityEvent(player: Player, entity: LivingEntity, damage: Double) {
-        val coolEvent = PlayerDamageEntityEvent(player, entity, damage)
+    fun callPlayerDamageEntityEvent(player: Player, entity: LivingEntity, damage: Double, damageType: DamageType = DamageType.GENERAL) {
+        val coolEvent = PlayerDamageEntityEvent(player, entity, damage, damageType)
         coolEvent.callEvent()
         GameController.processAnyEvent(coolEvent)
         if (!coolEvent.isCancelled) {
@@ -105,16 +105,16 @@ object EventManager {
 
     fun callFriendlyEntityDamageEventProjectile(event: EntityDamageByEntityEvent) {
         val damager = event.damager
-        var projectile_owner: org.bukkit.entity.Entity?
+        var projectileOwner: org.bukkit.entity.Entity?
 
         if(damager is Projectile) {
-            projectile_owner = Bukkit.getEntity(damager.ownerUniqueId!!)
+            projectileOwner = Bukkit.getEntity(damager.ownerUniqueId!!)
 
-            if(projectile_owner == null) {
+            if(projectileOwner == null) {
                 return
             }
 
-            val coolEvent = FriendlyEntityDamageEntityEvent(projectile_owner as LivingEntity, event.entity as LivingEntity, event.damage)
+            val coolEvent = FriendlyEntityDamageEntityEvent(projectileOwner as LivingEntity, event.entity as LivingEntity, event.damage)
             coolEvent.callEvent()
             GameController.processAnyEvent(coolEvent)
             if (!coolEvent.isCancelled) {
@@ -183,8 +183,8 @@ object EventManager {
         }
     }
 
-    fun callPlayerSpellEntityDamageEvent(player: Player, entity: net.minecraft.world.entity.LivingEntity, damage: Double) {
-        val coolEvent = PlayerSpellEntityDamageEvent(player, entity, damage)
+    fun callPlayerSpellEntityDamageEvent(player: Player, entity: net.minecraft.world.entity.LivingEntity, damage: Double, damageType: DamageType = DamageType.GENERAL) {
+        val coolEvent = PlayerSpellEntityDamageEvent(player, entity, damage, damageType)
         coolEvent.callEvent()
         GameController.processAnyEvent(coolEvent)
         if(!coolEvent.isCancelled) {
@@ -192,12 +192,12 @@ object EventManager {
         }
     }
 
-    fun callPlayerSpellEntityDamageEvent(player: Player, entity: LivingEntity, damage: Double) {
-        this.callPlayerSpellEntityDamageEvent(player, (entity as CraftLivingEntity).handle, damage)
+    fun callPlayerSpellEntityDamageEvent(player: Player, entity: LivingEntity, damage: Double, damageType: DamageType = DamageType.GENERAL) {
+        this.callPlayerSpellEntityDamageEvent(player, (entity as CraftLivingEntity).handle, damage, damageType)
     }
 
-    fun callSpellEntityDamageEvent(entity: net.minecraft.world.entity.LivingEntity, damage: Double) {
-        val coolEvent = SpellEntityDamageEvent(entity, damage)
+    fun callSpellEntityDamageEvent(entity: net.minecraft.world.entity.LivingEntity, damage: Double, damageType: DamageType = DamageType.GENERAL) {
+        val coolEvent = SpellEntityDamageEvent(entity, damage, damageType)
         coolEvent.callEvent()
         GameController.processAnyEvent(coolEvent)
         if(!coolEvent.isCancelled) {
@@ -205,8 +205,8 @@ object EventManager {
         }
     }
 
-    fun callSpellEntityDamageEvent(entity: LivingEntity, damage: Double) {
-        this.callSpellEntityDamageEvent((entity as CraftLivingEntity).handle, damage)
+    fun callSpellEntityDamageEvent(entity: LivingEntity, damage: Double, damageType: DamageType = DamageType.GENERAL) {
+        this.callSpellEntityDamageEvent((entity as CraftLivingEntity).handle, damage, damageType)
     }
 
     fun callPlayerSummonSpellEvent(player: Player, entity: Entity) {
@@ -237,8 +237,8 @@ object EventManager {
     }
 
     // Item Events
-    fun callItemHitEvent(damager: org.bukkit.entity.Entity, damaged: org.bukkit.entity.Entity, stack: ItemStack, item: CustomItem, damage: Double) {
-        val coolEvent = ItemHitEvent(damager, damaged, stack, item, damage)
+    fun callItemHitEvent(damager: org.bukkit.entity.Entity, damaged: org.bukkit.entity.Entity, stack: ItemStack, item: CustomItem, damage: Double, damageType: DamageType = DamageType.GENERAL) {
+        val coolEvent = ItemHitEvent(damager, damaged, stack, item, damage, damageType)
         coolEvent.callEvent()
         ItemAbilityManager.useStackAbilities(stack, coolEvent)
 
@@ -254,8 +254,8 @@ object EventManager {
         }
     }
 
-    fun callItemHitEvent(damager: org.bukkit.entity.Entity, damaged: org.bukkit.entity.Entity, stack: ItemStack, item: CustomItem, event: EntityDamageByEntityEvent) {
-        val coolEvent = ItemHitEvent(damager, damaged, stack, item, event.damage)
+    fun callItemHitEvent(damager: org.bukkit.entity.Entity, damaged: org.bukkit.entity.Entity, stack: ItemStack, item: CustomItem, event: EntityDamageByEntityEvent, damageType: DamageType = DamageType.GENERAL) {
+        val coolEvent = ItemHitEvent(damager, damaged, stack, item, event.damage, damageType)
         coolEvent.callEvent()
         ItemAbilityManager.useStackAbilities(stack, coolEvent)
 

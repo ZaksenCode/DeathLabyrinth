@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack
 
 class Jewel: Artifact(
     "artifact.jewel.name".asTranslate().color(TextColor.color(50,205,50)),
-    ArtifactRarity.EPIC
+    ArtifactRarity.RARE
 ) {
 
     init {

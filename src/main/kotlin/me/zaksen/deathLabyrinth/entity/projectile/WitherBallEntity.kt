@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.entity.projectile
 
+import me.zaksen.deathLabyrinth.damage.DamageType
 import me.zaksen.deathLabyrinth.entity.friendly.FriendlyEntity
 import me.zaksen.deathLabyrinth.event.EventManager
 import net.minecraft.core.particles.ParticleTypes
@@ -59,7 +60,7 @@ class WitherBallEntity(location: Location): WindCharge(EntityType.WIND_CHARGE, (
             if(owner == null) {
                 EventManager.callSpellEntityDamageEvent(entity, 8.0)
             } else {
-                EventManager.callPlayerSpellEntityDamageEvent(owner!!.bukkitEntity as org.bukkit.entity.Player, entity, 8.0)
+                EventManager.callPlayerSpellEntityDamageEvent(owner!!.bukkitEntity as org.bukkit.entity.Player, entity, 8.0, DamageType.WITHER)
             }
 
             entity.addEffect(

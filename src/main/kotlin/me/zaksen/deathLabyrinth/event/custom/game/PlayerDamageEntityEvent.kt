@@ -1,12 +1,18 @@
 package me.zaksen.deathLabyrinth.event.custom.game
 
+import me.zaksen.deathLabyrinth.damage.DamageType
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.Cancellable
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 
-class PlayerDamageEntityEvent(val player: Player, val entity: LivingEntity, var damage: Double): Event(), Cancellable {
+class PlayerDamageEntityEvent(
+    val player: Player,
+    val entity: LivingEntity,
+    var damage: Double,
+    val damageType: DamageType = DamageType.GENERAL
+): Event(), Cancellable {
     private var cancelled = false
 
     override fun isCancelled(): Boolean {

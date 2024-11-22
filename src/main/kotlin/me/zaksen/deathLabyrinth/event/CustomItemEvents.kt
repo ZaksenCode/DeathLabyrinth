@@ -37,7 +37,7 @@ class CustomItemEvents: Listener {
                     }
                 }
 
-                EventManager.callItemHitEvent(damager, event.entity, damager.inventory.itemInMainHand, customItem, event)
+                EventManager.callItemHitEvent(damager, event.entity, damager.inventory.itemInMainHand, customItem, event, customItem.settings.damageType())
             }
         }
     }

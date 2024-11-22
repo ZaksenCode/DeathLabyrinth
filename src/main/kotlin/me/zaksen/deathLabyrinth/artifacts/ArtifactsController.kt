@@ -78,18 +78,20 @@ object ArtifactsController {
         rarityList.addEntry(ArtifactRarity.EPIC, 0.1)
 
         // COMMON
-        artifacts["green_heart"] = GreenHeart::class.java
         artifacts["mystic_potion"] = MysticPotion::class.java
 
         // RARE
         artifacts["rusty_dagger"] = RustyDagger::class.java
         artifacts["mirror_of_revenge"] = MirrorOfRevenge::class.java
         artifacts["token"] = Token::class.java
-
-        // EPIC
+        artifacts["green_heart"] = GreenHeart::class.java
         artifacts["blood_lust"] = BloodLust::class.java
         artifacts["jewel"] = Jewel::class.java
+        artifacts["wooden_shield"] = WoodenShield::class.java
+
+        // EPIC
         artifacts["mossy_skull"] = MossySkull::class.java
+        artifacts["gasoline"] = Gasoline::class.java
 
         // GODLY
         artifacts["greediness"] = Greediness::class.java

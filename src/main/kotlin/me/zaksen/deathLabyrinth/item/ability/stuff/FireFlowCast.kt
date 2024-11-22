@@ -1,3 +1,4 @@
+import me.zaksen.deathLabyrinth.damage.DamageType
 import me.zaksen.deathLabyrinth.entity.friendly.FriendlyEntity
 import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.event.item.ItemUseEvent
@@ -37,13 +38,13 @@ class FireFlowCast: ItemAbility(
             for(entity in affectedEntities) {
                 if(entity is LivingEntity && entity !is Player && entity !is FriendlyEntity) {
                     entity.fireTicks = 60
-                    EventManager.callPlayerSpellEntityDamageEvent(event.player, entity, 2.0)
+                    EventManager.callPlayerSpellEntityDamageEvent(event.player, entity, 2.0, DamageType.FIRE)
                 }
             }
 
             if(rayCastEntity is LivingEntity) {
                 rayCastEntity.fireTicks = 60
-                EventManager.callPlayerSpellEntityDamageEvent(event.player, rayCastEntity, 2.0)
+                EventManager.callPlayerSpellEntityDamageEvent(event.player, rayCastEntity, 2.0, DamageType.FIRE)
             }
         }
     }

@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.item
 
+import me.zaksen.deathLabyrinth.damage.DamageType
 import me.zaksen.deathLabyrinth.entity.trader.TraderType
 import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.item.gear.armor.ArmorItem
@@ -229,6 +230,7 @@ object ItemsController {
                 .quality(ItemQuality.UNCOMMON)
                 .addAviableTrader(TraderType.NORMAL)
                 .ability("fire_blade")
+                .damageType(DamageType.FIRE)
         ))
 
         register("wind_sword", BaseSword(

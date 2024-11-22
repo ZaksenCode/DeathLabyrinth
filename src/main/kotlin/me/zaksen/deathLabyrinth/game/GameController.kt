@@ -30,7 +30,9 @@ import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scheduler.BukkitTask
+import java.util.*
 import kotlin.random.Random
+import kotlin.concurrent.timer
 
 // TODO - Decompose
 object GameController {
@@ -46,6 +48,13 @@ object GameController {
     private val hudController: HudController = HudController()
 
     private lateinit var potLootList: WeightedRandomList<ItemStack>
+
+    private val shieldRemovingTask: Timer = timer(period = 500) {
+        players.forEach {
+            val maxHealth = it.key.getAttribute(Attribute.GENERIC_MAX_HEALTH) ?: return@forEach
+            removePlayerShield(it.key, maxHealth.baseValue * 0.05)
+        }
+    }
 
     fun initPotLootList(list: WeightedRandomList<ItemStack>) {
         potLootList = list
@@ -136,6 +145,8 @@ object GameController {
         player.gameMode = GameMode.SURVIVAL
 
         player.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.baseValue = 40.0
+        player.getAttribute(Attribute.GENERIC_MAX_ABSORPTION)?.baseValue = 20.0
+
         player.heal(40.0, EntityRegainHealthEvent.RegainReason.REGEN)
         player.saturation = 20.0f
 
@@ -366,15 +377,24 @@ object GameController {
         event.decoratedPot.location.world.dropItemNaturally(event.decoratedPot.location, event.output)
     }
 
-    fun generateRandomPotLoot() {
-
-    }
-
     fun processAnyEvent(event: Event) {
         players.forEach { player ->
             player.value.artifacts.forEach {
                 it.processAnyEvent(event)
             }
         }
+    }
+
+    fun addPlayerShield(player: Player, amount: Double) {
+        val maxHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH) ?: return
+        val maxShieldAmount = maxHealth.baseValue / 2.0
+
+        val newAmount = player.absorptionAmount + amount
+        player.absorptionAmount = Math.clamp(newAmount, 0.0, maxShieldAmount)
+    }
+
+    fun removePlayerShield(player: Player, amount: Double) {
+        val newAmount = 0.0.coerceAtLeast(player.absorptionAmount - amount)
+        player.absorptionAmount = newAmount
     }
 }
