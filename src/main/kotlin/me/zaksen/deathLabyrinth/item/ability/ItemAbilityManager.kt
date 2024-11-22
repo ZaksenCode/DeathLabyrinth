@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.item.ability
 
+import FireFlowCast
 import me.zaksen.deathLabyrinth.event.item.ItemUseEvent
 import me.zaksen.deathLabyrinth.item.ability.consume.*
 import me.zaksen.deathLabyrinth.item.ability.stuff.*
@@ -35,6 +36,7 @@ object ItemAbilityManager {
         abilityMap["healing_cast"] = HealingCast()
         abilityMap["big_healing_cast"] = BigHealingCast()
         abilityMap["necromantic_cast"] = NecromanticCast()
+        abilityMap["fire_flow_cast"] = FireFlowCast()
         // Stuff - other
         abilityMap["wind_charge_cast"] = WindChargeCast()
         // Consume

@@ -274,6 +274,8 @@ object ItemsController {
             .ability("wind_charge_cast")
         ))
 
+        register("fire_flow_staff", FireFlowStaff("fire_flow_staff"))
+
         register("heal_potion", HealPotion("heal_potion"))
         register("small_heal_potion", SmallHealPotion("small_heal_potion"))
 
