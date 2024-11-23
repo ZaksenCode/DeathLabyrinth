@@ -48,4 +48,8 @@ class BombCastTierTwo: ItemAbility(
         projectile.owner = (player as CraftPlayer).handle
         EventManager.callPlayerSummonSpellEvent(player, projectile)
     }
+
+    override fun getConflictAbilities(): List<String> {
+        return listOf("bomb_cast")
+    }
 }
