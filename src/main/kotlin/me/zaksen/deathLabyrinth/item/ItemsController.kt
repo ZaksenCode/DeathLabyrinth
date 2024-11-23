@@ -238,7 +238,7 @@ object ItemsController {
             ItemSettings(Material.WOODEN_SWORD).damage(13.0).attackSpeed(-1.8).range(1.0)
                 .customModel(1003)
                 .displayName("item.wind_sword.name".asTranslate().color(TextColor.color(128, 128, 128)))
-                .quality(ItemQuality.RARE)
+                .quality(ItemQuality.UNCOMMON)
                 .tradePrice(100)
                 .addAviableTrader(TraderType.NORMAL)
                 .abilityCooldown(1200)
