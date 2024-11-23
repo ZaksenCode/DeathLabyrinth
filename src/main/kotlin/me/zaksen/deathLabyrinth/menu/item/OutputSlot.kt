@@ -1,6 +1,7 @@
 package me.zaksen.deathLabyrinth.menu.item
 
 import me.zaksen.deathLabyrinth.item.ability.ItemAbilityManager
+import me.zaksen.deathLabyrinth.item.ability.recipe.Synergy
 import me.zaksen.deathLabyrinth.keys.PluginKeys
 import me.zaksen.deathLabyrinth.util.*
 import net.kyori.adventure.text.Component
@@ -91,6 +92,15 @@ class OutputSlot(val firstSlot: SlotItem, val secondSlot: SlotItem): AbstractIte
 
         sourceAbilities.forEach {
             val ability = ItemAbilityManager.abilityMap[it] ?: return@forEach
+
+            ability.getSynergies().forEach { synergy ->
+                if(inputAbilities.contains(synergy.with)) {
+                    sourceAbilities.remove(it)
+                    inputAbilities.remove(synergy.with)
+
+                    sourceAbilities.add(synergy.output)
+                }
+            }
 
             if(inputAbilities.contains(it)) {
                 println("Check update ability for ${it}, result: ${ability.hasUpdateAbility()} -> ${ability.getUpdateAbility()}")

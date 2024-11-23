@@ -1,6 +1,7 @@
 package me.zaksen.deathLabyrinth.item.ability
 
 import me.zaksen.deathLabyrinth.artifacts.ability.Ability
+import me.zaksen.deathLabyrinth.item.ability.recipe.Synergy
 import me.zaksen.deathLabyrinth.util.asText
 import me.zaksen.deathLabyrinth.util.asTranslate
 import me.zaksen.deathLabyrinth.util.loreLine
@@ -50,6 +51,10 @@ abstract class ItemAbility(
     }
 
     open fun getConflictAbilities(): List<String> {
+        return emptyList()
+    }
+
+    open fun getSynergies(): List<Synergy> {
         return emptyList()
     }
 }

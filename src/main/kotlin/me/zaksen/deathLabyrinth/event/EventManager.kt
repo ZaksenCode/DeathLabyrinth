@@ -31,6 +31,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerItemConsumeEvent
 import org.bukkit.inventory.ItemStack
+import java.util.function.Consumer
 
 object EventManager {
 
@@ -188,6 +189,7 @@ object EventManager {
         val coolEvent = PlayerSpellEntityDamageEvent(player, entity, damage, damageType)
         coolEvent.callEvent()
         GameController.processAnyEvent(coolEvent)
+        GameController.processEntityHit(coolEvent.entity.bukkitLivingEntity)
         if(!coolEvent.isCancelled) {
             coolEvent.entity.hurt(entity.damageSources().playerAttack((player as CraftPlayer).handle), coolEvent.damage.toFloat())
         }
@@ -201,6 +203,7 @@ object EventManager {
         val coolEvent = SpellEntityDamageEvent(entity, damage, damageType)
         coolEvent.callEvent()
         GameController.processAnyEvent(coolEvent)
+        GameController.processEntityHit(coolEvent.entity.bukkitLivingEntity)
         if(!coolEvent.isCancelled) {
             coolEvent.entity.hurt(entity.damageSources().generic(), coolEvent.damage.toFloat())
         }
@@ -237,23 +240,23 @@ object EventManager {
         }
     }
 
-    fun callPlayerSummonExplosionEvent(player: Player, pos: Location, range: Double, damage: Double, drawParticles: Boolean = true, playSound: Boolean = true) {
+    fun callPlayerSummonExplosionEvent(player: Player, pos: Location, range: Double, damage: Double, drawParticles: Boolean = true, playSound: Boolean = true, entityConsumer: Consumer<LivingEntity> = Consumer{}) {
         val coolEvent = PlayerSummonExplosionEvent(player, pos, range, damage)
         coolEvent.callEvent()
         GameController.processAnyEvent(coolEvent)
 
         if(!coolEvent.isCancelled) {
-            GameController.makeExplode(player, pos, coolEvent.range, coolEvent.damage, drawParticles, playSound)
+            GameController.makeExplode(player, pos, coolEvent.range, coolEvent.damage, drawParticles, playSound, entityConsumer)
         }
     }
 
-    fun callSummonExplosionEvent(pos: Location, range: Double, damage: Double, drawParticles: Boolean = true, playSound: Boolean = true) {
+    fun callSummonExplosionEvent(pos: Location, range: Double, damage: Double, drawParticles: Boolean = true, playSound: Boolean = true, entityConsumer: Consumer<LivingEntity> = Consumer{}) {
         val coolEvent = ExplosionEvent(pos, range, damage)
         coolEvent.callEvent()
         GameController.processAnyEvent(coolEvent)
 
         if(!coolEvent.isCancelled) {
-            GameController.makeExplode(null, pos, coolEvent.range, coolEvent.damage, drawParticles, playSound)
+            GameController.makeExplode(null, pos, coolEvent.range, coolEvent.damage, drawParticles, playSound, entityConsumer)
         }
     }
 

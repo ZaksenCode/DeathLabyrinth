@@ -33,13 +33,30 @@ object ItemAbilityManager {
         abilityMap["witherball_cast"] = WitherballCast()
         abilityMap["big_witherball_cast"] = BigWitherballCast()
         abilityMap["laser_cast"] = LaserCast()
+
         abilityMap["electric_cast"] = ElectricCast()
         abilityMap["electric_cast_tier_two"] = ElectricCastTierTwo()
         abilityMap["electric_cast_tier_three"] = ElectricCastTierThree()
+
         abilityMap["healing_cast"] = HealingCast()
         abilityMap["big_healing_cast"] = BigHealingCast()
         abilityMap["necromantic_cast"] = NecromanticCast()
+
         abilityMap["fire_flow_cast"] = FireFlowCast()
+
+        abilityMap["explosion_flow_cast"] = ExplosionFlowCast()
+
+        abilityMap["explosion_cast"] = ExplosionCast()
+        abilityMap["explosion_cast_tier_two"] = ExplosionCastTierTwo()
+        abilityMap["explosion_cast_tier_three"] = ExplosionCastTierThree()
+
+        abilityMap["bomb_cast"] = BombCast()
+        abilityMap["bomb_cast_tier_two"] = BombCastTierTwo()
+        abilityMap["bomb_cast_tier_three"] = BombCastTierThree()
+
+        abilityMap["frost_bomb_cast"] = FrostBombCast()
+        abilityMap["fire_bomb_cast"] = FireBombCast()
+        abilityMap["wither_bomb_cast"] = WitherBombCast()
         // Stuff - other
         abilityMap["wind_charge_cast"] = WindChargeCast()
         // Consume

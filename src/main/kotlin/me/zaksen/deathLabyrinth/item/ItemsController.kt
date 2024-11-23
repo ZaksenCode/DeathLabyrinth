@@ -278,6 +278,26 @@ object ItemsController {
 
         register("fire_flow_staff", FireFlowStaff("fire_flow_staff"))
 
+        register("deep_forest_staff", WeaponItem(WeaponType.ATTACK_STAFF, "deep_forest_staff", ItemSettings(Material.STICK)
+            .customModel(113)
+            .displayName("item.deep_forest_staff.name".asTranslate().color(TextColor.color(0, 191, 255)))
+            .abilityCooldown(1200)
+            .quality(ItemQuality.UNCOMMON)
+            .tradePrice(70)
+            .addAviableTrader(TraderType.NORMAL)
+            .ability("explosion_cast")
+        ))
+
+        register("explosion_staff", WeaponItem(WeaponType.ATTACK_STAFF, "explosion_staff", ItemSettings(Material.STICK)
+            .customModel(114)
+            .displayName("item.explosion_staff.name".asTranslate().color(TextColor.color(0, 191, 255)))
+            .abilityCooldown(2000)
+            .quality(ItemQuality.UNCOMMON)
+            .tradePrice(70)
+            .addAviableTrader(TraderType.NORMAL)
+            .ability("bomb_cast")
+        ))
+
         register("heal_potion", HealPotion("heal_potion"))
         register("small_heal_potion", SmallHealPotion("small_heal_potion"))
 

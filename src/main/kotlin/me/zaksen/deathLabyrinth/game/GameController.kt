@@ -32,6 +32,7 @@ import org.bukkit.potion.PotionEffectType
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scheduler.BukkitTask
 import java.util.*
+import java.util.function.Consumer
 import kotlin.concurrent.timer
 import kotlin.math.cos
 import kotlin.math.sin
@@ -399,16 +400,18 @@ object GameController {
         player.absorptionAmount = newAmount
     }
 
-    fun makeExplode(player: Player? = null, pos: Location, range: Double, damage: Double, drawParticles: Boolean = true, playSound: Boolean = true) {
+    fun makeExplode(player: Player? = null, pos: Location, range: Double, damage: Double, drawParticles: Boolean = true, playSound: Boolean = true, entityConsumer: Consumer<LivingEntity> = Consumer{}) {
         val toDamage = pos.getNearbyEntities(range, range, range).filter {
             it is LivingEntity && it !is Player && it !is FriendlyEntity
         }
 
         toDamage.forEach {
+            entityConsumer.accept(it as LivingEntity)
+
             if(player != null) {
-                EventManager.callPlayerSpellEntityDamageEvent(player, it as LivingEntity, damage, damageType = DamageType.EXPLODE)
+                EventManager.callPlayerSpellEntityDamageEvent(player, it, damage, damageType = DamageType.EXPLODE)
             } else {
-                EventManager.callSpellEntityDamageEvent(it as LivingEntity, damage, damageType = DamageType.EXPLODE)
+                EventManager.callSpellEntityDamageEvent(it, damage, damageType = DamageType.EXPLODE)
             }
         }
 
