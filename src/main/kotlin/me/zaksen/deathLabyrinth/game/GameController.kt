@@ -342,10 +342,8 @@ object GameController {
             }
 
             TraderType.ALCHEMIST -> {
-                println("Start alchemist trade with size ${players.size * 2}")
 
                 TradeController.getOffersSnap(players.size * 2, traderType, false).forEach {
-                    println("Add new item!")
                     result.add(it)
                 }
             }

@@ -10,8 +10,7 @@ import org.bukkit.event.HandlerList
 class PlayerDamageEntityEvent(
     val player: Player,
     val entity: LivingEntity,
-    var damage: Double,
-    val damageType: DamageType = DamageType.GENERAL
+    var damage: Double
 ): Event(), Cancellable {
     private var cancelled = false
 

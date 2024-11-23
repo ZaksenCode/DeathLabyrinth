@@ -3,7 +3,8 @@ package me.zaksen.deathLabyrinth.artifacts.custom
 import me.zaksen.deathLabyrinth.artifacts.api.Artifact
 import me.zaksen.deathLabyrinth.artifacts.api.ArtifactRarity
 import me.zaksen.deathLabyrinth.damage.DamageType
-import me.zaksen.deathLabyrinth.event.custom.game.PlayerDamageEntityEvent
+import me.zaksen.deathLabyrinth.event.custom.game.PlayerSpellEntityDamageEvent
+import me.zaksen.deathLabyrinth.event.item.ItemHitEvent
 import me.zaksen.deathLabyrinth.util.*
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Material
@@ -17,8 +18,13 @@ class Gasoline: Artifact(
 
     init {
         abilityContainer.add {
-            if(it !is PlayerDamageEntityEvent) return@add
-            println("Damage type: ${it.damageType}")
+            if(it !is ItemHitEvent) return@add
+            if(it.damageType != DamageType.FIRE) return@add
+            if(it.damager.uniqueId != ownerUuid) return@add
+            it.damage += it.damage * (0.35 * count)
+        }
+        abilityContainer.add {
+            if(it !is PlayerSpellEntityDamageEvent) return@add
             if(it.damageType != DamageType.FIRE) return@add
             if(it.player.uniqueId != ownerUuid) return@add
             it.damage += it.damage * (0.35 * count)

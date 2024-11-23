@@ -51,8 +51,8 @@ object EventManager {
         }
     }
 
-    fun callPlayerDamageEntityEvent(player: Player, entity: LivingEntity, damage: Double, event: EntityDamageByEntityEvent, damageType: DamageType = DamageType.GENERAL) {
-        val coolEvent = PlayerDamageEntityEvent(player, entity, damage, damageType)
+    fun callPlayerDamageEntityEvent(player: Player, entity: LivingEntity, damage: Double, event: EntityDamageByEntityEvent) {
+        val coolEvent = PlayerDamageEntityEvent(player, entity, damage)
         coolEvent.callEvent()
         GameController.processAnyEvent(coolEvent)
         if (!coolEvent.isCancelled) {
@@ -63,8 +63,8 @@ object EventManager {
         }
     }
 
-    fun callPlayerDamageEntityEvent(player: Player, entity: LivingEntity, damage: Double, damageType: DamageType = DamageType.GENERAL) {
-        val coolEvent = PlayerDamageEntityEvent(player, entity, damage, damageType)
+    fun callPlayerDamageEntityEvent(player: Player, entity: LivingEntity, damage: Double) {
+        val coolEvent = PlayerDamageEntityEvent(player, entity, damage)
         coolEvent.callEvent()
         GameController.processAnyEvent(coolEvent)
         if (!coolEvent.isCancelled) {
@@ -258,6 +258,7 @@ object EventManager {
         val coolEvent = ItemHitEvent(damager, damaged, stack, item, event.damage, damageType)
         coolEvent.callEvent()
         ItemAbilityManager.useStackAbilities(stack, coolEvent)
+        GameController.processAnyEvent(coolEvent)
 
         if(!coolEvent.isCancelled) {
             event.damage = coolEvent.damage
@@ -271,6 +272,7 @@ object EventManager {
         val coolEvent = ItemUseEvent(entity, stack, item, event)
         coolEvent.callEvent()
         ItemAbilityManager.useStackAbilities(stack, coolEvent)
+        GameController.processAnyEvent(coolEvent)
 
         if(coolEvent.isCancelled) {
             event.isCancelled = true
@@ -282,6 +284,7 @@ object EventManager {
         val coolEvent = ItemConsumeEvent(entity, stack, item, event)
         coolEvent.callEvent()
         ItemAbilityManager.useStackAbilities(stack, coolEvent)
+        GameController.processAnyEvent(coolEvent)
 
         if(coolEvent.isCancelled) {
             event.isCancelled = true

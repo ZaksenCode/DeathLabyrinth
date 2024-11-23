@@ -86,7 +86,6 @@ object ArtifactsController {
         artifacts["token"] = Token::class.java
         artifacts["green_heart"] = GreenHeart::class.java
         artifacts["blood_lust"] = BloodLust::class.java
-        artifacts["jewel"] = Jewel::class.java
         artifacts["wooden_shield"] = WoodenShield::class.java
 
         // EPIC
