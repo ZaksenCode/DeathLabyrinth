@@ -40,4 +40,16 @@ abstract class ItemAbility(
             )))
         }
     }
+
+    open fun hasUpdateAbility(): Boolean {
+        return !getUpdateAbility().isNullOrEmpty()
+    }
+
+    open fun getUpdateAbility(): String? {
+        return null
+    }
+
+    open fun getConflictAbilities(): List<String> {
+        return emptyList()
+    }
 }

@@ -144,8 +144,7 @@ object GameController {
         clearAttributeModifier(player)
         player.gameMode = GameMode.SURVIVAL
 
-        player.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.baseValue = 40.0
-        player.getAttribute(Attribute.GENERIC_MAX_ABSORPTION)?.baseValue = 20.0
+        player.updateMaxHealth(40.0)
 
         player.heal(40.0, EntityRegainHealthEvent.RegainReason.REGEN)
         player.saturation = 20.0f

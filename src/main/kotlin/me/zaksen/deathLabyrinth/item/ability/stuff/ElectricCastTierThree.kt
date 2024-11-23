@@ -12,10 +12,10 @@ import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.Event
 
-class ElectricCast: ItemAbility(
-    Component.translatable("ability.electric_cast.name"),
-    Component.translatable("ability.electric_cast.description"),
-    4.0
+class ElectricCastTierThree: ItemAbility(
+    Component.translatable("ability.electric_cast_tier_three.name"),
+    Component.translatable("ability.electric_cast_tier_three.description"),
+    18.0
 ) {
     override fun invoke(event: Event) {
         if(event !is ItemUseEvent) return
@@ -41,7 +41,7 @@ class ElectricCast: ItemAbility(
             event.player.location.add(0.0, 1.6, 0.0).particleLine(Particle.ENCHANTED_HIT, entity.location.add(0.0, 1.0, 0.0))
 
             toDamage.forEach {
-                EventManager.callPlayerSpellEntityDamageEvent(event.player, it as CraftLivingEntity, 4.0)
+                EventManager.callPlayerSpellEntityDamageEvent(event.player, it as CraftLivingEntity, 18.0)
             }
 
             drawParticles(toDamage)
@@ -59,7 +59,7 @@ class ElectricCast: ItemAbility(
         }
 
         if(livingEntities.isNotEmpty()) {
-            for(i in 1..2) {
+            for(i in 1..4) {
                 result.add(livingEntities.random())
             }
         }
@@ -84,7 +84,7 @@ class ElectricCast: ItemAbility(
         }
     }
 
-    override fun getUpdateAbility(): String {
-        return "electric_cast_tier_two"
+    override fun getConflictAbilities(): List<String> {
+        return listOf("electric_cast", "electric_cast_tier_two")
     }
 }

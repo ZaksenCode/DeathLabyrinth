@@ -79,6 +79,7 @@ object ArtifactsController {
 
         // COMMON
         artifacts["mystic_potion"] = MysticPotion::class.java
+        artifacts["red_jar"] = RedJar::class.java
 
         // RARE
         artifacts["rusty_dagger"] = RustyDagger::class.java

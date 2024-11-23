@@ -87,7 +87,34 @@ class OutputSlot(val firstSlot: SlotItem, val secondSlot: SlotItem): AbstractIte
         if(!source.hasItemMeta() || !input.hasItemMeta()) return
 
         val sourceAbilities = getStackAbilities(source).toMutableSet()
-        val inputAbilities = getStackAbilities(input)
+        val inputAbilities = getStackAbilities(input).toMutableSet()
+
+        sourceAbilities.forEach {
+            val ability = ItemAbilityManager.abilityMap[it] ?: return@forEach
+
+            if(inputAbilities.contains(it)) {
+                println("Check update ability for ${it}, result: ${ability.hasUpdateAbility()} -> ${ability.getUpdateAbility()}")
+
+                if (ability.hasUpdateAbility()) {
+                    val newAbilityId = ability.getUpdateAbility()!!
+                    sourceAbilities.add(newAbilityId)
+
+                    sourceAbilities.remove(it)
+                    inputAbilities.remove(it)
+
+                    val newAbility = ItemAbilityManager.abilityMap[newAbilityId] ?: return@forEach
+                    newAbility.getConflictAbilities().forEach { confAbility ->
+                        sourceAbilities.remove(confAbility)
+                        inputAbilities.remove(confAbility)
+                    }
+                }
+            }
+
+            ability.getConflictAbilities().forEach { confAbility ->
+                sourceAbilities.remove(confAbility)
+                inputAbilities.remove(confAbility)
+            }
+        }
 
         sourceAbilities.addAll(inputAbilities)
 

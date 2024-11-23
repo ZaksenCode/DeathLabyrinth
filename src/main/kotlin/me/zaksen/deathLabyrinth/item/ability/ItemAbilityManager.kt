@@ -33,6 +33,8 @@ object ItemAbilityManager {
         abilityMap["big_witherball_cast"] = BigWitherballCast()
         abilityMap["laser_cast"] = LaserCast()
         abilityMap["electric_cast"] = ElectricCast()
+        abilityMap["electric_cast_tier_two"] = ElectricCastTierTwo()
+        abilityMap["electric_cast_tier_three"] = ElectricCastTierThree()
         abilityMap["healing_cast"] = HealingCast()
         abilityMap["big_healing_cast"] = BigHealingCast()
         abilityMap["necromantic_cast"] = NecromanticCast()
