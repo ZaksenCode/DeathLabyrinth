@@ -11,6 +11,7 @@ import org.bukkit.event.Event
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 
+// TODO - Add new ability tiers
 object ItemAbilityManager {
 
     val abilityMap: MutableMap<String, ItemAbility> = mutableMapOf()

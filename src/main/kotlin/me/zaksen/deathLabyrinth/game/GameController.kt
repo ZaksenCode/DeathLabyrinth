@@ -3,8 +3,11 @@ package me.zaksen.deathLabyrinth.game
 import me.zaksen.deathLabyrinth.artifacts.ArtifactsController
 import me.zaksen.deathLabyrinth.artifacts.api.ArtifactsStates
 import me.zaksen.deathLabyrinth.config.ConfigContainer
+import me.zaksen.deathLabyrinth.damage.DamageType
 import me.zaksen.deathLabyrinth.data.PlayerData
+import me.zaksen.deathLabyrinth.entity.friendly.FriendlyEntity
 import me.zaksen.deathLabyrinth.entity.trader.TraderType
+import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.event.custom.game.PlayerBreakPotEvent
 import me.zaksen.deathLabyrinth.game.hud.HudController
 import me.zaksen.deathLabyrinth.game.room.RoomController
@@ -16,9 +19,7 @@ import me.zaksen.deathLabyrinth.trading.ItemOffer
 import me.zaksen.deathLabyrinth.trading.TradeOffer
 import me.zaksen.deathLabyrinth.util.*
 import net.kyori.adventure.text.format.TextColor
-import org.bukkit.Bukkit
-import org.bukkit.GameMode
-import org.bukkit.Material
+import org.bukkit.*
 import org.bukkit.attribute.Attribute
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
@@ -31,8 +32,11 @@ import org.bukkit.potion.PotionEffectType
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scheduler.BukkitTask
 import java.util.*
-import kotlin.random.Random
 import kotlin.concurrent.timer
+import kotlin.math.cos
+import kotlin.math.sin
+import kotlin.random.Random
+
 
 // TODO - Decompose
 object GameController {
@@ -393,5 +397,41 @@ object GameController {
     fun removePlayerShield(player: Player, amount: Double) {
         val newAmount = 0.0.coerceAtLeast(player.absorptionAmount - amount)
         player.absorptionAmount = newAmount
+    }
+
+    fun makeExplode(player: Player? = null, pos: Location, range: Double, damage: Double, drawParticles: Boolean = true, playSound: Boolean = true) {
+        val toDamage = pos.getNearbyEntities(range, range, range).filter {
+            it is LivingEntity && it !is Player && it !is FriendlyEntity
+        }
+
+        toDamage.forEach {
+            if(player != null) {
+                EventManager.callPlayerSpellEntityDamageEvent(player, it as LivingEntity, damage, damageType = DamageType.EXPLODE)
+            } else {
+                EventManager.callSpellEntityDamageEvent(it as LivingEntity, damage, damageType = DamageType.EXPLODE)
+            }
+        }
+
+        if(drawParticles) {
+            var phi = 0.0
+            while (phi <= Math.PI) {
+                var theta = 0.0
+                while (theta <= 2 * Math.PI) {
+                    val x = range * cos(theta) * sin(phi)
+                    val y = range * cos(phi) + 1.5
+                    val z = range * sin(theta) * sin(phi)
+
+                    pos.add(x, y, z)
+                    pos.world.spawnParticle(Particle.EXPLOSION, pos, 1, 0.0, 0.0, 0.0, 0.001)
+                    pos.subtract(x, y, z)
+                    theta += Math.PI / 8
+                }
+                phi += Math.PI / 4
+            }
+        }
+
+        if(playSound) {
+            pos.world.playSound(pos, Sound.ENTITY_GENERIC_EXPLODE, SoundCategory.HOSTILE, 1.0f, 1.0f)
+        }
     }
 }

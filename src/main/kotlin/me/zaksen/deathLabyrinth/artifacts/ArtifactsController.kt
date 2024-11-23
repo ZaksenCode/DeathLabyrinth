@@ -88,10 +88,12 @@ object ArtifactsController {
         artifacts["green_heart"] = GreenHeart::class.java
         artifacts["blood_lust"] = BloodLust::class.java
         artifacts["wooden_shield"] = WoodenShield::class.java
+        artifacts["explosive_mix"] = ExplosiveMix::class.java
 
         // EPIC
         artifacts["mossy_skull"] = MossySkull::class.java
         artifacts["gasoline"] = Gasoline::class.java
+        artifacts["little_bomb"] = LittleBomb::class.java
 
         // GODLY
         artifacts["greediness"] = Greediness::class.java

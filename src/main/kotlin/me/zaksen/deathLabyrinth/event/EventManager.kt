@@ -19,6 +19,7 @@ import me.zaksen.deathLabyrinth.trading.TradeOffer
 import me.zaksen.deathLabyrinth.util.tryAddEntity
 import net.minecraft.world.entity.Entity
 import org.bukkit.Bukkit
+import org.bukkit.Location
 import org.bukkit.World
 import org.bukkit.block.Block
 import org.bukkit.craftbukkit.entity.CraftLivingEntity
@@ -233,6 +234,26 @@ object EventManager {
         GameController.processAnyEvent(coolEvent)
         if(!coolEvent.isCancelled) {
             ArtifactsController.processArtifactPickup(player, artifact)
+        }
+    }
+
+    fun callPlayerSummonExplosionEvent(player: Player, pos: Location, range: Double, damage: Double, drawParticles: Boolean = true, playSound: Boolean = true) {
+        val coolEvent = PlayerSummonExplosionEvent(player, pos, range, damage)
+        coolEvent.callEvent()
+        GameController.processAnyEvent(coolEvent)
+
+        if(!coolEvent.isCancelled) {
+            GameController.makeExplode(player, pos, coolEvent.range, coolEvent.damage, drawParticles, playSound)
+        }
+    }
+
+    fun callSummonExplosionEvent(pos: Location, range: Double, damage: Double, drawParticles: Boolean = true, playSound: Boolean = true) {
+        val coolEvent = ExplosionEvent(pos, range, damage)
+        coolEvent.callEvent()
+        GameController.processAnyEvent(coolEvent)
+
+        if(!coolEvent.isCancelled) {
+            GameController.makeExplode(null, pos, coolEvent.range, coolEvent.damage, drawParticles, playSound)
         }
     }
 

@@ -4,5 +4,6 @@ enum class DamageType {
     GENERAL,
     FIRE,
     ICE,
-    WITHER
+    WITHER,
+    EXPLODE
 }
