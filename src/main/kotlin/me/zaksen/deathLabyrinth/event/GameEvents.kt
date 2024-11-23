@@ -77,7 +77,7 @@ class GameEvents(private val config: MainConfig): Listener {
         }
 
         val entity = event.entity
-        if(entity is Player && entity.health - event.damage <= 0) {
+        if(entity is Player && (entity.health + entity.absorptionAmount) - event.damage <= 0) {
             EventManager.callPlayerDeathEvent(entity, event.damage)
             event.isCancelled = true
         }
