@@ -1,22 +1,23 @@
 package me.zaksen.deathLabyrinth.item.ability.stuff
 
+import me.zaksen.deathLabyrinth.damage.DamageType
 import me.zaksen.deathLabyrinth.entity.friendly.FriendlyEntity
 import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.event.item.ItemUseEvent
 import me.zaksen.deathLabyrinth.item.ability.ItemAbility
-import me.zaksen.deathLabyrinth.item.ability.recipe.Synergy
 import me.zaksen.deathLabyrinth.util.particleLine
 import net.kyori.adventure.text.Component
 import org.bukkit.Particle
-import org.bukkit.craftbukkit.entity.CraftLivingEntity
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.Event
 
-class ElectricCast: ItemAbility(
-    Component.translatable("ability.electric_cast.name"),
-    Component.translatable("ability.electric_cast.description"),
-    4.0
+class ExplosionChainCast: ItemAbility(
+    Component.translatable("ability.explosion_chain_cast.name"),
+    Component.translatable("ability.explosion_chain_cast.description"),
+    18.0,
+    1.25,
+    damageType = DamageType.EXPLODE
 ) {
     override fun invoke(event: Event) {
         if(event !is ItemUseEvent) return
@@ -42,7 +43,7 @@ class ElectricCast: ItemAbility(
             event.player.location.add(0.0, 1.6, 0.0).particleLine(Particle.ENCHANTED_HIT, entity.location.add(0.0, 1.0, 0.0))
 
             toDamage.forEach {
-                EventManager.callPlayerSpellEntityDamageEvent(event.player, it as CraftLivingEntity, 4.0)
+                EventManager.callPlayerSummonExplosionEvent(event.player, it.location, 1.25, 18.0)
             }
 
             drawParticles(toDamage)
@@ -60,7 +61,7 @@ class ElectricCast: ItemAbility(
         }
 
         if(livingEntities.isNotEmpty()) {
-            for(i in 1..2) {
+            for(i in 1..4) {
                 result.add(livingEntities.random())
             }
         }
@@ -83,15 +84,5 @@ class ElectricCast: ItemAbility(
             secondLocation = between.removeFirst().location.add(0.0, 1.0, 0.0)
             firstLocation.particleLine(Particle.ENCHANTED_HIT, secondLocation)
         }
-    }
-
-    override fun getUpdateAbility(): String {
-        return "electric_cast_tier_two"
-    }
-
-    override fun getSynergies(): List<Synergy> {
-        return listOf(
-            Synergy("explosion_cast", "explosion_chain_cast")
-        )
     }
 }

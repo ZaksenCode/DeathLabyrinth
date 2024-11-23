@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.item.ability.stuff
 
+import me.zaksen.deathLabyrinth.damage.DamageType
 import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.event.item.ItemUseEvent
 import me.zaksen.deathLabyrinth.item.ability.ItemAbility
@@ -10,7 +11,8 @@ class ExplosionCastTierThree: ItemAbility(
     Component.translatable("ability.explosion_cast_tier_three.name"),
     Component.translatable("ability.explosion_cast_tier_two.description"),
     17.0,
-    3.5
+    3.5,
+    damageType = DamageType.EXPLODE
 ) {
     override fun invoke(event: Event) {
         if(event !is ItemUseEvent) return

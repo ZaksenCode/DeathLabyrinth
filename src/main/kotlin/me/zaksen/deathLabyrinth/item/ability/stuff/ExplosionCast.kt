@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.item.ability.stuff
 
+import me.zaksen.deathLabyrinth.damage.DamageType
 import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.event.item.ItemUseEvent
 import me.zaksen.deathLabyrinth.item.ability.ItemAbility
@@ -11,7 +12,8 @@ class ExplosionCast: ItemAbility(
     Component.translatable("ability.explosion_cast.name"),
     Component.translatable("ability.explosion_cast.description"),
     5.0,
-    1.5
+    1.5,
+    damageType = DamageType.EXPLODE
 ) {
     override fun invoke(event: Event) {
         if(event !is ItemUseEvent) return
@@ -41,7 +43,8 @@ class ExplosionCast: ItemAbility(
 
     override fun getSynergies(): List<Synergy> {
         return listOf(
-            Synergy("fire_flow_cast", "explosion_flow_cast")
+            Synergy("fire_flow_cast", "explosion_flow_cast"),
+            Synergy("electric_cast", "explosion_chain_cast")
         )
     }
 }

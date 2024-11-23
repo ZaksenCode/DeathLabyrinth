@@ -15,7 +15,8 @@ class FireFlowCast: ItemAbility(
     Component.translatable("ability.fire_flow_cast.name"),
     Component.translatable("ability.fire_flow_cast.description"),
     2.0,
-    0.75
+    0.75,
+    damageType = DamageType.FIRE
 ) {
     override fun invoke(event: Event) {
         if(event !is ItemUseEvent) return

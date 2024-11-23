@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.item.ability.stuff
 
+import me.zaksen.deathLabyrinth.damage.DamageType
 import me.zaksen.deathLabyrinth.entity.projectile.FireBombEntity
 import me.zaksen.deathLabyrinth.entity.projectile.FrostBombEntity
 import me.zaksen.deathLabyrinth.event.EventManager
@@ -14,7 +15,8 @@ class FireBombCast: ItemAbility(
     Component.translatable("ability.fire_bomb_cast.name"),
     Component.translatable("ability.fire_bomb_cast.description"),
     18.0,
-    3.5
+    3.5,
+    damageType = DamageType.EXPLODE
 ) {
     override fun invoke(event: Event) {
         if(event !is ItemUseEvent) return

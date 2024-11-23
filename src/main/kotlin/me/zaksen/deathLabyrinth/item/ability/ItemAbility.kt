@@ -1,6 +1,7 @@
 package me.zaksen.deathLabyrinth.item.ability
 
 import me.zaksen.deathLabyrinth.artifacts.ability.Ability
+import me.zaksen.deathLabyrinth.damage.DamageType
 import me.zaksen.deathLabyrinth.item.ability.recipe.Synergy
 import me.zaksen.deathLabyrinth.util.asText
 import me.zaksen.deathLabyrinth.util.asTranslate
@@ -15,7 +16,8 @@ abstract class ItemAbility(
     val name: Component,
     val description: Component,
     val displayDamage: Double = 0.0,
-    val displayRange: Double = 0.0
+    val displayRange: Double = 0.0,
+    val damageType: DamageType = DamageType.GENERAL
 ): Ability {
     abstract override fun invoke(event: Event)
 
@@ -40,6 +42,11 @@ abstract class ItemAbility(
                 )
             )))
         }
+        stack.loreLine(Component.text(" - ").append("ability.damage_type".asTranslate(damageType.displayName).color(
+            TextColor.color(
+                147, 63, 212
+            )
+        )))
     }
 
     open fun hasUpdateAbility(): Boolean {

@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.item.ability.stuff
 
+import me.zaksen.deathLabyrinth.damage.DamageType
 import me.zaksen.deathLabyrinth.entity.projectile.FireBallEntity
 import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.event.item.ItemUseEvent
@@ -14,7 +15,8 @@ class FireballCast: ItemAbility(
     Component.translatable("ability.fireball_cast.name"),
     Component.translatable("ability.fireball_cast.description"),
     4.0,
-    1.5
+    1.5,
+    damageType = DamageType.FIRE
 ) {
     override fun invoke(event: Event) {
         if(event !is ItemUseEvent) return

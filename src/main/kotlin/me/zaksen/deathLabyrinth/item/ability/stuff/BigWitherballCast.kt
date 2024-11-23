@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.item.ability.stuff
 
+import me.zaksen.deathLabyrinth.damage.DamageType
 import me.zaksen.deathLabyrinth.entity.projectile.BigWitherBallEntity
 import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.event.item.ItemUseEvent
@@ -13,7 +14,8 @@ class BigWitherballCast: ItemAbility(
     Component.translatable("ability.big_witherball_cast.name"),
     Component.translatable("ability.big_witherball_cast.description"),
     13.0,
-    2.0
+    2.0,
+    damageType = DamageType.WITHER
 ) {
     override fun invoke(event: Event) {
         if(event !is ItemUseEvent) return

@@ -245,6 +245,17 @@ object ItemsController {
                 .ability("wind_gust")
         ))
 
+        register("narwhal_horn", BaseSpear(
+            "narwhal_horn",
+            ItemSettings(Material.WOODEN_SWORD).damage(15.0).attackSpeed(-2.4).range(2.0)
+                .customModel(1004)
+                .displayName("item.narwhal_horn.name".asTranslate().color(TextColor.color(128, 128, 128)))
+                .quality(ItemQuality.RARE)
+                .tradePrice(100)
+                .addAviableTrader(TraderType.NORMAL)
+                .ability("narwhal_punch")
+        ))
+
         register("shield", CustomItem(
             "shield",
             ItemType.MISC,

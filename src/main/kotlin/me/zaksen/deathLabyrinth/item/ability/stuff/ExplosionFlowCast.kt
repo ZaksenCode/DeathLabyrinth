@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.item.ability.stuff
 
+import me.zaksen.deathLabyrinth.damage.DamageType
 import me.zaksen.deathLabyrinth.entity.friendly.FriendlyEntity
 import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.event.item.ItemUseEvent
@@ -15,7 +16,8 @@ class ExplosionFlowCast: ItemAbility(
     Component.translatable("ability.explosion_flow_cast.name"),
     Component.translatable("ability.explosion_flow_cast.description"),
     8.0,
-    1.0
+    1.0,
+    damageType = DamageType.EXPLODE
 ) {
     override fun invoke(event: Event) {
         if(event !is ItemUseEvent) return

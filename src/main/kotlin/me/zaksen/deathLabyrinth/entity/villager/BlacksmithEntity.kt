@@ -30,6 +30,7 @@ class BlacksmithEntity(location: Location): Villager(EntityType.VILLAGER, (locat
         this.customName = Component.translatable( "entity.blacksmith.name").withColor(TextColor.color(124, 242, 81).value())
         this.isCustomNameVisible = true
         this.isNoAi = true
+        this.isNoGravity = false
 
         this.setPos(location.x, location.y, location.z)
     }
