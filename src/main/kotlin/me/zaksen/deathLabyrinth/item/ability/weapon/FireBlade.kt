@@ -7,7 +7,8 @@ import org.bukkit.event.Event
 
 class FireBlade: ItemAbility(
     Component.translatable("ability.fire_blade.name"),
-    Component.translatable("ability.fire_blade.description")
+    Component.translatable("ability.fire_blade.description"),
+    isDisplayDamageType = false
 ) {
     override fun invoke(event: Event) {
         if(event !is ItemHitEvent) return

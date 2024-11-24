@@ -1,7 +1,8 @@
 package me.zaksen.deathLabyrinth.menu.item
 
+import me.zaksen.deathLabyrinth.item.CustomItem
 import me.zaksen.deathLabyrinth.item.ability.ItemAbilityManager
-import me.zaksen.deathLabyrinth.item.ability.recipe.Synergy
+import me.zaksen.deathLabyrinth.item.weapon.weapons.updateWeaponStats
 import me.zaksen.deathLabyrinth.keys.PluginKeys
 import me.zaksen.deathLabyrinth.util.*
 import net.kyori.adventure.text.Component
@@ -73,7 +74,7 @@ class OutputSlot(val firstSlot: SlotItem, val secondSlot: SlotItem): AbstractIte
         if(sourceItem == null || inputItem == null) return
         if(sourceItem.type != inputItem.type) return
 
-        mixItems(firstSlot.slotItem, secondSlot.slotItem)
+        mixItems(firstSlot.slotItem, secondSlot.slotItem, sourceItem, inputItem)
     }
 
     fun clearRecipe() {
@@ -83,7 +84,7 @@ class OutputSlot(val firstSlot: SlotItem, val secondSlot: SlotItem): AbstractIte
         notifyWindows()
     }
 
-    fun mixItems(source: ItemStack, input: ItemStack) {
+    fun mixItems(source: ItemStack, input: ItemStack, sourceCustom: CustomItem, inputCustom: CustomItem) {
         val result = source.clone()
         if(!source.hasItemMeta() || !input.hasItemMeta()) return
 
@@ -136,16 +137,31 @@ class OutputSlot(val firstSlot: SlotItem, val secondSlot: SlotItem): AbstractIte
                 return@filter !comp.contains("abilit") && !comp.contains("cooldown")
             })
         }
+        val sourceMeta = source.itemMeta
 
         if(source.itemMeta.persistentDataContainer.has(PluginKeys.customItemCooldownTimeKey) &&
             input.itemMeta.persistentDataContainer.has(PluginKeys.customItemCooldownTimeKey)) {
-            val sourceMeta = source.itemMeta
             val sourceCooldownTime = sourceMeta.persistentDataContainer.get(PluginKeys.customItemCooldownTimeKey, PersistentDataType.INTEGER)!!
             meta.persistentDataContainer.set(PluginKeys.customItemCooldownTimeKey, PersistentDataType.INTEGER, sourceCooldownTime +
                     (input.persistentDataContainer.get(PluginKeys.customItemCooldownTimeKey, PersistentDataType.INTEGER)!! * 0.5).toInt())
         }
 
+        if(source.itemMeta.persistentDataContainer.has(PluginKeys.customItemDamageKey)&&
+            input.itemMeta.persistentDataContainer.has(PluginKeys.customItemDamageKey)) {
+            val sourceDamage = sourceMeta.persistentDataContainer.get(PluginKeys.customItemDamageKey, PersistentDataType.DOUBLE)!!
+            meta.persistentDataContainer.set(PluginKeys.customItemDamageKey, PersistentDataType.DOUBLE, sourceDamage +
+                    (input.persistentDataContainer.get(PluginKeys.customItemDamageKey, PersistentDataType.DOUBLE)!! * 0.3))
+        }
+
+        if(source.itemMeta.persistentDataContainer.has(PluginKeys.customItemAttackSpeedKey)&&
+            input.itemMeta.persistentDataContainer.has(PluginKeys.customItemAttackSpeedKey)) {
+            val sourceAttackSpeed = sourceMeta.persistentDataContainer.get(PluginKeys.customItemAttackSpeedKey, PersistentDataType.DOUBLE)!!
+            meta.persistentDataContainer.set(PluginKeys.customItemAttackSpeedKey, PersistentDataType.DOUBLE, sourceAttackSpeed +
+                    (input.persistentDataContainer.get(PluginKeys.customItemAttackSpeedKey, PersistentDataType.DOUBLE)!! * 0.05))
+        }
+
         result.itemMeta = meta
+        result.updateWeaponStats()
 
         if(sourceAbilities.isNotEmpty()) result.loreLine(
             Component.translatable("text.item.abilities").decoration(TextDecoration.ITALIC, false).color(

@@ -8,7 +8,8 @@ import org.bukkit.event.block.Action
 
 class WindGust: ItemAbility(
     Component.translatable("ability.wind_gust.name"),
-    Component.translatable("ability.wind_gust.description")
+    Component.translatable("ability.wind_gust.description"),
+    isDisplayDamageType = false
 ) {
     override fun invoke(event: Event) {
         if(event !is ItemUseEvent) return

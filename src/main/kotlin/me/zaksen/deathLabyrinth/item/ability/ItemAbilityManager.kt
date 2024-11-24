@@ -21,6 +21,8 @@ object ItemAbilityManager {
         abilityMap["area_hit"] = AreaHit()
         abilityMap["big_area_hit"] = BigAreaHit()
         abilityMap["huge_area_hit"] = HugeAreaHit()
+        abilityMap["giant_area_hit"] = GiantAreaHit()
+
         abilityMap["fire_blade"] = FireBlade()
         abilityMap["narwhal_punch"] = NarwhalPunch()
         // Weapon - Use

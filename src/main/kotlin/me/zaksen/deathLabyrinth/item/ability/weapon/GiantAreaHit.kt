@@ -4,22 +4,21 @@ import me.zaksen.deathLabyrinth.entity.friendly.FriendlyEntity
 import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.event.item.ItemHitEvent
 import me.zaksen.deathLabyrinth.item.ability.ItemAbility
-import me.zaksen.deathLabyrinth.item.ability.recipe.Synergy
 import net.kyori.adventure.text.Component
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.Event
 
-class BigAreaHit: ItemAbility(
-    Component.translatable("ability.big_area_hit.name"),
-    Component.translatable("ability.big_area_hit.description"),
-    displayRange = 1.25,
+class GiantAreaHit: ItemAbility(
+    Component.translatable("ability.giant_area_hit.name"),
+    Component.translatable("ability.giant_area_hit.description"),
+    displayRange = 3.5,
     isDisplayDamageType = false
 ) {
     override fun invoke(event: Event) {
         if(event !is ItemHitEvent) return
 
-        val affectedEntities = event.damaged.getNearbyEntities(1.25, 1.25, 1.25)
+        val affectedEntities = event.damaged.getNearbyEntities(3.5, 3.5, 3.5)
 
         for(entity in affectedEntities) {
             if(entity is LivingEntity && entity !is Player && entity !is FriendlyEntity) {
@@ -29,12 +28,6 @@ class BigAreaHit: ItemAbility(
     }
 
     override fun getConflictAbilities(): List<String> {
-        return listOf("area_hit")
-    }
-
-    override fun getSynergies(): List<Synergy> {
-        return listOf(
-            Synergy("big_area_hit", "huge_area_hit")
-        )
+        return listOf("area_hit", "big_area_hit", "huge_area_hit")
     }
 }

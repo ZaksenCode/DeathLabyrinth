@@ -12,7 +12,8 @@ import kotlin.random.Random
 
 class NarwhalPunch: ItemAbility(
     Component.translatable("ability.narwhal_punch.name"),
-    Component.translatable("ability.narwhal_punch.description")
+    Component.translatable("ability.narwhal_punch.description"),
+    isDisplayDamageType = false
 ) {
     val random: Random = Random.Default
 
