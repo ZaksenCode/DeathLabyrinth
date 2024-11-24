@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.entity.projectile
 
+import me.zaksen.deathLabyrinth.damage.DamageType
 import me.zaksen.deathLabyrinth.event.EventManager
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket
@@ -74,7 +75,8 @@ class WitherBombEntity(location: Location, val range: Double, val damage: Double
                                 false,
                                 false
                             ))
-                        }
+                        },
+                        damageType = DamageType.WITHER
                     )
                 } else {
                     EventManager.callSummonExplosionEvent(
@@ -98,7 +100,8 @@ class WitherBombEntity(location: Location, val range: Double, val damage: Double
                                 false,
                                 false
                             ))
-                        }
+                        },
+                        damageType = DamageType.WITHER
                     )
                 }
             }

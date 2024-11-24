@@ -16,7 +16,7 @@ class FireBombCast: ItemAbility(
     Component.translatable("ability.fire_bomb_cast.description"),
     18.0,
     3.5,
-    damageType = DamageType.EXPLODE
+    damageType = DamageType.FIRE
 ) {
     override fun invoke(event: Event) {
         if(event !is ItemUseEvent) return

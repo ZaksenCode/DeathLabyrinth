@@ -2,6 +2,7 @@ package me.zaksen.deathLabyrinth.item.ability.stuff
 
 import me.zaksen.deathLabyrinth.event.item.ItemUseEvent
 import me.zaksen.deathLabyrinth.item.ability.ItemAbility
+import me.zaksen.deathLabyrinth.item.ability.recipe.Synergy
 import net.kyori.adventure.text.Component
 import org.bukkit.Particle
 import org.bukkit.attribute.Attribute
@@ -10,7 +11,8 @@ import org.bukkit.event.entity.EntityRegainHealthEvent
 
 class HealingCast: ItemAbility(
     Component.translatable("ability.healing_cast.name"),
-    Component.translatable("ability.healing_cast.description")
+    Component.translatable("ability.healing_cast.description"),
+    isDisplayDamageType = false
 ) {
     override fun invoke(event: Event) {
         if(event !is ItemUseEvent) return
@@ -33,5 +35,11 @@ class HealingCast: ItemAbility(
                 0.5
             )
         }
+    }
+
+    override fun getSynergies(): List<Synergy> {
+        return listOf(
+            Synergy("healing_cast", "big_healing_cast")
+        )
     }
 }

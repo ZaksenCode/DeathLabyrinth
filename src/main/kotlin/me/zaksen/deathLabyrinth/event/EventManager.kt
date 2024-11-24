@@ -240,23 +240,40 @@ object EventManager {
         }
     }
 
-    fun callPlayerSummonExplosionEvent(player: Player, pos: Location, range: Double, damage: Double, drawParticles: Boolean = true, playSound: Boolean = true, entityConsumer: Consumer<LivingEntity> = Consumer{}) {
+    fun callPlayerSummonExplosionEvent(
+        player: Player,
+        pos: Location,
+        range: Double,
+        damage: Double,
+        drawParticles: Boolean = true,
+        playSound: Boolean = true,
+        entityConsumer: Consumer<LivingEntity> = Consumer{},
+        damageType: DamageType = DamageType.EXPLODE
+    ) {
         val coolEvent = PlayerSummonExplosionEvent(player, pos, range, damage)
         coolEvent.callEvent()
         GameController.processAnyEvent(coolEvent)
 
         if(!coolEvent.isCancelled) {
-            GameController.makeExplode(player, pos, coolEvent.range, coolEvent.damage, drawParticles, playSound, entityConsumer)
+            GameController.makeExplode(player, pos, coolEvent.range, coolEvent.damage, drawParticles, playSound, entityConsumer, damageType)
         }
     }
 
-    fun callSummonExplosionEvent(pos: Location, range: Double, damage: Double, drawParticles: Boolean = true, playSound: Boolean = true, entityConsumer: Consumer<LivingEntity> = Consumer{}) {
+    fun callSummonExplosionEvent(
+        pos: Location,
+        range: Double,
+        damage: Double,
+        drawParticles: Boolean = true,
+        playSound: Boolean = true,
+        entityConsumer: Consumer<LivingEntity> = Consumer{},
+        damageType: DamageType = DamageType.EXPLODE
+    ) {
         val coolEvent = ExplosionEvent(pos, range, damage)
         coolEvent.callEvent()
         GameController.processAnyEvent(coolEvent)
 
         if(!coolEvent.isCancelled) {
-            GameController.makeExplode(null, pos, coolEvent.range, coolEvent.damage, drawParticles, playSound, entityConsumer)
+            GameController.makeExplode(null, pos, coolEvent.range, coolEvent.damage, drawParticles, playSound, entityConsumer, damageType)
         }
     }
 

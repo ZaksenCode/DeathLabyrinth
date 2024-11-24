@@ -400,7 +400,16 @@ object GameController {
         player.absorptionAmount = newAmount
     }
 
-    fun makeExplode(player: Player? = null, pos: Location, range: Double, damage: Double, drawParticles: Boolean = true, playSound: Boolean = true, entityConsumer: Consumer<LivingEntity> = Consumer{}) {
+    fun makeExplode(
+        player: Player? = null,
+        pos: Location,
+        range: Double,
+        damage: Double,
+        drawParticles: Boolean = true,
+        playSound: Boolean = true,
+        entityConsumer: Consumer<LivingEntity> = Consumer{},
+        damageType: DamageType = DamageType.EXPLODE
+    ) {
         val toDamage = pos.getNearbyEntities(range, range, range).filter {
             it is LivingEntity && it !is Player && it !is FriendlyEntity
         }
@@ -409,9 +418,9 @@ object GameController {
             entityConsumer.accept(it as LivingEntity)
 
             if(player != null) {
-                EventManager.callPlayerSpellEntityDamageEvent(player, it, damage, damageType = DamageType.EXPLODE)
+                EventManager.callPlayerSpellEntityDamageEvent(player, it, damage, damageType = damageType)
             } else {
-                EventManager.callSpellEntityDamageEvent(it, damage, damageType = DamageType.EXPLODE)
+                EventManager.callSpellEntityDamageEvent(it, damage, damageType = damageType)
             }
         }
 

@@ -11,7 +11,8 @@ import org.bukkit.event.Event
 
 class WindChargeCast : ItemAbility(
     Component.translatable("ability.wind_charge_cast.name"),
-    Component.translatable("ability.wind_charge_cast.description")
+    Component.translatable("ability.wind_charge_cast.description"),
+    isDisplayDamageType = false
 ) {
     override fun invoke(event: Event) {
         if(event !is ItemUseEvent) return

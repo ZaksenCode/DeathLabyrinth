@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.entity.projectile
 
+import me.zaksen.deathLabyrinth.damage.DamageType
 import me.zaksen.deathLabyrinth.event.EventManager
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket
@@ -66,7 +67,8 @@ class FrostBombEntity(location: Location, val range: Double, val damage: Double)
                                 false,
                                 false
                             ))
-                        }
+                        },
+                        damageType = DamageType.ICE
                     )
                 } else {
                     EventManager.callSummonExplosionEvent(
@@ -82,7 +84,8 @@ class FrostBombEntity(location: Location, val range: Double, val damage: Double)
                                 false,
                                 false
                             ))
-                        }
+                        },
+                        damageType = DamageType.ICE
                     )
                 }
             }

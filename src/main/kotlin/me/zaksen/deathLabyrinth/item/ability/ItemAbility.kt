@@ -17,7 +17,8 @@ abstract class ItemAbility(
     val description: Component,
     val displayDamage: Double = 0.0,
     val displayRange: Double = 0.0,
-    val damageType: DamageType = DamageType.GENERAL
+    val damageType: DamageType = DamageType.GENERAL,
+    val isDisplayDamageType: Boolean = true
 ): Ability {
     abstract override fun invoke(event: Event)
 
@@ -42,11 +43,17 @@ abstract class ItemAbility(
                 )
             )))
         }
-        stack.loreLine(Component.text(" - ").append("ability.damage_type".asTranslate(damageType.displayName).color(
-            TextColor.color(
-                147, 63, 212
+        if(isDisplayDamageType) {
+            stack.loreLine(
+                Component.text(" - ").append(
+                    "ability.damage_type".asTranslate(damageType.displayName).color(
+                        TextColor.color(
+                            147, 63, 212
+                        )
+                    )
+                )
             )
-        )))
+        }
     }
 
     open fun getConflictAbilities(): List<String> {

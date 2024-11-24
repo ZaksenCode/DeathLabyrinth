@@ -15,7 +15,7 @@ class WitherBombCast: ItemAbility(
     Component.translatable("ability.wither_bomb_cast.description"),
     12.0,
     4.5,
-    damageType = DamageType.EXPLODE
+    damageType = DamageType.WITHER
 ) {
     override fun invoke(event: Event) {
         if(event !is ItemUseEvent) return

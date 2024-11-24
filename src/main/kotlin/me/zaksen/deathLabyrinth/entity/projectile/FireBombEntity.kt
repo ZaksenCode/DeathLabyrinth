@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.entity.projectile
 
+import me.zaksen.deathLabyrinth.damage.DamageType
 import me.zaksen.deathLabyrinth.event.EventManager
 import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket
@@ -59,7 +60,8 @@ class FireBombEntity(location: Location, val range: Double, val damage: Double):
                         damage,
                         entityConsumer = {
                             it.fireTicks = 100
-                        }
+                        },
+                        damageType = DamageType.FIRE
                     )
                 } else {
                     EventManager.callSummonExplosionEvent(
@@ -68,7 +70,8 @@ class FireBombEntity(location: Location, val range: Double, val damage: Double):
                         damage,
                         entityConsumer = {
                             it.fireTicks = 100
-                        }
+                        },
+                        damageType = DamageType.FIRE
                     )
                 }
             }
