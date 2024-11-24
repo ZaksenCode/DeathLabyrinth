@@ -1,61 +1,61 @@
 package me.zaksen.deathLabyrinth.game.room
 
 import kotlinx.serialization.Serializable
-import me.zaksen.deathLabyrinth.game.room.reward.RewardStategy
+import me.zaksen.deathLabyrinth.game.room.reward.RewardStrategy
 
 @Serializable
-enum class RoomType(val reward: RewardStategy) {
-    NORMAL(object: RewardStategy{
+enum class RoomType(val reward: RewardStrategy) {
+    NORMAL(object: RewardStrategy{
         override fun generate(): Int {
-            return 16 + (4 * RoomController.actualRoomNumber)
+            return 20 + (5 * RoomController.actualRoomNumber)
         }
     }),
-    ELITE(object: RewardStategy{
+    ELITE(object: RewardStrategy{
         override fun generate(): Int {
-            return 12 + (6 * RoomController.actualRoomNumber)
+            return 30 + (10 * RoomController.actualRoomNumber)
         }
     }),
-    DOUBLE_ELITE(object: RewardStategy{
+    DOUBLE_ELITE(object: RewardStrategy{
         override fun generate(): Int {
-            return 15 + (8 * RoomController.actualRoomNumber)
+            return 45 + (15 * RoomController.actualRoomNumber)
         }
     }),
-    SHOP(object: RewardStategy{
-        override fun generate(): Int {
-            return 0
-        }
-    }),
-    FORGE(object: RewardStategy{
+    SHOP(object: RewardStrategy{
         override fun generate(): Int {
             return 0
         }
     }),
-    BOILER_ROOM(object: RewardStategy{
+    FORGE(object: RewardStrategy{
         override fun generate(): Int {
             return 0
         }
     }),
-    SKILL_FORGE(object: RewardStategy{
+    BOILER_ROOM(object: RewardStrategy{
         override fun generate(): Int {
             return 0
         }
     }),
-    TREASURE(object: RewardStategy{
+    SKILL_FORGE(object: RewardStrategy{
         override fun generate(): Int {
-            return 20 + (10 * RoomController.actualRoomNumber)
+            return 0
         }
     }),
-    CHALLENGE(object: RewardStategy{
+    TREASURE(object: RewardStrategy{
         override fun generate(): Int {
-            return 10 + (6 * RoomController.actualRoomNumber)
+            return 30 + (10 * RoomController.actualRoomNumber)
         }
     }),
-    BOSS(object: RewardStategy{
+    CHALLENGE(object: RewardStrategy{
         override fun generate(): Int {
-            return 32 + (64 * RoomController.bossRoomCompleted)
+            return 40 + (10 * RoomController.actualRoomNumber)
         }
     }),
-    FINAL_BOSS(object: RewardStategy{
+    BOSS(object: RewardStrategy{
+        override fun generate(): Int {
+            return 250 + (500 * RoomController.bossRoomCompleted)
+        }
+    }),
+    FINAL_BOSS(object: RewardStrategy{
         override fun generate(): Int {
             return 0
         }

@@ -41,13 +41,13 @@ class ExplosionFlowCast: ItemAbility(
             for(entity in affectedEntities) {
                 if(entity is LivingEntity && entity !is Player && entity !is FriendlyEntity) {
                     entity.fireTicks = 60
-                    EventManager.callSummonExplosionEvent(entity.location, 1.0, 8.0)
+                    EventManager.callSummonExplosionEvent(entity.location, 1.0, 8.0, damageType = DamageType.FIRE)
                 }
             }
 
             if(rayCastEntity is LivingEntity) {
                 rayCastEntity.fireTicks = 60
-                EventManager.callSummonExplosionEvent(rayCastEntity.location, 1.0, 8.0)
+                EventManager.callSummonExplosionEvent(rayCastEntity.location, 1.0, 8.0, damageType = DamageType.FIRE)
             }
         }
     }
