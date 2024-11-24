@@ -5,6 +5,7 @@ import me.zaksen.deathLabyrinth.entity.projectile.BombEntity
 import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.event.item.ItemUseEvent
 import me.zaksen.deathLabyrinth.item.ability.ItemAbility
+import me.zaksen.deathLabyrinth.item.ability.recipe.Synergy
 import net.kyori.adventure.text.Component
 import net.minecraft.world.phys.Vec3
 import org.bukkit.Location

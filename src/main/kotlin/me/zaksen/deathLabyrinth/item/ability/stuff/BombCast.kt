@@ -36,15 +36,12 @@ class BombCast: ItemAbility(
         }
     }
 
-    override fun getUpdateAbility(): String {
-        return "bomb_cast_tier_two"
-    }
-
     override fun getSynergies(): List<Synergy> {
         return listOf(
             Synergy("frostball_cast", "frost_bomb_cast"),
             Synergy("fireball_cast", "fire_bomb_cast"),
-            Synergy("witherball_cast", "wither_bomb_cast")
+            Synergy("witherball_cast", "wither_bomb_cast"),
+            Synergy("bomb_cast", "bomb_cast_tier_two")
         )
     }
 }

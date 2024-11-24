@@ -4,6 +4,7 @@ import me.zaksen.deathLabyrinth.entity.friendly.FriendlyEntity
 import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.event.item.ItemUseEvent
 import me.zaksen.deathLabyrinth.item.ability.ItemAbility
+import me.zaksen.deathLabyrinth.item.ability.recipe.Synergy
 import me.zaksen.deathLabyrinth.util.particleLine
 import net.kyori.adventure.text.Component
 import org.bukkit.Particle
@@ -84,8 +85,10 @@ class ElectricCastTierTwo: ItemAbility(
         }
     }
 
-    override fun getUpdateAbility(): String {
-        return "electric_cast_tier_three"
+    override fun getSynergies(): List<Synergy> {
+        return listOf(
+            Synergy("electric_cast_tier_two", "electric_cast_tier_three")
+        )
     }
 
     override fun getConflictAbilities(): List<String> {

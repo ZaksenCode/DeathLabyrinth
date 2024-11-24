@@ -4,6 +4,7 @@ import me.zaksen.deathLabyrinth.damage.DamageType
 import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.event.item.ItemUseEvent
 import me.zaksen.deathLabyrinth.item.ability.ItemAbility
+import me.zaksen.deathLabyrinth.item.ability.recipe.Synergy
 import net.kyori.adventure.text.Component
 import org.bukkit.event.Event
 
@@ -36,11 +37,13 @@ class ExplosionCastTierTwo: ItemAbility(
         }
     }
 
-    override fun getUpdateAbility(): String {
-        return "explosion_cast_tier_three"
-    }
-
     override fun getConflictAbilities(): List<String> {
         return listOf("explosion_cast")
+    }
+
+    override fun getSynergies(): List<Synergy> {
+        return listOf(
+            Synergy("explosion_cast_tier_two", "explosion_cast_tier_three")
+        )
     }
 }

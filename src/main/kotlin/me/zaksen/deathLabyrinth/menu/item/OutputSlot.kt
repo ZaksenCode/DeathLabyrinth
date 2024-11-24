@@ -95,30 +95,28 @@ class OutputSlot(val firstSlot: SlotItem, val secondSlot: SlotItem): AbstractIte
 
             ability.getSynergies().forEach { synergy ->
                 if(inputAbilities.contains(synergy.with)) {
+
                     sourceAbilities.remove(it)
                     inputAbilities.remove(synergy.with)
 
                     sourceAbilities.add(synergy.output)
-                }
-            }
 
-            if(inputAbilities.contains(it)) {
-                println("Check update ability for ${it}, result: ${ability.hasUpdateAbility()} -> ${ability.getUpdateAbility()}")
-
-                if (ability.hasUpdateAbility()) {
-                    val newAbilityId = ability.getUpdateAbility()!!
-                    sourceAbilities.add(newAbilityId)
-
-                    sourceAbilities.remove(it)
-                    inputAbilities.remove(it)
-
-                    val newAbility = ItemAbilityManager.abilityMap[newAbilityId] ?: return@forEach
-                    newAbility.getConflictAbilities().forEach { confAbility ->
+                    val newAbility = ItemAbilityManager.abilityMap[synergy.output]
+                    newAbility?.getConflictAbilities()?.forEach { confAbility ->
                         sourceAbilities.remove(confAbility)
                         inputAbilities.remove(confAbility)
                     }
                 }
             }
+
+            ability.getConflictAbilities().forEach { confAbility ->
+                sourceAbilities.remove(confAbility)
+                inputAbilities.remove(confAbility)
+            }
+        }
+
+        inputAbilities.forEach {
+            val ability = ItemAbilityManager.abilityMap[it] ?: return@forEach
 
             ability.getConflictAbilities().forEach { confAbility ->
                 sourceAbilities.remove(confAbility)

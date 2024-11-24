@@ -37,14 +37,11 @@ class ExplosionCast: ItemAbility(
         }
     }
 
-    override fun getUpdateAbility(): String {
-        return "explosion_cast_tier_two"
-    }
-
     override fun getSynergies(): List<Synergy> {
         return listOf(
             Synergy("fire_flow_cast", "explosion_flow_cast"),
-            Synergy("electric_cast", "explosion_chain_cast")
+            Synergy("electric_cast", "explosion_chain_cast"),
+            Synergy("explosion_cast", "explosion_cast_tier_two")
         )
     }
 }

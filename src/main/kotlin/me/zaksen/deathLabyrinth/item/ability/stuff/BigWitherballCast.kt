@@ -24,7 +24,7 @@ class BigWitherballCast: ItemAbility(
         val item = event.item!!
 
         if(item.checkCooldown(stack)) {
-            val shotVelocity = event.player.location.direction.multiply(2).normalize().multiply(0.45)
+            val shotVelocity = event.player.location.direction.multiply(2).normalize().multiply(0.65)
 
             val projectile = BigWitherBallEntity(event.player.location.add(shotVelocity).add(0.0, 1.6, 0.0))
             projectile.deltaMovement = Vec3(shotVelocity.x, shotVelocity.y, shotVelocity.z)

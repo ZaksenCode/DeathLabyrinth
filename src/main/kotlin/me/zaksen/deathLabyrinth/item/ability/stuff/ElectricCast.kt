@@ -85,13 +85,10 @@ class ElectricCast: ItemAbility(
         }
     }
 
-    override fun getUpdateAbility(): String {
-        return "electric_cast_tier_two"
-    }
-
     override fun getSynergies(): List<Synergy> {
         return listOf(
-            Synergy("explosion_cast", "explosion_chain_cast")
+            Synergy("explosion_cast", "explosion_chain_cast"),
+            Synergy("electric_cast", "electric_cast_tier_two")
         )
     }
 }
