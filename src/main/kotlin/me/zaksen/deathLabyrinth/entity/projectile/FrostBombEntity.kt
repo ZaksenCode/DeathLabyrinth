@@ -7,8 +7,6 @@ import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket
 import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket
 import net.minecraft.server.level.ServerLevel
 import net.minecraft.server.network.ServerPlayerConnection
-import net.minecraft.world.effect.MobEffectInstance
-import net.minecraft.world.effect.MobEffects
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.MoverType
 import net.minecraft.world.entity.item.PrimedTnt
@@ -68,7 +66,7 @@ class FrostBombEntity(location: Location, val range: Double, val damage: Double)
                                 false
                             ))
                         },
-                        damageType = DamageType.ICE
+                        damageType = DamageType.WATER
                     )
                 } else {
                     EventManager.callSummonExplosionEvent(
@@ -85,7 +83,7 @@ class FrostBombEntity(location: Location, val range: Double, val damage: Double)
                                 false
                             ))
                         },
-                        damageType = DamageType.ICE
+                        damageType = DamageType.WATER
                     )
                 }
             }

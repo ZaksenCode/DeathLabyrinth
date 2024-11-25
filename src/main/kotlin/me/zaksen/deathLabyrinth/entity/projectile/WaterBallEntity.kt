@@ -21,7 +21,7 @@ import org.bukkit.Location
 import org.bukkit.craftbukkit.CraftWorld
 import java.util.*
 
-class BigFrostBallEntity(location: Location): WindCharge(EntityType.WIND_CHARGE, (location.getWorld() as CraftWorld).handle) {
+class WaterBallEntity(location: Location): WindCharge(EntityType.WIND_CHARGE, (location.getWorld() as CraftWorld).handle) {
     init {
         this.setPos(location.x, location.y, location.z)
     }
@@ -45,12 +45,12 @@ class BigFrostBallEntity(location: Location): WindCharge(EntityType.WIND_CHARGE,
         val entities = level().getEntities(
             EntityTypeTest.forClass(LivingEntity::class.java),
             AABB(
-            x - 3.0,
-            y - 3.0,
-            z - 3.0,
-            x + 3.0,
-            y + 3.0,
-            z + 3.0
+            x - 1.75,
+            y - 1.75,
+            z - 1.75,
+            x + 1.75,
+            y + 1.75,
+            z + 1.75
             )
         ) {
             it.isAlive && it !is Player && it !is FriendlyEntity
@@ -58,14 +58,14 @@ class BigFrostBallEntity(location: Location): WindCharge(EntityType.WIND_CHARGE,
 
         for (entity in entities) {
             if(owner == null) {
-                EventManager.callSpellEntityDamageEvent(entity, 20.0)
+                EventManager.callSpellEntityDamageEvent(entity, 10.0)
             } else {
-                EventManager.callPlayerSpellEntityDamageEvent(owner!!.bukkitEntity as org.bukkit.entity.Player, entity, 20.0, DamageType.WATER)
+                EventManager.callPlayerSpellEntityDamageEvent(owner!!.bukkitEntity as org.bukkit.entity.Player, entity, 10.0, DamageType.WATER)
             }
 
             entity.addEffect(MobEffectInstance(
                 MobEffects.MOVEMENT_SLOWDOWN,
-                100
+                15
             ), this.effectSource)
         }
     }

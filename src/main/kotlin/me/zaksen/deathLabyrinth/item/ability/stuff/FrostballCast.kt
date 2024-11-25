@@ -16,7 +16,7 @@ class FrostballCast: ItemAbility(
     Component.translatable("ability.frostball_cast.description"),
     4.0,
     1.5,
-    damageType = DamageType.ICE
+    damageType = DamageType.WATER
 ) {
     override fun invoke(event: Event) {
         if(event !is ItemUseEvent) return
@@ -38,7 +38,8 @@ class FrostballCast: ItemAbility(
         return listOf(
             Synergy("bomb_cast", "frost_bomb_cast"),
             Synergy("frostball_cast", "big_frostball_cast"),
-            Synergy("explosion_cast", "frost_explosion_cast")
+            Synergy("explosion_cast", "frost_explosion_cast"),
+            Synergy("frostball_cast", "waterball_cast")
         )
     }
 }

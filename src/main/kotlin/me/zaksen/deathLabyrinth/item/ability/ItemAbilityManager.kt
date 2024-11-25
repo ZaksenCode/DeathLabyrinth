@@ -39,6 +39,8 @@ object ItemAbilityManager {
         abilityMap["witherball_cast"] = WitherballCast()
         abilityMap["big_witherball_cast"] = BigWitherballCast()
 
+        abilityMap["waterball_cast"] = WaterBallCast()
+
         abilityMap["laser_cast"] = LaserCast()
 
         abilityMap["electric_cast"] = ElectricCast()
@@ -70,7 +72,7 @@ object ItemAbilityManager {
         abilityMap["frost_bomb_cast"] = FrostBombCast()
         abilityMap["fire_bomb_cast"] = FireBombCast()
         abilityMap["wither_bomb_cast"] = WitherBombCast()
-        
+
         // Stuff - other
         abilityMap["wind_charge_cast"] = WindChargeCast()
 

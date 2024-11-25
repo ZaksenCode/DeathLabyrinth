@@ -15,7 +15,7 @@ class FrostBombCast: ItemAbility(
     Component.translatable("ability.frost_bomb_cast.description"),
     15.0,
     3.0,
-    damageType = DamageType.ICE
+    damageType = DamageType.WATER
 ) {
     override fun invoke(event: Event) {
         if(event !is ItemUseEvent) return

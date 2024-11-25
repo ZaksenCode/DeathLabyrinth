@@ -14,7 +14,7 @@ class FrostExplosionCast: ItemAbility(
     Component.translatable("ability.frost_explosion_cast.description"),
     15.0,
     2.25,
-    damageType = DamageType.ICE
+    damageType = DamageType.WATER
 ) {
     override fun invoke(event: Event) {
         if(event !is ItemUseEvent) return
@@ -46,7 +46,7 @@ class FrostExplosionCast: ItemAbility(
                         false
                     ))
                 },
-                damageType = DamageType.ICE)
+                damageType = DamageType.WATER)
         }
     }
 }

@@ -7,7 +7,6 @@ import net.minecraft.core.particles.ParticleTypes
 import net.minecraft.sounds.SoundEvents
 import net.minecraft.world.effect.MobEffectInstance
 import net.minecraft.world.effect.MobEffects
-import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.player.Player
@@ -61,13 +60,8 @@ class FrostBallEntity(location: Location): WindCharge(EntityType.WIND_CHARGE, (l
             if(owner == null) {
                 EventManager.callSpellEntityDamageEvent(entity, 4.0)
             } else {
-                EventManager.callPlayerSpellEntityDamageEvent(owner!!.bukkitEntity as org.bukkit.entity.Player, entity, 4.0, DamageType.ICE)
+                EventManager.callPlayerSpellEntityDamageEvent(owner!!.bukkitEntity as org.bukkit.entity.Player, entity, 4.0, DamageType.WATER)
             }
-
-            entity.addEffect(MobEffectInstance(
-                MobEffects.MOVEMENT_SLOWDOWN,
-                15
-            ), this.effectSource)
         }
     }
 
