@@ -9,6 +9,10 @@ import org.bukkit.entity.Player
 class ItemTabCommand: CommandExecutor {
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
+        if(!sender.hasPermission("labyrinth.command.item_tab")) {
+            return true
+        }
+
         if(sender is Player) {
             Menus.itemTab(sender)
         }

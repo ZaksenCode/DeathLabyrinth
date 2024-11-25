@@ -70,8 +70,10 @@ object ItemAbilityManager {
         abilityMap["frost_bomb_cast"] = FrostBombCast()
         abilityMap["fire_bomb_cast"] = FireBombCast()
         abilityMap["wither_bomb_cast"] = WitherBombCast()
+        
         // Stuff - other
         abilityMap["wind_charge_cast"] = WindChargeCast()
+
         // Consume
         abilityMap["heal_effect"] = HealEffect()
         abilityMap["small_heal_effect"] = SmallHealEffect()

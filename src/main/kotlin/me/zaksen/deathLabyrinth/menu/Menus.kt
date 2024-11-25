@@ -6,6 +6,10 @@ import me.zaksen.deathLabyrinth.classes.WarriorClass
 import me.zaksen.deathLabyrinth.config.ConfigContainer
 import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.item.ItemsController
+import me.zaksen.deathLabyrinth.item.ability.ItemAbility
+import me.zaksen.deathLabyrinth.item.ability.ItemAbilityManager
+import me.zaksen.deathLabyrinth.item.ability.recipe.Synergy
+import me.zaksen.deathLabyrinth.keys.PluginKeys
 import me.zaksen.deathLabyrinth.menu.item.*
 import me.zaksen.deathLabyrinth.menu.item.util.NextPageItem
 import me.zaksen.deathLabyrinth.menu.item.util.PreviousPageItem
@@ -17,9 +21,12 @@ import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.inventory.ItemStack
+import org.bukkit.persistence.PersistentDataType
 import xyz.xenondevs.invui.gui.Gui
 import xyz.xenondevs.invui.gui.PagedGui
 import xyz.xenondevs.invui.gui.structure.Markers
+import xyz.xenondevs.invui.item.Item
 import xyz.xenondevs.invui.item.ItemProvider
 import xyz.xenondevs.invui.item.builder.ItemBuilder
 import xyz.xenondevs.invui.item.impl.AbstractItem
@@ -121,7 +128,82 @@ object Menus {
         window.open()
     }
 
-    // Update trader menu for all players after one player buy
+    fun synergies(player: Player, sourceItem: ItemStack) {
+        if(!sourceItem.hasItemMeta()) return
+        if(!sourceItem.itemMeta.persistentDataContainer.has(PluginKeys.customItemAbilitiesKey)) return
+        
+        val meta = sourceItem.itemMeta
+        
+        val items = mutableListOf<Item>()
+        
+        meta.persistentDataContainer.get(PluginKeys.customItemAbilitiesKey, PersistentDataType.STRING)!!.stringList().forEach {
+            val ability = ItemAbilityManager.abilityMap[it] ?: return
+
+            ability.getSynergies().forEach { synergy: Synergy ->
+                val inputAbility = ItemAbilityManager.abilityMap[synergy.with] ?: return
+                val outputAbility = ItemAbilityManager.abilityMap[synergy.output] ?: return
+                items.add(SynergyItem(sourceItem.type, sourceItem.itemMeta.customModelData, ability, inputAbility, outputAbility))
+            }
+        }
+
+        val gui = PagedGui.items()
+            .setStructure(
+                "X X X X X X X X X",
+                "X X X X X X X X X",
+                "X X X X X X X X X",
+                "X X X X X X X X X",
+                "X X X X X X X X X",
+                ". < . . . . . > ."
+            )
+            .addIngredient('X', Markers.CONTENT_LIST_SLOT_HORIZONTAL)
+            .addIngredient('<', PreviousPageItem())
+            .addIngredient('>', NextPageItem())
+            .setContent(items)
+            .build()
+
+        val window: Window = Window.single()
+            .setViewer(player)
+            .setTitle("ui.synergies.title".asTranslate().toWrapper())
+            .setGui(gui)
+            .build()
+
+        window.open()
+    }
+
+    fun synergies(player: Player, ability: ItemAbility) {
+        val items = mutableListOf<Item>()
+
+        ability.getSynergies().forEach { synergy: Synergy ->
+            val inputAbility = ItemAbilityManager.abilityMap[synergy.with] ?: return
+            val outputAbility = ItemAbilityManager.abilityMap[synergy.output] ?: return
+
+            items.add(SynergyItem(Material.NETHER_STAR, 0, ability, inputAbility, outputAbility))
+        }
+
+        val gui = PagedGui.items()
+            .setStructure(
+                "X X X X X X X X X",
+                "X X X X X X X X X",
+                "X X X X X X X X X",
+                "X X X X X X X X X",
+                "X X X X X X X X X",
+                ". < . . . . . > ."
+            )
+            .addIngredient('X', Markers.CONTENT_LIST_SLOT_HORIZONTAL)
+            .addIngredient('<', PreviousPageItem())
+            .addIngredient('>', NextPageItem())
+            .setContent(items)
+            .build()
+
+        val window: Window = Window.single()
+            .setViewer(player)
+            .setTitle("ui.synergies.title".asTranslate().toWrapper())
+            .setGui(gui)
+            .build()
+
+        window.open()
+    }
+
     fun traderMenu(player: Player, items: List<ShopItem>) {
 
         val gui = PagedGui.items()
