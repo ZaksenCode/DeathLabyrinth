@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.item.ability.stuff
 
+import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.event.item.ItemUseEvent
 import me.zaksen.deathLabyrinth.item.ability.ItemAbility
 import net.kyori.adventure.text.Component
@@ -31,10 +32,11 @@ class BigHealingCast: ItemAbility(
             players.forEach {
                 val maxHealth = it.getAttribute(Attribute.GENERIC_MAX_HEALTH)!!.baseValue
                 val toHeal = maxHealth * 0.3
-                it.heal(toHeal, EntityRegainHealthEvent.RegainReason.MAGIC)
+
+                EventManager.callPlayerHealingEvent(event.player, it, toHeal)
                 it.world.spawnParticle(
                     Particle.TOTEM_OF_UNDYING,
-                    event.player.location,
+                    it.location,
                     50,
                     0.5,
                     0.5,

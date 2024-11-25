@@ -38,7 +38,8 @@ class WitherballCast: ItemAbility(
         return listOf(
             Synergy("bomb_cast", "wither_bomb_cast"),
             Synergy("witherball_cast", "big_witherball_cast"),
-            Synergy("explosion_cast", "wither_explosion_cast")
+            Synergy("explosion_cast", "wither_explosion_cast"),
+            Synergy("laser_cast", "wither_laser_cast")
         )
     }
 }

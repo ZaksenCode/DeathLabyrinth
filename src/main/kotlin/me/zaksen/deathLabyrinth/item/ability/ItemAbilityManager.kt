@@ -43,6 +43,14 @@ object ItemAbilityManager {
 
         abilityMap["laser_cast"] = LaserCast()
 
+        abilityMap["frost_laser_cast"] = FrostLaserCast()
+
+        abilityMap["fire_laser_cast"] = FireLaserCast()
+
+        abilityMap["wither_laser_cast"] = WitherLaserCast()
+
+        abilityMap["healing_laser_cast"] = HealingLaserCast()
+
         abilityMap["electric_cast"] = ElectricCast()
         abilityMap["electric_cast_tier_two"] = ElectricCastTierTwo()
         abilityMap["electric_cast_tier_three"] = ElectricCastTierThree()

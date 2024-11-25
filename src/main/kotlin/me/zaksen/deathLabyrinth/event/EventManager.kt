@@ -21,6 +21,7 @@ import net.minecraft.world.entity.Entity
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.World
+import org.bukkit.attribute.Attribute
 import org.bukkit.block.Block
 import org.bukkit.craftbukkit.entity.CraftLivingEntity
 import org.bukkit.craftbukkit.entity.CraftPlayer
@@ -28,6 +29,7 @@ import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.entity.Projectile
 import org.bukkit.event.entity.EntityDamageByEntityEvent
+import org.bukkit.event.entity.EntityRegainHealthEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerItemConsumeEvent
 import org.bukkit.inventory.ItemStack
@@ -274,6 +276,16 @@ object EventManager {
 
         if(!coolEvent.isCancelled) {
             GameController.makeExplode(null, pos, coolEvent.range, coolEvent.damage, drawParticles, playSound, entityConsumer, damageType)
+        }
+    }
+
+    fun callPlayerHealingEvent(player: Player, entity: LivingEntity, amount: Double) {
+        val coolEvent = PlayerHealingEvent(player, entity, amount)
+        coolEvent.callEvent()
+        GameController.processAnyEvent(coolEvent)
+
+        if(!coolEvent.isCancelled) {
+            coolEvent.entity.heal(amount, EntityRegainHealthEvent.RegainReason.MAGIC)
         }
     }
 
