@@ -37,7 +37,8 @@ class WitherballCast: ItemAbility(
     override fun getSynergies(): List<Synergy> {
         return listOf(
             Synergy("bomb_cast", "wither_bomb_cast"),
-            Synergy("witherball_cast", "big_witherball_cast")
+            Synergy("witherball_cast", "big_witherball_cast"),
+            Synergy("explosion_cast", "wither_explosion_cast")
         )
     }
 }
