@@ -25,6 +25,7 @@ object ItemAbilityManager {
 
         abilityMap["fire_blade"] = FireBlade()
         abilityMap["narwhal_punch"] = NarwhalPunch()
+        abilityMap["explosion_punch"] = ExplosionPunch()
         // Weapon - Use
         abilityMap["bubble_laser"] = BubbleLaser()
         abilityMap["wind_gust"] = WindGust()
@@ -55,6 +56,10 @@ object ItemAbilityManager {
         abilityMap["explosion_cast"] = ExplosionCast()
         abilityMap["explosion_cast_tier_two"] = ExplosionCastTierTwo()
         abilityMap["explosion_cast_tier_three"] = ExplosionCastTierThree()
+
+        abilityMap["frost_explosion_cast"] = FrostExplosionCast()
+        abilityMap["fire_explosion_cast"] = FireExplosionCast()
+        abilityMap["wither_explosion_cast"] = WitherExplosionCast()
 
         abilityMap["explosion_chain_cast"] = ExplosionChainCast()
 

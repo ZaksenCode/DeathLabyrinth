@@ -256,6 +256,17 @@ object ItemsController {
                 .ability("narwhal_punch")
         ))
 
+        register("dynamite_stick", BaseSword(
+            "dynamite_stick",
+            ItemSettings(Material.WOODEN_SWORD).damage(3.0).attackSpeed(-2.4).range(2.0)
+                .customModel(1005)
+                .displayName("item.dynamite_stick.name".asTranslate().color(TextColor.color(128, 128, 128)))
+                .quality(ItemQuality.RARE)
+                .tradePrice(85)
+                .addAviableTrader(TraderType.NORMAL)
+                .ability("explosion_punch")
+        ))
+
         register("shield", CustomItem(
             "shield",
             ItemType.MISC,
@@ -305,8 +316,16 @@ object ItemsController {
             .abilityCooldown(2000)
             .quality(ItemQuality.UNCOMMON)
             .tradePrice(70)
-            .addAviableTrader(TraderType.NORMAL)
             .ability("bomb_cast")
+        ))
+
+        register("sculk_staff", WeaponItem(WeaponType.ATTACK_STAFF, "sculk_staff", ItemSettings(Material.STICK)
+            .customModel(115)
+            .displayName("item.sculk_staff.name".asTranslate().color(TextColor.color(0, 191, 255)))
+            .abilityCooldown(1000)
+            .quality(ItemQuality.UNCOMMON)
+            .tradePrice(70)
+            .ability("sculk_cast")
         ))
 
         register("heal_potion", HealPotion("heal_potion"))

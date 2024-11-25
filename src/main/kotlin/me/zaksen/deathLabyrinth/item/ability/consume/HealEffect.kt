@@ -9,7 +9,8 @@ import org.bukkit.event.entity.EntityRegainHealthEvent
 
 class HealEffect: ItemAbility(
     Component.translatable("ability.heal_effect.name"),
-    Component.translatable("ability.heal_effect.description")
+    Component.translatable("ability.heal_effect.description"),
+    isDisplayDamageType = false
 ) {
     override fun invoke(event: Event) {
         if(event !is ItemConsumeEvent) return

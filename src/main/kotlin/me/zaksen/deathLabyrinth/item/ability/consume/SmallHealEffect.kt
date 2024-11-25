@@ -9,7 +9,8 @@ import org.bukkit.event.entity.EntityRegainHealthEvent
 
 class SmallHealEffect: ItemAbility(
     Component.translatable("ability.small_heal_effect.name"),
-    Component.translatable("ability.small_heal_effect.description")
+    Component.translatable("ability.small_heal_effect.description"),
+    isDisplayDamageType = false
 ) {
     override fun invoke(event: Event) {
         if(event !is ItemConsumeEvent) return

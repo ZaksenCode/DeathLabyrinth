@@ -37,7 +37,8 @@ class FrostballCast: ItemAbility(
     override fun getSynergies(): List<Synergy> {
         return listOf(
             Synergy("bomb_cast", "frost_bomb_cast"),
-            Synergy("frostball_cast", "big_frostball_cast")
+            Synergy("frostball_cast", "big_frostball_cast"),
+            Synergy("explosion_cast", "frost_explosion_cast")
         )
     }
 }

@@ -10,5 +10,6 @@ enum class DamageType(
     FIRE("damage_type.fire.name".asTranslate()),
     ICE("damage_type.ice.name".asTranslate()),
     WITHER("damage_type.wither.name".asTranslate()),
-    EXPLODE("damage_type.explode.name".asTranslate())
+    EXPLODE("damage_type.explode.name".asTranslate()),
+    SCULK("damage_type.sculk.name".asTranslate())
 }

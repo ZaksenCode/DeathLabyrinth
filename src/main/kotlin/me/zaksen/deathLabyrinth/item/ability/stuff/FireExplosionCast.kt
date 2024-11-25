@@ -7,13 +7,15 @@ import me.zaksen.deathLabyrinth.item.ability.ItemAbility
 import me.zaksen.deathLabyrinth.item.ability.recipe.Synergy
 import net.kyori.adventure.text.Component
 import org.bukkit.event.Event
+import org.bukkit.potion.PotionEffect
+import org.bukkit.potion.PotionEffectType
 
-class ExplosionCast: ItemAbility(
-    Component.translatable("ability.explosion_cast.name"),
-    Component.translatable("ability.explosion_cast.description"),
-    5.0,
-    1.5,
-    damageType = DamageType.EXPLODE
+class FireExplosionCast: ItemAbility(
+    Component.translatable("ability.fire_explosion_cast.name"),
+    Component.translatable("ability.fire_explosion_cast.description"),
+    18.0,
+    2.25,
+    damageType = DamageType.FIRE
 ) {
     override fun invoke(event: Event) {
         if(event !is ItemUseEvent) return
@@ -33,18 +35,11 @@ class ExplosionCast: ItemAbility(
 
         if(item.checkCooldown(stack)) {
             val pos = rayCast.hitPosition
-            EventManager.callPlayerSummonExplosionEvent(event.player, pos.toLocation(event.player.world).subtract(0.0, 1.0, 0.0), 1.5, 5.0)
+            EventManager.callPlayerSummonExplosionEvent(event.player, pos.toLocation(event.player.world).subtract(0.0, 1.0, 0.0), 2.25, 15.0,
+                entityConsumer = {
+                    it.fireTicks = 100
+                },
+                damageType = DamageType.FIRE)
         }
-    }
-
-    override fun getSynergies(): List<Synergy> {
-        return listOf(
-            Synergy("fire_flow_cast", "explosion_flow_cast"),
-            Synergy("electric_cast", "explosion_chain_cast"),
-            Synergy("explosion_cast", "explosion_cast_tier_two"),
-            Synergy("frostball_cast", "frost_explosion_cast"),
-            Synergy("fireball_cast", "fire_explosion_cast"),
-            Synergy("witherball_cast", "wither_explosion_cast")
-        )
     }
 }
