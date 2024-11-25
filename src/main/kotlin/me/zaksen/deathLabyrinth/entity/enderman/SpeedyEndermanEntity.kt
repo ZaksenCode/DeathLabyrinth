@@ -71,6 +71,6 @@ class SpeedyEndermanEntity(location:Location): EnderMan(EntityType.ENDERMAN, (lo
 
     companion object {
         const val defaultMaxHealth = 15.0
-        const val defaultAttackDamage = 5.0
+        const val defaultAttackDamage = 3.0
     }
 }

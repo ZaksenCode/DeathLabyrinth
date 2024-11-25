@@ -4,7 +4,9 @@ import me.zaksen.deathLabyrinth.entity.friendly.FriendlyEntity
 import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.event.item.ItemUseEvent
 import me.zaksen.deathLabyrinth.item.ability.ItemAbility
+import me.zaksen.deathLabyrinth.util.particleLine
 import net.kyori.adventure.text.Component
+import org.bukkit.Particle
 import org.bukkit.attribute.Attribute
 import org.bukkit.craftbukkit.entity.CraftEntity
 import org.bukkit.entity.LivingEntity
@@ -30,6 +32,17 @@ class HealingLaserCast: ItemAbility(
                 val toHeal = maxHealth * 0.2
 
                 EventManager.callPlayerHealingEvent(event.player, rayCastEntity.hitEntity!! as LivingEntity, toHeal)
+
+                event.player.eyeLocation.particleLine(Particle.END_ROD, rayCastEntity.hitPosition.toLocation(event.player.world))
+
+                rayCastEntity.hitEntity!!.world.spawnParticle(
+                    Particle.TOTEM_OF_UNDYING,
+                    event.player.location,
+                    50,
+                    0.5,
+                    0.5,
+                    0.5
+                )
             }
         }
     }

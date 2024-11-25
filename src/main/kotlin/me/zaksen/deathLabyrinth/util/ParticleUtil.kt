@@ -2,6 +2,8 @@ package me.zaksen.deathLabyrinth.util
 
 import io.papermc.paper.math.BlockPosition
 import net.minecraft.core.BlockPos
+import net.minecraft.world.level.block.SculkBlock
+import net.minecraft.world.level.block.SculkSensorBlock
 import net.minecraft.world.level.gameevent.BlockPositionSource
 import net.minecraft.world.level.gameevent.vibrations.VibrationInfo
 import org.bukkit.Location
@@ -50,16 +52,13 @@ fun Location.particleLine(particle: Particle, to: Location, space: Double = 0.2,
     }
 }
 
-fun launchVibration(ticks: Int = 20, firstPos: Location, secondPos: Location) {
-//    val startingPos = Vibration.Destination.BlockDestination(firstPos)
-//    val endingPos = Vibration.Destination.BlockDestination(secondPos)
-//
-//    val path = Vibration(endingPos, ticks)
-//
-//    VibrationPath path = new VibrationPath(startingPos, source, ticks);
-//
-//    ClientboundAddVibrationSignalPacket vibrationPacket = new ClientboundAddVibrationSignalPacket(path);
-//
-//    EntityPlayer ePlayer = ((CraftPlayer) player).getHandle();
-//    ePlayer.b.sendPacket(vibrationPacket);
+fun launchVibration(ticks: Int = 20, firstPos: Location, secondPos: Location, count: Int = 1) {
+    val endingPos = Vibration.Destination.BlockDestination(secondPos)
+
+    firstPos.world.spawnParticle(
+        Particle.VIBRATION,
+        firstPos,
+        count,
+        Vibration(endingPos, ticks)
+    )
 }

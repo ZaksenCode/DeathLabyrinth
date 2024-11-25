@@ -41,6 +41,8 @@ object ItemAbilityManager {
 
         abilityMap["waterball_cast"] = WaterBallCast()
 
+        abilityMap["sculk_cast"] = SculkCast()
+
         abilityMap["laser_cast"] = LaserCast()
 
         abilityMap["frost_laser_cast"] = FrostLaserCast()
@@ -57,7 +59,9 @@ object ItemAbilityManager {
 
         abilityMap["healing_cast"] = HealingCast()
         abilityMap["big_healing_cast"] = BigHealingCast()
+
         abilityMap["necromantic_cast"] = NecromanticCast()
+        abilityMap["wither_necromantic_cast"] = WitherNecromanticCast()
 
         abilityMap["fire_flow_cast"] = FireFlowCast()
 

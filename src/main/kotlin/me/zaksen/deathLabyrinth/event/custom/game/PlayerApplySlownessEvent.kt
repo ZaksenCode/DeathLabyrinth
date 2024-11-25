@@ -1,13 +1,18 @@
-package me.zaksen.deathLabyrinth.command
+package me.zaksen.deathLabyrinth.event.custom.game
 
-import me.zaksen.deathLabyrinth.artifacts.api.Artifact
-import me.zaksen.deathLabyrinth.artifacts.card.CardHolder
+import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.Cancellable
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 
-class PlayerPickupArtifactEvent(val player: Player, val artifact: Artifact): Event(), Cancellable {
+class PlayerApplySlownessEvent(
+    val player: Player,
+    val entity: LivingEntity,
+    var duration: Int,
+    var amplifier: Int
+): Event(),
+    Cancellable {
     private var cancelled = false
 
     override fun isCancelled(): Boolean {

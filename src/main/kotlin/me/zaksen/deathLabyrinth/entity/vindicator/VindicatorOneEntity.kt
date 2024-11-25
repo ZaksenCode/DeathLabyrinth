@@ -72,6 +72,6 @@ class VindicatorOneEntity(location: Location): Vindicator(EntityType.VINDICATOR,
 
     companion object {
         const val defaultMaxHealth = 20.0
-        const val defaultAttackDamage = 8.0
+        const val defaultAttackDamage = 2.0
     }
 }

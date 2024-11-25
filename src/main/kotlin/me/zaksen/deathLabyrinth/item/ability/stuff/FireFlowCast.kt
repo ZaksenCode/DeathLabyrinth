@@ -44,7 +44,7 @@ class FireFlowCast: ItemAbility(
                 }
             }
 
-            if(rayCastEntity is LivingEntity) {
+            if(rayCastEntity is LivingEntity && rayCastEntity !is Player && rayCastEntity !is FriendlyEntity) {
                 rayCastEntity.fireTicks = 60
                 EventManager.callPlayerSpellEntityDamageEvent(event.player, rayCastEntity, 2.0, DamageType.FIRE)
             }

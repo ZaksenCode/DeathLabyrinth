@@ -190,10 +190,6 @@ object RoomController {
                 val spawnY = nextRoomY + actualQueryRoom!!.roomConfig.necromancerSpawnOffset.y
                 val spawnZ = nextRoomZ - actualQueryRoom!!.roomConfig.necromancerSpawnOffset.z
 
-                println("$nextRoomX - ${actualQueryRoom!!.roomConfig.necromancerSpawnOffset.x} = $spawnX")
-                println("$nextRoomY - ${actualQueryRoom!!.roomConfig.necromancerSpawnOffset.y} = $spawnY")
-                println("$nextRoomZ - ${actualQueryRoom!!.roomConfig.necromancerSpawnOffset.z} = $spawnZ")
-
                 val roomWorld = Bukkit.getWorld(configs.generationConfig().firstRoomEntry.world) ?: return
                 val entity = EntityController.entities["necromancer"]
 
@@ -385,6 +381,7 @@ object RoomController {
         EventManager.callPlayerSummonFriendlyEntityCloneEvent(player, newEntity as net.minecraft.world.entity.LivingEntity)
     }
 
+    // FIXME - Boss artifacts despawn after spawn
     private fun startBossArtifactsChain() {
         if(actualQueryRoom == null) {
             return

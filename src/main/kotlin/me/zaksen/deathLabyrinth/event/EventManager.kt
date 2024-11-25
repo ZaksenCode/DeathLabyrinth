@@ -2,7 +2,7 @@ package me.zaksen.deathLabyrinth.event
 
 import me.zaksen.deathLabyrinth.artifacts.ArtifactsController
 import me.zaksen.deathLabyrinth.artifacts.api.Artifact
-import me.zaksen.deathLabyrinth.command.PlayerPickupArtifactEvent
+import me.zaksen.deathLabyrinth.event.custom.game.PlayerPickupArtifactEvent
 import me.zaksen.deathLabyrinth.damage.DamageType
 import me.zaksen.deathLabyrinth.event.custom.PlayerReadyEvent
 import me.zaksen.deathLabyrinth.event.custom.game.*
@@ -21,7 +21,6 @@ import net.minecraft.world.entity.Entity
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.World
-import org.bukkit.attribute.Attribute
 import org.bukkit.block.Block
 import org.bukkit.craftbukkit.entity.CraftLivingEntity
 import org.bukkit.craftbukkit.entity.CraftPlayer
@@ -33,6 +32,8 @@ import org.bukkit.event.entity.EntityRegainHealthEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerItemConsumeEvent
 import org.bukkit.inventory.ItemStack
+import org.bukkit.potion.PotionEffect
+import org.bukkit.potion.PotionEffectType
 import java.util.function.Consumer
 
 object EventManager {
@@ -286,6 +287,24 @@ object EventManager {
 
         if(!coolEvent.isCancelled) {
             coolEvent.entity.heal(amount, EntityRegainHealthEvent.RegainReason.MAGIC)
+        }
+    }
+
+    fun callPlayerApplySlownessEvent(player: Player, entity: LivingEntity, duration: Int, amplifier: Int) {
+        val coolEvent = PlayerApplySlownessEvent(player, entity, duration, amplifier)
+        coolEvent.callEvent()
+        GameController.processAnyEvent(coolEvent)
+
+        if(!coolEvent.isCancelled) {
+            entity.addPotionEffect(
+                PotionEffect(
+                PotionEffectType.SLOWNESS,
+                coolEvent.duration,
+                coolEvent.amplifier,
+                false,
+                false,
+                false
+            ))
         }
     }
 

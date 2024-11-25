@@ -267,6 +267,16 @@ object ItemsController {
                 .ability("explosion_punch")
         ))
 
+        register("noble_gladius", BaseSword(
+            "noble_gladius",
+            ItemSettings(Material.WOODEN_SWORD).damage(14.0).attackSpeed(-2.2).range(1.2)
+                .customModel(1006)
+                .displayName("item.noble_gladius.name".asTranslate().color(TextColor.color(128, 128, 128)))
+                .quality(ItemQuality.UNCOMMON)
+                .tradePrice(100)
+                .addAviableTrader(TraderType.NORMAL)
+        ))
+
         register("shield", CustomItem(
             "shield",
             ItemType.MISC,

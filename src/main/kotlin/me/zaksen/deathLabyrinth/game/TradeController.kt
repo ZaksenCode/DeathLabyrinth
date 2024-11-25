@@ -115,10 +115,10 @@ object TradeController {
 
     private fun getArtifactPrice(artifact: Artifact): Int {
         return when(artifact.rarity) {
-            ArtifactRarity.COMMON -> PricingStrategies.DEFAULT.strategy.scale(80)
-            ArtifactRarity.RARE -> PricingStrategies.DEFAULT.strategy.scale(160)
-            ArtifactRarity.EPIC -> PricingStrategies.DEFAULT.strategy.scale(320)
-            ArtifactRarity.GODLY -> PricingStrategies.DEFAULT.strategy.scale(640)
+            ArtifactRarity.COMMON -> PricingStrategies.DEFAULT.strategy.scale(75)
+            ArtifactRarity.RARE -> PricingStrategies.DEFAULT.strategy.scale(150)
+            ArtifactRarity.EPIC -> PricingStrategies.DEFAULT.strategy.scale(300)
+            ArtifactRarity.GODLY -> PricingStrategies.DEFAULT.strategy.scale(600)
         }
     }
 

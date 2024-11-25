@@ -36,15 +36,12 @@ class FrostExplosionCast: ItemAbility(
             val pos = rayCast.hitPosition
             EventManager.callPlayerSummonExplosionEvent(event.player, pos.toLocation(event.player.world).subtract(0.0, 1.0, 0.0), 2.25, 15.0,
                 entityConsumer = {
-                    it.addPotionEffect(
-                        PotionEffect(
-                        PotionEffectType.SLOWNESS,
+                    EventManager.callPlayerApplySlownessEvent(
+                        event.player,
+                        it,
                         20,
-                        8,
-                        false,
-                        false,
-                        false
-                    ))
+                        8
+                    )
                 },
                 damageType = DamageType.WATER)
         }

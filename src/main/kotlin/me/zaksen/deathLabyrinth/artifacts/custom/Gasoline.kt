@@ -10,7 +10,6 @@ import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 
-// TODO - Didn't working - damage type always general
 class Gasoline: Artifact(
     "artifact.gasoline.name".asTranslate().color(TextColor.color(50,205,50)),
     ArtifactRarity.EPIC
@@ -21,13 +20,13 @@ class Gasoline: Artifact(
             if(it !is ItemHitEvent) return@add
             if(it.damageType != DamageType.FIRE) return@add
             if(it.damager.uniqueId != ownerUuid) return@add
-            it.damage += it.damage * (0.35 * count)
+            it.damage += it.damage * (0.45 * count)
         }
         abilityContainer.add {
             if(it !is PlayerSpellEntityDamageEvent) return@add
             if(it.damageType != DamageType.FIRE) return@add
             if(it.player.uniqueId != ownerUuid) return@add
-            it.damage += it.damage * (0.35 * count)
+            it.damage += it.damage * (0.45 * count)
         }
     }
 
@@ -36,7 +35,7 @@ class Gasoline: Artifact(
             .customModel(108)
             .name(name)
             .loreLine("artifact.gasoline.lore.0".asTranslate(
-                "${35 * count}%".asText().color(TextColor.color(255,165,0))
+                "${45 * count}%".asText().color(TextColor.color(255,165,0))
             ))
     }
 }

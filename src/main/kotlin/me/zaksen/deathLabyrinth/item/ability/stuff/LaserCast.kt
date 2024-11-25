@@ -38,7 +38,8 @@ class LaserCast: ItemAbility(
         return listOf(
             Synergy("fireball_cast", "fire_laser_cast"),
             Synergy("frostball_cast", "frost_laser_cast"),
-            Synergy("witherball_cast", "wither_laser_cast")
+            Synergy("witherball_cast", "wither_laser_cast"),
+            Synergy("healing_cast", "healing_laser_cast")
         )
     }
 }

@@ -2,26 +2,21 @@ package me.zaksen.deathLabyrinth.entity.final_boss.warden
 
 import me.zaksen.deathLabyrinth.entity.difficulty.Scaleable
 import me.zaksen.deathLabyrinth.entity.difficulty.ScalingStrategies
-import me.zaksen.deathLabyrinth.entity.goal.ability.BomberAbilityGoal
-import me.zaksen.deathLabyrinth.entity.goal.ability.BomberTeleportAbilityGoal
 import me.zaksen.deathLabyrinth.entity.goal.ability.LeapAbility
 import net.kyori.adventure.text.format.TextColor
 import net.minecraft.network.chat.Component
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
-import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
-import net.minecraft.world.entity.monster.Skeleton
+import net.minecraft.world.entity.monster.warden.Warden
 import net.minecraft.world.entity.player.Player
-import net.minecraft.world.item.ItemStack
-import net.minecraft.world.item.Items
 import org.bukkit.Location
 import org.bukkit.craftbukkit.CraftWorld
 
-class AncientEntity(val location: Location): Skeleton(EntityType.SKELETON, (location.world as CraftWorld).handle), Scaleable {
+class AncientEntity(val location: Location): Warden(EntityType.WARDEN, (location.world as CraftWorld).handle), Scaleable {
 
     init {
         this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.29

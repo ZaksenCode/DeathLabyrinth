@@ -57,14 +57,12 @@ class FrostBombEntity(location: Location, val range: Double, val damage: Double)
                         range,
                         damage,
                         entityConsumer = {
-                            it.addPotionEffect(PotionEffect(
-                                PotionEffectType.SLOWNESS,
+                            EventManager.callPlayerApplySlownessEvent(
+                                owner!!.bukkitEntity as org.bukkit.entity.Player,
+                                it,
                                 30,
-                                10,
-                                false,
-                                false,
-                                false
-                            ))
+                                10
+                            )
                         },
                         damageType = DamageType.WATER
                     )

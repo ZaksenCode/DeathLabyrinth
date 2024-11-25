@@ -2,10 +2,12 @@ package me.zaksen.deathLabyrinth.entity.husk
 
 import me.zaksen.deathLabyrinth.entity.difficulty.Scaleable
 import me.zaksen.deathLabyrinth.entity.difficulty.ScalingStrategies
+import me.zaksen.deathLabyrinth.item.ItemsController
 import net.kyori.adventure.text.format.TextColor
 import net.minecraft.network.chat.Component
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.EquipmentSlot
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.ai.goal.FloatGoal
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal
@@ -15,6 +17,7 @@ import net.minecraft.world.entity.monster.Husk
 import net.minecraft.world.entity.player.Player
 import org.bukkit.Location
 import org.bukkit.craftbukkit.CraftWorld
+import org.bukkit.craftbukkit.inventory.CraftItemStack
 
 class DeceasedEntity(location: Location): Husk(EntityType.HUSK, (location.getWorld() as CraftWorld).handle),
     Scaleable {
@@ -27,6 +30,8 @@ class DeceasedEntity(location: Location): Husk(EntityType.HUSK, (location.getWor
 
         this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.22
         this.getAttribute(Attributes.ATTACK_DAMAGE)?.baseValue = defaultAttackDamage
+
+        this.setItemSlot(EquipmentSlot.MAINHAND, CraftItemStack.asNMSCopy(ItemsController.get("noble_gladius")!!.asItemStack()))
 
         this.setPos(location.x, location.y, location.z)
     }
@@ -64,6 +69,6 @@ class DeceasedEntity(location: Location): Husk(EntityType.HUSK, (location.getWor
 
     companion object {
         const val defaultMaxHealth = 30.0
-        const val defaultAttackDamage = 8.0
+        const val defaultAttackDamage = 1.0
     }
 }

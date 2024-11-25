@@ -70,6 +70,6 @@ class StrongEndermanEntity(location:Location): EnderMan(EntityType.ENDERMAN, (lo
 
     companion object {
         const val defaultMaxHealth = 30.0
-        const val defaultAttackDamage = 10.0
+        const val defaultAttackDamage = 7.0
     }
 }

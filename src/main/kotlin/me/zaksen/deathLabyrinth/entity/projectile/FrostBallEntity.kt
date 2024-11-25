@@ -61,6 +61,12 @@ class FrostBallEntity(location: Location): WindCharge(EntityType.WIND_CHARGE, (l
                 EventManager.callSpellEntityDamageEvent(entity, 4.0)
             } else {
                 EventManager.callPlayerSpellEntityDamageEvent(owner!!.bukkitEntity as org.bukkit.entity.Player, entity, 4.0, DamageType.WATER)
+                EventManager.callPlayerApplySlownessEvent(
+                    owner!!.bukkitEntity as org.bukkit.entity.Player,
+                    entity.bukkitLivingEntity,
+                    40,
+                    2
+                )
             }
         }
     }

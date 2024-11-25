@@ -23,7 +23,7 @@ class Token: Artifact(
             val player = it.player
             val playerData = GameController.players[player] ?: return@add
 
-            playerData.money += 3 * count
+            playerData.money += 5 * count
             GameController.players[player] = playerData
         }
     }
@@ -33,7 +33,7 @@ class Token: Artifact(
             .customModel(107)
             .name(name)
             .loreLine("artifact.token.lore.0".asTranslate(
-                "${3 * count}".asText().color(TextColor.color(255,165,0))
+                "${5 * count}".asText().color(TextColor.color(255,165,0))
             ))
     }
 }

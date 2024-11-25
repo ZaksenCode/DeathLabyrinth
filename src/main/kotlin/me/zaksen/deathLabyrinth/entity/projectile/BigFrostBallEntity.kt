@@ -19,6 +19,7 @@ import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.Vec3
 import org.bukkit.Location
 import org.bukkit.craftbukkit.CraftWorld
+import org.bukkit.craftbukkit.entity.CraftLivingEntity
 import java.util.*
 
 class BigFrostBallEntity(location: Location): WindCharge(EntityType.WIND_CHARGE, (location.getWorld() as CraftWorld).handle) {
@@ -59,14 +60,20 @@ class BigFrostBallEntity(location: Location): WindCharge(EntityType.WIND_CHARGE,
         for (entity in entities) {
             if(owner == null) {
                 EventManager.callSpellEntityDamageEvent(entity, 20.0)
+
+                entity.addEffect(MobEffectInstance(
+                    MobEffects.MOVEMENT_SLOWDOWN,
+                    100
+                ), this.effectSource)
             } else {
                 EventManager.callPlayerSpellEntityDamageEvent(owner!!.bukkitEntity as org.bukkit.entity.Player, entity, 20.0, DamageType.WATER)
+                EventManager.callPlayerApplySlownessEvent(
+                    owner!!.bukkitEntity as org.bukkit.entity.Player,
+                    entity.bukkitLivingEntity,
+                    100,
+                    0
+                )
             }
-
-            entity.addEffect(MobEffectInstance(
-                MobEffects.MOVEMENT_SLOWDOWN,
-                100
-            ), this.effectSource)
         }
     }
 

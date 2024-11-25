@@ -7,6 +7,7 @@ import me.zaksen.deathLabyrinth.util.asTranslate
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.entity.Player
+import kotlin.random.Random
 
 class MageClass : PlayerClass {
 
@@ -19,7 +20,17 @@ class MageClass : PlayerClass {
     }
 
     override fun launchSetup(player: Player, playerData: PlayerData) {
-        player.inventory.addItem(ItemsController.get("frost_ball_stuff")!!.asItemStack())
+        when(Random.Default.nextInt(1, 4)) {
+            1 -> {
+                player.inventory.addItem(ItemsController.get("frost_ball_stuff")!!.asItemStack())
+            }
+            2 -> {
+                player.inventory.addItem(ItemsController.get("fire_ball_stuff")!!.asItemStack())
+            }
+            else -> {
+                player.inventory.addItem(ItemsController.get("wither_ball_stuff")!!.asItemStack())
+            }
+        }
         player.inventory.addItem(ItemsController.get("heal_potion")!!.asItemStack())
     }
 

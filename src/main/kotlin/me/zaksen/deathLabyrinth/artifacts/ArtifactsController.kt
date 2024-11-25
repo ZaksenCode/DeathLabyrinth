@@ -80,20 +80,23 @@ object ArtifactsController {
         // COMMON
         artifacts["mystic_potion"] = MysticPotion::class.java
         artifacts["red_jar"] = RedJar::class.java
+        artifacts["snowflake"] = Snowflake::class.java
 
         // RARE
         artifacts["rusty_dagger"] = RustyDagger::class.java
         artifacts["mirror_of_revenge"] = MirrorOfRevenge::class.java
-        artifacts["token"] = Token::class.java
         artifacts["green_heart"] = GreenHeart::class.java
         artifacts["blood_lust"] = BloodLust::class.java
         artifacts["wooden_shield"] = WoodenShield::class.java
         artifacts["explosive_mix"] = ExplosiveMix::class.java
+        artifacts["token"] = Token::class.java
+        artifacts["fantom_cape"] = FantomCape::class.java
 
         // EPIC
         artifacts["mossy_skull"] = MossySkull::class.java
         artifacts["gasoline"] = Gasoline::class.java
         artifacts["little_bomb"] = LittleBomb::class.java
+        artifacts["totem_of_undying"] = TotemOfUndying::class.java
 
         // GODLY
         artifacts["greediness"] = Greediness::class.java

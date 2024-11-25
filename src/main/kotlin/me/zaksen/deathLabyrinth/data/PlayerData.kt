@@ -25,4 +25,10 @@ data class PlayerData(
             artifacts.add(artifact)
         }
     }
+
+    fun removeArtifact(artifact: Artifact) {
+        if(artifacts.contains(artifact)) {
+            artifacts.remove(artifact)
+        }
+    }
 }

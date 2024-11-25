@@ -32,15 +32,11 @@ class FrostLaserCast: ItemAbility(
             }
             EventManager.callPlayerSpellEntityDamageEvent(event.player, rayCastEntity.hitEntity as CraftLivingEntity, 25.0, DamageType.WATER)
 
-            (rayCastEntity.hitEntity as CraftLivingEntity).addPotionEffect(
-                PotionEffect(
-                    PotionEffectType.SLOWNESS,
-                    20,
-                    8,
-                    false,
-                    false,
-                    false
-                )
+            EventManager.callPlayerApplySlownessEvent(
+                event.player,
+                (rayCastEntity.hitEntity as CraftLivingEntity),
+                20,
+                8
             )
 
             event.player.eyeLocation.particleLine(Particle.DRIPPING_WATER, rayCastEntity.hitPosition.toLocation(event.player.world))

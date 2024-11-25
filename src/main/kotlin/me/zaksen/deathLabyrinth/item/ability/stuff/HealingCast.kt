@@ -40,7 +40,8 @@ class HealingCast: ItemAbility(
 
     override fun getSynergies(): List<Synergy> {
         return listOf(
-            Synergy("healing_cast", "big_healing_cast")
+            Synergy("healing_cast", "big_healing_cast"),
+            Synergy("laser_cast", "healing_laser_cast")
         )
     }
 }

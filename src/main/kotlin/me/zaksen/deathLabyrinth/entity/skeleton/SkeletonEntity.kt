@@ -65,6 +65,6 @@ class SkeletonEntity(location: Location): Skeleton(EntityType.SKELETON, (locatio
 
     companion object {
         const val defaultMaxHealth = 25.0
-        const val defaultAttackDamage = 8.0
+        const val defaultAttackDamage = 2.0
     }
 }

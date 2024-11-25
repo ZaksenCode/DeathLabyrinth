@@ -33,6 +33,10 @@ class CustomSummonCommand: TabExecutor {
     }
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>?): Boolean {
+        if(!sender.hasPermission("labyrinth.command.custom_summon")) {
+            return true
+        }
+
         if(sender is Player) {
             try {
                 if(args != null) {
