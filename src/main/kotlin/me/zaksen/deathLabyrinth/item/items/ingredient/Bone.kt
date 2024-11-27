@@ -14,5 +14,4 @@ class Bone(id: String): CustomItem(id, ItemType.DRINK_INGREDIENT,
         .loreLine("item.bone.lore.0".asTranslate().color(TextColor.color(128, 0, 128)))
         .tradePrice(30)
         .addAviableTrader(TraderType.ALCHEMIST)
-) {
-}
+)

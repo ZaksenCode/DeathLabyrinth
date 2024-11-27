@@ -27,7 +27,6 @@ class RustyDagger: Artifact(
 
                 if(state == null) {
                     ArtifactsStates.put(player.uniqueId, this, 1)
-                    return
                 }
 
                 if(state !is Int) {

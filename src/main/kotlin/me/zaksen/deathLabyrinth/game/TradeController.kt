@@ -63,7 +63,7 @@ object TradeController {
         } else if(traderType == TraderType.ALCHEMIST) {
             getTradesSpan(count, traderType).map {
                 ItemOffer(
-                    Random.Default.nextInt(count, count * 2),
+                    Random.Default.nextInt(count, (count * 1.4).toInt()),
                     it.settings.tradePriceStrategy().scale(it.settings.tradePrice()),
                     it.asItemStack(),
                     isBuying

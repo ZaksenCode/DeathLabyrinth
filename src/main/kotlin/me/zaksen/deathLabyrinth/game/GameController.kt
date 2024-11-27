@@ -190,6 +190,10 @@ object GameController {
         player.inventory.setItem(4, ItemStack(Material.PAPER).name(
             "item.not_ready.name".asTranslate().color(TextColor.color(240,128,128))
         ).customModel(200))
+
+        player.inventory.setItem(17, ItemStack(Material.PAPER).name(
+            "ui.artifacts.name".asTranslate().color(TextColor.color(240,128,128))
+        ).customModel(100))
     }
 
     fun leave(player: Player) {
@@ -368,13 +372,13 @@ object GameController {
 
             TraderType.ALCHEMIST -> {
 
-                TradeController.getOffersSnap(players.size * 2, traderType, false).forEach {
+                TradeController.getOffersSnap(players.size * 3, traderType, false).forEach {
                     result.add(it)
                 }
             }
 
             else -> {
-                TradeController.getOffersSnap(players.size * 2, traderType).forEach {
+                TradeController.getOffersSnap(players.size * 3, traderType).forEach {
                     result.add(it)
                 }
             }

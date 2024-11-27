@@ -6,12 +6,16 @@ import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.item.ItemsController
 import me.zaksen.deathLabyrinth.item.weapon.WeaponType
 import me.zaksen.deathLabyrinth.util.asTranslate
+import me.zaksen.deathLabyrinth.util.customModel
+import me.zaksen.deathLabyrinth.util.name
 import me.zaksen.deathLabyrinth.util.updateMaxHealth
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
+import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.entity.EntityRegainHealthEvent
 import org.bukkit.inventory.EquipmentSlot
+import org.bukkit.inventory.ItemStack
 
 class WarriorClass : PlayerClass {
 
@@ -28,8 +32,13 @@ class WarriorClass : PlayerClass {
         player.inventory.setItem(EquipmentSlot.OFF_HAND, ItemsController.get("shield")!!.asItemStack())
         player.inventory.addItem(ItemsController.get("heal_potion")!!.asItemStack())
 
+        player.inventory.setItem(17, ItemStack(Material.PAPER).name(
+            "ui.artifacts.name".asTranslate().color(TextColor.color(240,128,128))
+        ).customModel(100))
+
         player.updateMaxHealth(60.0)
         player.heal(60.0, EntityRegainHealthEvent.RegainReason.REGEN)
+
 
         EventManager.callPlayerPickupArtifactsEvent(player, WoodenShield())
     }

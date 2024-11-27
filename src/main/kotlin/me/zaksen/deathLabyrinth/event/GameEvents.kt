@@ -4,9 +4,11 @@ import me.zaksen.deathLabyrinth.config.MainConfig
 import me.zaksen.deathLabyrinth.entity.friendly.FriendlyEntity
 import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.game.GameStatus
+import me.zaksen.deathLabyrinth.menu.Menus
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.craftbukkit.entity.CraftEntity
+import org.bukkit.craftbukkit.inventory.CraftInventoryPlayer
 import org.bukkit.entity.Entity
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
@@ -23,6 +25,8 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.event.entity.EntityExplodeEvent
+import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.inventory.InventoryType
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
@@ -195,5 +199,14 @@ class GameEvents(private val config: MainConfig): Listener {
     @EventHandler
     fun preventExplosion(event: EntityExplodeEvent) {
         event.blockList().clear()
+    }
+
+    @EventHandler
+    fun openArtifactsMenu(event: InventoryClickEvent) {
+        if(event.clickedInventory is CraftInventoryPlayer && event.slot == 17 && event.slotType == InventoryType.SlotType.CONTAINER) {
+            val data = GameController.players[event.whoClicked as Player] ?: return
+            Menus.artifactsMenu(event.whoClicked as Player, data.artifacts)
+            event.isCancelled = true
+        }
     }
 }

@@ -27,6 +27,7 @@ class ArtifactOffer(
 
         if(playerData.money >= this.price && this.count >= 1) {
             EventManager.callPlayerPickupArtifactsEvent(player, artifact)
+            EventManager.callPlayerPostPickupArtifactsEvent(player, artifact)
             playerData.money -= this.price
             GameController.players[player] = playerData
             this.count--

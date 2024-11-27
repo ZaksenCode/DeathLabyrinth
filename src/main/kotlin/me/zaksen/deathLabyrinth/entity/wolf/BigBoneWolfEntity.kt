@@ -65,6 +65,6 @@ class BigBoneWolfEntity(location: Location): Wolf(EntityType.WOLF, (location.get
 
     companion object {
         const val defaultMaxHealth = 32.0
-        const val defaultAttackDamage = 8.0
+        const val defaultAttackDamage = 6.0
     }
 }

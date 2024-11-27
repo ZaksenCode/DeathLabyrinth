@@ -341,6 +341,14 @@ object ItemsController {
         register("heal_potion", HealPotion("heal_potion"))
         register("small_heal_potion", SmallHealPotion("small_heal_potion"))
 
+        register("bottle", CustomItem("bottle", ItemType.MISC,
+            ItemSettings(Material.GLASS_BOTTLE)
+                .displayName("item.bottle.name".asTranslate())
+                .loreLine("item.bottle.lore.0".asTranslate().color(TextColor.color(128, 0, 128)))
+                .tradePrice(20)
+                .addAviableTrader(TraderType.ALCHEMIST)
+        ))
+
         register("bone", Bone("bone"))
         register("flesh", Flesh("flesh"))
         register("gunpowder", Gunpowder("gunpowder"))
