@@ -13,6 +13,7 @@ import me.zaksen.deathLabyrinth.game.hud.HudController
 import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.item.ItemsController
 import me.zaksen.deathLabyrinth.item.ability.ItemAbilityManager
+import me.zaksen.deathLabyrinth.keys.PluginKeys
 import me.zaksen.deathLabyrinth.keys.PluginKeys.maxHealthModifierKey
 import me.zaksen.deathLabyrinth.keys.PluginKeys.speedModifierKey
 import me.zaksen.deathLabyrinth.menu.Menus
@@ -27,6 +28,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.Event
 import org.bukkit.event.entity.EntityRegainHealthEvent
 import org.bukkit.inventory.ItemStack
+import org.bukkit.persistence.PersistentDataType
 import org.bukkit.plugin.Plugin
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
@@ -38,7 +40,6 @@ import kotlin.concurrent.timer
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
-
 
 // TODO - Decompose
 object GameController {
@@ -60,7 +61,19 @@ object GameController {
         players.forEach {
             val maxHealth = it.key.getAttribute(Attribute.GENERIC_MAX_HEALTH) ?: return@forEach
             removePlayerShield(it.key, maxHealth.baseValue * 0.05)
+            // countShieldRestoring(it.key)
         }
+    }
+
+    // TODO - Add value to restoring
+    private fun countShieldRestoring(player: Player) {
+        val toSet = player.persistentDataContainer.get(PluginKeys.playerAbsorptionAmountKey, PersistentDataType.INTEGER)
+        val current = player.absorptionAmount
+
+        val maxHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH) ?: return
+        val settingSpeed = maxHealth.baseValue * 0.05
+
+
     }
 
     fun initPotLootList(list: WeightedRandomList<ItemStack>) {

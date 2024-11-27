@@ -236,12 +236,12 @@ object EventManager {
         }
     }
 
-    fun callPlayerPickupArtifactsEvent(player: Player, artifact: Artifact, spawnChain: Boolean = false) {
+    fun callPlayerPickupArtifactsEvent(player: Player, artifact: Artifact) {
         val coolEvent = PlayerPickupArtifactEvent(player, artifact)
         coolEvent.callEvent()
         GameController.processAnyEvent(coolEvent)
         if(!coolEvent.isCancelled) {
-            ArtifactsController.processArtifactPickup(player, artifact, spawnChain)
+            ArtifactsController.processArtifactPickup(player, artifact)
         }
     }
 

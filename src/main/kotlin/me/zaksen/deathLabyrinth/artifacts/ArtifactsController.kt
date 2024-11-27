@@ -3,6 +3,7 @@ package me.zaksen.deathLabyrinth.artifacts
 import me.zaksen.deathLabyrinth.artifacts.api.Artifact
 import me.zaksen.deathLabyrinth.artifacts.api.ArtifactRarity
 import me.zaksen.deathLabyrinth.artifacts.card.CardHolder
+import me.zaksen.deathLabyrinth.artifacts.chain.ArtifactsChain
 import me.zaksen.deathLabyrinth.artifacts.custom.*
 import me.zaksen.deathLabyrinth.artifacts.custom.godly.Greediness
 import me.zaksen.deathLabyrinth.entity.interaction.ArtifactsCardHitbox
@@ -22,12 +23,10 @@ import kotlin.concurrent.timer
 // TODO - Artifacts should work for each player
 object ArtifactsController {
 
-    val rarityList = WeightedRandomList<ArtifactRarity>()
+    private val rarityList = WeightedRandomList<ArtifactRarity>()
     val summonedCards: MutableMap<ArtifactsCardHitbox, CardHolder> = mutableMapOf()
+    val chains: MutableList<ArtifactsChain> = mutableListOf()
     val artifacts: MutableMap<String, Class<out Artifact>> = mutableMapOf()
-
-    private var lastChainLocation: Location = Location(Bukkit.getWorld("world"), 0.0, 0.0, 0.0)
-    private var remainingChains: Int = 0
 
     private var lastHighlightedCards: MutableMap<UUID, CardHolder> = mutableMapOf()
     var highlightTimer: Timer = timer(period = 200) {
@@ -102,15 +101,17 @@ object ArtifactsController {
         artifacts["greediness"] = Greediness::class.java
     }
 
-    fun summonArtifactCard(location: Location, artifact: Artifact, processChain: Boolean = true) {
+    fun summonArtifactCard(location: Location, artifact: Artifact, chain: ArtifactsChain? = null): CardHolder {
         val card = ArtifactsCard(location, artifact)
         val icon = ArtifactsCardIcon(location, artifact)
-        val hitbox = ArtifactsCardHitbox(location.subtract(0.0, 0.9, 0.0), processChain)
+        val hitbox = ArtifactsCardHitbox(location.subtract(0.0, 0.9, 0.0), chain)
         val name = ArtifactsCardName(location.add(0.0, 1.9, 0.0), artifact)
 
         val holder = CardHolder(artifact, card, icon, name, hitbox)
         holder.summon(location.world)
         summonedCards[hitbox] = holder
+
+        return holder
     }
 
     fun despawnArtifact(cardHolder: CardHolder) {
@@ -118,62 +119,31 @@ object ArtifactsController {
         summonedCards.remove(cardHolder.artifactsCardHitbox)
     }
 
-    fun despawnArtifacts(all: Boolean = true) {
-        if(all) {
-            summonedCards.forEach {
-                it.value.despawn()
-            }
-            summonedCards.clear()
-        } else {
-            summonedCards.filter { it.key.processChain }.forEach {
-                it.value.despawn()
-                summonedCards.remove(it.key)
-            }
+    fun despawnArtifacts() {
+        chains.forEach {
+            it.clearChainCards()
         }
+        summonedCards.forEach {
+            it.value.despawn()
+        }
+        summonedCards.clear()
+        chains.clear()
     }
 
-    fun processArtifactPickup(player: Player, artifact: Artifact, spawnChain: Boolean = false) {
-        if(spawnChain) {
-            processArtifactsChain()
-        }
-
+    fun processArtifactPickup(player: Player, artifact: Artifact) {
         val playerData = GameController.players[player] ?: return
         playerData.addArtifact(artifact, player.uniqueId)
     }
 
-
     fun startArtifactsChain(location: Location, count: Int = 1, isGoodly: Boolean = false) {
-        lastChainLocation = location
-        remainingChains = count
-        processArtifactsChain(isGoodly)
+        val newChain = ArtifactsChain(location, count, isGoodly)
+        chains.add(newChain)
+        newChain.process()
     }
 
-    private fun processArtifactsChain(isGoodly: Boolean = false) {
-        despawnArtifacts(false)
-
-        if(isGoodly) {
-            remainingChains = 1
-        }
-
-        if(remainingChains > 0) {
-            summonArtifactCard(
-                lastChainLocation,
-                if(isGoodly) getRandomArtifact(ArtifactRarity.GODLY)
-                else getRandomArtifact()
-            )
-            summonArtifactCard(
-                lastChainLocation.subtract(0.0, 1.0, 3.0),
-                if(isGoodly) getRandomArtifact(ArtifactRarity.GODLY)
-                else getRandomArtifact()
-            )
-            summonArtifactCard(
-                lastChainLocation.subtract(0.0, 1.0, 3.0),
-                if(isGoodly) getRandomArtifact(ArtifactRarity.GODLY)
-                else getRandomArtifact()
-            )
-            lastChainLocation.add(0.0, -1.0, 6.0)
-            remainingChains--
-        }
+    fun removeArtifactsChain(chain: ArtifactsChain) {
+        chain.clearChainCards()
+        chains.remove(chain)
     }
 
     fun getRandomArtifact(rarity: ArtifactRarity = rarityList.random()!!): Artifact {

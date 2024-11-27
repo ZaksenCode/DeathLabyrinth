@@ -35,6 +35,9 @@ object PluginKeys {
     lateinit var armorKnockbackLeggingsModifierKey: NamespacedKey
     lateinit var armorKnockbackBootsModifierKey: NamespacedKey
 
+    // PLAYER
+    lateinit var playerAbsorptionAmountKey: NamespacedKey
+
     fun setup(plugin: Plugin) {
         customItemKey = NamespacedKey(plugin, "custom_item_id")
         customItemCooldownKey = NamespacedKey(plugin, "custom_item_cooldown")
@@ -66,5 +69,9 @@ object PluginKeys {
         armorKnockbackChestplateModifierKey = NamespacedKey(plugin, "armor_chestplate_knockback_modifier")
         armorKnockbackLeggingsModifierKey = NamespacedKey(plugin, "armor_leggings_knockback_modifier")
         armorKnockbackBootsModifierKey = NamespacedKey(plugin, "armor_boots_knockback_modifier")
+
+        // PLAYER
+
+        playerAbsorptionAmountKey = NamespacedKey(plugin, "player_absorption_amount")
     }
 }
