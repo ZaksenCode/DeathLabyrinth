@@ -4,6 +4,7 @@ import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.event.item.ItemUseEvent
 import me.zaksen.deathLabyrinth.item.ability.ItemAbility
 import me.zaksen.deathLabyrinth.item.ability.recipe.Synergy
+import me.zaksen.deathLabyrinth.item.checkCooldown
 import net.kyori.adventure.text.Component
 import org.bukkit.Particle
 import org.bukkit.attribute.Attribute
@@ -19,9 +20,8 @@ class HealingCast: ItemAbility(
         if(event !is ItemUseEvent) return
 
         val stack = event.stack!!
-        val item = event.item!!
 
-        if(item.checkCooldown(stack)) {
+        if(checkCooldown(stack)) {
             val maxHealth = event.player.getAttribute(Attribute.GENERIC_MAX_HEALTH)!!.baseValue
             val toHeal = maxHealth * 0.15
 

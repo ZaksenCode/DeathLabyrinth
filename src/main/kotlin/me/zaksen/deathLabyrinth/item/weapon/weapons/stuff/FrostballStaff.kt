@@ -21,7 +21,7 @@ class FrostballStaff(id: String): WeaponItem(
         .displayName("item.frostball_staff.name".asTranslate().color(TextColor.color(0, 191, 255)))
         .abilityCooldown(800)
 
-        .tradePrice(35)
+        .tradePrice(45)
         .addAviableTrader(TraderType.NORMAL)
         .ability("frostball_cast")
 )

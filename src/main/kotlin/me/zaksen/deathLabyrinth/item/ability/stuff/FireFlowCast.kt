@@ -4,6 +4,7 @@ import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.event.item.ItemUseEvent
 import me.zaksen.deathLabyrinth.item.ability.ItemAbility
 import me.zaksen.deathLabyrinth.item.ability.recipe.Synergy
+import me.zaksen.deathLabyrinth.item.checkCooldown
 import me.zaksen.deathLabyrinth.util.particleLine
 import net.kyori.adventure.text.Component
 import org.bukkit.Particle
@@ -22,9 +23,8 @@ class FireFlowCast: ItemAbility(
         if(event !is ItemUseEvent) return
 
         val stack = event.stack!!
-        val item = event.item!!
 
-        if(item.checkCooldown(stack)) {
+        if(checkCooldown(stack)) {
             val shotDir = event.player.location.direction.multiply(2).normalize().multiply(7)
             event.player.eyeLocation.add(event.player.location.direction.multiply(2).normalize()).particleLine(Particle.FLAME, event.player.eyeLocation.add(shotDir), 0.35, 0.35)
 

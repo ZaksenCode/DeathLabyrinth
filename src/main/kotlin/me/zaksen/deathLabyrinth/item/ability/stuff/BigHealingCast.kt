@@ -3,6 +3,7 @@ package me.zaksen.deathLabyrinth.item.ability.stuff
 import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.event.item.ItemUseEvent
 import me.zaksen.deathLabyrinth.item.ability.ItemAbility
+import me.zaksen.deathLabyrinth.item.checkCooldown
 import net.kyori.adventure.text.Component
 import org.bukkit.Particle
 import org.bukkit.attribute.Attribute
@@ -20,9 +21,8 @@ class BigHealingCast: ItemAbility(
         if(event !is ItemUseEvent) return
 
         val stack = event.stack!!
-        val item = event.item!!
 
-        if(item.checkCooldown(stack)) {
+        if(checkCooldown(stack)) {
             val players = event.player.world.getNearbyEntitiesByType(
                 Player::class.java,
                 event.player.location,

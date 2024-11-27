@@ -2,6 +2,7 @@ package me.zaksen.deathLabyrinth.entity.villager
 
 import me.zaksen.deathLabyrinth.entity.skeleton.SkeletonArcherEntity
 import me.zaksen.deathLabyrinth.entity.skeleton.SkeletonWarriorEntity
+import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.menu.Menus
 import net.kyori.adventure.text.format.TextColor
 import net.minecraft.core.particles.ParticleTypes
@@ -74,6 +75,7 @@ class BlacksmithEntity(location: Location): Villager(EntityType.VILLAGER, (locat
                 )
             }
 
+            RoomController.processEntityRoomDeath(this)
             this.discard()
         }
     }

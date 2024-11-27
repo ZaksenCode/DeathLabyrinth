@@ -22,7 +22,7 @@ class BigFireballStaff(id: String): WeaponItem(
         .displayName("item.big_fireball_staff.name".asTranslate().color(TextColor.color(255,165,0)))
         .abilityCooldown(3200)
         .quality(ItemQuality.UNCOMMON)
-        .tradePrice(55)
+        .tradePrice(75)
         .addAviableTrader(TraderType.NORMAL)
         .ability("big_fireball_cast")
 )

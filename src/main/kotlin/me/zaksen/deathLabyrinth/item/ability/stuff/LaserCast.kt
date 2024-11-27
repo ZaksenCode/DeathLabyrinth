@@ -4,6 +4,7 @@ import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.event.item.ItemUseEvent
 import me.zaksen.deathLabyrinth.item.ability.ItemAbility
 import me.zaksen.deathLabyrinth.item.ability.recipe.Synergy
+import me.zaksen.deathLabyrinth.item.checkCooldown
 import me.zaksen.deathLabyrinth.util.particleLine
 import net.kyori.adventure.text.Component
 import org.bukkit.Particle
@@ -20,11 +21,10 @@ class LaserCast: ItemAbility(
         if(event !is ItemUseEvent) return
 
         val stack = event.stack!!
-        val item = event.item!!
 
         val rayCastEntity = event.player.rayTraceEntities(32)
 
-        if(rayCastEntity != null && rayCastEntity.hitEntity != null && item.checkCooldown(stack)) {
+        if(rayCastEntity != null && rayCastEntity.hitEntity != null && checkCooldown(stack)) {
             if(rayCastEntity.hitEntity!! !is LivingEntity) {
                 return
             }

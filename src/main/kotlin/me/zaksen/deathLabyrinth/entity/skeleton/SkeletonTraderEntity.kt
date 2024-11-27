@@ -2,6 +2,7 @@ package me.zaksen.deathLabyrinth.entity.skeleton
 
 import me.zaksen.deathLabyrinth.entity.trader.Trader
 import me.zaksen.deathLabyrinth.entity.trader.TraderType
+import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.menu.Menus
 import me.zaksen.deathLabyrinth.menu.item.ShopItem
 import me.zaksen.deathLabyrinth.trading.TradeOffer
@@ -91,6 +92,7 @@ class SkeletonTraderEntity(location: Location): Skeleton(EntityType.SKELETON, (l
                 )
             }
 
+            RoomController.processEntityRoomDeath(this)
             this.discard()
         }
     }

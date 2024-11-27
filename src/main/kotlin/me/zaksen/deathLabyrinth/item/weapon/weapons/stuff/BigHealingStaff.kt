@@ -22,7 +22,7 @@ class BigHealingStaff(id: String): WeaponItem(
         .displayName("item.big_healing_staff.name".asTranslate().color(TextColor.color(50,205,50)))
         .abilityCooldown(40000)
         .quality(ItemQuality.EPIC)
-        .tradePrice(180)
+        .tradePrice(200)
         .addAviableTrader(TraderType.NORMAL)
         .ability("big_healing_cast")
 )

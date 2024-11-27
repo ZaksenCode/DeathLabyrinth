@@ -15,6 +15,7 @@ import me.zaksen.deathLabyrinth.game.room.Room
 import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.item.CustomItem
 import me.zaksen.deathLabyrinth.item.ability.ItemAbilityManager
+import me.zaksen.deathLabyrinth.keys.PluginKeys
 import me.zaksen.deathLabyrinth.trading.TradeOffer
 import me.zaksen.deathLabyrinth.util.tryAddEntity
 import net.minecraft.world.entity.Entity
@@ -32,6 +33,7 @@ import org.bukkit.event.entity.EntityRegainHealthEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerItemConsumeEvent
 import org.bukkit.inventory.ItemStack
+import org.bukkit.persistence.PersistentDataType
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import java.util.function.Consumer
@@ -305,6 +307,19 @@ object EventManager {
                 false,
                 false
             ))
+        }
+    }
+
+    fun callPlayerStartAbilityCooldownEvent(player: Player, stack: ItemStack, startTime: Long) {
+        val coolEvent = PlayerStartAbilityCooldownEvent(player, stack, startTime)
+        coolEvent.callEvent()
+        GameController.processAnyEvent(coolEvent)
+
+        if(!coolEvent.isCancelled) {
+            // ItemAbilityManager.addStackCooldownView(coolEvent.stack)
+            val meta = coolEvent.stack.itemMeta
+            meta.persistentDataContainer.set(PluginKeys.customItemCooldownKey, PersistentDataType.LONG, coolEvent.startTime)
+            coolEvent.stack.setItemMeta(meta)
         }
     }
 

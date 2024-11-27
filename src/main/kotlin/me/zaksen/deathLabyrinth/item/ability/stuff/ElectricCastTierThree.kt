@@ -4,6 +4,7 @@ import me.zaksen.deathLabyrinth.entity.friendly.FriendlyEntity
 import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.event.item.ItemUseEvent
 import me.zaksen.deathLabyrinth.item.ability.ItemAbility
+import me.zaksen.deathLabyrinth.item.checkCooldown
 import me.zaksen.deathLabyrinth.util.particleLine
 import net.kyori.adventure.text.Component
 import org.bukkit.Particle
@@ -21,11 +22,10 @@ class ElectricCastTierThree: ItemAbility(
         if(event !is ItemUseEvent) return
 
         val stack = event.stack!!
-        val item = event.item!!
 
         val rayCast = event.player.rayTraceEntities(16)
 
-        if(rayCast != null && rayCast.hitEntity != null && item.checkCooldown(stack)) {
+        if(rayCast != null && rayCast.hitEntity != null && checkCooldown(stack)) {
             val entity = rayCast.hitEntity!!
 
             if(entity !is LivingEntity || entity is Player || entity is FriendlyEntity) {

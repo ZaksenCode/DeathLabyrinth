@@ -10,7 +10,10 @@ import net.minecraft.world.entity.player.Player
 import org.bukkit.Location
 import org.bukkit.craftbukkit.CraftWorld
 
-class ArtifactsCardHitbox(location: Location): Interaction(EntityType.INTERACTION, (location.world as CraftWorld).handle) {
+class ArtifactsCardHitbox(
+    location: Location,
+    val processChain: Boolean = true
+): Interaction(EntityType.INTERACTION, (location.world as CraftWorld).handle) {
 
     init {
         this.height = 1.8f
@@ -23,7 +26,11 @@ class ArtifactsCardHitbox(location: Location): Interaction(EntityType.INTERACTIO
             val cardHolder = ArtifactsController.summonedCards[this]
 
             if(cardHolder != null) {
-                EventManager.callPlayerPickupArtifactsEvent(player.bukkitEntity as org.bukkit.entity.Player, cardHolder.artifact, true)
+                EventManager.callPlayerPickupArtifactsEvent(player.bukkitEntity as org.bukkit.entity.Player, cardHolder.artifact, processChain)
+
+                if(!processChain) {
+                    ArtifactsController.despawnArtifact(cardHolder)
+                }
             }
         }
 

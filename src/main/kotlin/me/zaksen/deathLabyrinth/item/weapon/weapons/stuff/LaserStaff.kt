@@ -23,7 +23,7 @@ class LaserStaff(id: String): WeaponItem(
         .displayName("item.laser_staff.name".asTranslate().color(TextColor.color(128, 128, 128)))
         .abilityCooldown(1000)
         .quality(ItemQuality.UNCOMMON)
-        .tradePrice(60)
+        .tradePrice(80)
         .addAviableTrader(TraderType.NORMAL)
         .ability("laser_cast")
 )

@@ -49,6 +49,8 @@ object RoomController {
     private val actualRoomEntities: MutableList<Entity> = mutableListOf()
     private val roomCycleEntities: MutableList<Entity> = mutableListOf()
 
+    private val actualAllEntities: MutableList<Entity> = mutableListOf()
+
     var actualRoomNumber: Int = 0
     var bossRoomCompleted: Int = 0
 
@@ -117,10 +119,42 @@ object RoomController {
 
     fun processEntityRoomDeath(event: PlayerKillEntityEvent) {
         val entity = (event.entity as CraftEntity).handle
+        processEntityRoomDeath(entity)
+    }
 
+    fun processEntityRoomDeath(entity: Entity, checkCompletion: Boolean = true) {
         if(actualRoomEntities.contains(entity)) {
             actualRoomEntities.remove(entity)
-            checkRoomCompletion()
+            if(checkCompletion) {
+                checkRoomCompletion()
+            }
+        }
+
+        if(actualAllEntities.contains(entity)) {
+            actualAllEntities.remove(entity)
+        }
+    }
+
+    fun despawnRoomEntities() {
+        val toRemove = actualAllEntities.map { it }
+        toRemove.forEach {
+            processEntityRoomDeath(it, false)
+            it.discard()
+        }
+    }
+
+    fun despawnAllEntities() {
+        val toRemove = actualAllEntities.map { it }
+        toRemove.forEach {
+            processEntityRoomDeath(it, false)
+            it.discard()
+        }
+    }
+
+    fun despawnCycleEntities() {
+        val toRemove = roomCycleEntities.map { it }
+        toRemove.forEach {
+            it.discard()
         }
     }
 
@@ -183,6 +217,7 @@ object RoomController {
 
         if(actualQueryRoom != null) {
             if(actualQueryRoom!!.roomConfig.roomType == RoomType.BOSS) {
+                println("Summon new boss artifacts chain")
                 startBossArtifactsChain()
             } else if(actualQueryRoom!!.roomConfig.roomType == RoomType.SHOP &&
                 GameController.hasDeadPlayers()) {
@@ -364,6 +399,7 @@ object RoomController {
             if(requireKill) {
                 actualRoomEntities.add(entity)
             }
+            actualAllEntities.add(entity)
         }
     }
 

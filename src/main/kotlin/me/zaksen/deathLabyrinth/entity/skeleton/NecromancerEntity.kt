@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.entity.skeleton
 
+import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.menu.Menus
 import net.kyori.adventure.text.format.TextColor
 import net.minecraft.core.particles.ParticleTypes
@@ -69,6 +70,7 @@ class NecromancerEntity(location: Location): Stray(EntityType.STRAY, (location.w
                 )
             }
 
+            RoomController.processEntityRoomDeath(this)
             this.discard()
         }
     }

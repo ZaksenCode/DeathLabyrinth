@@ -12,6 +12,7 @@ import me.zaksen.deathLabyrinth.event.custom.game.PlayerBreakPotEvent
 import me.zaksen.deathLabyrinth.game.hud.HudController
 import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.item.ItemsController
+import me.zaksen.deathLabyrinth.item.ability.ItemAbilityManager
 import me.zaksen.deathLabyrinth.keys.PluginKeys.maxHealthModifierKey
 import me.zaksen.deathLabyrinth.keys.PluginKeys.speedModifierKey
 import me.zaksen.deathLabyrinth.menu.Menus
@@ -54,6 +55,7 @@ object GameController {
 
     private lateinit var potLootList: WeightedRandomList<ItemStack>
 
+    // TODO - Add value to restoring
     private val shieldRemovingTask: Timer = timer(period = 500) {
         players.forEach {
             val maxHealth = it.key.getAttribute(Attribute.GENERIC_MAX_HEALTH) ?: return@forEach
@@ -100,6 +102,8 @@ object GameController {
         hudController.clearDrawers()
         players.clear()
         ArtifactsController.despawnArtifacts()
+        RoomController.despawnAllEntities()
+        RoomController.despawnCycleEntities()
         RoomController.clearGeneration()
         TradeController.reload()
         ArtifactsStates.cache.clear()

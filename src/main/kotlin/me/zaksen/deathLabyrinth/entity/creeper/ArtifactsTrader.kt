@@ -4,6 +4,7 @@ import me.zaksen.deathLabyrinth.entity.skeleton.SkeletonArcherEntity
 import me.zaksen.deathLabyrinth.entity.skeleton.SkeletonWarriorEntity
 import me.zaksen.deathLabyrinth.entity.trader.Trader
 import me.zaksen.deathLabyrinth.entity.trader.TraderType
+import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.menu.Menus
 import me.zaksen.deathLabyrinth.menu.item.ShopItem
 import me.zaksen.deathLabyrinth.trading.TradeOffer
@@ -94,6 +95,7 @@ class ArtifactsTrader(location: Location): Creeper(EntityType.CREEPER, (location
                 )
             }
 
+            RoomController.processEntityRoomDeath(this)
             this.discard()
         }
     }

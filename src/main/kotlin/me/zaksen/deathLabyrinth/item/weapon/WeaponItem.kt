@@ -4,6 +4,7 @@ import me.zaksen.deathLabyrinth.item.CustomItem
 import me.zaksen.deathLabyrinth.item.ItemType
 import me.zaksen.deathLabyrinth.item.ability.ItemAbilityManager
 import me.zaksen.deathLabyrinth.item.settings.ItemSettings
+import me.zaksen.deathLabyrinth.item.showItemReadyCooldown
 import me.zaksen.deathLabyrinth.keys.PluginKeys
 import me.zaksen.deathLabyrinth.util.*
 import net.kyori.adventure.key.Key

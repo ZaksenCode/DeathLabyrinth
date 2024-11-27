@@ -5,6 +5,7 @@ import me.zaksen.deathLabyrinth.event.item.ItemUseEvent
 import me.zaksen.deathLabyrinth.item.ability.consume.*
 import me.zaksen.deathLabyrinth.item.ability.stuff.*
 import me.zaksen.deathLabyrinth.item.ability.weapon.*
+import me.zaksen.deathLabyrinth.item.checkAndUpdateCooldown
 import me.zaksen.deathLabyrinth.keys.PluginKeys
 import me.zaksen.deathLabyrinth.util.stringList
 import org.bukkit.event.Event
@@ -15,6 +16,11 @@ import org.bukkit.persistence.PersistentDataType
 object ItemAbilityManager {
 
     val abilityMap: MutableMap<String, ItemAbility> = mutableMapOf()
+
+//    val cooldownMap: MutableSet<ItemStack> = mutableSetOf()
+//    private val checkCooldownTask: Timer = timer(period = 50) {
+//        checkCooldowns()
+//    }
 
     init {
         // Weapon
@@ -107,8 +113,24 @@ object ItemAbilityManager {
         }
 
         if(event is ItemUseEvent) {
-            if(event.item != null && event.stack != null)
-            event.item.checkAndUpdateCooldown(event.stack)
+            if(event.stack != null)
+            checkAndUpdateCooldown(event.player, event.stack)
         }
     }
+//
+//    fun addStackCooldownView(stack: ItemStack) {
+//        if(!cooldownMap.contains(stack)) {
+//            cooldownMap.add(stack)
+//            showItemNotReadyCooldown(stack)
+//        }
+//    }
+//
+//    fun checkCooldowns() {
+//        cooldownMap.forEach {
+//            if(checkCooldown(it)) {
+//                showItemReadyCooldown(it)
+//                cooldownMap.remove(it)
+//            }
+//        }
+//    }
 }

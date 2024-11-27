@@ -6,6 +6,7 @@ import me.zaksen.deathLabyrinth.entity.projectile.FrostBombEntity
 import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.event.item.ItemUseEvent
 import me.zaksen.deathLabyrinth.item.ability.ItemAbility
+import me.zaksen.deathLabyrinth.item.checkCooldown
 import net.kyori.adventure.text.Component
 import net.minecraft.world.phys.Vec3
 import org.bukkit.craftbukkit.entity.CraftPlayer
@@ -22,9 +23,8 @@ class FireBombCast: ItemAbility(
         if(event !is ItemUseEvent) return
 
         val stack = event.stack!!
-        val item = event.item!!
 
-        if(item.checkCooldown(stack)) {
+        if(checkCooldown(stack)) {
             val shotVelocity = event.player.location.direction.multiply(2).normalize().multiply(1.5)
 
             val projectile = FireBombEntity(event.player.location.add(shotVelocity).add(0.0, 1.6, 0.0), 3.5, 18.0)

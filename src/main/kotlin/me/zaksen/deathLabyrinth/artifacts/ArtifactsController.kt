@@ -102,10 +102,10 @@ object ArtifactsController {
         artifacts["greediness"] = Greediness::class.java
     }
 
-    fun summonArtifactCard(location: Location, artifact: Artifact) {
+    fun summonArtifactCard(location: Location, artifact: Artifact, processChain: Boolean = true) {
         val card = ArtifactsCard(location, artifact)
         val icon = ArtifactsCardIcon(location, artifact)
-        val hitbox = ArtifactsCardHitbox(location.subtract(0.0, 0.9, 0.0))
+        val hitbox = ArtifactsCardHitbox(location.subtract(0.0, 0.9, 0.0), processChain)
         val name = ArtifactsCardName(location.add(0.0, 1.9, 0.0), artifact)
 
         val holder = CardHolder(artifact, card, icon, name, hitbox)
@@ -113,19 +113,31 @@ object ArtifactsController {
         summonedCards[hitbox] = holder
     }
 
-    fun despawnArtifacts() {
-        summonedCards.forEach {
-            it.value.despawn()
+    fun despawnArtifact(cardHolder: CardHolder) {
+        cardHolder.despawn()
+        summonedCards.remove(cardHolder.artifactsCardHitbox)
+    }
+
+    fun despawnArtifacts(all: Boolean = true) {
+        if(all) {
+            summonedCards.forEach {
+                it.value.despawn()
+            }
+            summonedCards.clear()
+        } else {
+            summonedCards.filter { it.key.processChain }.forEach {
+                it.value.despawn()
+                summonedCards.remove(it.key)
+            }
         }
-        summonedCards.clear()
     }
 
     fun processArtifactPickup(player: Player, artifact: Artifact, spawnChain: Boolean = false) {
         if(spawnChain) {
             processArtifactsChain()
         }
-        val playerData = GameController.players[player] ?: return
 
+        val playerData = GameController.players[player] ?: return
         playerData.addArtifact(artifact, player.uniqueId)
     }
 
@@ -137,7 +149,7 @@ object ArtifactsController {
     }
 
     private fun processArtifactsChain(isGoodly: Boolean = false) {
-        despawnArtifacts()
+        despawnArtifacts(false)
 
         if(isGoodly) {
             remainingChains = 1

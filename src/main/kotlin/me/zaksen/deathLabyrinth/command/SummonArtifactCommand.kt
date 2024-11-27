@@ -41,7 +41,7 @@ class SummonArtifactCommand: TabExecutor {
                     val artifactClass = ArtifactsController.artifacts[args[0]]
                     if(artifactClass != null) {
                         val artifact = artifactClass.getDeclaredConstructor().newInstance()
-                        ArtifactsController.summonArtifactCard(sender.location, artifact)
+                        ArtifactsController.summonArtifactCard(sender.location, artifact, false)
                     } else {
                         sender.sendMessage("text.command.artifact_summon.artifact_not_found".asTranslate().color(
                             TextColor.color(240,128,128)))

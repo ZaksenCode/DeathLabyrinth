@@ -17,7 +17,7 @@ class BigFrostballStaff(id: String): WeaponItem(
         .displayName("item.big_frostball_staff.name".asTranslate().color(TextColor.color(0, 191, 255)))
         .abilityCooldown(3200)
         .quality(ItemQuality.UNCOMMON)
-        .tradePrice(55)
+        .tradePrice(85)
         .addAviableTrader(TraderType.NORMAL)
         .ability("big_frostball_cast")
 )

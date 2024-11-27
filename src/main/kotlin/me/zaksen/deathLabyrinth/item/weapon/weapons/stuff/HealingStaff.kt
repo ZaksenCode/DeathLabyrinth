@@ -21,7 +21,7 @@ class HealingStaff(id: String): WeaponItem(
         .displayName("item.healing_staff.name".asTranslate().color(TextColor.color(50,205,50)))
         .abilityCooldown(30000)
         .quality(ItemQuality.RARE)
-        .tradePrice(100)
+        .tradePrice(120)
         .addAviableTrader(TraderType.NORMAL)
         .ability("healing_cast")
 )

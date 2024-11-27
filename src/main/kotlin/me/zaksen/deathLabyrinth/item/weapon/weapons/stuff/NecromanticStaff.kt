@@ -17,7 +17,7 @@ class NecromanticStaff(id: String): WeaponItem(
         .displayName("item.necromantic_staff.name".asTranslate().color(TextColor.color(128, 128, 128)))
         .abilityCooldown(60000)
         .quality(ItemQuality.RARE)
-        .tradePrice(90)
+        .tradePrice(110)
         .addAviableTrader(TraderType.NORMAL)
         .ability("necromantic_cast")
 )

@@ -5,6 +5,7 @@ import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.event.item.ItemUseEvent
 import me.zaksen.deathLabyrinth.item.ability.ItemAbility
 import me.zaksen.deathLabyrinth.item.ability.recipe.Synergy
+import me.zaksen.deathLabyrinth.item.checkCooldown
 import net.kyori.adventure.text.Component
 import org.bukkit.event.Event
 
@@ -31,7 +32,7 @@ class ExplosionCast: ItemAbility(
             return
         }
 
-        if(item.checkCooldown(stack)) {
+        if(checkCooldown(stack)) {
             val pos = rayCast.hitPosition
             EventManager.callPlayerSummonExplosionEvent(event.player, pos.toLocation(event.player.world).subtract(0.0, 1.0, 0.0), 1.5, 5.0)
         }

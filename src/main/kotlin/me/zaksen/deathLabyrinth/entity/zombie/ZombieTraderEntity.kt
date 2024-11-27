@@ -2,6 +2,7 @@ package me.zaksen.deathLabyrinth.entity.zombie
 
 import me.zaksen.deathLabyrinth.entity.trader.Trader
 import me.zaksen.deathLabyrinth.entity.trader.TraderType
+import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.menu.Menus
 import me.zaksen.deathLabyrinth.menu.item.ShopItem
 import me.zaksen.deathLabyrinth.trading.TradeOffer
@@ -86,6 +87,7 @@ class ZombieTraderEntity(location: Location): Zombie(EntityType.ZOMBIE, (locatio
                 )
             }
 
+            RoomController.processEntityRoomDeath(this)
             this.discard()
         }
     }

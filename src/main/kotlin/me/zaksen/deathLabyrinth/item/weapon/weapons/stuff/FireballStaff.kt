@@ -22,7 +22,7 @@ class FireballStaff(id: String): WeaponItem(
         .displayName("item.fireball_staff.name".asTranslate().color(TextColor.color(255,165,0)))
         .abilityCooldown(800)
 
-        .tradePrice(35)
+        .tradePrice(45)
         .addAviableTrader(TraderType.NORMAL)
         .ability("fireball_cast")
 )

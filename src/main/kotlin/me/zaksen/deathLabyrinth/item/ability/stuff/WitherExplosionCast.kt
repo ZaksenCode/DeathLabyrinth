@@ -5,6 +5,7 @@ import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.event.item.ItemUseEvent
 import me.zaksen.deathLabyrinth.item.ability.ItemAbility
 import me.zaksen.deathLabyrinth.item.ability.recipe.Synergy
+import me.zaksen.deathLabyrinth.item.checkCooldown
 import net.kyori.adventure.text.Component
 import org.bukkit.event.Event
 import org.bukkit.potion.PotionEffect
@@ -21,7 +22,6 @@ class WitherExplosionCast: ItemAbility(
         if(event !is ItemUseEvent) return
 
         val stack = event.stack!!
-        val item = event.item!!
 
         var rayCast = event.player.rayTraceEntities(24)
 
@@ -33,7 +33,7 @@ class WitherExplosionCast: ItemAbility(
             return
         }
 
-        if(item.checkCooldown(stack)) {
+        if(checkCooldown(stack)) {
             val pos = rayCast.hitPosition
             EventManager.callPlayerSummonExplosionEvent(event.player, pos.toLocation(event.player.world).subtract(0.0, 1.0, 0.0), 2.5, 20.0,
                 entityConsumer = {

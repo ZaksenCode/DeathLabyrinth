@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.item
 
+import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.item.ability.ItemAbilityManager
 import me.zaksen.deathLabyrinth.item.settings.ItemSettings
 import me.zaksen.deathLabyrinth.keys.PluginKeys
@@ -8,6 +9,9 @@ import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
 import net.kyori.adventure.text.format.TextDecoration
+import org.bukkit.enchantments.Enchantment
+import org.bukkit.entity.Player
+import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 
@@ -50,39 +54,46 @@ open class CustomItem(val id: String, val type: ItemType, val settings: ItemSett
 
         return stack
     }
+}
 
-    fun checkCooldown(item: ItemStack): Boolean {
-        if(item.itemMeta.persistentDataContainer.has(PluginKeys.customItemCooldownKey)) {
-            val cooldown = item.itemMeta.persistentDataContainer.get(PluginKeys.customItemCooldownKey, PersistentDataType.LONG)
-            val maxCooldown = item.itemMeta.persistentDataContainer.get(PluginKeys.customItemCooldownTimeKey, PersistentDataType.INTEGER)
+fun checkCooldown(item: ItemStack): Boolean {
+    if(item.itemMeta.persistentDataContainer.has(PluginKeys.customItemCooldownKey)) {
+        val cooldown = item.itemMeta.persistentDataContainer.get(PluginKeys.customItemCooldownKey, PersistentDataType.LONG)
+        val maxCooldown = item.itemMeta.persistentDataContainer.get(PluginKeys.customItemCooldownTimeKey, PersistentDataType.INTEGER)
 
-            return cooldown != null && maxCooldown != null && System.currentTimeMillis() - cooldown >= maxCooldown
-        } else {
-            val meta = item.itemMeta
-            meta.persistentDataContainer.set(PluginKeys.customItemCooldownKey, PersistentDataType.LONG, System.currentTimeMillis())
-            item.setItemMeta(meta)
-            return true
-        }
+        return cooldown != null && maxCooldown != null && System.currentTimeMillis() - cooldown >= maxCooldown
+    } else {
+        val meta = item.itemMeta
+        meta.persistentDataContainer.set(PluginKeys.customItemCooldownKey, PersistentDataType.LONG, System.currentTimeMillis())
+        item.setItemMeta(meta)
+        return true
     }
+}
 
-    fun checkAndUpdateCooldown(item: ItemStack): Boolean {
-        if(item.itemMeta.persistentDataContainer.has(PluginKeys.customItemCooldownKey)) {
-            val cooldown = item.itemMeta.persistentDataContainer.get(PluginKeys.customItemCooldownKey, PersistentDataType.LONG)
-            val maxCooldown = item.itemMeta.persistentDataContainer.get(PluginKeys.customItemCooldownTimeKey, PersistentDataType.INTEGER)
+fun checkAndUpdateCooldown(player: Player, item: ItemStack): Boolean {
+    if(item.itemMeta.persistentDataContainer.has(PluginKeys.customItemCooldownKey)) {
+        val cooldown = item.itemMeta.persistentDataContainer.get(PluginKeys.customItemCooldownKey, PersistentDataType.LONG)
+        val maxCooldown = item.itemMeta.persistentDataContainer.get(PluginKeys.customItemCooldownTimeKey, PersistentDataType.INTEGER)
 
-            if(cooldown != null && maxCooldown != null && System.currentTimeMillis() - cooldown >= maxCooldown) {
-                val meta = item.itemMeta
-                meta.persistentDataContainer.set(PluginKeys.customItemCooldownKey, PersistentDataType.LONG, System.currentTimeMillis())
-                item.setItemMeta(meta)
-                return true
-            } else {
-                return false
-            }
-        } else {
-            val meta = item.itemMeta
-            meta.persistentDataContainer.set(PluginKeys.customItemCooldownKey, PersistentDataType.LONG, System.currentTimeMillis())
-            item.setItemMeta(meta)
+        if(cooldown != null && maxCooldown != null && System.currentTimeMillis() - cooldown >= maxCooldown) {
+            EventManager.callPlayerStartAbilityCooldownEvent(player, item, System.currentTimeMillis())
             return true
+        } else {
+            return false
         }
+    } else {
+        val meta = item.itemMeta
+        meta.persistentDataContainer.set(PluginKeys.customItemCooldownKey, PersistentDataType.LONG, System.currentTimeMillis())
+        item.setItemMeta(meta)
+        return true
     }
+}
+
+fun showItemReadyCooldown(stack: ItemStack) {
+    stack.addItemFlags(ItemFlag.HIDE_ENCHANTS)
+    stack.addUnsafeEnchantment(Enchantment.LUCK_OF_THE_SEA, 1)
+}
+
+fun showItemNotReadyCooldown(stack: ItemStack) {
+    stack.removeEnchantment(Enchantment.LUCK_OF_THE_SEA)
 }

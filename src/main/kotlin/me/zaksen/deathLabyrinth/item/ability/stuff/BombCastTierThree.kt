@@ -6,6 +6,7 @@ import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.event.item.ItemUseEvent
 import me.zaksen.deathLabyrinth.item.ability.ItemAbility
 import me.zaksen.deathLabyrinth.item.ability.recipe.Synergy
+import me.zaksen.deathLabyrinth.item.checkCooldown
 import net.kyori.adventure.text.Component
 import net.minecraft.world.phys.Vec3
 import org.bukkit.Location
@@ -24,9 +25,8 @@ class BombCastTierThree: ItemAbility(
         if(event !is ItemUseEvent) return
 
         val stack = event.stack!!
-        val item = event.item!!
 
-        if(item.checkCooldown(stack)) {
+        if(checkCooldown(stack)) {
             val shotVelocity = event.player.location.direction.multiply(2).normalize().multiply(1.5)
 
             summonBomb(

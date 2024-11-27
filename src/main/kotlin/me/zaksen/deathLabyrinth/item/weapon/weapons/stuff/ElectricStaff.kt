@@ -25,7 +25,7 @@ class ElectricStaff(id: String): WeaponItem(
         .displayName("item.electric_staff.name".asTranslate().color(TextColor.color(128, 128, 128)))
         .abilityCooldown(500)
         .quality(ItemQuality.UNCOMMON)
-        .tradePrice(60)
+        .tradePrice(85)
         .addAviableTrader(TraderType.NORMAL)
         .ability("electric_cast")
 )
