@@ -5,6 +5,10 @@ import org.bukkit.event.Cancellable
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 
+/** An event that triggers when a player dies
+ *  @param player - A player who will die
+ *  @param damage - Last damage amount
+ */
 class PlayerDeathEvent(val player: Player, var damage: Double): Event(), Cancellable {
     private var cancelled = false
 

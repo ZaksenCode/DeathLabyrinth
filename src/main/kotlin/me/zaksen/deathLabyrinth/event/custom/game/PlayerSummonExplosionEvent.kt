@@ -6,6 +6,12 @@ import org.bukkit.event.Cancellable
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 
+/** Event that will be triggered if the explosion comes from a player
+ *  @param player - The player who created the explosion
+ *  @param position - Position where the explosion was caused
+ *  @param range - Explosion range
+ *  @param damage - Explosion damage
+ */
 class PlayerSummonExplosionEvent(
     val player: Player,
     val position: Location,

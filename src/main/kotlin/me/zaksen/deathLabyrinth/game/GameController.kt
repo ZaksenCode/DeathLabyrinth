@@ -12,7 +12,6 @@ import me.zaksen.deathLabyrinth.event.custom.game.PlayerBreakPotEvent
 import me.zaksen.deathLabyrinth.game.hud.HudController
 import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.item.ItemsController
-import me.zaksen.deathLabyrinth.item.ability.ItemAbilityManager
 import me.zaksen.deathLabyrinth.keys.PluginKeys
 import me.zaksen.deathLabyrinth.keys.PluginKeys.maxHealthModifierKey
 import me.zaksen.deathLabyrinth.keys.PluginKeys.speedModifierKey
@@ -56,24 +55,26 @@ object GameController {
 
     private lateinit var potLootList: WeightedRandomList<ItemStack>
 
-    // TODO - Add value to restoring
     private val shieldRemovingTask: Timer = timer(period = 500) {
         players.forEach {
-            val maxHealth = it.key.getAttribute(Attribute.GENERIC_MAX_HEALTH) ?: return@forEach
-            removePlayerShield(it.key, maxHealth.baseValue * 0.05)
-            // countShieldRestoring(it.key)
+            countShieldRestoring(it.key)
         }
     }
 
-    // TODO - Add value to restoring
     private fun countShieldRestoring(player: Player) {
-        val toSet = player.persistentDataContainer.get(PluginKeys.playerAbsorptionAmountKey, PersistentDataType.INTEGER)
+        val toSet = player.persistentDataContainer.get(PluginKeys.playerAbsorptionAmountKey, PersistentDataType.INTEGER) ?: return
         val current = player.absorptionAmount
 
         val maxHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH) ?: return
-        val settingSpeed = maxHealth.baseValue * 0.05
+        val settingAmount = maxHealth.baseValue * 0.05
 
-
+        if(current > toSet) {
+            val toRemove = (current - toSet).coerceAtMost(settingAmount)
+            removePlayerShield(player, toRemove)
+        } else {
+            val toRestore = (toSet - current).coerceAtMost(settingAmount)
+            addPlayerShield(player, toRestore)
+        }
     }
 
     fun initPotLootList(list: WeightedRandomList<ItemStack>) {
@@ -167,6 +168,9 @@ object GameController {
         player.gameMode = GameMode.SURVIVAL
 
         player.updateMaxHealth(40.0)
+
+        player.persistentDataContainer.set(PluginKeys.playerAbsorptionAmountKey, PersistentDataType.INTEGER, 0)
+        player.persistentDataContainer.set(PluginKeys.playerAbsorptionDefaultAmountKey, PersistentDataType.INTEGER, 0)
 
         player.heal(40.0, EntityRegainHealthEvent.RegainReason.REGEN)
         player.saturation = 20.0f
@@ -406,7 +410,8 @@ object GameController {
 
     fun addPlayerShield(player: Player, amount: Double) {
         val maxHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH) ?: return
-        val maxShieldAmount = maxHealth.baseValue / 2.0
+        val maxShieldAmount = maxHealth.value / 2.0
+        maxHealth.defaultValue
 
         val newAmount = player.absorptionAmount + amount
         player.absorptionAmount = Math.clamp(newAmount, 0.0, maxShieldAmount)

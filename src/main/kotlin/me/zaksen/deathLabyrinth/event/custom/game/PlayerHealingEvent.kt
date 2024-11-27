@@ -6,6 +6,11 @@ import org.bukkit.event.Cancellable
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 
+/** An event that will be triggered when a player heals someone
+ *  @param player - The player who caused the healing
+ *  @param entity - A entity that has received healing (may be the player who summoned the healing)
+ *  @param amount - Heal amount
+ */
 class PlayerHealingEvent(
     val player: Player,
     val entity: LivingEntity,

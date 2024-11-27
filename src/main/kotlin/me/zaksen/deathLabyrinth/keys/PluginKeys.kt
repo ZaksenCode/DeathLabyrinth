@@ -37,6 +37,7 @@ object PluginKeys {
 
     // PLAYER
     lateinit var playerAbsorptionAmountKey: NamespacedKey
+    lateinit var playerAbsorptionDefaultAmountKey: NamespacedKey
 
     fun setup(plugin: Plugin) {
         customItemKey = NamespacedKey(plugin, "custom_item_id")
@@ -73,5 +74,6 @@ object PluginKeys {
         // PLAYER
 
         playerAbsorptionAmountKey = NamespacedKey(plugin, "player_absorption_amount")
+        playerAbsorptionDefaultAmountKey = NamespacedKey(plugin, "player_absorption_default_amount")
     }
 }

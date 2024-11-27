@@ -1,15 +1,19 @@
 package me.zaksen.deathLabyrinth.event.custom.game
 
-import me.zaksen.deathLabyrinth.damage.DamageType
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.Cancellable
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 
+/** An event that triggers when a creature takes damage from a player
+ *  @param player - Damaging player
+ *  @param damaged - The entity who took the damage
+ *  @param damage - Damage amount
+ */
 class PlayerDamageEntityEvent(
     val player: Player,
-    val entity: LivingEntity,
+    val damaged: LivingEntity,
     var damage: Double
 ): Event(), Cancellable {
     private var cancelled = false

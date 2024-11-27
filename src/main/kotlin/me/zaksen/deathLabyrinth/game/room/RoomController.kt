@@ -417,7 +417,6 @@ object RoomController {
         EventManager.callPlayerSummonFriendlyEntityCloneEvent(player, newEntity as net.minecraft.world.entity.LivingEntity)
     }
 
-    // FIXME - Boss artifacts despawn after spawn
     private fun startBossArtifactsChain() {
         if(actualQueryRoom == null) {
             return

@@ -6,6 +6,10 @@ import org.bukkit.event.Cancellable
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 
+/** Event that will be triggered when a player's entity is cloned
+ *  @param player - The player whose entity was cloned
+ *  @param entity - A cloned entity.
+ */
 class FriendlyEntityCloneSummonEvent(var player: Player, var entity: LivingEntity): Event(), Cancellable {
     private var cancelled = false
 

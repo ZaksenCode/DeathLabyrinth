@@ -20,7 +20,6 @@ import java.util.Timer
 import java.util.UUID
 import kotlin.concurrent.timer
 
-// TODO - Artifacts should work for each player
 object ArtifactsController {
 
     private val rarityList = WeightedRandomList<ArtifactRarity>()

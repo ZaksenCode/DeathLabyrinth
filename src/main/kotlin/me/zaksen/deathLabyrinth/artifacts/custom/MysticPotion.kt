@@ -3,6 +3,7 @@ package me.zaksen.deathLabyrinth.artifacts.custom
 import me.zaksen.deathLabyrinth.artifacts.api.Artifact
 import me.zaksen.deathLabyrinth.artifacts.api.ArtifactRarity
 import me.zaksen.deathLabyrinth.event.custom.game.PlayerPickupArtifactEvent
+import me.zaksen.deathLabyrinth.event.custom.game.PlayerPostPickupArtifactEvent
 import me.zaksen.deathLabyrinth.keys.PluginKeys.speedModifierKey
 import me.zaksen.deathLabyrinth.util.*
 import net.kyori.adventure.text.format.TextColor
@@ -18,7 +19,7 @@ class MysticPotion: Artifact(
 
     init {
         abilityContainer.add {
-            if(it !is PlayerPickupArtifactEvent) return@add
+            if(it !is PlayerPostPickupArtifactEvent) return@add
             if(it.player.uniqueId != ownerUuid) return@add
 
             val player = it.player

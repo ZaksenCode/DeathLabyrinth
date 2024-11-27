@@ -6,6 +6,11 @@ import org.bukkit.event.Cancellable
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 
+/** An event that will be triggered when a player takes damage from a entity
+ *  @param damager - Damaging entity
+ *  @param damaged - The player who took the damage
+ *  @param damage - Damage amount
+ */
 class PlayerDamagedByEntityEvent(val damager: Entity, val damaged: Player, var damage: Double): Event(), Cancellable {
 
     private var cancelled = false

@@ -6,6 +6,11 @@ import org.bukkit.event.Cancellable
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 
+/** The event that will be triggered when an explosion occurs without an owner
+ *  @param position - Position where the explosion was caused
+ *  @param range - Explosion range
+ *  @param damage - Explosion damage
+ */
 class ExplosionEvent(
     val position: Location,
     var range: Double,

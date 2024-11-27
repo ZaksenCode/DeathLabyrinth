@@ -3,12 +3,18 @@ package me.zaksen.deathLabyrinth.artifacts.custom
 import me.zaksen.deathLabyrinth.artifacts.api.Artifact
 import me.zaksen.deathLabyrinth.artifacts.api.ArtifactRarity
 import me.zaksen.deathLabyrinth.event.custom.game.PlayerPickupArtifactEvent
+import me.zaksen.deathLabyrinth.event.custom.game.PlayerPostPickupArtifactEvent
+import me.zaksen.deathLabyrinth.keys.PluginKeys
+import me.zaksen.deathLabyrinth.keys.PluginKeys.maxHealthModifierKey
+import me.zaksen.deathLabyrinth.keys.PluginKeys.speedModifierKey
 import me.zaksen.deathLabyrinth.util.*
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Material
+import org.bukkit.attribute.Attribute
+import org.bukkit.attribute.AttributeModifier
 import org.bukkit.inventory.ItemStack
+import org.bukkit.persistence.PersistentDataType
 
-// TODO - Made more soft health adding
 class RedJar: Artifact(
     "artifact.red_jar.name".asTranslate().color(TextColor.color(50,205,50)),
     ArtifactRarity.COMMON
@@ -16,11 +22,22 @@ class RedJar: Artifact(
 
     init {
         abilityContainer.add {
-            if(it !is PlayerPickupArtifactEvent) return@add
+            if(it !is PlayerPostPickupArtifactEvent) return@add
             if(it.player.uniqueId != ownerUuid) return@add
 
             val player = it.player
-            player.updateMaxHealth(40.0 + (8.0 * (1 + count)))
+
+            player.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.removeModifier(maxHealthModifierKey)
+
+            player.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.addModifier(
+                AttributeModifier(
+                    maxHealthModifierKey,
+                    8.0 * count,
+                    AttributeModifier.Operation.ADD_NUMBER
+                )
+            )
+
+            player.updateAbsorptionLevel()
         }
     }
 

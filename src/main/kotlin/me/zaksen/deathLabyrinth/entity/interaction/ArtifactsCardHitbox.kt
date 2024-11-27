@@ -35,6 +35,8 @@ class ArtifactsCardHitbox(
                     val holder = ArtifactsController.summonedCards[this] ?: return super.interact(player, hand)
                     ArtifactsController.despawnArtifact(holder)
                 }
+
+                EventManager.callPlayerPostPickupArtifactsEvent(player.bukkitEntity as org.bukkit.entity.Player, cardHolder.artifact)
             }
         }
 

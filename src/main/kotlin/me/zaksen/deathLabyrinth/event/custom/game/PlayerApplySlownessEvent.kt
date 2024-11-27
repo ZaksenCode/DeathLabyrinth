@@ -6,6 +6,12 @@ import org.bukkit.event.Cancellable
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 
+/** The event that will be triggered when the player applies a slowness effect
+ *  @param player - The player who imposes the slowdown
+ *  @param entity - The entity to which the slowness was applied
+ *  @param duration - Slowness duration
+ *  @param amplifier - Slowness level (Should be in range 0-255)
+ */
 class PlayerApplySlownessEvent(
     val player: Player,
     val entity: LivingEntity,

@@ -6,7 +6,6 @@ import org.bukkit.event.Event
 import org.bukkit.inventory.ItemStack
 import java.util.UUID
 
-// TODO - Check artifacts working in multiplayer
 abstract class Artifact(val name: Component, val rarity: ArtifactRarity) {
     var count = 1
     val abilityContainer = AbilityContainer()

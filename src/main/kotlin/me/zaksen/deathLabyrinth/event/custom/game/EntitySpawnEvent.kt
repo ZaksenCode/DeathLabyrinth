@@ -5,6 +5,12 @@ import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 import org.bukkit.event.Cancellable
 
+/** Event that will be triggered when the entity is created
+ *  @param world - A world where an entity has been created
+ *  @param entity - The entity to be created
+ *  @param requireKill - Is it required to kill the entity in order to pass the room
+ *  @param debug - Value that indicates if the mode is running in test mode
+ */
 class EntitySpawnEvent(val world: World, var entity: net.minecraft.world.entity.Entity, var requireKill: Boolean, val debug: Boolean = false):
     Event(), Cancellable {
 

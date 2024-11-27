@@ -64,7 +64,7 @@ object EventManager {
         GameController.processAnyEvent(coolEvent)
         if (!coolEvent.isCancelled) {
             event.damage = coolEvent.damage
-            GameController.processEntityHit(coolEvent.entity)
+            GameController.processEntityHit(coolEvent.damaged)
         } else {
             event.isCancelled = true
         }
@@ -76,7 +76,7 @@ object EventManager {
         GameController.processAnyEvent(coolEvent)
         if (!coolEvent.isCancelled) {
             entity.damage(coolEvent.damage, coolEvent.player)
-            GameController.processEntityHit(coolEvent.entity)
+            GameController.processEntityHit(coolEvent.damaged)
         }
     }
 
@@ -243,6 +243,12 @@ object EventManager {
         if(!coolEvent.isCancelled) {
             ArtifactsController.processArtifactPickup(player, artifact)
         }
+    }
+
+    fun callPlayerPostPickupArtifactsEvent(player: Player, artifact: Artifact) {
+        val coolEvent = PlayerPostPickupArtifactEvent(player, artifact)
+        coolEvent.callEvent()
+        GameController.processAnyEvent(coolEvent)
     }
 
     fun callPlayerSummonExplosionEvent(
