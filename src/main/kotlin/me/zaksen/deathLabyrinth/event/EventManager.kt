@@ -93,8 +93,21 @@ object EventManager {
         val coolEvent = PlayerDamagedByEntityEvent(event.damager, event.entity as Player, event.damage)
         coolEvent.callEvent()
         GameController.processAnyEvent(coolEvent)
+
         if (coolEvent.isCancelled) {
             event.isCancelled = true
+        } else {
+            event.damage = coolEvent.damage
+        }
+    }
+
+    fun callPlayerDamagedByEntityEvent(damager: LivingEntity, player: Player, damage: Double) {
+        val coolEvent = PlayerDamagedByEntityEvent(damager, player, damage)
+        coolEvent.callEvent()
+        GameController.processAnyEvent(coolEvent)
+
+        if (!coolEvent.isCancelled) {
+            player.damage(coolEvent.damage, coolEvent.damager)
         }
     }
 

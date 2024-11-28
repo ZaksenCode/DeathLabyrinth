@@ -8,7 +8,6 @@ import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 
-// FIXME - Didn't work
 class HolyMantle: Artifact(
     "artifact.holy_mantle.name".asTranslate().color(TextColor.color(50,205,50)),
     ArtifactRarity.COMMON

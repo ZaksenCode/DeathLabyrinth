@@ -48,7 +48,7 @@ class FantomCape: Artifact(
             .customModel(113)
             .name(name)
             .loreLine("artifact.fantom_cape.lore.0".asTranslate(
-                "${5 * count}%".asText().color(TextColor.color(255,165,0))
+                "${(5 * count).coerceAtMost(50)}%".asText().color(TextColor.color(255,165,0))
             ))
     }
 }

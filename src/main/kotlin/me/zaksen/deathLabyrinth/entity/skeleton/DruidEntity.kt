@@ -2,6 +2,7 @@ package me.zaksen.deathLabyrinth.entity.skeleton
 
 import me.zaksen.deathLabyrinth.entity.difficulty.Scaleable
 import me.zaksen.deathLabyrinth.entity.difficulty.ScalingStrategies
+import me.zaksen.deathLabyrinth.entity.goal.ability.CastWindBallGoal
 import net.kyori.adventure.text.format.TextColor
 import net.minecraft.network.chat.Component
 import net.minecraft.world.entity.Entity
@@ -36,14 +37,10 @@ class DruidEntity(location: Location): Stray(EntityType.STRAY, (location.world a
 
     override fun registerGoals() {
         goalSelector.addGoal(0, FloatGoal(this))
-        goalSelector.addGoal(
-            1, AvoidEntityGoal(
-                this,
-                Player::class.java, 6.0f, 0.4, 0.6
-            )
-        )
-        goalSelector.addGoal(2, WaterAvoidingRandomStrollGoal(this, 1.0))
-        goalSelector.addGoal(3, LookAtPlayerGoal(this, Player::class.java, 3.0f, 1.0f))
+        goalSelector.addGoal(1, WaterAvoidingRandomStrollGoal(this, 1.0))
+        goalSelector.addGoal(2, LookAtPlayerGoal(this, Player::class.java, 12.0f, 1.0f))
+        goalSelector.addGoal(3, CastWindBallGoal(this, this.getAttribute(Attributes.ATTACK_DAMAGE)!!.baseValue, 1.0))
+        goalSelector.addGoal(4, AvoidEntityGoal(this, Player::class.java, 8.0f, 1.2, 1.8))
         targetSelector.addGoal(1, HurtByTargetGoal(this, *arrayOfNulls(0)))
         targetSelector.addGoal(
             2, NearestAttackableTargetGoal(
