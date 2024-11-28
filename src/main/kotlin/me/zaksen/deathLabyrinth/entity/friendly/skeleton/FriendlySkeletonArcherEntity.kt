@@ -1,6 +1,7 @@
 package me.zaksen.deathLabyrinth.entity.friendly.skeleton
 
 import me.zaksen.deathLabyrinth.entity.friendly.FriendlyEntity
+import me.zaksen.deathLabyrinth.entity.trader.Trader
 import net.kyori.adventure.text.format.TextColor
 import net.minecraft.network.chat.Component
 import net.minecraft.world.damagesource.DamageSource
@@ -52,7 +53,7 @@ class FriendlySkeletonArcherEntity(location: Location):
                 this,
                 LivingEntity::class.java, true
             ) {
-                it.isAlive && it !is Player && it !is FriendlyEntity
+                it.isAlive && it !is Player && it !is FriendlyEntity && it !is Trader
             }
         )
     }

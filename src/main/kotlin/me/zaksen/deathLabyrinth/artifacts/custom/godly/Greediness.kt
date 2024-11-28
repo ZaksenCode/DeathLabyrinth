@@ -2,12 +2,15 @@ package me.zaksen.deathLabyrinth.artifacts.custom.godly
 
 import me.zaksen.deathLabyrinth.artifacts.api.Artifact
 import me.zaksen.deathLabyrinth.artifacts.api.ArtifactRarity
+import me.zaksen.deathLabyrinth.entity.skeleton.NecromancerEntity
 import me.zaksen.deathLabyrinth.entity.trader.Trader
+import me.zaksen.deathLabyrinth.entity.villager.BlacksmithEntity
 import me.zaksen.deathLabyrinth.event.custom.game.EntitySpawnEvent
 import me.zaksen.deathLabyrinth.event.custom.game.PlayerRoomCompleteEvent
 import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.util.*
 import net.kyori.adventure.text.format.TextColor
+import net.minecraft.world.entity.Entity
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 
@@ -26,7 +29,7 @@ class Greediness: Artifact(
             for(i in 1..<2 * count) {
                 val entity = it.entity
 
-                if(entity is Trader) {
+                if(entity is Trader || entity is NecromancerEntity || entity is BlacksmithEntity) {
                     return@add
                 }
 

@@ -1,6 +1,7 @@
 package me.zaksen.deathLabyrinth.entity.friendly.wither
 
 import me.zaksen.deathLabyrinth.entity.friendly.FriendlyEntity
+import me.zaksen.deathLabyrinth.entity.trader.Trader
 import me.zaksen.deathLabyrinth.item.ItemsController
 import net.kyori.adventure.text.format.TextColor
 import net.minecraft.network.chat.Component
@@ -50,7 +51,7 @@ class FriendlyWitherSkeletonEntity(location: Location):
                 this,
                 LivingEntity::class.java, true
             ) {
-                it.isAlive && it !is Player && it !is FriendlyEntity
+                it.isAlive && it !is Player && it !is FriendlyEntity && it !is Trader
             }
         )
     }
