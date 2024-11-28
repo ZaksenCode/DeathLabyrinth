@@ -22,6 +22,7 @@ import me.zaksen.deathLabyrinth.util.*
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.*
 import org.bukkit.attribute.Attribute
+import org.bukkit.entity.Item
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.Event
@@ -52,6 +53,8 @@ object GameController {
     private var startCooldownTime: Short = 5
 
     private val hudController: HudController = HudController()
+
+    private var random: Random = Random(System.currentTimeMillis())
 
     private lateinit var potLootList: WeightedRandomList<ItemStack>
 
@@ -122,9 +125,16 @@ object GameController {
         TradeController.reload()
         ArtifactsStates.cache.clear()
 
+        val world = Bukkit.getWorld(configs.mainConfig().world)
+
+        world?.getEntitiesByClass(Item::class.java)?.forEach {
+            it.remove()
+        }
+
         fillEntrace()
 
         status = GameStatus.WAITING
+        random = Random(System.currentTimeMillis())
         Bukkit.getOnlinePlayers().forEach { join(it) }
     }
 
@@ -471,5 +481,10 @@ object GameController {
         if(playSound) {
             pos.world.playSound(pos, Sound.ENTITY_GENERIC_EXPLODE, SoundCategory.HOSTILE, 1.0f, 1.0f)
         }
+    }
+
+    fun checkChance(successChance: Int): Boolean {
+        val testedValue = random.nextInt(0, 100 + 1)
+        return testedValue <= successChance
     }
 }

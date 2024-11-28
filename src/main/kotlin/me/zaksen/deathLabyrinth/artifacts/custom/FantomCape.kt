@@ -3,6 +3,7 @@ package me.zaksen.deathLabyrinth.artifacts.custom
 import me.zaksen.deathLabyrinth.artifacts.api.Artifact
 import me.zaksen.deathLabyrinth.artifacts.api.ArtifactRarity
 import me.zaksen.deathLabyrinth.event.custom.game.PlayerDamagedByEntityEvent
+import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.util.*
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Material
@@ -23,10 +24,7 @@ class FantomCape: Artifact(
             if(it !is PlayerDamagedByEntityEvent) return@add
             if(it.damaged.uniqueId != ownerUuid) return@add
 
-            val tryChance = random.nextInt(0, 100)
-            val successChance = (5 * count).coerceAtMost(50)
-
-            if(tryChance <= successChance) {
+            if(GameController.checkChance((5 * count).coerceAtMost(50))) {
                 it.isCancelled = true
 
                 it.damaged.addPotionEffect(PotionEffect(

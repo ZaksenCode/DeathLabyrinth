@@ -2,6 +2,7 @@ package me.zaksen.deathLabyrinth.item.ability.weapon
 
 import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.event.item.ItemHitEvent
+import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.item.ability.ItemAbility
 import net.kyori.adventure.text.Component
 import org.bukkit.attribute.Attribute
@@ -19,14 +20,11 @@ class NarwhalPunch: ItemAbility(
 
     override fun invoke(event: Event) {
         if(event !is ItemHitEvent) return
-
         val damaged = event.damaged
-
         if(damaged !is LivingEntity) return
-
         val halfHealth = damaged.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.baseValue!! / 2
 
-        if(damaged.health <= halfHealth && random.nextInt(0, 100) <= 15) {
+        if(damaged.health <= halfHealth && GameController.checkChance(15)) {
             EventManager.callPlayerDamageEntityEvent(event.damager as Player, damaged, damaged.health)
         }
     }

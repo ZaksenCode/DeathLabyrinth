@@ -4,6 +4,7 @@ import me.zaksen.deathLabyrinth.artifacts.api.Artifact
 import me.zaksen.deathLabyrinth.artifacts.api.ArtifactRarity
 import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.event.custom.game.PlayerKillEntityEvent
+import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.util.*
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Material
@@ -23,10 +24,8 @@ class LittleBomb: Artifact(
             if(it.player == null) return@add
             if(it.player.uniqueId != ownerUuid) return@add
 
-            val explodeChance = (10 + (5 * count)).coerceAtMost(100)
-
-            if(random.nextInt(0, 100) <= explodeChance) {
-                EventManager.callPlayerSummonExplosionEvent(it.player, it.entity.location, 3.5, 15.0)
+            if(GameController.checkChance((10 + (5 * count)).coerceAtMost(100))) {
+                EventManager.callPlayerSummonExplosionEvent(it.player, it.entity.location, 3.5, 25.0)
             }
         }
     }
