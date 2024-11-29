@@ -5,5 +5,6 @@ enum class ItemType {
     WEAPON,
     CONSUMABLE,
     DRINK_INGREDIENT,
-    MISC
+    MISC,
+    ACCESSORY
 }

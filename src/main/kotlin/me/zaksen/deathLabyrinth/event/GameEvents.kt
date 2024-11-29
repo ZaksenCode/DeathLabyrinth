@@ -17,7 +17,6 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.block.Action
 import org.bukkit.event.block.BlockBreakEvent
-import org.bukkit.event.block.BlockDamageEvent
 import org.bukkit.event.block.BlockExplodeEvent
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.entity.EntityChangeBlockEvent
@@ -26,6 +25,7 @@ import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.entity.EntityDeathEvent
 import org.bukkit.event.entity.EntityExplodeEvent
 import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerInteractEvent
@@ -202,11 +202,21 @@ class GameEvents(private val config: MainConfig): Listener {
     }
 
     @EventHandler
-    fun openArtifactsMenu(event: InventoryClickEvent) {
-        if(event.clickedInventory is CraftInventoryPlayer && event.slot == 17 && event.slotType == InventoryType.SlotType.CONTAINER) {
-            val data = GameController.players[event.whoClicked as Player] ?: return
-            Menus.artifactsMenu(event.whoClicked as Player, data.artifacts)
-            event.isCancelled = true
+    fun openMenusFromInventory(event: InventoryClickEvent) {
+        if(event.clickedInventory is CraftInventoryPlayer && event.slotType == InventoryType.SlotType.CONTAINER) {
+            when(event.slot) {
+                17 -> {
+                    event.isCancelled = true
+                    event.whoClicked.closeInventory(InventoryCloseEvent.Reason.OPEN_NEW)
+                    val data = GameController.players[event.whoClicked as Player] ?: return
+                    Menus.artifactsMenu(event.whoClicked as Player, data.artifacts)
+                }
+                26 -> {
+                    event.isCancelled = true
+                    event.whoClicked.closeInventory(InventoryCloseEvent.Reason.OPEN_NEW)
+                    Menus.accessoryMenu(event.whoClicked as Player)
+                }
+            }
         }
     }
 }

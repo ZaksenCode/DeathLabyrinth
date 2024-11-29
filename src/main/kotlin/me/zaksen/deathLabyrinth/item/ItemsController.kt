@@ -3,6 +3,7 @@ package me.zaksen.deathLabyrinth.item
 import me.zaksen.deathLabyrinth.damage.DamageType
 import me.zaksen.deathLabyrinth.entity.trader.TraderType
 import me.zaksen.deathLabyrinth.game.GameController
+import me.zaksen.deathLabyrinth.item.accessory.accessories.AmuletOfGreed
 import me.zaksen.deathLabyrinth.item.gear.armor.ArmorItem
 import me.zaksen.deathLabyrinth.item.settings.ItemSettings
 import me.zaksen.deathLabyrinth.item.items.consume.*
@@ -530,6 +531,8 @@ object ItemsController {
             .addAviableTrader(TraderType.ARMOR)
             .quality(ItemQuality.RARE)
         ))
+
+        register("amulet_of_greed", AmuletOfGreed())
 
         loadPotLoot()
     }

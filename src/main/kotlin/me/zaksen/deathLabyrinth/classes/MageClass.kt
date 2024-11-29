@@ -1,16 +1,13 @@
 package me.zaksen.deathLabyrinth.classes
 
 import me.zaksen.deathLabyrinth.data.PlayerData
+import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.item.ItemsController
 import me.zaksen.deathLabyrinth.item.weapon.WeaponType
 import me.zaksen.deathLabyrinth.util.asTranslate
-import me.zaksen.deathLabyrinth.util.customModel
-import me.zaksen.deathLabyrinth.util.name
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextColor
-import org.bukkit.Material
 import org.bukkit.entity.Player
-import org.bukkit.inventory.ItemStack
 import kotlin.random.Random
 
 class MageClass : PlayerClass {
@@ -37,9 +34,7 @@ class MageClass : PlayerClass {
         }
         player.inventory.addItem(ItemsController.get("heal_potion")!!.asItemStack())
 
-        player.inventory.setItem(17, ItemStack(Material.PAPER).name(
-            "ui.artifacts.name".asTranslate().color(TextColor.color(240,128,128))
-        ).customModel(100))
+        GameController.setupInvButtons(player)
     }
 
 }

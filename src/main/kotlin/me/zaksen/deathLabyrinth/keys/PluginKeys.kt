@@ -19,6 +19,9 @@ object PluginKeys {
 
     lateinit var customItemAbilitiesKey: NamespacedKey
 
+    // ACCESSORIES
+    lateinit var accessorySlotKey: NamespacedKey
+
     // ARMOR
     lateinit var armorHelmetModifierKey: NamespacedKey
     lateinit var armorChestplateModifierKey: NamespacedKey
@@ -53,6 +56,11 @@ object PluginKeys {
         maxHealthModifierKey = NamespacedKey(plugin, "max_health_modifier")
 
         customItemAbilitiesKey = NamespacedKey(plugin, "custom_item_abilities")
+
+
+        // ACCESSORIES
+
+        accessorySlotKey = NamespacedKey(plugin, "accessory_slot")
 
         // ARMOR
 

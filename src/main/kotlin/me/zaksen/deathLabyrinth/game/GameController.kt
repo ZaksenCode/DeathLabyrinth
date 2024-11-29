@@ -85,7 +85,7 @@ object GameController {
     }
 
     fun getRandomPotLoot(): ItemStack {
-        return potLootList.random()!!
+        return potLootList.random()!!.clone()
     }
 
     fun getStatus(): GameStatus {
@@ -201,10 +201,19 @@ object GameController {
             "item.not_ready.name".asTranslate().color(TextColor.color(240,128,128))
         ).customModel(200))
 
+        setupInvButtons(player)
+    }
+
+    fun setupInvButtons(player: Player) {
         player.inventory.setItem(17, ItemStack(Material.PAPER).name(
-            "ui.artifacts.name".asTranslate().color(TextColor.color(240,128,128))
+            "ui.artifacts.name".asTranslate().color(TextColor.color(124,242,80))
+        ).customModel(100))
+
+        player.inventory.setItem(26, ItemStack(Material.PAPER).name(
+            "ui.accessories.name".asTranslate().color(TextColor.color(124,242,80))
         ).customModel(100))
     }
+
 
     fun leave(player: Player) {
         // FIXME - Probably didn't remove player (not sure)
@@ -419,6 +428,7 @@ object GameController {
             player.value.artifacts.forEach {
                 it.processAnyEvent(event)
             }
+            player.value.accessories.processAccessories(event, player.key)
         }
     }
 

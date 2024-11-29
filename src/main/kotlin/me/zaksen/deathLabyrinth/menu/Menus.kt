@@ -13,7 +13,6 @@ import me.zaksen.deathLabyrinth.keys.PluginKeys
 import me.zaksen.deathLabyrinth.menu.item.*
 import me.zaksen.deathLabyrinth.menu.item.util.NextPageItem
 import me.zaksen.deathLabyrinth.menu.item.util.PreviousPageItem
-import me.zaksen.deathLabyrinth.trading.TradeOffer
 import me.zaksen.deathLabyrinth.util.*
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.format.TextColor
@@ -298,6 +297,31 @@ object Menus {
         val window: Window = Window.single()
             .setViewer(player)
             .setTitle("ui.necromancer_menu.title".asTranslate().color(TextColor.color(255, 255, 255)).font(Key.key("dl:menus")).toWrapper())
+            .setGui(gui)
+            .build()
+
+        window.open()
+    }
+
+    fun accessoryMenu(player: Player) {
+        val data = GameController.players[player] ?: return
+
+        val gui = Gui.normal()
+            .setStructure(
+                ". . . . . . . . .",
+                ". A . B . C D E .",
+                ". . . . . . . . ."
+            )
+            .addIngredient('A', AccessorySlotItem(10, data).setItemAndCheck(data.accessories.items[10]))
+            .addIngredient('B', AccessorySlotItem(12, data).setItemAndCheck(data.accessories.items[12]))
+            .addIngredient('C', AccessorySlotItem(14, data).setItemAndCheck(data.accessories.items[14]))
+            .addIngredient('D', AccessorySlotItem(15, data).setItemAndCheck(data.accessories.items[15]))
+            .addIngredient('E', AccessorySlotItem(16, data).setItemAndCheck(data.accessories.items[16]))
+            .build()
+
+        val window: Window = Window.single()
+            .setViewer(player)
+            .setTitle("ui.accessory.title".asTranslate().color(TextColor.color(255, 255, 255)).font(Key.key("dl:menus")).toWrapper())
             .setGui(gui)
             .build()
 
