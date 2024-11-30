@@ -10,6 +10,7 @@ import me.zaksen.deathLabyrinth.entity.trader.TraderType
 import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.event.custom.game.PlayerBreakPotEvent
 import me.zaksen.deathLabyrinth.game.hud.HudController
+import me.zaksen.deathLabyrinth.game.pot.PotEntry
 import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.item.ItemsController
 import me.zaksen.deathLabyrinth.keys.PluginKeys
@@ -56,7 +57,7 @@ object GameController {
 
     private var random: Random = Random(System.currentTimeMillis())
 
-    private lateinit var potLootList: WeightedRandomList<ItemStack>
+    private lateinit var potLootList: WeightedRandomList<PotEntry>
 
     private val shieldRemovingTask: Timer = timer(period = 500) {
         players.forEach {
@@ -80,12 +81,12 @@ object GameController {
         }
     }
 
-    fun initPotLootList(list: WeightedRandomList<ItemStack>) {
+    fun initPotLootList(list: WeightedRandomList<PotEntry>) {
         potLootList = list
     }
 
-    fun getRandomPotLoot(): ItemStack {
-        return potLootList.random()!!.clone()
+    fun getRandomPotLoot(): PotEntry {
+        return potLootList.random()!!
     }
 
     fun getStatus(): GameStatus {
@@ -420,7 +421,7 @@ object GameController {
     }
 
     fun processPotBreaking(event: PlayerBreakPotEvent) {
-        event.decoratedPot.location.world.dropItemNaturally(event.decoratedPot.location, event.output)
+        event.decoratedPot.location.world.dropItemNaturally(event.decoratedPot.location, event.output.stack)
     }
 
     fun processAnyEvent(event: Event) {

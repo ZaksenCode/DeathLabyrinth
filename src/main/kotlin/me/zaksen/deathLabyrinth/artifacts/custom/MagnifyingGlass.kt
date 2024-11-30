@@ -21,7 +21,9 @@ class MagnifyingGlass: Artifact(
                 if(event !is PlayerBreakPotEvent) return
                 if(event.player.uniqueId != ownerUuid) return
 
-                event.output.add(count)
+                if(event.output.isStackable) {
+                    event.output.stack.add(count)
+                }
             }
         })
     }

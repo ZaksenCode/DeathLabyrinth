@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.event.custom.game
 
+import me.zaksen.deathLabyrinth.game.pot.PotEntry
 import org.bukkit.block.Block
 import org.bukkit.entity.Player
 import org.bukkit.event.Event
@@ -11,7 +12,7 @@ import org.bukkit.inventory.ItemStack
  *  @param decoratedPot - Pot block
  *  @param output - The item that falls out of the pot
  */
-class PlayerBreakPotEvent(val player: Player, val decoratedPot: Block, var output: ItemStack): Event() {
+class PlayerBreakPotEvent(val player: Player, val decoratedPot: Block, var output: PotEntry): Event() {
     override fun getHandlers(): HandlerList = HANDLER_LIST
 
     companion object {

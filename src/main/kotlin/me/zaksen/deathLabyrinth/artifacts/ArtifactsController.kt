@@ -12,6 +12,7 @@ import me.zaksen.deathLabyrinth.entity.item_display.ArtifactsCardIcon
 import me.zaksen.deathLabyrinth.entity.text_display.ArtifactsCardName
 import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.util.WeightedRandomList
+import net.minecraft.world.phys.Vec3
 import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.craftbukkit.entity.CraftEntity
@@ -150,5 +151,17 @@ object ArtifactsController {
 
     fun getRandomArtifact(rarity: ArtifactRarity = rarityList.random()!!): Artifact {
         return artifacts.map { it.value.getDeclaredConstructor().newInstance() }.filter { it.rarity == rarity }.random()
+    }
+
+    fun getWorldArtifacts(location: Location, distance: Int): List<CardHolder> {
+        val result = mutableListOf<CardHolder>()
+
+        summonedCards.forEach {
+            if(it.key.position().distanceTo(Vec3(location.x, location.y, location.z)) <= distance) {
+                result.add(it.value)
+            }
+        }
+
+        return result
     }
 }

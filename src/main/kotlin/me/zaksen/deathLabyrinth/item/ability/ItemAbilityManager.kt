@@ -97,7 +97,7 @@ object ItemAbilityManager {
         // Consume
         abilityMap["heal_effect"] = HealEffect()
         abilityMap["small_heal_effect"] = SmallHealEffect()
-
+        abilityMap["duplicate_artifacts"] = DuplicateArtifacts()
     }
 
     fun useStackAbilities(stack: ItemStack, event: Event) {

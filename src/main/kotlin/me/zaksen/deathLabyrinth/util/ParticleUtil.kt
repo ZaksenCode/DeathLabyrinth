@@ -1,15 +1,13 @@
 package me.zaksen.deathLabyrinth.util
 
-import io.papermc.paper.math.BlockPosition
-import net.minecraft.core.BlockPos
-import net.minecraft.world.level.block.SculkBlock
-import net.minecraft.world.level.block.SculkSensorBlock
-import net.minecraft.world.level.gameevent.BlockPositionSource
-import net.minecraft.world.level.gameevent.vibrations.VibrationInfo
+import org.bukkit.Color
 import org.bukkit.Location
 import org.bukkit.Particle
+import org.bukkit.Particle.DustOptions
 import org.bukkit.Vibration
 import org.bukkit.util.Vector
+import kotlin.math.cos
+import kotlin.math.sin
 import kotlin.random.Random
 
 fun Location.particleLine(particle: Particle, to: Location, space: Double = 0.2, offset: Double = 0.0) {
@@ -61,4 +59,15 @@ fun launchVibration(ticks: Int = 20, firstPos: Location, secondPos: Location, co
         count,
         Vibration(endingPos, ticks)
     )
+}
+
+fun drawCircle(particle: Particle = Particle.DUST, location: Location, size: Int, color: Color = Color.WHITE, particleSize: Float = 5f) {
+    var d = 0
+    while (d <= 90) {
+        val particleLoc = Location(location.world, location.x, location.y, location.z)
+        particleLoc.x = location.x + cos(d.toDouble()) * size
+        particleLoc.z = location.z + sin(d.toDouble()) * size
+        location.world.spawnParticle<DustOptions>(particle, particleLoc, 1, DustOptions(color, particleSize))
+        d += 1
+    }
 }

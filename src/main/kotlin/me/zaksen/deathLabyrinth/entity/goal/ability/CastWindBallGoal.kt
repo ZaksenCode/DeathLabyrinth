@@ -11,14 +11,14 @@ import org.bukkit.Location
 import org.bukkit.World
 import org.joml.Quaternionf
 
-class CastWindBallGoal(mob: Mob, private val damage: Double, private val range: Double,): AbilityGoal(mob, 1) {
+class CastWindBallGoal(mob: Mob, private val damage: Double, private val range: Double): AbilityGoal(mob, 1) {
 
     override fun useAbility() {
         if(mob.target == null) return
 
         val world = mob.level().world
 
-        val players = world.getNearbyPlayers(mob.position().toLocation(world), 20.0).sortedBy {
+        val players = world.getNearbyPlayers(mob.position().toLocation(world), 24.0).sortedBy {
             it.location.distance(mob.position().toLocation(world))
         }
 

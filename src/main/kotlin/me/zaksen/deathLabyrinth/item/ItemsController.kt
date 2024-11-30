@@ -3,7 +3,8 @@ package me.zaksen.deathLabyrinth.item
 import me.zaksen.deathLabyrinth.damage.DamageType
 import me.zaksen.deathLabyrinth.entity.trader.TraderType
 import me.zaksen.deathLabyrinth.game.GameController
-import me.zaksen.deathLabyrinth.item.accessory.accessories.AmuletOfGreed
+import me.zaksen.deathLabyrinth.game.pot.PotEntry
+import me.zaksen.deathLabyrinth.item.accessory.accessories.*
 import me.zaksen.deathLabyrinth.item.gear.armor.ArmorItem
 import me.zaksen.deathLabyrinth.item.settings.ItemSettings
 import me.zaksen.deathLabyrinth.item.items.consume.*
@@ -341,6 +342,7 @@ object ItemsController {
 
         register("heal_potion", HealPotion("heal_potion"))
         register("small_heal_potion", SmallHealPotion("small_heal_potion"))
+        register("madmans_potion", MadmansPotion("madmans_potion"))
 
         register("bottle", CustomItem("bottle", ItemType.MISC,
             ItemSettings(Material.GLASS_BOTTLE)
@@ -533,6 +535,10 @@ object ItemsController {
         ))
 
         register("amulet_of_greed", AmuletOfGreed())
+        register("speedsters_amulet", SpeedstersAmulet())
+        register("scoundrels_amulet", ScoundrelsAmulet())
+        register("brave_mans_amulet", BraveMansAmulet())
+        register("amulet_of_poverty", AmuletOfPoverty())
 
         loadPotLoot()
     }
@@ -542,12 +548,23 @@ object ItemsController {
     }
 
     private fun loadPotLoot() {
-        val potLoot = WeightedRandomList<ItemStack>()
+        val potLoot = WeightedRandomList<PotEntry>()
 
-        potLoot.addEntry(itemsMap["small_heal_potion"]!!.asItemStack(), 1.0)
-        potLoot.addEntry(itemsMap["bone"]!!.asItemStack(), 1.0)
-        potLoot.addEntry(itemsMap["flesh"]!!.asItemStack(), 1.0)
-        potLoot.addEntry(itemsMap["gunpowder"]!!.asItemStack(), 1.0)
+        potLoot.addEntry(PotEntry(itemsMap["small_heal_potion"]!!.asItemStack()), 0.8)
+        potLoot.addEntry(PotEntry(itemsMap["heal_potion"]!!.asItemStack()), 0.5)
+        potLoot.addEntry(PotEntry(itemsMap["bone"]!!.asItemStack(), true), 1.0)
+        potLoot.addEntry(PotEntry(itemsMap["flesh"]!!.asItemStack(), true), 1.0)
+        potLoot.addEntry(PotEntry(itemsMap["gunpowder"]!!.asItemStack(), true), 1.0)
+
+        // Accessories
+        potLoot.addEntry(PotEntry(itemsMap["amulet_of_greed"]!!.asItemStack()), 0.1)
+        potLoot.addEntry(PotEntry(itemsMap["speedsters_amulet"]!!.asItemStack()), 0.1)
+        potLoot.addEntry(PotEntry(itemsMap["scoundrels_amulet"]!!.asItemStack()), 0.1)
+        potLoot.addEntry(PotEntry(itemsMap["brave_mans_amulet"]!!.asItemStack()), 0.1)
+        potLoot.addEntry(PotEntry(itemsMap["amulet_of_poverty"]!!.asItemStack()), 0.1)
+
+        // Other
+        potLoot.addEntry(PotEntry(itemsMap["madmans_potion"]!!.asItemStack()), 0.05)
 
         GameController.initPotLootList(potLoot)
     }

@@ -34,7 +34,7 @@ class ItemOffer(
     override fun sell(player: Player) {
         val playerData = GameController.players[player] ?: return
 
-        if(player.removeItem(this.stack) && this.count >= 1) {
+        if(this.count >= 1 && player.removeItem(this.stack)) {
             playerData.money += this.price
             GameController.players[player] = playerData
             this.count--
