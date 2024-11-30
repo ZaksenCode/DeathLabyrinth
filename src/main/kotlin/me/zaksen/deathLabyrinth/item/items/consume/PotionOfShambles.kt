@@ -8,11 +8,11 @@ import me.zaksen.deathLabyrinth.util.asTranslate
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Material
 
-class MadmansPotion(id: String): CustomItem(id, ItemType.CONSUMABLE,
+class PotionOfShambles(id: String): CustomItem(id, ItemType.CONSUMABLE,
     ItemSettings(Material.HONEY_BOTTLE)
-        .customModel(100)
-        .displayName("item.madmans_potion.name".asTranslate().color(TextColor.color(255,20,147)))
-        .quality(ItemQuality.EPIC)
-        .tradePrice(200)
-        .ability("duplicate_artifacts")
+        .customModel(101)
+        .displayName("item.potion_of_shambles.name".asTranslate().color(TextColor.color(255,20,147)))
+        .quality(ItemQuality.RARE)
+        .tradePrice(150)
+        .ability("change_artifacts")
 )

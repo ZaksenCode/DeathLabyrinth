@@ -12,14 +12,14 @@ import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.ai.goal.*
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
-import net.minecraft.world.entity.monster.Stray
+import net.minecraft.world.entity.monster.Bogged
 import net.minecraft.world.entity.player.Player
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
 import org.bukkit.Location
 import org.bukkit.craftbukkit.CraftWorld
 
-class DruidEntity(location: Location): Stray(EntityType.STRAY, (location.world as CraftWorld).handle), Scaleable {
+class DruidEntity(location: Location): Bogged(EntityType.BOGGED, (location.world as CraftWorld).handle), Scaleable {
 
     init {
         this.getAttribute(Attributes.MAX_HEALTH)?.baseValue = defaultMaxHealth

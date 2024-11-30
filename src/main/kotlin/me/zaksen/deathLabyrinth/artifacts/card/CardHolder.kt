@@ -8,19 +8,22 @@ import me.zaksen.deathLabyrinth.entity.text_display.ArtifactsCardName
 import me.zaksen.deathLabyrinth.util.tryAddEntity
 import net.kyori.adventure.key.Key
 import net.kyori.adventure.sound.Sound
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
+import net.minecraft.network.chat.Component
 import org.bukkit.Particle
 import org.bukkit.World
+import org.bukkit.craftbukkit.inventory.CraftItemStack
 
 class CardHolder(
-    val artifact: Artifact,
+    var artifact: Artifact,
     val cardEntity: ArtifactsCard,
-    val artifactEntity: ArtifactsCardIcon,
+    val cardIconEntity: ArtifactsCardIcon,
     val artifactsCardName: ArtifactsCardName,
     val artifactsCardHitbox: ArtifactsCardHitbox
 ) {
     fun summon(world: World) {
         world.tryAddEntity(cardEntity)
-        world.tryAddEntity(artifactEntity)
+        world.tryAddEntity(cardIconEntity)
         world.tryAddEntity(artifactsCardName)
         world.tryAddEntity(artifactsCardHitbox)
     }
@@ -47,7 +50,7 @@ class CardHolder(
         )
 
         cardEntity.discard()
-        artifactEntity.discard()
+        cardIconEntity.discard()
         artifactsCardName.discard()
         artifactsCardHitbox.discard()
     }
@@ -58,5 +61,11 @@ class CardHolder(
 
     fun deHighlight() {
         cardEntity.deHighlight()
+    }
+
+    fun changeArtifact(artifact: Artifact) {
+        this.artifact = artifact
+        cardIconEntity.itemStack = CraftItemStack.asNMSCopy(artifact.asItemStack())
+        artifactsCardName.text = Component.translatable(PlainTextComponentSerializer.plainText().serialize(artifact.name))
     }
 }

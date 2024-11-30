@@ -335,6 +335,7 @@ object GameController {
         status = GameStatus.GAME_END
 
         "ui.game.win".asTranslate().color(TextColor.color(50,205,50)).broadcastTitle()
+
         reload()
     }
 
@@ -342,6 +343,7 @@ object GameController {
         status = GameStatus.GAME_END
 
         "ui.game.lose".asTranslate().color(TextColor.color(220,20,60)).broadcastTitle()
+
         reload()
     }
 
@@ -421,6 +423,7 @@ object GameController {
     }
 
     fun processPotBreaking(event: PlayerBreakPotEvent) {
+        println("Try to spawn: ${event.output.stack.itemMeta.itemName()}")
         event.decoratedPot.location.world.dropItemNaturally(event.decoratedPot.location, event.output.stack)
     }
 
