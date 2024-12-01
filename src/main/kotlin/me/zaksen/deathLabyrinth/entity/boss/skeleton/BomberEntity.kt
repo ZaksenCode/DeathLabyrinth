@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.entity.boss.skeleton
 
+import me.zaksen.deathLabyrinth.entity.EnemyMarketable
 import me.zaksen.deathLabyrinth.entity.difficulty.Scaleable
 import me.zaksen.deathLabyrinth.entity.difficulty.ScalingStrategies
 import me.zaksen.deathLabyrinth.entity.goal.ability.BomberAbilityGoal
@@ -13,6 +14,7 @@ import net.minecraft.world.damagesource.DamageSource
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.EquipmentSlot
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal
@@ -54,8 +56,11 @@ class BomberEntity(location: Location): Skeleton(EntityType.SKELETON, (location.
         targetSelector.addGoal(
             2, NearestAttackableTargetGoal(
                 this,
-                Player::class.java, true
-            )
+                LivingEntity::class.java,
+                true
+            ) {
+                it is Player || it is EnemyMarketable
+            }
         )
     }
 

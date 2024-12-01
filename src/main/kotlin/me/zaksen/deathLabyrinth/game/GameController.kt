@@ -8,6 +8,7 @@ import me.zaksen.deathLabyrinth.data.PlayerData
 import me.zaksen.deathLabyrinth.entity.friendly.FriendlyEntity
 import me.zaksen.deathLabyrinth.entity.trader.TraderType
 import me.zaksen.deathLabyrinth.event.EventManager
+import me.zaksen.deathLabyrinth.event.custom.WorldTickEvent
 import me.zaksen.deathLabyrinth.event.custom.game.PlayerBreakPotEvent
 import me.zaksen.deathLabyrinth.game.hud.HudController
 import me.zaksen.deathLabyrinth.game.pot.PotEntry
@@ -16,6 +17,7 @@ import me.zaksen.deathLabyrinth.item.ItemsController
 import me.zaksen.deathLabyrinth.keys.PluginKeys
 import me.zaksen.deathLabyrinth.keys.PluginKeys.maxHealthModifierKey
 import me.zaksen.deathLabyrinth.keys.PluginKeys.speedModifierKey
+import me.zaksen.deathLabyrinth.keys.PluginKeys.speedModifierShacklesKey
 import me.zaksen.deathLabyrinth.menu.Menus
 import me.zaksen.deathLabyrinth.trading.ItemOffer
 import me.zaksen.deathLabyrinth.trading.TradeOffer
@@ -86,7 +88,8 @@ object GameController {
     }
 
     fun getRandomPotLoot(): PotEntry {
-        return potLootList.random()!!
+        val entry = potLootList.random()!!
+        return PotEntry(entry.stack.clone(), entry.isStackable)
     }
 
     fun getStatus(): GameStatus {
@@ -171,6 +174,7 @@ object GameController {
 
     private fun clearAttributeModifier(player: Player) {
         player.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.removeModifier(speedModifierKey)
+        player.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED)?.removeModifier(speedModifierShacklesKey)
         player.getAttribute(Attribute.GENERIC_MAX_HEALTH)?.removeModifier(maxHealthModifierKey)
     }
 
@@ -423,7 +427,7 @@ object GameController {
     }
 
     fun processPotBreaking(event: PlayerBreakPotEvent) {
-        println("Try to spawn: ${event.output.stack.itemMeta.itemName()}")
+        println("Try to spawn: ${event.output.stack}")
         event.decoratedPot.location.world.dropItemNaturally(event.decoratedPot.location, event.output.stack)
     }
 

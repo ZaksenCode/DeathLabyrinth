@@ -81,6 +81,8 @@ object ArtifactsController {
         artifacts["red_jar"] = RedJar::class.java
         artifacts["snowflake"] = Snowflake::class.java
         artifacts["holy_mantle"] = HolyMantle::class.java
+        artifacts["spikeball"] = SpikeBall::class.java
+        artifacts["shackles"] = Shackles::class.java
 
         // RARE
         artifacts["rusty_dagger"] = RustyDagger::class.java
@@ -92,6 +94,7 @@ object ArtifactsController {
         artifacts["token"] = Token::class.java
         artifacts["fantom_cape"] = FantomCape::class.java
         artifacts["magnifying_glass"] = MagnifyingGlass::class.java
+        artifacts["jar_of_slime"] = JarOfSlime::class.java
 
         // EPIC
         artifacts["mossy_skull"] = MossySkull::class.java
@@ -99,6 +102,7 @@ object ArtifactsController {
         artifacts["little_bomb"] = LittleBomb::class.java
         artifacts["totem_of_undying"] = TotemOfUndying::class.java
         artifacts["vampire_fangs"] = VampireFangs::class.java
+        artifacts["divine_orb"] = DivineOrb::class.java
 
         // GODLY
         artifacts["greediness"] = Greediness::class.java

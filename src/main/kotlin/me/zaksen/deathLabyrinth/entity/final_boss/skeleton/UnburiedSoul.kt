@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.entity.final_boss.skeleton
 
+import me.zaksen.deathLabyrinth.entity.EnemyMarketable
 import me.zaksen.deathLabyrinth.entity.difficulty.Scaleable
 import me.zaksen.deathLabyrinth.entity.difficulty.ScalingStrategies
 import me.zaksen.deathLabyrinth.entity.goal.ability.*
@@ -7,6 +8,7 @@ import net.kyori.adventure.text.format.TextColor
 import net.minecraft.network.chat.Component
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal
@@ -39,9 +41,11 @@ class UnburiedSoul(location: Location): Stray(EntityType.STRAY, (location.world 
         targetSelector.addGoal(
             2, NearestAttackableTargetGoal(
                 this,
-                Player::class.java,
+                LivingEntity::class.java,
                 true
-            )
+            ) {
+                it is Player || it is EnemyMarketable
+            }
         )
     }
 

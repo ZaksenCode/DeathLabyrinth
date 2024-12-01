@@ -61,7 +61,7 @@ fun launchVibration(ticks: Int = 20, firstPos: Location, secondPos: Location, co
     )
 }
 
-fun drawCircle(particle: Particle = Particle.DUST, location: Location, size: Int, color: Color = Color.WHITE, particleSize: Float = 5f) {
+fun drawCircle(particle: Particle = Particle.DUST, location: Location, size: Double, color: Color = Color.WHITE, particleSize: Float = 5f) {
     var d = 0
     while (d <= 90) {
         val particleLoc = Location(location.world, location.x, location.y, location.z)

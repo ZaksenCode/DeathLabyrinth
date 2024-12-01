@@ -22,7 +22,7 @@ class StunPlayersGoal(mob: Mob): AbilityGoal(mob, 15) {
             4
         ))
 
-        drawCircle(location = Location(world, mob.x, mob.y + 1.25, mob.z), size = 14)
+        drawCircle(location = Location(world, mob.x, mob.y + 1.25, mob.z), size = 14.0)
 
         val players = mob.level().world.getNearbyPlayers(Location(world, mob.x, mob.y, mob.z), 48.0).filter {
             mob.position().distanceTo(Vec3(it.x, it.y, it.z)) > 14.0

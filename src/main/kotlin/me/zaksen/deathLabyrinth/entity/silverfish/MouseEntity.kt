@@ -1,11 +1,13 @@
 package me.zaksen.deathLabyrinth.entity.silverfish
 
+import me.zaksen.deathLabyrinth.entity.EnemyMarketable
 import me.zaksen.deathLabyrinth.entity.difficulty.Scaleable
 import me.zaksen.deathLabyrinth.entity.difficulty.ScalingStrategies
 import net.kyori.adventure.text.format.TextColor
 import net.minecraft.network.chat.Component
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.ai.goal.FloatGoal
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal
@@ -40,10 +42,12 @@ class MouseEntity(location: Location): Silverfish(EntityType.SILVERFISH, (locati
         targetSelector.addGoal(
             2, NearestAttackableTargetGoal(
                 this,
-                Player::class.java, true
-            )
+                LivingEntity::class.java,
+                true
+            ) {
+                it is Player || it is EnemyMarketable
+            }
         )
-
     }
 
     override fun checkDespawn() { }

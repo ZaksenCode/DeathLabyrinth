@@ -1,8 +1,11 @@
 package me.zaksen.deathLabyrinth.event
 
+import com.destroystokyo.paper.event.server.ServerTickStartEvent
 import me.zaksen.deathLabyrinth.config.MainConfig
 import me.zaksen.deathLabyrinth.entity.friendly.FriendlyEntity
+import me.zaksen.deathLabyrinth.event.custom.WorldTickEvent
 import me.zaksen.deathLabyrinth.game.GameController
+import me.zaksen.deathLabyrinth.game.GameController.processAnyEvent
 import me.zaksen.deathLabyrinth.game.GameStatus
 import me.zaksen.deathLabyrinth.menu.Menus
 import org.bukkit.Bukkit
@@ -218,5 +221,12 @@ class GameEvents(private val config: MainConfig): Listener {
                 }
             }
         }
+    }
+
+    @EventHandler
+    fun worldTickEvent(event: ServerTickStartEvent) {
+        val coolEvent = WorldTickEvent()
+        coolEvent.callEvent()
+        processAnyEvent(coolEvent)
     }
 }

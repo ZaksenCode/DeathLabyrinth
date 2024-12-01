@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.entity.husk
 
+import me.zaksen.deathLabyrinth.entity.EnemyMarketable
 import me.zaksen.deathLabyrinth.entity.difficulty.Scaleable
 import me.zaksen.deathLabyrinth.entity.difficulty.ScalingStrategies
 import me.zaksen.deathLabyrinth.item.ItemsController
@@ -8,6 +9,7 @@ import net.minecraft.network.chat.Component
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.EntityType
 import net.minecraft.world.entity.EquipmentSlot
+import net.minecraft.world.entity.LivingEntity
 import net.minecraft.world.entity.ai.attributes.Attributes
 import net.minecraft.world.entity.ai.goal.FloatGoal
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal
@@ -46,8 +48,11 @@ class DeceasedEntity(location: Location): Husk(EntityType.HUSK, (location.getWor
         targetSelector.addGoal(
             2, NearestAttackableTargetGoal(
                 this,
-                Player::class.java, true
-            )
+                LivingEntity::class.java,
+                true
+            ) {
+                it is Player || it is EnemyMarketable
+            }
         )
     }
 
