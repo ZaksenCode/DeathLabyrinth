@@ -10,9 +10,10 @@ abstract class PredictionAbilityGoal(
     val singlePrediction: Boolean = false
 ): Goal() {
 
-    private var lastCheck = 0
+    protected var lastCheck = 0
 
     override fun canUse(): Boolean {
+        abilityTick()
         lastCheck++
 
         if(singlePrediction) {
@@ -30,9 +31,10 @@ abstract class PredictionAbilityGoal(
             lastCheck = 0
         }
 
-        return lastCheck >= abilityPeriodTicks - 1
+        return lastCheck >= abilityPeriodTicks
     }
 
     abstract fun predictionAbility()
     abstract fun useAbility()
+    open fun abilityTick() { }
 }

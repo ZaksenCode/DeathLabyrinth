@@ -17,6 +17,7 @@ object PluginKeys {
     lateinit var speedModifierKey: NamespacedKey
     lateinit var speedModifierShacklesKey: NamespacedKey
     lateinit var maxHealthModifierKey: NamespacedKey
+    lateinit var attackSpeedModifierKey: NamespacedKey
 
     lateinit var customItemAbilitiesKey: NamespacedKey
 
@@ -56,6 +57,7 @@ object PluginKeys {
         speedModifierKey = NamespacedKey(plugin, "speed_modifier")
         speedModifierShacklesKey = NamespacedKey(plugin, "speed_shackles_modifier")
         maxHealthModifierKey = NamespacedKey(plugin, "max_health_modifier")
+        attackSpeedModifierKey = NamespacedKey(plugin, "attack_speed_modifier")
 
         customItemAbilitiesKey = NamespacedKey(plugin, "custom_item_abilities")
 

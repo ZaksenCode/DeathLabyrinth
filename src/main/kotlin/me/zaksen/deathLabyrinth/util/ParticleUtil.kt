@@ -61,13 +61,19 @@ fun launchVibration(ticks: Int = 20, firstPos: Location, secondPos: Location, co
     )
 }
 
-fun drawCircle(particle: Particle = Particle.DUST, location: Location, size: Double, color: Color = Color.WHITE, particleSize: Float = 5f) {
-    var d = 0
+fun drawCircle(
+    particle: Particle = Particle.DUST,
+    location: Location, size:
+    Double, color: Color = Color.WHITE,
+    particleSize: Float = 5f,
+    incrementAmount: Double = 1.0
+) {
+    var d = 0.0
     while (d <= 90) {
         val particleLoc = Location(location.world, location.x, location.y, location.z)
-        particleLoc.x = location.x + cos(d.toDouble()) * size
-        particleLoc.z = location.z + sin(d.toDouble()) * size
+        particleLoc.x = location.x + cos(d) * size
+        particleLoc.z = location.z + sin(d) * size
         location.world.spawnParticle<DustOptions>(particle, particleLoc, 1, DustOptions(color, particleSize))
-        d += 1
+        d += incrementAmount
     }
 }
