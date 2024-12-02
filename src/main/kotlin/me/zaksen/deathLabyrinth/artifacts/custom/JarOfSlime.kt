@@ -25,7 +25,7 @@ class JarOfSlime: Artifact(
             val player = it.player
 
             if(GameController.checkChance((2 * count).coerceAtMost(25))) {
-                val skeleton = BlobEntity(it.entity.location.add(0.0, 0.5, 1.0))
+                val skeleton = BlobEntity(it.entity.location.add(0.0, 0.5, 1.0), player)
                 EventManager.callPlayerSummonFriendlyEntityEvent(player, skeleton)
             }
         }

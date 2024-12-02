@@ -25,18 +25,16 @@ class ItemOffer(
 
         if(playerData.money >= this.price && this.count >= 1) {
             player.inventory.addItem(this.stack)
-            playerData.money -= this.price
-            GameController.players[player] = playerData
+
+            GameController.removeMoney(player, this.price)
+
             this.count--
         }
     }
 
     override fun sell(player: Player) {
-        val playerData = GameController.players[player] ?: return
-
         if(this.count >= 1 && player.removeItem(this.stack)) {
-            playerData.money += this.price
-            GameController.players[player] = playerData
+            GameController.addMoney(player, this.price)
             this.count--
         }
     }

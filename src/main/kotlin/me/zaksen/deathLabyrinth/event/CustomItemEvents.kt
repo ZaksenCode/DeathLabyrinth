@@ -7,6 +7,7 @@ import me.zaksen.deathLabyrinth.item.weapon.WeaponItem
 import me.zaksen.deathLabyrinth.keys.PluginKeys
 import me.zaksen.deathLabyrinth.util.asTranslate
 import net.kyori.adventure.text.format.TextColor
+import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -36,8 +37,13 @@ class CustomItemEvents: Listener {
                         return
                     }
                 }
+                val entity = event.entity
 
-                EventManager.callItemHitEvent(damager, event.entity, damager.inventory.itemInMainHand, customItem, event, customItem.settings.damageType())
+                EventManager.callItemHitEvent(damager, entity, damager.inventory.itemInMainHand, customItem, event, customItem.settings.damageType())
+
+                if(entity is LivingEntity && (entity.health - event.damage <= 0)) {
+                       EventManager.callItemKillEvent(damager, entity, damager.inventory.itemInMainHand, customItem, event, customItem.settings.damageType())
+                }
             }
         }
     }

@@ -3,6 +3,7 @@ package me.zaksen.deathLabyrinth.item.ability
 import FireFlowCast
 import me.zaksen.deathLabyrinth.event.item.ItemUseEvent
 import me.zaksen.deathLabyrinth.item.ability.consume.*
+import me.zaksen.deathLabyrinth.item.ability.other.Packing
 import me.zaksen.deathLabyrinth.item.ability.stuff.*
 import me.zaksen.deathLabyrinth.item.ability.weapon.*
 import me.zaksen.deathLabyrinth.item.checkAndUpdateCooldown
@@ -32,6 +33,7 @@ object ItemAbilityManager {
         abilityMap["fire_blade"] = FireBlade()
         abilityMap["narwhal_punch"] = NarwhalPunch()
         abilityMap["explosion_punch"] = ExplosionPunch()
+        abilityMap["robbery"] = Robbery()
         // Weapon - Use
         abilityMap["bubble_laser"] = BubbleLaser()
         abilityMap["wind_gust"] = WindGust()
@@ -99,6 +101,10 @@ object ItemAbilityManager {
         abilityMap["small_heal_effect"] = SmallHealEffect()
         abilityMap["duplicate_artifacts"] = DuplicateArtifacts()
         abilityMap["change_artifacts"] = ChangeArtifacts()
+        abilityMap["summon_artifacts"] = SummonArtifacts()
+
+        // Use
+        abilityMap["packing"] = Packing()
     }
 
     fun useStackAbilities(stack: ItemStack, event: Event) {

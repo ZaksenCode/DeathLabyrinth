@@ -95,6 +95,7 @@ object ArtifactsController {
         artifacts["fantom_cape"] = FantomCape::class.java
         artifacts["magnifying_glass"] = MagnifyingGlass::class.java
         artifacts["jar_of_slime"] = JarOfSlime::class.java
+        artifacts["taser"] = Taser::class.java
 
         // EPIC
         artifacts["mossy_skull"] = MossySkull::class.java

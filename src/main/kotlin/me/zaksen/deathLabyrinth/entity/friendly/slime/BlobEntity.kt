@@ -5,7 +5,9 @@ import com.destroystokyo.paper.event.entity.SlimeTargetLivingEntityEvent
 import com.destroystokyo.paper.event.entity.SlimeWanderEvent
 import me.zaksen.deathLabyrinth.entity.EnemyMarketable
 import me.zaksen.deathLabyrinth.entity.friendly.FriendlyEntity
+import me.zaksen.deathLabyrinth.entity.goal.ability.toLocation
 import me.zaksen.deathLabyrinth.entity.trader.Trader
+import me.zaksen.deathLabyrinth.game.GameController
 import net.kyori.adventure.text.format.TextColor
 import net.minecraft.network.chat.Component
 import net.minecraft.sounds.SoundEvents
@@ -24,7 +26,7 @@ import org.bukkit.Location
 import org.bukkit.craftbukkit.CraftWorld
 import java.util.*
 
-class BlobEntity(location: Location): Slime(EntityType.SLIME, (location.world as CraftWorld).handle), FriendlyEntity, EnemyMarketable {
+class BlobEntity(location: Location, val owner: org.bukkit.entity.Player): Slime(EntityType.SLIME, (location.world as CraftWorld).handle), FriendlyEntity, EnemyMarketable {
 
     private var despawnTime = 30 * 20
 
@@ -64,8 +66,24 @@ class BlobEntity(location: Location): Slime(EntityType.SLIME, (location.world as
         despawnTime--
 
         if(despawnTime <= 0) {
+            GameController.makeExplode(
+                owner,
+                this.position().toLocation(this.level().world),
+                1.5,
+                10.0
+            )
             this.discard()
         }
+    }
+
+    override fun die(damageSource: DamageSource) {
+        GameController.makeExplode(
+            owner,
+            this.position().toLocation(this.level().world),
+            1.5,
+            10.0
+        )
+        super.die(damageSource)
     }
 
     override fun dropExperience(attacker: Entity?) { }
@@ -80,6 +98,13 @@ class BlobEntity(location: Location): Slime(EntityType.SLIME, (location.world as
         if(source.entity != null && (source.entity is Player || source.entity is FriendlyEntity)) {
             return false
         }
+
+        GameController.makeExplode(
+            owner,
+            this.position().toLocation(this.level().world),
+            1.0,
+            5.0
+        )
 
         return super.hurt(source, amount)
     }

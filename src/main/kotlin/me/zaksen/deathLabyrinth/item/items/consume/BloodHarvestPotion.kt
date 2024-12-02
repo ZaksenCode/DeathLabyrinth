@@ -8,11 +8,11 @@ import me.zaksen.deathLabyrinth.util.asTranslate
 import net.kyori.adventure.text.format.TextColor
 import org.bukkit.Material
 
-class PotionOfShambles(id: String): CustomItem(id, ItemType.CONSUMABLE,
+class BloodHarvestPotion(id: String): CustomItem(id, ItemType.CONSUMABLE,
     ItemSettings(Material.HONEY_BOTTLE)
-        .customModel(101)
-        .displayName("item.potion_of_shambles.name".asTranslate().color(TextColor.color(255,20,147)))
-        .quality(ItemQuality.EPIC)
-        .tradePrice(150)
-        .ability("change_artifacts")
+        .customModel(102)
+        .displayName("item.blood_harvest_potion.name".asTranslate().color(TextColor.color(255,20,147)))
+        .quality(ItemQuality.FANTASIC)
+        .tradePrice(300)
+        .ability("summon_artifacts")
 )

@@ -7,12 +7,15 @@ import me.zaksen.deathLabyrinth.event.custom.WorldTickEvent
 import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.game.GameController.processAnyEvent
 import me.zaksen.deathLabyrinth.game.GameStatus
+import me.zaksen.deathLabyrinth.item.ItemsController
+import me.zaksen.deathLabyrinth.keys.PluginKeys
 import me.zaksen.deathLabyrinth.menu.Menus
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.craftbukkit.entity.CraftEntity
 import org.bukkit.craftbukkit.inventory.CraftInventoryPlayer
 import org.bukkit.entity.Entity
+import org.bukkit.entity.Item
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
 import org.bukkit.entity.Projectile
@@ -22,11 +25,7 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.block.BlockExplodeEvent
 import org.bukkit.event.block.BlockPlaceEvent
-import org.bukkit.event.entity.EntityChangeBlockEvent
-import org.bukkit.event.entity.EntityDamageByEntityEvent
-import org.bukkit.event.entity.EntityDamageEvent
-import org.bukkit.event.entity.EntityDeathEvent
-import org.bukkit.event.entity.EntityExplodeEvent
+import org.bukkit.event.entity.*
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.inventory.InventoryType
@@ -35,6 +34,7 @@ import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.inventory.ItemStack
+import org.bukkit.persistence.PersistentDataType
 
 class GameEvents(private val config: MainConfig): Listener {
 
@@ -228,5 +228,28 @@ class GameEvents(private val config: MainConfig): Listener {
         val coolEvent = WorldTickEvent()
         coolEvent.callEvent()
         processAnyEvent(coolEvent)
+    }
+
+    @EventHandler
+    fun fireItems(event: EntityCombustEvent) {
+        val entity = event.entity
+
+        if(entity is Item) {
+            event.isCancelled = true
+
+            val stack = entity.itemStack
+
+            if(!stack.hasItemMeta()) return
+            if(!stack.itemMeta.persistentDataContainer.has(PluginKeys.customItemKey)) return
+
+            val customItemId = stack.itemMeta.persistentDataContainer.get(PluginKeys.customItemKey, PersistentDataType.STRING)!!
+
+            when(customItemId) {
+                "meat_bat" -> {
+                    entity.world.dropItemNaturally(entity.location, ItemsController.get("cooked_meat_bat")!!.asItemStack())
+                    entity.remove()
+                }
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.entity.villager
 
+import me.zaksen.deathLabyrinth.entity.friendly.FriendlyEntity
 import me.zaksen.deathLabyrinth.entity.skeleton.SkeletonArcherEntity
 import me.zaksen.deathLabyrinth.entity.skeleton.SkeletonWarriorEntity
 import me.zaksen.deathLabyrinth.game.room.RoomController
@@ -21,7 +22,7 @@ import net.minecraft.world.entity.player.Player
 import org.bukkit.Location
 import org.bukkit.craftbukkit.CraftWorld
 
-class BlacksmithEntity(location: Location): Villager(EntityType.VILLAGER, (location.world as CraftWorld).handle) {
+class BlacksmithEntity(location: Location): Villager(EntityType.VILLAGER, (location.world as CraftWorld).handle), FriendlyEntity {
 
     private var despawnTicks = 120 * 20
 

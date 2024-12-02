@@ -21,10 +21,8 @@ class Token: Artifact(
             if(it.player.uniqueId != ownerUuid) return@add
 
             val player = it.player
-            val playerData = GameController.players[player] ?: return@add
 
-            playerData.money += 5 * count
-            GameController.players[player] = playerData
+            GameController.addMoney(player, 5 * count)
         }
     }
 

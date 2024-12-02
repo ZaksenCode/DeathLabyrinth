@@ -119,6 +119,10 @@ object GameController {
     }
 
     fun reload() {
+        players.forEach {
+            it.value.stats.displayStats(it.key)
+        }
+
         hudController.stopDrawingTask()
         hudController.clearDrawers()
         players.clear()
@@ -359,6 +363,8 @@ object GameController {
 
         if(playerData != null) {
             players[player]!!.isAlive = false
+
+            playerData.stats.totalDeathTimes++
         }
 
         checkAlivePlayers()
@@ -429,6 +435,9 @@ object GameController {
     fun processPotBreaking(event: PlayerBreakPotEvent) {
         println("Try to spawn: ${event.output.stack}")
         event.decoratedPot.location.world.dropItemNaturally(event.decoratedPot.location, event.output.stack)
+
+        val data = players[event.player] ?: return
+        data.stats.totalPotsBreak++
     }
 
     fun processAnyEvent(event: Event) {
@@ -504,5 +513,21 @@ object GameController {
     fun checkChance(successChance: Int): Boolean {
         val testedValue = random.nextInt(0, 100 + 1)
         return testedValue <= successChance
+    }
+
+    fun addMoney(player: Player, amount: Int) {
+        val data = players[player] ?: return
+        data.money += amount
+        players[player] = data
+
+        data.stats.totalMoneyEarned += amount
+    }
+
+    fun removeMoney(player: Player, amount: Int) {
+        val data = players[player] ?: return
+        data.money -= amount
+        players[player] = data
+
+        data.stats.totalMoneySpend += amount
     }
 }

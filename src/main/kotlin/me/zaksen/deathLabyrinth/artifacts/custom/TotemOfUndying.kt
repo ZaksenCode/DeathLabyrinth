@@ -24,7 +24,6 @@ class TotemOfUndying: Artifact(
             if(it !is PlayerDeathEvent) return@add
             if(it.player.uniqueId != ownerUuid) return@add
 
-
             if(count > 0) {
                 count--
 

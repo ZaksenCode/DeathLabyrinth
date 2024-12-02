@@ -8,6 +8,7 @@ import me.zaksen.deathLabyrinth.event.custom.PlayerReadyEvent
 import me.zaksen.deathLabyrinth.event.custom.game.*
 import me.zaksen.deathLabyrinth.event.item.ItemConsumeEvent
 import me.zaksen.deathLabyrinth.event.item.ItemHitEvent
+import me.zaksen.deathLabyrinth.event.item.ItemKillEvent
 import me.zaksen.deathLabyrinth.event.item.ItemUseEvent
 import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.game.TradeController
@@ -53,6 +54,7 @@ object EventManager {
         val coolEvent = PlayerDeathEvent(player, damage)
         coolEvent.callEvent()
         GameController.processAnyEvent(coolEvent)
+
         if (!coolEvent.isCancelled) {
             GameController.processPlayerDeath(coolEvent.player)
         }
@@ -62,9 +64,13 @@ object EventManager {
         val coolEvent = PlayerDamageEntityEvent(player, entity, damage)
         coolEvent.callEvent()
         GameController.processAnyEvent(coolEvent)
+
         if (!coolEvent.isCancelled) {
             event.damage = coolEvent.damage
             GameController.processEntityHit(coolEvent.damaged)
+
+            val data = GameController.players[player] ?: return
+            data.stats.processDamage(coolEvent)
         } else {
             event.isCancelled = true
         }
@@ -74,9 +80,13 @@ object EventManager {
         val coolEvent = PlayerDamageEntityEvent(player, entity, damage)
         coolEvent.callEvent()
         GameController.processAnyEvent(coolEvent)
+
         if (!coolEvent.isCancelled) {
             entity.damage(coolEvent.damage, coolEvent.player)
             GameController.processEntityHit(coolEvent.damaged)
+
+            val data = GameController.players[player] ?: return
+            data.stats.processDamage(coolEvent)
         }
     }
 
@@ -84,8 +94,12 @@ object EventManager {
         val coolEvent = PlayerKillEntityEvent(player, entity, drops)
         coolEvent.callEvent()
         GameController.processAnyEvent(coolEvent)
+
         if (!coolEvent.isCancelled) {
             RoomController.processEntityRoomDeath(coolEvent)
+
+            val data = GameController.players[player] ?: return
+            data.stats.totalEntityKilled++
         }
     }
 
@@ -98,6 +112,9 @@ object EventManager {
             event.isCancelled = true
         } else {
             event.damage = coolEvent.damage
+
+            val data = GameController.players[event.entity] ?: return
+            data.stats.processReceivedDamage(coolEvent)
         }
     }
 
@@ -108,6 +125,9 @@ object EventManager {
 
         if (!coolEvent.isCancelled) {
             player.damage(coolEvent.damage, coolEvent.damager)
+
+            val data = GameController.players[player] ?: return
+            data.stats.processReceivedDamage(coolEvent)
         }
     }
 
@@ -189,8 +209,12 @@ object EventManager {
         val coolEvent = PlayerSummonFriendlyEntityEvent(player, entity)
         coolEvent.callEvent()
         GameController.processAnyEvent(coolEvent)
+
         if(!coolEvent.isCancelled) {
             coolEvent.player.world.tryAddEntity(entity)
+
+            val data = GameController.players[player] ?: return
+            data.stats.totalMobsSummoned++
         }
     }
 
@@ -253,8 +277,12 @@ object EventManager {
         val coolEvent = PlayerPickupArtifactEvent(player, artifact)
         coolEvent.callEvent()
         GameController.processAnyEvent(coolEvent)
+
         if(!coolEvent.isCancelled) {
             ArtifactsController.processArtifactPickup(player, artifact)
+
+            val data = GameController.players[player] ?: return
+            data.stats.totalCollectedArtifacts++
         }
     }
 
@@ -307,6 +335,9 @@ object EventManager {
         GameController.processAnyEvent(coolEvent)
 
         if(!coolEvent.isCancelled) {
+            val data = GameController.players[player] ?: return
+            data.stats.processHealing(coolEvent)
+
             coolEvent.entity.heal(amount, EntityRegainHealthEvent.RegainReason.MAGIC)
         }
     }
@@ -373,6 +404,19 @@ object EventManager {
         }
     }
 
+    fun callItemKillEvent(damager: org.bukkit.entity.Entity, damaged: org.bukkit.entity.Entity, stack: ItemStack, item: CustomItem, event: EntityDamageByEntityEvent, damageType: DamageType = DamageType.GENERAL) {
+        val coolEvent = ItemKillEvent(damager, damaged, stack, item, event.damage, damageType)
+        coolEvent.callEvent()
+        ItemAbilityManager.useStackAbilities(stack, coolEvent)
+        GameController.processAnyEvent(coolEvent)
+
+        if(!coolEvent.isCancelled) {
+            event.damage = coolEvent.damage
+        } else {
+            event.isCancelled = true
+        }
+    }
+
     fun callItemUseEvent(entity: Player, stack: ItemStack?, item: CustomItem?, event: PlayerInteractEvent) {
         if(stack == null || item == null) return
         val coolEvent = ItemUseEvent(entity, stack, item, event)
@@ -394,6 +438,9 @@ object EventManager {
 
         if(coolEvent.isCancelled) {
             event.isCancelled = true
+        } else {
+            val data = GameController.players[entity] ?: return
+            data.stats.totalItemConsumed++
         }
     }
 }

@@ -197,9 +197,7 @@ object RoomController {
     }
 
     fun grantRoomReward(player: Player, reward: Int) {
-        val data = GameController.players[player] ?: return
-        data.money += reward
-        GameController.players[player] = data
+        GameController.addMoney(player, reward)
     }
 
     private fun getRoomReward(): Int {

@@ -265,7 +265,6 @@ object ItemsController {
                 .displayName("item.dynamite_stick.name".asTranslate().color(TextColor.color(128, 128, 128)))
                 .quality(ItemQuality.RARE)
                 .tradePrice(95)
-                .addAviableTrader(TraderType.NORMAL)
                 .ability("explosion_punch")
         ))
 
@@ -277,6 +276,36 @@ object ItemsController {
                 .quality(ItemQuality.UNCOMMON)
                 .tradePrice(110)
                 .addAviableTrader(TraderType.NORMAL)
+        ))
+
+        register("pirate_saber", BaseSword(
+            "pirate_saber",
+            ItemSettings(Material.WOODEN_SWORD).damage(10.0).attackSpeed(-2.2).range(1.0)
+                .customModel(1007)
+                .displayName("item.pirate_saber.name".asTranslate().color(TextColor.color(128, 128, 128)))
+                .quality(ItemQuality.RARE)
+                .tradePrice(140)
+                .addAviableTrader(TraderType.NORMAL)
+                .ability("robbery")
+        ))
+
+        register("meat_bat", BaseSword(
+            "meat_bat",
+            ItemSettings(Material.WOODEN_SWORD).damage(8.0).attackSpeed(-2.3).range(1.25)
+                .customModel(1008)
+                .displayName("item.meat_bat.name".asTranslate().color(TextColor.color(128, 128, 128)))
+                .quality(ItemQuality.UNCOMMON)
+                .tradePrice(70)
+                .addAviableTrader(TraderType.NORMAL)
+        ))
+
+        register("cooked_meat_bat", BaseSword(
+            "cooked_meat_bat",
+            ItemSettings(Material.WOODEN_SWORD).damage(13.0).attackSpeed(-2.1).range(1.5)
+                .customModel(1009)
+                .displayName("item.cooked_meat_bat.name".asTranslate().color(TextColor.color(128, 128, 128)))
+                .quality(ItemQuality.RARE)
+                .tradePrice(135)
         ))
 
         register("shield", CustomItem(
@@ -344,6 +373,8 @@ object ItemsController {
         register("small_heal_potion", SmallHealPotion("small_heal_potion"))
         register("madmans_potion", MadmansPotion("madmans_potion"))
         register("potion_of_shambles", PotionOfShambles("potion_of_shambles"))
+        register("blood_harvest_potion", BloodHarvestPotion("blood_harvest_potion"))
+        register("game_cards", GameCards("game_cards"))
 
         register("bottle", CustomItem("bottle", ItemType.MISC,
             ItemSettings(Material.GLASS_BOTTLE)
@@ -567,6 +598,7 @@ object ItemsController {
         // Other
         potLoot.addEntry(PotEntry(itemsMap["madmans_potion"]!!.asItemStack()), 0.05)
         potLoot.addEntry(PotEntry(itemsMap["potion_of_shambles"]!!.asItemStack()), 0.05)
+        potLoot.addEntry(PotEntry(itemsMap["game_cards"]!!.asItemStack()), 0.07)
 
         GameController.initPotLootList(potLoot)
     }

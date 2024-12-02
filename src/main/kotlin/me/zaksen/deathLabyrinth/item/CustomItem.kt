@@ -57,6 +57,7 @@ open class CustomItem(val id: String, val type: ItemType, val settings: ItemSett
 }
 
 fun checkCooldown(item: ItemStack): Boolean {
+    if(!item.hasItemMeta()) return false
     if(item.itemMeta.persistentDataContainer.has(PluginKeys.customItemCooldownKey)) {
         val cooldown = item.itemMeta.persistentDataContainer.get(PluginKeys.customItemCooldownKey, PersistentDataType.LONG)
         val maxCooldown = item.itemMeta.persistentDataContainer.get(PluginKeys.customItemCooldownTimeKey, PersistentDataType.INTEGER)
@@ -71,6 +72,7 @@ fun checkCooldown(item: ItemStack): Boolean {
 }
 
 fun checkAndUpdateCooldown(player: Player, item: ItemStack): Boolean {
+    if(!item.hasItemMeta()) return false
     if(item.itemMeta.persistentDataContainer.has(PluginKeys.customItemCooldownKey)) {
         val cooldown = item.itemMeta.persistentDataContainer.get(PluginKeys.customItemCooldownKey, PersistentDataType.LONG)
         val maxCooldown = item.itemMeta.persistentDataContainer.get(PluginKeys.customItemCooldownTimeKey, PersistentDataType.INTEGER)

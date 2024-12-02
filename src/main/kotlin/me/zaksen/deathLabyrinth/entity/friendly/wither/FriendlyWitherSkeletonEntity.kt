@@ -32,7 +32,7 @@ class FriendlyWitherSkeletonEntity(location: Location):
         this.customName = Component.translatable("entity.friendly_skeleton.name").withColor(TextColor.color(124, 242, 81).value())
         this.isCustomNameVisible = true
 
-        this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.29
+        this.getAttribute(Attributes.MOVEMENT_SPEED)?.baseValue = 0.35
 
         this.setItemSlot(EquipmentSlot.MAINHAND, CraftItemStack.asNMSCopy(ItemsController.get("iron_sword")!!.asItemStack()))
 
