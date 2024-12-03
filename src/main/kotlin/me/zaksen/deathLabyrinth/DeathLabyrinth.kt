@@ -63,6 +63,8 @@ class DeathLabyrinth : JavaPlugin(), ConfigContainer {
         getCommand("despawn_artifacts")?.setExecutor(DespawnArtifactsCommand())
         getCommand("synergies")?.setExecutor(SynergiesCommand())
         getCommand("synergies")?.tabCompleter = SynergiesCommand()
+        getCommand("room_editor")?.setExecutor(RoomEditor())
+        getCommand("room_editor")?.tabCompleter = RoomEditor()
     }
 
     override fun reloadConfigs() {

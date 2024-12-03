@@ -47,8 +47,7 @@ class ReviewItem: AbstractItem() {
             player.damage(halfHealth)
             revivePlayer.health = halfHealth
 
-            data.money -= price
-            GameController.players[player] = data
+            GameController.removeMoney(player, price)
 
             GameController.revivePlayer(revivePlayer, player)
         }

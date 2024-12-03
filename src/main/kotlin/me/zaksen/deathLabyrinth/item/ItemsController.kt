@@ -374,7 +374,9 @@ object ItemsController {
         register("madmans_potion", MadmansPotion("madmans_potion"))
         register("potion_of_shambles", PotionOfShambles("potion_of_shambles"))
         register("blood_harvest_potion", BloodHarvestPotion("blood_harvest_potion"))
+
         register("game_cards", GameCards("game_cards"))
+        register("chip", Chip("chip"))
 
         register("bottle", CustomItem("bottle", ItemType.MISC,
             ItemSettings(Material.GLASS_BOTTLE)
@@ -599,6 +601,7 @@ object ItemsController {
         potLoot.addEntry(PotEntry(itemsMap["madmans_potion"]!!.asItemStack()), 0.05)
         potLoot.addEntry(PotEntry(itemsMap["potion_of_shambles"]!!.asItemStack()), 0.05)
         potLoot.addEntry(PotEntry(itemsMap["game_cards"]!!.asItemStack()), 0.07)
+        potLoot.addEntry(PotEntry(itemsMap["chip"]!!.asItemStack()), 0.07)
 
         GameController.initPotLootList(potLoot)
     }

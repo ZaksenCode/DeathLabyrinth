@@ -105,6 +105,7 @@ object ItemAbilityManager {
 
         // Use
         abilityMap["packing"] = Packing()
+        abilityMap["gold_rush"] = GoldRush()
     }
 
     fun useStackAbilities(stack: ItemStack, event: Event) {

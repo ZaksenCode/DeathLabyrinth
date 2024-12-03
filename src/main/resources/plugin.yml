@@ -44,3 +44,5 @@ commands:
     usage: /<command>
   synergies:
     usage: /<command>
+  room_editor:
+    usage: /<command>

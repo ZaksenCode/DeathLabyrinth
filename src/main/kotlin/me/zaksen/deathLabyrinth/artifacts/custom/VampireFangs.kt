@@ -3,6 +3,7 @@ package me.zaksen.deathLabyrinth.artifacts.custom
 import me.zaksen.deathLabyrinth.artifacts.ability.Ability
 import me.zaksen.deathLabyrinth.artifacts.api.Artifact
 import me.zaksen.deathLabyrinth.artifacts.api.ArtifactRarity
+import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.event.custom.game.PlayerKillEntityEvent
 import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.util.*
@@ -31,6 +32,7 @@ class VampireFangs: Artifact(
                 val player = event.player
 
                 if(GameController.checkChance(25)) {
+                    EventManager.callPlayerHealingEvent(player, player, 6.0 * count)
                     player.heal(6.0 * count, EntityRegainHealthEvent.RegainReason.REGEN)
 
                     player.playSound(

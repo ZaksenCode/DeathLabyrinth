@@ -88,7 +88,7 @@ data class PlayerStats(
             ).color(TextColor.color(201, 44, 81)))
         }
 
-        if(GameController.players.filter { it.value.stats.totalDamageReceived > this.totalDamageReceived }.isNotEmpty()) {
+        if(GameController.players.size > 1 && GameController.players.filter { it.value.stats.totalDamageReceived > this.totalDamageReceived }.isEmpty()) {
             player.sendMessage(
                 "stats.total_damage_taken.message".asTranslate(
                     "$totalDamageReceived".asText().color(TextColor.color(255, 165, 0))
@@ -117,7 +117,7 @@ data class PlayerStats(
             )
         }
 
-        if(GameController.players.filter { it.value.stats.maxOneTimeDamageTaken > this.maxOneTimeDamageTaken }.isNotEmpty()) {
+        if(GameController.players.size > 1 && GameController.players.filter { it.value.stats.maxOneTimeDamageTaken > this.maxOneTimeDamageTaken }.isEmpty()) {
             player.sendMessage(
                 "stats.max_onetime_damage_taken.message".asTranslate(
                     "$maxOneTimeDamageTaken".asText().color(TextColor.color(255,165,0))
@@ -188,7 +188,7 @@ data class PlayerStats(
             )
         }
 
-        if(GameController.players.filter { it.value.stats.totalDeathTimes > this.totalDeathTimes }.isNotEmpty()) {
+        if(GameController.players.size > 1 && GameController.players.filter { it.value.stats.totalDeathTimes > this.totalDeathTimes }.isEmpty()) {
             player.sendMessage(
                 "stats.total_death_times.message".asTranslate(
                     "$totalDeathTimes".asText().color(TextColor.color(255,165,0))
