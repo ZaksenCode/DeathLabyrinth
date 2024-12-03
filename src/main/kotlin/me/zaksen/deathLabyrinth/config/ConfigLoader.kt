@@ -25,6 +25,15 @@ fun loadFile(folder: File, fileName: String): File {
     }
 }
 
+inline fun <reified T> loadConfig(configFile: File): T {
+    if (configFile.length() == 0L) {
+        val config = T::class.java.getDeclaredConstructor().newInstance()
+        saveConfig(File(configFile.absolutePath.replace("/${configFile.name}", "")), configFile.name, config)
+        return config
+    }
+
+    return yaml.decodeFromString<T>(configFile.readText())
+}
 
 inline fun <reified T> loadConfig(folder: File, configName: String): T {
     val file = loadFile(folder, configName)

@@ -29,8 +29,13 @@ commands:
   build_room:
     description: build a room from rooms folder
     usage: /<command>
+  start_room:
+    usage: /<command>
   start_generation:
     description: start room generating
+    usage: /<command>
+  clear_generation:
+    description: clear room generating
     usage: /<command>
   money:
     usage: /<command>

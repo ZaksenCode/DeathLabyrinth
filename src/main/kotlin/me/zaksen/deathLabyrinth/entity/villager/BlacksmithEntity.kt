@@ -76,7 +76,8 @@ class BlacksmithEntity(location: Location): Villager(EntityType.VILLAGER, (locat
                 )
             }
 
-            RoomController.processEntityRoomDeath(this)
+            // FIXME - Room controller now didn't operate this
+            // RoomController.processEntityRoomDeath(this)
             this.discard()
         }
     }

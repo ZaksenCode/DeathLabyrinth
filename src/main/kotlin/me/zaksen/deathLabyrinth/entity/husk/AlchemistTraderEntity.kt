@@ -91,7 +91,8 @@ class AlchemistTraderEntity(location: Location): Husk(EntityType.HUSK, (location
                 )
             }
 
-            RoomController.processEntityRoomDeath(this)
+            // FIXME - Room controller now didn't operate this
+            // RoomController.processEntityRoomDeath(this)
             this.discard()
         }
     }

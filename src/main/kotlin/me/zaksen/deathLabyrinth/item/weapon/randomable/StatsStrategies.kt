@@ -8,7 +8,9 @@ enum class StatsStrategies(val strategy: ScalingStrategy) {
         val damageLimit = base.toInt() / 4
         kotlin.random.Random.Default.nextInt(
             base.toInt() - damageLimit,
-            base.toInt() + (damageLimit * (RoomController.actualRoomNumber + 1) / 2)
+            // FIXME - Room controller now didn't operate this
+            // base.toInt() + (damageLimit * (RoomController.actualRoomNumber + 1) / 2)
+            base.toInt()
         ).toDouble()
     }),
     ATTACK_SPEED(ScalingStrategy { base ->
