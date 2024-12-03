@@ -87,7 +87,8 @@ class ZombieTraderEntity(location: Location): Zombie(EntityType.ZOMBIE, (locatio
                 )
             }
 
-            RoomController.processEntityRoomDeath(this)
+            // FIXME - Room controller now didn't operate this
+            // RoomController.processEntityRoomDeath(this)
             this.discard()
         }
     }

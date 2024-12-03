@@ -1,12 +1,8 @@
 package me.zaksen.deathLabyrinth.util
 
-import me.zaksen.deathLabyrinth.config.data.Position
-import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.util.Vector
 import kotlin.math.atan2
-
-fun locationOf(position: Position) = Location(Bukkit.getWorld(position.world), position.x, position.y, position.z)
 
 fun getAngle(point1: Vector, point2: Vector): Float {
     val dx: Double = point2.x - point1.x

@@ -9,7 +9,7 @@ data class GenerationConfig(
     @SerialName("room_limit")
     val roomLimit: Int = 32,
     @SerialName("first_room_entry")
-    val firstRoomEntry: Position = Position("world", -18.0, 2.0, 3.0),
+    val firstRoomEntry: Position = Position(-18.0, 2.0, 3.0),
     @SerialName("custom_rooms")
     val customRooms: Map<Int, List<String>> = mapOf(
         Pair(4, listOf("SHOP")),

@@ -92,7 +92,8 @@ class SkeletonTraderEntity(location: Location): Skeleton(EntityType.SKELETON, (l
                 )
             }
 
-            RoomController.processEntityRoomDeath(this)
+            // FIXME - Room controller now didn't operate this
+            // RoomController.processEntityRoomDeath(this)
             this.discard()
         }
     }

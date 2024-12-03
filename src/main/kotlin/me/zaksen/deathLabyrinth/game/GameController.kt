@@ -5,13 +5,17 @@ import me.zaksen.deathLabyrinth.artifacts.api.ArtifactsStates
 import me.zaksen.deathLabyrinth.config.ConfigContainer
 import me.zaksen.deathLabyrinth.damage.DamageType
 import me.zaksen.deathLabyrinth.data.PlayerData
+import me.zaksen.deathLabyrinth.entity.difficulty.Scaleable
 import me.zaksen.deathLabyrinth.entity.friendly.FriendlyEntity
+import me.zaksen.deathLabyrinth.entity.room.RoomCycle
+import me.zaksen.deathLabyrinth.entity.trader.Trader
 import me.zaksen.deathLabyrinth.entity.trader.TraderType
 import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.event.custom.WorldTickEvent
 import me.zaksen.deathLabyrinth.event.custom.game.PlayerBreakPotEvent
 import me.zaksen.deathLabyrinth.game.hud.HudController
 import me.zaksen.deathLabyrinth.game.pot.PotEntry
+import me.zaksen.deathLabyrinth.game.room.Room
 import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.item.ItemsController
 import me.zaksen.deathLabyrinth.keys.PluginKeys
@@ -23,6 +27,7 @@ import me.zaksen.deathLabyrinth.trading.ItemOffer
 import me.zaksen.deathLabyrinth.trading.TradeOffer
 import me.zaksen.deathLabyrinth.util.*
 import net.kyori.adventure.text.format.TextColor
+import net.minecraft.world.entity.Entity
 import org.bukkit.*
 import org.bukkit.attribute.Attribute
 import org.bukkit.entity.Item
@@ -127,9 +132,7 @@ object GameController {
         hudController.clearDrawers()
         players.clear()
         ArtifactsController.despawnArtifacts()
-        RoomController.despawnAllEntities()
-        RoomController.despawnCycleEntities()
-        RoomController.clearGeneration()
+        RoomController.clear()
         TradeController.reload()
         ArtifactsStates.cache.clear()
 
@@ -147,9 +150,10 @@ object GameController {
     }
 
     fun fillEntrace() {
-        val fillStart = locationOf(configs.mainConfig().entranceStart)
-        val fillEnd = locationOf(configs.mainConfig().entranceEnd)
-        val world = fillStart.world
+        val world = Bukkit.getWorld(configs.mainConfig().world) ?: return
+        val fillStart = configs.mainConfig().entranceStart.location(world)
+        val fillEnd = configs.mainConfig().entranceEnd.location(world)
+
         for(y in fillStart.y.toInt()..fillEnd.y.toInt()) {
             for(x in fillStart.x.toInt()..fillEnd.x.toInt()) {
                 for(z in fillStart.z.toInt()..fillEnd.z.toInt()) {
@@ -172,7 +176,13 @@ object GameController {
             setupPlayer(player)
         } else {
             player.gameMode = GameMode.SPECTATOR
-            player.teleport(locationOf(configs.mainConfig().playerSpawnLocation))
+
+            // TODO - Make mode soft
+            Bukkit.getWorld(configs.mainConfig().world).let { world ->
+                if(world == null) return
+                player.teleport(configs.mainConfig().playerSpawnLocation.location(world))
+            }
+
         }
     }
 
@@ -203,7 +213,11 @@ object GameController {
             false
         ))
 
-        player.teleport(locationOf(configs.mainConfig().playerSpawnLocation))
+        // TODO - Make mode soft
+        Bukkit.getWorld(configs.mainConfig().world).let { world ->
+            if(world == null) return
+            player.teleport(configs.mainConfig().playerSpawnLocation.location(world))
+        }
 
         player.inventory.clear()
         player.inventory.setItem(4, ItemStack(Material.PAPER).name(
@@ -336,7 +350,6 @@ object GameController {
         }
 
         TradeController.initTrades(players)
-        RoomController.startGeneration()
     }
 
     fun endGameWin() {
@@ -529,5 +542,28 @@ object GameController {
         players[player] = data
 
         data.stats.totalMoneySpend += amount
+    }
+
+    fun processEntitySpawn(room: Room, entity: Entity, requireKill: Boolean) {
+        if (entity is net.minecraft.world.entity.LivingEntity) {
+            (entity.bukkitEntity as LivingEntity).maximumNoDamageTicks = 1
+            if(requireKill) {
+                room.livingEntities.add(entity)
+            }
+        }
+
+        room.world.tryAddEntity(entity)
+
+        if(entity is Trader) {
+            entity.updateOffers(generateTradeOffers(entity.getTraderType()))
+        }
+
+        if(entity is Scaleable) {
+            entity.scale()
+        }
+
+        if(entity is RoomCycle) {
+            room.otherEntities.add(entity)
+        }
     }
 }

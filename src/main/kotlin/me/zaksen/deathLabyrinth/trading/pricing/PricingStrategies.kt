@@ -12,21 +12,27 @@ enum class PricingStrategies(val strategy: PricingStrategy) {
     }),
     DEFAULT(object: PricingStrategy{
         override fun scale(base: Int): Int {
-            val result = (base * (1 + (RoomController.actualRoomNumber * 0.1))).toInt()
+            // FIXME - Room controller now didn't operate this
+            // val result = (base * (1 + (RoomController.actualRoomNumber * 0.1))).toInt()
+            val result = base
             val maxRange = result / 4
             return result + Random.Default.nextInt(-maxRange, maxRange)
         }
     }),
     MULTIPLY_BY_ROOM_COMPLIED(object: PricingStrategy{
         override fun scale(base: Int): Int {
-            val result = base * RoomController.actualRoomNumber
+            // FIXME - Room controller now didn't operate this
+            // base * RoomController.actualRoomNumber
+            val result = base
             val maxRange = result / 4
             return result + Random.Default.nextInt(-maxRange, maxRange)
         }
     }),
     MULTIPLY_BY_BOSS_COMPLIED(object: PricingStrategy{
         override fun scale(base: Int): Int {
-            val result = base + RoomController.bossRoomCompleted + 1
+            // FIXME - Room controller now didn't operate this
+            // base + RoomController.bossRoomCompleted + 1
+            val result = base
             val maxRange = result / 4
             return result + Random.Default.nextInt(-maxRange, maxRange)
         }

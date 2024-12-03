@@ -1,6 +1,6 @@
 plugins {
-    kotlin("jvm") version "2.0.20-RC2"
-    kotlin("plugin.serialization") version "2.0.20-RC"
+    kotlin("jvm") version "2.1.0"
+    kotlin("plugin.serialization") version "2.1.0"
     id("com.github.johnrengelman.shadow") version "8.1.1"
 
     id("io.papermc.paperweight.userdev") version "1.7.1"
@@ -25,7 +25,7 @@ repositories {
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21-R0.1-SNAPSHOT")
     shadow("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("com.charleskorn.kaml:kaml:0.61.0")
+    implementation("com.charleskorn.kaml:kaml:0.66.0")
 
     implementation("xyz.xenondevs.invui:invui:" + property("invui_version"))
     implementation("xyz.xenondevs.invui:invui-kotlin:" + property("invui_version"))

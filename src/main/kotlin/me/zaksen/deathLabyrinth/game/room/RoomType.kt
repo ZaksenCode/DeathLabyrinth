@@ -7,17 +7,23 @@ import me.zaksen.deathLabyrinth.game.room.reward.RewardStrategy
 enum class RoomType(val reward: RewardStrategy) {
     NORMAL(object: RewardStrategy{
         override fun generate(): Int {
-            return 25 + (5 * RoomController.actualRoomNumber)
+            // FIXME - Room controller now didn't operate this
+            // return 25 + (5 * RoomController.actualRoomNumber)
+            return 25
         }
     }),
     ELITE(object: RewardStrategy{
         override fun generate(): Int {
-            return 30 + (10 * RoomController.actualRoomNumber)
+            // FIXME - Room controller now didn't operate this
+            // 30 + (10 * RoomController.actualRoomNumber)
+            return 30
         }
     }),
     DOUBLE_ELITE(object: RewardStrategy{
         override fun generate(): Int {
-            return 45 + (15 * RoomController.actualRoomNumber)
+            // FIXME - Room controller now didn't operate this
+            // 45 + (15 * RoomController.actualRoomNumber)
+            return 45
         }
     }),
     SHOP(object: RewardStrategy{
@@ -42,17 +48,23 @@ enum class RoomType(val reward: RewardStrategy) {
     }),
     TREASURE(object: RewardStrategy{
         override fun generate(): Int {
-            return 30 + (10 * RoomController.actualRoomNumber)
+            // FIXME - Room controller now didn't operate this
+            // 30 + (10 * RoomController.actualRoomNumber)
+            return 30
         }
     }),
     CHALLENGE(object: RewardStrategy{
         override fun generate(): Int {
-            return 40 + (10 * RoomController.actualRoomNumber)
+            // FIXME - Room controller now didn't operate this
+            // 40 + (10 * RoomController.actualRoomNumber)
+            return 40
         }
     }),
     BOSS(object: RewardStrategy{
         override fun generate(): Int {
-            return 250 + (500 * RoomController.bossRoomCompleted)
+            // FIXME - Room controller now didn't operate this
+            // 250 + (500 * RoomController.bossRoomCompleted)
+            return 250
         }
     }),
     FINAL_BOSS(object: RewardStrategy{

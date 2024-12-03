@@ -96,7 +96,8 @@ object EventManager {
         GameController.processAnyEvent(coolEvent)
 
         if (!coolEvent.isCancelled) {
-            RoomController.processEntityRoomDeath(coolEvent)
+            // FIXME - Room controller now didn't operate this
+            // RoomController.processEntityRoomDeath(coolEvent)
 
             val data = GameController.players[player] ?: return
             data.stats.totalEntityKilled++
@@ -170,31 +171,35 @@ object EventManager {
         val coolEvent = RoomCompleteEvent(players, roomNumber, room)
         coolEvent.callEvent()
         GameController.processAnyEvent(coolEvent)
-        RoomController.processRoomCompletion()
+        // FIXME - Room controller now didn't operate this
+        // RoomController.processRoomCompletion()
     }
 
     fun callPlayerRoomCompleteEvent(player: Player, roomNumber: Int, room: Room, reward: Int) {
         val coolEvent = PlayerRoomCompleteEvent(player, roomNumber, room, reward)
         coolEvent.callEvent()
         GameController.processAnyEvent(coolEvent)
-        RoomController.grantRoomReward(coolEvent.player, coolEvent.reward)
+        // FIXME - Room controller now didn't operate this
+        // RoomController.grantRoomReward(coolEvent.player, coolEvent.reward)
     }
 
-    fun callEntitySpawnEvent(world: World, entity: Entity, requireKill: Boolean, debug: Boolean = false) {
-        val coolEvent = EntitySpawnEvent(world, entity, requireKill, debug)
+    fun callEntitySpawnEvent(room: Room, entity: Entity, requireKill: Boolean) {
+        val coolEvent = EntitySpawnEvent(room, entity, requireKill)
         coolEvent.callEvent()
         GameController.processAnyEvent(coolEvent)
+
         if(!coolEvent.isCancelled) {
-            RoomController.processEntitySpawn(coolEvent.world, coolEvent.entity, coolEvent.requireKill, coolEvent.debug)
+            GameController.processEntitySpawn(coolEvent.room, coolEvent.entity, coolEvent.requireKill)
         }
     }
 
-    fun callEntityCloneSpawnEvent(world: World, entity: Entity, requireKill: Boolean, debug: Boolean = false) {
-        val coolEvent = EntityCloneSpawnEvent(world, entity, requireKill, debug)
+    fun callEntityCloneSpawnEvent(room: Room, entity: Entity, requireKill: Boolean) {
+        val coolEvent = EntityCloneSpawnEvent(room, entity, requireKill)
         coolEvent.callEvent()
         GameController.processAnyEvent(coolEvent)
+
         if(!coolEvent.isCancelled) {
-            RoomController.processEntitySpawn(coolEvent.world, coolEvent.entity, coolEvent.requireKill, coolEvent.debug)
+            GameController.processEntitySpawn(coolEvent.room, coolEvent.entity, coolEvent.requireKill)
         }
     }
 

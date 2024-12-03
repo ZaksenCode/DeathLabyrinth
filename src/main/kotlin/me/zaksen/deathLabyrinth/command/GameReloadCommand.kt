@@ -26,7 +26,7 @@ class GameReloadCommand(private val configs: ConfigContainer, private val roomsD
         }
 
         configs.reloadConfigs()
-        RoomController.reloadRooms(roomsDirectory)
+        RoomController.reload(roomsDirectory)
 
         if(args != null) {
             try {

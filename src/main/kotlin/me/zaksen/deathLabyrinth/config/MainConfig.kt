@@ -16,10 +16,10 @@ data class MainConfig(
     val debug: Boolean = false,
 
     @SerialName("player_spawn_loc")
-    val playerSpawnLocation: Position = Position("world", 2.0, 1.1, 0.0),
+    val playerSpawnLocation: Position = Position(2.0, 1.1, 0.0),
 
     @SerialName("entrance_start")
-    val entranceStart: Position = Position("world", -18.0, 2.0, -4.0),
+    val entranceStart: Position = Position(-18.0, 2.0, -4.0),
     @SerialName("entrance_end")
-    val entranceEnd: Position = Position("world", -18.0, 8.0, 3.0),
+    val entranceEnd: Position = Position(-18.0, 8.0, 3.0),
 )

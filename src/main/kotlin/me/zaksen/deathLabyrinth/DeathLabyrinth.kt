@@ -5,6 +5,7 @@ import me.zaksen.deathLabyrinth.config.*
 import me.zaksen.deathLabyrinth.event.CustomItemEvents
 import me.zaksen.deathLabyrinth.event.GameEvents
 import me.zaksen.deathLabyrinth.game.GameController
+import me.zaksen.deathLabyrinth.game.room.RoomBuilder
 import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.keys.PluginKeys
 import me.zaksen.deathLabyrinth.menu.Menus
@@ -23,9 +24,9 @@ class DeathLabyrinth : JavaPlugin(), ConfigContainer {
         LaserManager.setup(this)
         Menus.setup(this)
         PluginKeys.setup(this)
-        RoomController.reloadRooms(roomDirectory)
+        RoomBuilder.setup(this)
+        RoomController.reload(roomDirectory)
         GameController.setup(this, this)
-        RoomController.setup(this)
         registerEvents()
         registerCommands()
     }
@@ -53,7 +54,9 @@ class DeathLabyrinth : JavaPlugin(), ConfigContainer {
         getCommand("summon_custom")?.tabCompleter = CustomSummonCommand()
         getCommand("build_room")?.setExecutor(BuildRoomCommand())
         getCommand("build_room")?.tabCompleter = BuildRoomCommand()
+        getCommand("start_room")?.setExecutor(StartRoomCommand())
         getCommand("start_generation")?.setExecutor(StartGenerationCommand())
+        getCommand("clear_generation")?.setExecutor(ClearGenerationCommand())
         getCommand("money")?.setExecutor(MoneyCommand())
         getCommand("money")?.tabCompleter = MoneyCommand()
         getCommand("artifacts")?.setExecutor(ArtifactsCommand())
