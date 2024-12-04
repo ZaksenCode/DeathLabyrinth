@@ -3,7 +3,9 @@ package me.zaksen.deathLabyrinth.game.room
 import me.zaksen.deathLabyrinth.config.RoomConfig
 import me.zaksen.deathLabyrinth.config.loadConfig
 import me.zaksen.deathLabyrinth.exception.room.RoomLoadingException
+import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.util.loadDirectoryFiles
+import net.minecraft.world.entity.Entity
 import org.bukkit.entity.Player
 import java.io.File
 
@@ -71,5 +73,37 @@ object RoomController {
         }
 
         return null
+    }
+
+    fun processRooms() {
+        for(playerEntry in GameController.players.filter { it.value.isAlive }) {
+            val room = getPlayerProcessingRoom(playerEntry.key) ?: continue
+
+            if(room.isStarted && !room.isCompleted && room.checkRoomCompletion()) {
+                room.completeRoom()
+            }
+
+            room.processRoomTick()
+        }
+    }
+
+    fun processRoomsDeath(entity: Entity) {
+        processingRooms.forEach {
+            it.processRoomEntityDeath(entity)
+        }
+    }
+
+    fun loadRoomsFor(location: LocationType): MutableSet<RoomEntry> {
+        val result: MutableSet<RoomEntry> = mutableSetOf()
+
+        roomIds.forEach {
+            val loaded = loadRoom(it.key)
+
+            if(loaded.roomConfig.locationType == location) {
+                result.add(loaded)
+            }
+        }
+
+        return result
     }
 }

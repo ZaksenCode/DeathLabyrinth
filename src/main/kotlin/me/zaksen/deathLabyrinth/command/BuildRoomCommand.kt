@@ -50,13 +50,15 @@ class BuildRoomCommand: TabExecutor {
                     when(args.size) {
                         1 -> {
                             val room = RoomController.loadRoom(args[0])
-                            val builtRoom = RoomBuilder.buildRoom(room, sender.chunk.x * 16, sender.y.toInt(), sender.chunk.z * 16, 0)
+                            val builtRoom = RoomBuilder.prepareRoom(room, sender.world, sender.chunk.x * 16, sender.y.toInt(), sender.chunk.z * 16, 0)
+                            RoomBuilder.buildRoom(builtRoom)
                             RoomController.addProcessingRoom(builtRoom)
                         }
                         2 -> {
                             val room = RoomController.loadRoom(args[0])
                             val numOfPots = args[1].toInt()
-                            val builtRoom = RoomBuilder.buildRoom(room, sender.chunk.x * 16, sender.y.toInt(), sender.chunk.z * 16, numOfPots)
+                            val builtRoom = RoomBuilder.prepareRoom(room, sender.world, sender.chunk.x * 16, sender.y.toInt(), sender.chunk.z * 16, numOfPots)
+                            RoomBuilder.buildRoom(builtRoom)
                             RoomController.addProcessingRoom(builtRoom)
                         }
                     }

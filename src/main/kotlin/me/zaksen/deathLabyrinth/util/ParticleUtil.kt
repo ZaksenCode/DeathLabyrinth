@@ -166,20 +166,24 @@ fun drawSquare(
     end: Location,
     gap: Double = 0.3
 ) {
-    drawLine(start.world, start.x, start.y, start.z, end.x, start.y, start.z, gap)
-    drawLine(start.world, start.x, start.y, start.z, start.x, start.y, end.z, gap)
-    drawLine(start.world, end.x, start.y, start.z, start.x, start.y, end.z, gap)
-    drawLine(start.world, start.x, start.y, end.z, end.x, start.y, start.z, gap)
+    start.particleLine(Particle.ELECTRIC_SPARK, Location(end.world, end.x, start.y, start.z))
+    start.particleLine(Particle.ELECTRIC_SPARK, Location(end.world, start.x, start.y, end.z))
+    start.particleLine(Particle.ELECTRIC_SPARK, Location(end.world, start.x, end.y, start.z))
 
-    drawLine(start.world, start.x, start.y, start.z, start.x, end.y, start.z, gap)
-    drawLine(start.world, end.x, start.y, start.z, end.x, end.y, start.z, gap)
-    drawLine(start.world, start.x, start.y, end.z, start.x, end.y, end.z, gap)
-    drawLine(start.world, end.x, start.y, end.z, end.x, end.y, end.z, gap)
-
-    drawLine(start.world, start.x, end.y, start.z, end.x, end.y, start.z, gap)
-    drawLine(start.world, start.x, end.y, start.z, start.x, end.y, end.z, gap)
-    drawLine(start.world, end.x, end.y, start.z, start.x, end.y, end.z, gap)
-    drawLine(start.world, start.x, end.y, end.z, end.x, end.y, start.z, gap)
+//    drawLine(start.world, start.x, start.y, start.z, end.x, start.y, start.z, gap)
+//    drawLine(start.world, start.x, start.y, start.z, start.x, start.y, end.z, gap)
+//    drawLine(start.world, end.x, start.y, start.z, start.x, start.y, end.z, gap)
+//    drawLine(start.world, start.x, start.y, end.z, end.x, start.y, start.z, gap)
+//
+//    drawLine(start.world, start.x, start.y, start.z, start.x, end.y, start.z, gap)
+//    drawLine(start.world, end.x, start.y, start.z, end.x, end.y, start.z, gap)
+//    drawLine(start.world, start.x, start.y, end.z, start.x, end.y, end.z, gap)
+//    drawLine(start.world, end.x, start.y, end.z, end.x, end.y, end.z, gap)
+//
+//    drawLine(start.world, start.x, end.y, start.z, end.x, end.y, start.z, gap)
+//    drawLine(start.world, start.x, end.y, start.z, start.x, end.y, end.z, gap)
+//    drawLine(start.world, end.x, end.y, start.z, start.x, end.y, end.z, gap)
+//    drawLine(start.world, start.x, end.y, end.z, end.x, end.y, start.z, gap)
 }
 
 // TODO - Check if drawLine function is working

@@ -96,8 +96,7 @@ object EventManager {
         GameController.processAnyEvent(coolEvent)
 
         if (!coolEvent.isCancelled) {
-            // FIXME - Room controller now didn't operate this
-            // RoomController.processEntityRoomDeath(coolEvent)
+            RoomController.processRoomsDeath((coolEvent.entity as CraftLivingEntity).handle)
 
             val data = GameController.players[player] ?: return
             data.stats.totalEntityKilled++
