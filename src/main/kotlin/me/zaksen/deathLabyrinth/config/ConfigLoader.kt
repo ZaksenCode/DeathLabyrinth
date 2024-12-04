@@ -4,13 +4,32 @@ import com.charleskorn.kaml.Yaml
 import com.charleskorn.kaml.YamlConfiguration
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
+import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.polymorphic
+import kotlinx.serialization.modules.subclass
+import me.zaksen.deathLabyrinth.game.room.logic.completion.CompletionCheck
+import me.zaksen.deathLabyrinth.game.room.logic.completion.EntityCompletionCheck
+import me.zaksen.deathLabyrinth.game.room.logic.tick.HeightMinLimit
+import me.zaksen.deathLabyrinth.game.room.logic.tick.TickProcess
 import java.io.File
+
+val module = SerializersModule {
+    polymorphic(CompletionCheck::class) {
+        subclass(EntityCompletionCheck::class)
+    }
+
+    polymorphic(TickProcess::class) {
+        subclass(HeightMinLimit::class)
+    }
+}
+
 
 val yaml by lazy {
     Yaml(
         configuration = YamlConfiguration(
             strictMode = false
-        )
+        ),
+        serializersModule = module
     )
 }
 

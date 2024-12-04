@@ -177,7 +177,7 @@ object GameController {
         } else {
             player.gameMode = GameMode.SPECTATOR
 
-            // TODO - Make mode soft
+            // TODO - Make more soft
             Bukkit.getWorld(configs.mainConfig().world).let { world ->
                 if(world == null) return
                 player.teleport(configs.mainConfig().playerSpawnLocation.location(world))
@@ -213,7 +213,7 @@ object GameController {
             false
         ))
 
-        // TODO - Make mode soft
+        // TODO - Make more soft
         Bukkit.getWorld(configs.mainConfig().world).let { world ->
             if(world == null) return
             player.teleport(configs.mainConfig().playerSpawnLocation.location(world))
@@ -565,5 +565,9 @@ object GameController {
         if(entity is RoomCycle) {
             room.otherEntities.add(entity)
         }
+    }
+
+    fun runTaskLater(runnable: Runnable, delay: Long) {
+        Bukkit.getScheduler().runTaskLater(plugin, runnable, delay)
     }
 }

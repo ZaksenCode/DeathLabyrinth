@@ -1,34 +1,29 @@
 package me.zaksen.deathLabyrinth.game.room
-
 import me.zaksen.deathLabyrinth.config.RoomConfig
 import me.zaksen.deathLabyrinth.entity.EntityController
 import me.zaksen.deathLabyrinth.event.EventManager
-import me.zaksen.deathLabyrinth.game.room.logic.CompletionCheckResolver
-import me.zaksen.deathLabyrinth.game.room.logic.TickProcessResolver
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.World
+import java.io.File
 
 class Room(
     val roomConfig: RoomConfig,
+    val schematic: File,
     val world: World,
     val roomX: Int,
     val roomY: Int,
     val roomZ: Int,
+    val numOfPots: Int
 ) {
-    // Resolvers
-    val completionCheckResolver = CompletionCheckResolver(this)
-    val tickProcessResolver = TickProcessResolver(this)
-
     // Data
     val livingEntities: MutableSet<LivingEntity> = mutableSetOf()
     val otherEntities: MutableSet<Entity> = mutableSetOf()
 
-    init {
-
-    }
+    var isStarted = false
+    var isCompleted = false
 
     fun clear() {
         livingEntities.forEach {
@@ -51,19 +46,37 @@ class Room(
     }
 
     fun startRoomCompletion() {
-        spawnEntities()
+        if(!isCompleted && !isStarted) {
+            isStarted = true
+            spawnEntities()
+        }
     }
 
     fun checkRoomCompletion(): Boolean {
-        return completionCheckResolver.doCheck()
+        var result = true
+
+        for(condition in roomConfig.completionConditions) {
+            if(!condition.check(this)) {
+                result = false
+            }
+        }
+
+        return result
     }
 
+    // TODO - Add remove completion logic (in generation)
     fun completeRoom() {
+        isCompleted = true
+    }
 
+    fun processRoomEntityDeath(entity: Entity) {
+        livingEntities.remove(entity)
     }
 
     fun processRoomTick() {
-        tickProcessResolver.doTick()
+        roomConfig.tickProcesses.forEach {
+            it.process(this)
+        }
     }
 
     private fun spawnEntities() {

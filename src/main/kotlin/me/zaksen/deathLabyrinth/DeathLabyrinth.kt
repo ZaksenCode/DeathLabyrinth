@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth
 
+import kotlinx.serialization.encodeToString
 import me.zaksen.deathLabyrinth.command.*
 import me.zaksen.deathLabyrinth.config.*
 import me.zaksen.deathLabyrinth.event.CustomItemEvents
@@ -10,6 +11,7 @@ import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.keys.PluginKeys
 import me.zaksen.deathLabyrinth.menu.Menus
 import me.zaksen.deathLabyrinth.util.LaserManager
+import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
 
@@ -29,6 +31,8 @@ class DeathLabyrinth : JavaPlugin(), ConfigContainer {
         GameController.setup(this, this)
         registerEvents()
         registerCommands()
+
+        println(yaml.encodeToString<RoomConfig>(RoomConfig()))
     }
 
     override fun onDisable() {
