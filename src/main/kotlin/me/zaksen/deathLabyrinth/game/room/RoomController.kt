@@ -4,7 +4,6 @@ import me.zaksen.deathLabyrinth.config.RoomConfig
 import me.zaksen.deathLabyrinth.config.loadConfig
 import me.zaksen.deathLabyrinth.exception.room.RoomLoadingException
 import me.zaksen.deathLabyrinth.game.GameController
-import me.zaksen.deathLabyrinth.util.drawSquare
 import me.zaksen.deathLabyrinth.util.loadDirectoryFiles
 import net.minecraft.world.entity.Entity
 import org.bukkit.entity.Player
@@ -15,24 +14,25 @@ object RoomController {
 
     val roomIds: MutableMap<String, String> = mutableMapOf()
     private val processingRooms: MutableSet<Room> = mutableSetOf()
+    var roomsOrder: MutableList<Room> = mutableListOf()
 
-    var genareParticles = false
+    private var lastCompletedRoom = 0
 
-    val particlesTask = timer(period = 500) {
-        if(genareParticles) {
-            processingRooms.forEach {
-                drawSquare(
-                    it.world,
-                    it.roomX.toDouble(),
-                    it.roomY.toDouble(),
-                    it.roomZ.toDouble(),
-                    it.roomX.toDouble() + it.roomConfig.roomSize.x,
-                    it.roomY.toDouble() + it.roomConfig.roomSize.y,
-                    it.roomZ.toDouble() + it.roomConfig.roomSize.z,
-                    0.5
-                )
+    private val roomStartingTask = timer(period = 1000) {
+        GameController.players.forEach { player ->
+            val room = getPlayerProcessingRoom(player.key)
+            GameController.runTask {
+                room?.startRoomCompletion()
             }
         }
+    }
+
+    fun getRoom(index: Int): Room {
+        return roomsOrder[index]
+    }
+
+    fun hasRoom(index: Int): Boolean {
+        return roomsOrder.getOrNull(index) != null
     }
 
     fun reload(directory: File) {
@@ -126,5 +126,15 @@ object RoomController {
         }
 
         return result
+    }
+
+    // Not sure check
+    fun processRoomCompletion(room: Room) {
+        lastCompletedRoom++
+
+        if(hasRoom(lastCompletedRoom)) {
+            val lastRoom = getRoom(lastCompletedRoom)
+            room.world.worldBorder.size += (lastRoom.roomConfig.roomSize.x * 2)
+        }
     }
 }

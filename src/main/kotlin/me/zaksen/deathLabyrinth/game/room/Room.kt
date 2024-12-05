@@ -67,6 +67,7 @@ class Room(
     // TODO - Add remove completion logic (in generation)
     fun completeRoom() {
         isCompleted = true
+        RoomController.processRoomCompletion(this)
     }
 
     fun processRoomEntityDeath(entity: Entity) {

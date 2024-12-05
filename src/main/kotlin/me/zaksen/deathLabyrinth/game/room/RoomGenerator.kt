@@ -1,54 +1,41 @@
 package me.zaksen.deathLabyrinth.game.room
 
 import me.zaksen.deathLabyrinth.exception.room.RoomGenerationException
-import net.minecraft.core.Direction
 import org.bukkit.World
-import org.joml.Vector2i
 import kotlin.random.Random
 
 object RoomGenerator {
 
-    private val directions: Set<Set<Direction>> = setOf(
-        setOf(Direction.EAST, Direction.NORTH),
-        setOf(Direction.EAST, Direction.WEST),
-        setOf(Direction.EAST, Direction.SOUTH),
-
-        setOf(Direction.NORTH, Direction.WEST),
-        setOf(Direction.NORTH, Direction.SOUTH),
-
-        setOf(Direction.WEST, Direction.SOUTH),
-
-        setOf(Direction.EAST, Direction.NORTH, Direction.WEST),
-        setOf(Direction.EAST, Direction.SOUTH, Direction.NORTH),
-        setOf(Direction.EAST, Direction.SOUTH, Direction.WEST),
-
-        setOf(Direction.NORTH, Direction.WEST, Direction.SOUTH),
-    )
-
-    // TODO - Change random from default
     private var random: Random = Random
 
     private var world: World? = null
     private var toGenerate: Int = 0
     private var roomPool: MutableSet<RoomEntry> = mutableSetOf()
+    private var roomTypes: MutableSet<RoomType> = mutableSetOf()
 
     private var spawnX: Int = 0
+    private var spawnY: Int = 0
     private var spawnZ: Int = 0
 
-    private var roomAreas: MutableSet<Pair<Vector2i, Vector2i>> = mutableSetOf()
-    private var preparedRooms: MutableSet<Room> = mutableSetOf()
-    private var generateQuery: MutableMap<Room, Direction> = mutableMapOf()
+    private var startRoom: Room? = null
+    private var preparedRooms: MutableList<Room> = mutableListOf()
 
-    private var maxSizeX: Int = 0
-    private var maxSizeZ: Int = 0
+    fun startSubFloorGeneration(world: World, x: Int, z: Int, roomCount: Int, floor: Int, seed: Long, roomTypes: Set<RoomType>) {
+        setupGenerator(world, x, z, roomCount, floor, seed, roomTypes)
+        startGeneration()
+        processGeneration()
+    }
 
+    fun getPlayersStartRoom(): Room {
+        return startRoom ?: throw RoomGenerationException("Start room didn't exists")
+    }
 
-    fun setupGenerator(world: World, spawnX: Int, spawnZ: Int, roomCount: Int, floor: Int) {
-        val location = LocationType.getLocationFor(floor) ?: return
+    private fun setupGenerator(world: World, spawnX: Int, spawnZ: Int, roomCount: Int, floor: Int, seed: Long, roomTypes: Set<RoomType>) {
+        random = Random(seed)
 
-        roomAreas.clear()
+        val location = LocationType.getLocationFor(floor) ?: throw RoomGenerationException("Unable to get location with floor $floor")
+
         preparedRooms.clear()
-        generateQuery.clear()
 
         roomPool.clear()
         roomPool.addAll(RoomController.loadRoomsFor(location))
@@ -57,214 +44,92 @@ object RoomGenerator {
         this.toGenerate = roomCount
 
         this.spawnX = spawnX
+        this.spawnY = world.maxHeight / 2
         this.spawnZ = spawnZ
 
-        this.maxSizeX = 0
-        this.maxSizeZ = 0
-
-        roomPool.forEach {
-            if(it.roomConfig.roomSize.x > maxSizeX) {
-                maxSizeX = it.roomConfig.roomSize.x.toInt()
-            }
-
-            if(it.roomConfig.roomSize.z > maxSizeZ) {
-                maxSizeZ = it.roomConfig.roomSize.z.toInt()
-            }
-        }
+        this.roomTypes.addAll(roomTypes)
     }
 
-    fun startGeneration() {
-        val startRoom = getFromPool(setOf(Direction.EAST))
-        val room = prepareRoom(spawnX, world!!.maxHeight / 2, spawnZ, startRoom)
+    private fun startGeneration() {
+        val startRoomEntry = getStartRoom()
+        startRoom = addRoom(spawnX, spawnY, spawnZ, startRoomEntry)
 
-        if(room != null) {
-            addRoom(room)
-            generateSubRooms(room)
+        startRoom!!.isStarted = true
+        startRoom!!.completeRoom()
 
-            generateFromQuery()
-        }
+        generateNextRoom()
     }
 
-    fun processGeneration() {
+    private fun processGeneration() {
         preparedRooms.forEach {
             RoomBuilder.buildRoom(it)
+            RoomController.roomsOrder.add(it)
             RoomController.addProcessingRoom(it)
         }
 
         preparedRooms.clear()
-
-        RoomController.genareParticles = true
     }
 
-    private fun addRoom(room: Room) {
-        preparedRooms.add(room)
-        roomAreas.add(Pair(
-            Vector2i(room.roomX, room.roomZ),
-            Vector2i(
-                room.roomX + room.roomConfig.roomSize.x.toInt(),
-                room.roomZ + room.roomConfig.roomSize.z.toInt()
+    private fun generateNextRoom() {
+        if(toGenerate > 0) {
+            val lastRoom = preparedRooms.last()
+            val nextRoom = getRoom(roomTypes)
+
+            addRoom(
+                lastRoom.roomX + lastRoom.roomConfig.exitOffset.x.toInt() + nextRoom.roomConfig.entranceOffset.x.toInt(),
+                lastRoom.roomY + lastRoom.roomConfig.exitOffset.y.toInt() + nextRoom.roomConfig.entranceOffset.y.toInt(),
+                lastRoom.roomZ + lastRoom.roomConfig.exitOffset.z.toInt() + nextRoom.roomConfig.entranceOffset.z.toInt(),
+                nextRoom
             )
-        ))
-    }
 
-    private fun prepareRoom(x: Int, y: Int, z: Int, room: RoomEntry): Room? {
-        if(world == null) {
-            return null
-        }
-
-        val roomOffsetX = (maxSizeX - room.roomConfig.roomSize.x).toInt() / 2
-        val roomOffsetZ = (maxSizeZ - room.roomConfig.roomSize.z).toInt() / 2
-
-        var actualX = x + roomOffsetX
-        var actualZ = z + roomOffsetZ
-
-        val prepared = RoomBuilder.prepareRoom(room, world!!, actualX, y, actualZ, random.nextInt(0, room.roomConfig.potSpawns.size))
-        return prepared
-    }
-
-    private fun randomCompletionDirectionsFor(direction: Direction): Set<Direction> {
-        val opposite = direction.opposite
-        return directions.filter { it.contains(opposite) }.random()
-    }
-
-    private fun getFromPool(directions: Set<Direction>): RoomEntry {
-        val toReturn = roomPool.filter {
-            directions == it.roomConfig.entranceDirections
-        }.randomOrNull(random)
-
-        if(toReturn == null) {
-            throw RoomGenerationException("Unable to get room for direction: $directions")
-        }
-
-        return toReturn
-    }
-
-    private fun prepareCordsForDirection(x: Int, z: Int, direction: Direction, room: RoomEntry): Pair<Int, Int> {
-        val prepared = when(direction) {
-            Direction.DOWN -> Pair(x, z)
-            Direction.UP ->  Pair(x, z)
-            Direction.NORTH ->  Pair(x, z - room.roomConfig.roomSize.z.toInt())
-            Direction.SOUTH ->  Pair(x, z + room.roomConfig.roomSize.z.toInt())
-            Direction.WEST ->  Pair(x - room.roomConfig.roomSize.x.toInt(), z)
-            Direction.EAST ->  Pair(x + room.roomConfig.roomSize.x.toInt(), z)
-        }
-        return prepared
-    }
-
-    private fun generateFromQuery() {
-        if(generateQuery.isNotEmpty()) {
-            val toGenerateQuery = generateQuery.toMap()
-
-            generateQuery.clear()
-
-            if (toGenerate > 0) {
-
-                toGenerateQuery.forEach {
-                    addRoom(it.key)
-                }
-
-                toGenerateQuery.forEach {
-                    generateSubRooms(it.key, it.value)
-                }
-
-                generateFromQuery()
-            }
-            else {
-                toGenerateQuery.forEach {
-                    val replace = getFromPool(setOf(it.value))
-                    val replacedRoom = prepareRoom(it.key.roomX, it.key.roomY, it.key.roomZ, replace)
-
-                    if(replacedRoom != null) {
-                        addRoom(replacedRoom)
-                    }
-                }
-
-                checkFullGrid()
-            }
-        }
-    }
-
-    // TODO - Connect near rooms with each other
-    private fun checkFullGrid() {
-
-    }
-
-    private fun generateSubRooms(room: Room, excludeDirection: Direction? = null): MutableSet<Room> {
-        val toGenerate = room.roomConfig.entranceDirections.toMutableSet()
-        toGenerate.remove(excludeDirection)
-
-        val result = mutableSetOf<Room>()
-
-        for(direction in toGenerate) {
-            val newRoom = generateSubRoom(room, direction)
-
-            if(newRoom != null) {
-                result.add(newRoom)
-            }
-        }
-
-        return result
-    }
-
-    private fun generateSubRoom(room: Room, from: Direction): Room? {
-        val newRoomDirections = randomCompletionDirectionsFor(from).toMutableSet()
-        val newRoom = getFromPool(newRoomDirections)
-        val cords = prepareCordsForDirection(room.roomX, room.roomZ, from, newRoom)
-
-        val checkedDirections = mutableSetOf<Direction>()
-
-        newRoomDirections.remove(from.opposite)
-
-        for(newRoomDirection in newRoomDirections) {
-            if(checkDirectionOverlapsRoom(cords.first, cords.second, newRoomDirection, newRoom)) {
-                checkedDirections.add(newRoomDirection)
-            }
-        }
-
-        if(checkedDirections.isEmpty()) {
-            val allDirections = mutableSetOf(Direction.EAST, Direction.WEST, Direction.SOUTH, Direction.NORTH)
-            allDirections.removeAll(newRoomDirections)
-            checkedDirections.addAll(allDirections)
-        }
-
-        checkedDirections.add(from.opposite)
-
-        println("New room at (${room.roomX}, ${room.roomZ}) with directions: $checkedDirections")
-
-        val checkedRoom = getFromPool(checkedDirections)
-        val checkedRoomCords = prepareCordsForDirection(room.roomX, room.roomZ, from, checkedRoom)
-        val newPreparedRoom = prepareRoom(checkedRoomCords.first, room.roomY, checkedRoomCords.second, checkedRoom)
-
-        if(newPreparedRoom != null) {
             this.toGenerate--
-            generateQuery[newPreparedRoom] = from.opposite
-            return newPreparedRoom
-        }
+            generateNextRoom()
+        } else {
+            val lastRoom = preparedRooms.last()
+            val nextRoom = getEndRoom()
 
-        return null
+            addRoom(
+                lastRoom.roomX + lastRoom.roomConfig.exitOffset.x.toInt() + nextRoom.roomConfig.entranceOffset.x.toInt(),
+                lastRoom.roomY + lastRoom.roomConfig.exitOffset.y.toInt() + nextRoom.roomConfig.entranceOffset.y.toInt(),
+                lastRoom.roomZ + lastRoom.roomConfig.exitOffset.z.toInt() + nextRoom.roomConfig.entranceOffset.z.toInt(),
+                nextRoom
+            )
+        }
     }
 
-    private fun checkDirectionOverlapsRoom(x: Int, z: Int, direction: Direction, room: RoomEntry): Boolean {
-        val directionCords = prepareCordsForDirection(x, z, direction, room)
+    private fun getStartRoom(): RoomEntry {
+        val startRoom = roomPool.filter { it.roomConfig.roomType == RoomType.START_ROOM }.randomOrNull(random)
 
-        return !checkOverlaps(
-            directionCords.first,
-            directionCords.second,
-            directionCords.first + room.roomConfig.roomSize.x.toInt(),
-            directionCords.second + room.roomConfig.roomSize.z.toInt()
-        )
-    }
-
-    private fun checkOverlaps(minX: Int, minZ: Int, maxX: Int, maxZ: Int): Boolean {
-        roomAreas.forEach {
-            if(
-                minX >= it.first.x && minX <= it.second.x && minZ >= it.first.y && minZ <= it.second.y ||
-                maxX >= it.first.x && maxX <= it.second.x && maxZ >= it.first.y && maxZ <= it.second.y
-            ) {
-                return true
-            }
+        if(startRoom == null) {
+            throw RoomGenerationException("Unable to get start room")
         }
 
-        return false
+        return startRoom
+    }
+
+    private fun getEndRoom(): RoomEntry {
+        val startRoom = roomPool.filter { it.roomConfig.roomType == RoomType.END_ROOM }.randomOrNull(random)
+
+        if(startRoom == null) {
+            throw RoomGenerationException("Unable to get end room")
+        }
+
+        return startRoom
+    }
+
+    private fun getRoom(types: Set<RoomType>): RoomEntry {
+        val room = roomPool.filter { types.contains(it.roomConfig.roomType) }.randomOrNull(random)
+
+        if(room == null) {
+            throw RoomGenerationException("Unable to get room for types: $types")
+        }
+
+        return room
+    }
+
+    private fun addRoom(x: Int, y: Int, z: Int, room: RoomEntry): Room {
+        val newRoom = RoomBuilder.prepareRoom(room, world!!, x, y, z, random.nextInt(0, room.roomConfig.potSpawns.size))
+        preparedRooms.add(newRoom)
+        return newRoom
     }
 }

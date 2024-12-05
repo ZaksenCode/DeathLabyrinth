@@ -9,6 +9,8 @@ import kotlinx.serialization.modules.polymorphic
 import kotlinx.serialization.modules.subclass
 import me.zaksen.deathLabyrinth.game.room.logic.completion.CompletionCheck
 import me.zaksen.deathLabyrinth.game.room.logic.completion.EntityCompletionCheck
+import me.zaksen.deathLabyrinth.game.room.logic.tags.RoomTag
+import me.zaksen.deathLabyrinth.game.room.logic.tags.StartRoomSpawnOffset
 import me.zaksen.deathLabyrinth.game.room.logic.tick.HeightMinLimit
 import me.zaksen.deathLabyrinth.game.room.logic.tick.TickProcess
 import java.io.File
@@ -20,6 +22,10 @@ val module = SerializersModule {
 
     polymorphic(TickProcess::class) {
         subclass(HeightMinLimit::class)
+    }
+
+    polymorphic(RoomTag::class) {
+        subclass(StartRoomSpawnOffset::class)
     }
 }
 
