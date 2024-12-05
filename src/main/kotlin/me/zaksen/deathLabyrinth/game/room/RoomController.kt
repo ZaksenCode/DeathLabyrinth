@@ -4,15 +4,36 @@ import me.zaksen.deathLabyrinth.config.RoomConfig
 import me.zaksen.deathLabyrinth.config.loadConfig
 import me.zaksen.deathLabyrinth.exception.room.RoomLoadingException
 import me.zaksen.deathLabyrinth.game.GameController
+import me.zaksen.deathLabyrinth.util.drawSquare
 import me.zaksen.deathLabyrinth.util.loadDirectoryFiles
 import net.minecraft.world.entity.Entity
 import org.bukkit.entity.Player
 import java.io.File
+import kotlin.concurrent.timer
 
 object RoomController {
 
     val roomIds: MutableMap<String, String> = mutableMapOf()
     private val processingRooms: MutableSet<Room> = mutableSetOf()
+
+    var genareParticles = false
+
+    val particlesTask = timer(period = 500) {
+        if(genareParticles) {
+            processingRooms.forEach {
+                drawSquare(
+                    it.world,
+                    it.roomX.toDouble(),
+                    it.roomY.toDouble(),
+                    it.roomZ.toDouble(),
+                    it.roomX.toDouble() + it.roomConfig.roomSize.x,
+                    it.roomY.toDouble() + it.roomConfig.roomSize.y,
+                    it.roomZ.toDouble() + it.roomConfig.roomSize.z,
+                    0.5
+                )
+            }
+        }
+    }
 
     fun reload(directory: File) {
         roomIds.clear()

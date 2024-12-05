@@ -11,8 +11,9 @@ import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.random.Random
 
+val random = Random.Default
+
 fun Location.particleLine(particle: Particle, to: Location, space: Double = 0.2, offset: Double = 0.0) {
-    val random = Random.Default
     val distance = this.distance(to)
 
     val p1 = this.toVector()
@@ -52,7 +53,6 @@ fun Location.particleLine(particle: Particle, to: Location, space: Double = 0.2,
 }
 
 fun particleLine(particle: Particle, from: Location, to: Location, space: Double = 0.2, offset: Double = 0.0) {
-    val random = Random.Default
     val distance = from.distance(to)
 
     val p1 = from.toVector()
@@ -91,6 +91,42 @@ fun particleLine(particle: Particle, from: Location, to: Location, space: Double
     }
 }
 
+fun particleLine(particle: Particle, world: World, from: Vector, to: Vector, space: Double = 0.2, offset: Double = 0.0) {
+    val distance = from.distance(to)
+
+    val vector: Vector = to.clone().subtract(from).normalize().multiply(space)
+
+    var covered = 0.0
+
+    while (covered < distance) {
+        if (offset > 0) {
+            world.spawnParticle(
+                particle,
+                from.x + random.nextDouble(-offset, offset),
+                from.y + random.nextDouble(-offset, offset),
+                from.z + random.nextDouble(-offset, offset),
+                0,
+                0.0,
+                0.0,
+                0.0
+            )
+        } else {
+            world.spawnParticle(
+                particle,
+                from.x,
+                from.y,
+                from.z,
+                0,
+                0.0,
+                0.0,
+                0.0
+            )
+        }
+        covered += space
+        from.add(vector)
+    }
+}
+
 fun launchVibration(ticks: Int = 20, firstPos: Location, secondPos: Location, count: Int = 1) {
     val endingPos = Vibration.Destination.BlockDestination(secondPos)
 
@@ -119,74 +155,27 @@ fun drawCircle(
     }
 }
 
-fun drawLine(
-    start: Location,
-    end: Location,
-    gap: Double = 0.2,
-    particle: Particle = Particle.DUST,
-    color: Color = Color.WHITE,
-    particleSize: Float = 1.0f,
-) {
-    drawLine(start.world, start.x, start.y, start.z, end.x, end.y, end.z, gap, particle, color, particleSize)
-}
-
-fun drawLine(
-    world: World,
-    startX: Double,
-    startY: Double,
-    startZ: Double,
-    endX: Double,
-    endY: Double,
-    endZ: Double,
-    gap: Double = 0.2,
-    particle: Particle = Particle.DUST,
-    color: Color = Color.WHITE,
-    particleSize: Float = 1.0f,
-) {
-    val dir = Vector(endX - startX, endY - startY, endZ - startZ)
-    var i = 0.0
-
-    while(i < 10) {
-        dir.multiply(i)
-        world.spawnParticle(
-            particle,
-            startX + dir.x,
-            startY + dir.y,
-            startZ + dir.z,
-            1,
-            DustOptions(color, particleSize)
-        )
-        dir.normalize()
-        i += gap
-    }
-}
-
 fun drawSquare(
     start: Location,
     end: Location,
     gap: Double = 0.3
 ) {
-    start.particleLine(Particle.ELECTRIC_SPARK, Location(end.world, end.x, start.y, start.z))
-    start.particleLine(Particle.ELECTRIC_SPARK, Location(end.world, start.x, start.y, end.z))
-    start.particleLine(Particle.ELECTRIC_SPARK, Location(end.world, start.x, end.y, start.z))
+    particleLine(Particle.ELECTRIC_SPARK, end.world, Vector(start.x, start.y, start.z), Vector(end.x, start.y, start.z), space = gap)
+    particleLine(Particle.ELECTRIC_SPARK, end.world, Vector(start.x, start.y, start.z), Vector(start.x, start.y, end.z), space = gap)
+    particleLine(Particle.ELECTRIC_SPARK, end.world, Vector(start.x, start.y, start.z), Vector(start.x, end.y, start.z), space = gap)
+    particleLine(Particle.ELECTRIC_SPARK, end.world, Vector(start.x, start.y, end.z), Vector(end.x, start.y, start.z), space = gap)
 
-//    drawLine(start.world, start.x, start.y, start.z, end.x, start.y, start.z, gap)
-//    drawLine(start.world, start.x, start.y, start.z, start.x, start.y, end.z, gap)
-//    drawLine(start.world, end.x, start.y, start.z, start.x, start.y, end.z, gap)
-//    drawLine(start.world, start.x, start.y, end.z, end.x, start.y, start.z, gap)
-//
-//    drawLine(start.world, start.x, start.y, start.z, start.x, end.y, start.z, gap)
-//    drawLine(start.world, end.x, start.y, start.z, end.x, end.y, start.z, gap)
-//    drawLine(start.world, start.x, start.y, end.z, start.x, end.y, end.z, gap)
-//    drawLine(start.world, end.x, start.y, end.z, end.x, end.y, end.z, gap)
-//
-//    drawLine(start.world, start.x, end.y, start.z, end.x, end.y, start.z, gap)
-//    drawLine(start.world, start.x, end.y, start.z, start.x, end.y, end.z, gap)
-//    drawLine(start.world, end.x, end.y, start.z, start.x, end.y, end.z, gap)
-//    drawLine(start.world, start.x, end.y, end.z, end.x, end.y, start.z, gap)
+    particleLine(Particle.ELECTRIC_SPARK, end.world, Vector(start.x, start.y, start.z), Vector(start.x, end.y, start.z), space = gap)
+    particleLine(Particle.ELECTRIC_SPARK, end.world, Vector(end.x, start.y, start.z), Vector(end.x, end.y, end.z), space = gap)
+    particleLine(Particle.ELECTRIC_SPARK, end.world, Vector(start.x, start.y, end.z), Vector(start.x, end.y, end.z), space = gap)
+    particleLine(Particle.ELECTRIC_SPARK, end.world, Vector(end.x, start.y, end.z), Vector(end.x, end.y, end.z), space = gap)
+
+    particleLine(Particle.ELECTRIC_SPARK, end.world, Vector(start.x, end.y, start.z), Vector(end.x, end.y, start.z), space = gap)
+    particleLine(Particle.ELECTRIC_SPARK, end.world, Vector(start.x, end.y, start.z), Vector(start.x, end.y, end.z), space = gap)
+    particleLine(Particle.ELECTRIC_SPARK, end.world, Vector(end.x, end.y, start.z), Vector(start.x, end.y, end.z), space = gap)
+    particleLine(Particle.ELECTRIC_SPARK, end.world, Vector(start.x, end.y, end.z), Vector(end.x, end.y, start.z), space = gap)
 }
 
-// TODO - Check if drawLine function is working
 fun drawSquare(
     world: World,
     startX: Double,
@@ -195,20 +184,22 @@ fun drawSquare(
     endX: Double,
     endY: Double,
     endZ: Double,
-    gap: Double = 0.3
+    gap: Double = 0.3,
+    particle: Particle = Particle.WAX_ON
 ) {
-    drawLine(world, startX, startY, startZ, endX, startY, startZ, gap)
-    drawLine(world, startX, startY, startZ, startX, startY, endZ, gap)
-    drawLine(world, endX, startY, startZ, startX, startY, endZ, gap)
-    drawLine(world, startX, startY, endZ, endX, startY, startZ, gap)
-
-    drawLine(world, startX, startY, startZ, startX, endY, startZ, gap)
-    drawLine(world, endX, startY, startZ, endX, endY, startZ, gap)
-    drawLine(world, startX, startY, endZ, startX, endY, endZ, gap)
-    drawLine(world, endX, startY, endZ, endX, endY, endZ, gap)
-
-    drawLine(world, startX, endY, startZ, endX, endY, startZ, gap)
-    drawLine(world, startX, endY, startZ, startX, endY, endZ, gap)
-    drawLine(world, endX, endY, startZ, startX, endY, endZ, gap)
-    drawLine(world, startX, endY, endZ, endX, endY, startZ, gap)
+    // Down square
+    particleLine(particle, world, Vector(startX, startY, startZ), Vector(endX, startY, startZ), space = gap)
+    particleLine(particle, world, Vector(startX, startY, startZ), Vector(startX, startY, endZ), space = gap)
+    particleLine(particle, world, Vector(endX, startY, startZ), Vector(endX, startY, endZ), space = gap)
+    particleLine(particle, world, Vector(startX, startY, endZ), Vector(endX, startY, endZ), space = gap)
+    // Up square
+    particleLine(particle, world, Vector(startX, endY, startZ), Vector(endX, endY, startZ), space = gap)
+    particleLine(particle, world, Vector(startX, endY, startZ), Vector(startX, endY, endZ), space = gap)
+    particleLine(particle, world, Vector(endX, endY, startZ), Vector(endX, endY, endZ), space = gap)
+    particleLine(particle, world, Vector(startX, endY, endZ), Vector(endX, endY, endZ), space = gap)
+    // Side square (4)
+    particleLine(particle, world, Vector(startX, startY, startZ), Vector(startX, endY, startZ), space = gap)
+    particleLine(particle, world, Vector(endX, startY, startZ), Vector(endX, endY, startZ), space = gap)
+    particleLine(particle, world, Vector(startX, startY, endZ), Vector(startX, endY, endZ), space = gap)
+    particleLine(particle, world, Vector(endX, startY, endZ), Vector(endX, endY, endZ), space = gap)
 }

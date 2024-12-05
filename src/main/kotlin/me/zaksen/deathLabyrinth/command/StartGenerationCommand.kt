@@ -12,11 +12,8 @@ class StartGenerationCommand: CommandExecutor {
             return true
         }
 
-        // FIXME - Room controller now didn't operate this
-        //  RoomController.startGeneration()
-
         if(sender is Player) {
-            RoomGenerator.setupGenerator(sender.world, sender.chunk.x * 16, sender.chunk.z * 16, 14, 1)
+            RoomGenerator.setupGenerator(sender.world, sender.chunk.x * 16, sender.chunk.z * 16, 10, 1)
             RoomGenerator.startGeneration()
             RoomGenerator.processGeneration()
         }
