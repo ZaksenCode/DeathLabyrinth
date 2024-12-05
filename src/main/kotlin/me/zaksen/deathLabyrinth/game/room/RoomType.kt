@@ -5,11 +5,21 @@ import me.zaksen.deathLabyrinth.game.room.reward.RewardStrategy
 
 @Serializable
 enum class RoomType(val reward: RewardStrategy) {
+    START_ROOM(object : RewardStrategy{
+        override fun generate(): Int {
+            return 0
+        }
+    }),
     NORMAL(object: RewardStrategy{
         override fun generate(): Int {
             // FIXME - Room controller now didn't operate this
             // return 25 + (5 * RoomController.actualRoomNumber)
             return 25
+        }
+    }),
+    END_ROOM(object : RewardStrategy{
+        override fun generate(): Int {
+            return 0
         }
     }),
     ELITE(object: RewardStrategy{

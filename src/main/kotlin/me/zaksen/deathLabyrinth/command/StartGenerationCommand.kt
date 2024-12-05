@@ -1,6 +1,7 @@
 package me.zaksen.deathLabyrinth.command
 
 import me.zaksen.deathLabyrinth.game.room.RoomGenerator
+import me.zaksen.deathLabyrinth.game.room.RoomType
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
@@ -13,9 +14,15 @@ class StartGenerationCommand: CommandExecutor {
         }
 
         if(sender is Player) {
-            RoomGenerator.setupGenerator(sender.world, sender.chunk.x * 16, sender.chunk.z * 16, 10, 1)
-            RoomGenerator.startGeneration()
-            RoomGenerator.processGeneration()
+            RoomGenerator.startSubFloorGeneration(
+                sender.world,
+                sender.chunk.x * 16,
+                sender.chunk.z * 16,
+                3,
+                1,
+                0,
+                setOf(RoomType.NORMAL)
+            )
         }
 
         return true

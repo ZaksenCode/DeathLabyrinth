@@ -11,12 +11,11 @@ import me.zaksen.deathLabyrinth.entity.room.RoomCycle
 import me.zaksen.deathLabyrinth.entity.trader.Trader
 import me.zaksen.deathLabyrinth.entity.trader.TraderType
 import me.zaksen.deathLabyrinth.event.EventManager
-import me.zaksen.deathLabyrinth.event.custom.WorldTickEvent
 import me.zaksen.deathLabyrinth.event.custom.game.PlayerBreakPotEvent
 import me.zaksen.deathLabyrinth.game.hud.HudController
 import me.zaksen.deathLabyrinth.game.pot.PotEntry
 import me.zaksen.deathLabyrinth.game.room.Room
-import me.zaksen.deathLabyrinth.game.room.RoomController
+import me.zaksen.deathLabyrinth.game.room.RoomFloorController
 import me.zaksen.deathLabyrinth.item.ItemsController
 import me.zaksen.deathLabyrinth.keys.PluginKeys
 import me.zaksen.deathLabyrinth.keys.PluginKeys.maxHealthModifierKey
@@ -124,6 +123,11 @@ object GameController {
     }
 
     fun reload() {
+        val world = Bukkit.getWorld(configs.mainConfig().world)!!
+
+        world.worldBorder.setCenter(configs.mainConfig().playerSpawnLocation.x, configs.mainConfig().playerSpawnLocation.z)
+        world.worldBorder.size = 500.0
+
         players.forEach {
             it.value.stats.displayStats(it.key)
         }
@@ -132,35 +136,17 @@ object GameController {
         hudController.clearDrawers()
         players.clear()
         ArtifactsController.despawnArtifacts()
-        RoomController.clear()
+        RoomFloorController.reload()
         TradeController.reload()
         ArtifactsStates.cache.clear()
 
-        val world = Bukkit.getWorld(configs.mainConfig().world)
-
-        world?.getEntitiesByClass(Item::class.java)?.forEach {
+        world.getEntitiesByClass(Item::class.java).forEach {
             it.remove()
         }
-
-        fillEntrace()
 
         status = GameStatus.WAITING
         random = Random(System.currentTimeMillis())
         Bukkit.getOnlinePlayers().forEach { join(it) }
-    }
-
-    fun fillEntrace() {
-        val world = Bukkit.getWorld(configs.mainConfig().world) ?: return
-        val fillStart = configs.mainConfig().entranceStart.location(world)
-        val fillEnd = configs.mainConfig().entranceEnd.location(world)
-
-        for(y in fillStart.y.toInt()..fillEnd.y.toInt()) {
-            for(x in fillStart.x.toInt()..fillEnd.x.toInt()) {
-                for(z in fillStart.z.toInt()..fillEnd.z.toInt()) {
-                    world.setType(x, y, z, Material.BLACK_CONCRETE)
-                }
-            }
-        }
     }
 
     fun setup(plugin: Plugin, configs: ConfigContainer) {
@@ -350,6 +336,9 @@ object GameController {
         }
 
         TradeController.initTrades(players)
+
+        // TODO - Add seeds
+        RoomFloorController.startSubFloor(3, 0)
     }
 
     fun endGameWin() {
@@ -565,6 +554,11 @@ object GameController {
         if(entity is RoomCycle) {
             room.otherEntities.add(entity)
         }
+    }
+
+    fun runTask(runnable: Runnable) {
+        if(!plugin.isEnabled) return
+        Bukkit.getScheduler().runTask(plugin, runnable)
     }
 
     fun runTaskLater(runnable: Runnable, delay: Long) {

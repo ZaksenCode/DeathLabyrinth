@@ -8,6 +8,7 @@ import me.zaksen.deathLabyrinth.event.GameEvents
 import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.game.room.RoomBuilder
 import me.zaksen.deathLabyrinth.game.room.RoomController
+import me.zaksen.deathLabyrinth.game.room.RoomFloorController
 import me.zaksen.deathLabyrinth.keys.PluginKeys
 import me.zaksen.deathLabyrinth.menu.Menus
 import me.zaksen.deathLabyrinth.util.LaserManager
@@ -29,6 +30,7 @@ class DeathLabyrinth : JavaPlugin(), ConfigContainer {
         RoomBuilder.setup(this)
         RoomController.reload(roomDirectory)
         GameController.setup(this, this)
+        RoomFloorController.setup(this)
         registerEvents()
         registerCommands()
 
