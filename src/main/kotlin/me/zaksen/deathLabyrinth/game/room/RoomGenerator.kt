@@ -138,7 +138,7 @@ object RoomGenerator {
 
         return toReturn
     }
-    
+
     private fun prepareCordsForDirection(x: Int, z: Int, direction: Direction, room: RoomEntry): Pair<Int, Int> {
         val prepared = when(direction) {
             Direction.DOWN -> Pair(x, z)
@@ -178,8 +178,15 @@ object RoomGenerator {
                         addRoom(replacedRoom)
                     }
                 }
+
+                checkFullGrid()
             }
         }
+    }
+
+    // TODO - Connect near rooms with each other
+    private fun checkFullGrid() {
+
     }
 
     private fun generateSubRooms(room: Room, excludeDirection: Direction? = null): MutableSet<Room> {
