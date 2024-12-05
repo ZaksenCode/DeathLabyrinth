@@ -19,18 +19,13 @@ object RoomEditorController {
         println("Start new room at $posX, $posY, $posZ with size: $sizeX, $sizeY, $sizeZ")
 
         drawSquare(
-            Location(world, posX.toDouble(), posY.toDouble(), posZ.toDouble()),
-            Location(world, posX.toDouble() + sizeX, posY.toDouble() + sizeY, posZ.toDouble() + sizeZ)
+            world,
+            posX.toDouble(),
+            posY.toDouble(),
+            posZ.toDouble(),
+            posX.toDouble() + sizeX,
+            posY.toDouble() + sizeY,
+            posZ.toDouble() + sizeZ
         )
-
-//        drawSquare(
-//            world,
-//            posX.toDouble(),
-//            posY.toDouble(),
-//            posZ.toDouble(),
-//            posX.toDouble() + sizeX,
-//            posY.toDouble() + sizeY,
-//            posZ.toDouble() + sizeZ
-//        )
     }
 }
