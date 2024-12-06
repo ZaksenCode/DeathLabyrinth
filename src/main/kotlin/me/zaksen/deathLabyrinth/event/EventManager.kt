@@ -14,6 +14,9 @@ import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.game.TradeController
 import me.zaksen.deathLabyrinth.game.room.Room
 import me.zaksen.deathLabyrinth.game.room.RoomController
+import me.zaksen.deathLabyrinth.game.room.RoomFloorController
+import me.zaksen.deathLabyrinth.game.room.exit.choice.Choice
+import me.zaksen.deathLabyrinth.game.room.exit.choice.ChoiceContainer
 import me.zaksen.deathLabyrinth.item.CustomItem
 import me.zaksen.deathLabyrinth.item.ability.ItemAbilityManager
 import me.zaksen.deathLabyrinth.keys.PluginKeys
@@ -166,20 +169,18 @@ object EventManager {
         }
     }
 
-    fun callRoomCompleteEvent(players: List<Player>, roomNumber: Int, room: Room) {
-        val coolEvent = RoomCompleteEvent(players, roomNumber, room)
+    fun callRoomCompleteEvent(players: List<Player>, room: Room) {
+        val coolEvent = RoomCompleteEvent(players, room)
         coolEvent.callEvent()
         GameController.processAnyEvent(coolEvent)
-        // FIXME - Room controller now didn't operate this
-        // RoomController.processRoomCompletion()
+        RoomController.processRoomCompletion(players, coolEvent.room)
     }
 
-    fun callPlayerRoomCompleteEvent(player: Player, roomNumber: Int, room: Room, reward: Int) {
-        val coolEvent = PlayerRoomCompleteEvent(player, roomNumber, room, reward)
+    fun callPlayerRoomCompleteEvent(player: Player, room: Room, reward: Int) {
+        val coolEvent = PlayerRoomCompleteEvent(player, room, reward)
         coolEvent.callEvent()
         GameController.processAnyEvent(coolEvent)
-        // FIXME - Room controller now didn't operate this
-        // RoomController.grantRoomReward(coolEvent.player, coolEvent.reward)
+        GameController.addMoney(coolEvent.player, coolEvent.reward)
     }
 
     fun callEntitySpawnEvent(room: Room, entity: Entity, requireKill: Boolean) {
@@ -294,6 +295,18 @@ object EventManager {
         val coolEvent = PlayerPostPickupArtifactEvent(player, artifact)
         coolEvent.callEvent()
         GameController.processAnyEvent(coolEvent)
+    }
+
+    fun callPlayerChoiceSubFloorEvent(player: Player, choice: Choice) {
+        val coolEvent = PlayerChoiceSubFloorEvent(player, choice)
+        coolEvent.callEvent()
+        GameController.processAnyEvent(coolEvent)
+
+        if(!coolEvent.isCancelled) {
+            // TODO - Processing choice (generating new sub floor)
+            // TODO - Add seed logic
+            RoomFloorController.completeSubFloor(coolEvent.choice, 0)
+        }
     }
 
     fun callPlayerSummonExplosionEvent(

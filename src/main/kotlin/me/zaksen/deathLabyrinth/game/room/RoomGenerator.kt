@@ -1,7 +1,9 @@
 package me.zaksen.deathLabyrinth.game.room
 
+import me.zaksen.deathLabyrinth.artifacts.ArtifactsController
 import me.zaksen.deathLabyrinth.exception.room.RoomGenerationException
 import org.bukkit.World
+import org.bukkit.entity.Item
 import kotlin.random.Random
 
 object RoomGenerator {
@@ -21,6 +23,12 @@ object RoomGenerator {
     private var preparedRooms: MutableList<Room> = mutableListOf()
 
     fun startSubFloorGeneration(world: World, x: Int, z: Int, roomCount: Int, floor: Int, seed: Long, roomTypes: Set<RoomType>) {
+        ArtifactsController.despawnArtifacts()
+
+        world.getEntitiesByClass(Item::class.java).forEach {
+            it.remove()
+        }
+
         setupGenerator(world, x, z, roomCount, floor, seed, roomTypes)
         startGeneration()
         processGeneration()
@@ -63,7 +71,6 @@ object RoomGenerator {
     private fun processGeneration() {
         preparedRooms.forEach {
             RoomBuilder.buildRoom(it)
-            RoomController.roomsOrder.add(it)
             RoomController.addProcessingRoom(it)
         }
 
@@ -98,7 +105,7 @@ object RoomGenerator {
     }
 
     private fun getStartRoom(): RoomEntry {
-        val startRoom = roomPool.filter { it.roomConfig.roomType == RoomType.START_ROOM }.randomOrNull(random)
+        val startRoom = roomPool.filter { it.roomConfig.roomType == RoomType.START_ROOM }.randomOrNull()
 
         if(startRoom == null) {
             throw RoomGenerationException("Unable to get start room")
@@ -108,7 +115,7 @@ object RoomGenerator {
     }
 
     private fun getEndRoom(): RoomEntry {
-        val startRoom = roomPool.filter { it.roomConfig.roomType == RoomType.END_ROOM }.randomOrNull(random)
+        val startRoom = roomPool.filter { it.roomConfig.roomType == RoomType.END_ROOM }.randomOrNull()
 
         if(startRoom == null) {
             throw RoomGenerationException("Unable to get end room")
@@ -117,8 +124,9 @@ object RoomGenerator {
         return startRoom
     }
 
+    // TODO - Always return same room
     private fun getRoom(types: Set<RoomType>): RoomEntry {
-        val room = roomPool.filter { types.contains(it.roomConfig.roomType) }.randomOrNull(random)
+        val room = roomPool.filter { types.contains(it.roomConfig.roomType) }.randomOrNull()
 
         if(room == null) {
             throw RoomGenerationException("Unable to get room for types: $types")
@@ -130,6 +138,7 @@ object RoomGenerator {
     private fun addRoom(x: Int, y: Int, z: Int, room: RoomEntry): Room {
         val newRoom = RoomBuilder.prepareRoom(room, world!!, x, y, z, random.nextInt(0, room.roomConfig.potSpawns.size))
         preparedRooms.add(newRoom)
+        RoomController.roomsOrder.add(newRoom)
         return newRoom
     }
 }
