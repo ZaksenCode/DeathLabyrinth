@@ -6,10 +6,9 @@ import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 
 /** @param players - List of alive players
- *  @param roomNumber - Completed room number
  *  @param room - Completed room instance
  */
-class RoomCompleteEvent(val players: List<Player>, val roomNumber: Int, val room: Room): Event() {
+class RoomCompleteEvent(val players: List<Player>, val room: Room): Event() {
 
     override fun getHandlers(): HandlerList = HANDLER_LIST
 

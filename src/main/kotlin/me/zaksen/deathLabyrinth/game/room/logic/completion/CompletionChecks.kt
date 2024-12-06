@@ -9,3 +9,10 @@ class EntityCompletionCheck : CompletionCheck {
         return room.livingEntities.isEmpty()
     }
 }
+
+@Serializable
+class AlwaysCompletion : CompletionCheck {
+    override fun check(room: Room): Boolean {
+        return true
+    }
+}

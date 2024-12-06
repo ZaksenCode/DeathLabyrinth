@@ -2,6 +2,7 @@ package me.zaksen.deathLabyrinth.game.room
 
 import me.zaksen.deathLabyrinth.config.RoomConfig
 import me.zaksen.deathLabyrinth.config.loadConfig
+import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.exception.room.RoomLoadingException
 import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.util.loadDirectoryFiles
@@ -128,8 +129,9 @@ object RoomController {
         return result
     }
 
-    // Not sure check
-    fun processRoomCompletion(room: Room) {
+    fun processRoomCompletion(players: List<Player>, room: Room) {
+        players.forEach { EventManager.callPlayerRoomCompleteEvent(it, room, room.roomConfig.roomType.reward.generate()) }
+
         lastCompletedRoom++
 
         if(hasRoom(lastCompletedRoom)) {

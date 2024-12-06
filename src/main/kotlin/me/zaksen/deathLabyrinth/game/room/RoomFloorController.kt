@@ -2,6 +2,8 @@ package me.zaksen.deathLabyrinth.game.room
 
 import me.zaksen.deathLabyrinth.config.ConfigContainer
 import me.zaksen.deathLabyrinth.game.GameController
+import me.zaksen.deathLabyrinth.game.room.exit.choice.Choice
+import me.zaksen.deathLabyrinth.game.room.exit.choice.ChoiceContainer
 import me.zaksen.deathLabyrinth.game.room.logic.tags.StartRoomSpawnOffset
 import org.bukkit.Bukkit
 import org.bukkit.Location
@@ -15,7 +17,7 @@ object RoomFloorController {
     private var floor: Int = 1
 
     private var subFloor: Int = 0
-    private var maxSubFloor: Int = 3
+    private var maxSubFloor: Int = 4
 
     private var nextFloorRooms: MutableSet<RoomType> = mutableSetOf(RoomType.NORMAL)
 
@@ -35,12 +37,12 @@ object RoomFloorController {
         RoomController.clear()
     }
 
-    fun startSubFloor(roomCount: Int, seed: Long) {
+    fun startSubFloor(choice: Choice, seed: Long) {
         RoomGenerator.startSubFloorGeneration(
             world,
             configs.mainConfig().roomSpawnLocation.x.toInt(),
             configs.mainConfig().roomSpawnLocation.y.toInt(),
-            roomCount,
+            choice.length,
             floor,
             seed,
             nextFloorRooms
@@ -60,6 +62,7 @@ object RoomFloorController {
         }
 
         val location = Location(world, spawnX, spawnY, spawnZ)
+        location.yaw = -90f
 
         GameController.players.forEach {
             it.key.teleport(location)
@@ -67,5 +70,33 @@ object RoomFloorController {
 
         world.worldBorder.setCenter(location.x, location.z)
         world.worldBorder.size = startRoom.roomConfig.roomSize.x + (RoomController.getRoom(1).roomConfig.roomSize.x * 2)
+    }
+
+    fun shouldGenerateLocationChoice(): Boolean {
+        return subFloor >= maxSubFloor - 1
+    }
+
+
+    fun shouldGenerateBossSubFloor(): Boolean {
+        return subFloor >= maxSubFloor - 2
+    }
+
+    fun completeSubFloor(newFloor: Choice, seed: Long) {
+        subFloor++
+
+        RoomController.clear()
+
+        if(subFloor >= maxSubFloor) {
+            floor++
+            subFloor = 0
+        }
+
+        startSubFloor(newFloor, seed)
+    }
+
+    fun countReward(base: Int): Int {
+        var baseWithFloor: Int = base * floor
+        baseWithFloor += (baseWithFloor * (0.1 * subFloor)).toInt()
+        return baseWithFloor
     }
 }

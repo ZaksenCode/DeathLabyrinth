@@ -16,6 +16,7 @@ import me.zaksen.deathLabyrinth.game.hud.HudController
 import me.zaksen.deathLabyrinth.game.pot.PotEntry
 import me.zaksen.deathLabyrinth.game.room.Room
 import me.zaksen.deathLabyrinth.game.room.RoomFloorController
+import me.zaksen.deathLabyrinth.game.room.exit.RoomExitController
 import me.zaksen.deathLabyrinth.item.ItemsController
 import me.zaksen.deathLabyrinth.keys.PluginKeys
 import me.zaksen.deathLabyrinth.keys.PluginKeys.maxHealthModifierKey
@@ -136,6 +137,7 @@ object GameController {
         hudController.clearDrawers()
         players.clear()
         ArtifactsController.despawnArtifacts()
+        RoomExitController.despawnChoices()
         RoomFloorController.reload()
         TradeController.reload()
         ArtifactsStates.cache.clear()
@@ -338,7 +340,7 @@ object GameController {
         TradeController.initTrades(players)
 
         // TODO - Add seeds
-        RoomFloorController.startSubFloor(3, 0)
+        RoomFloorController.startSubFloor(RoomExitController.getStartChoice(), 0)
     }
 
     fun endGameWin() {

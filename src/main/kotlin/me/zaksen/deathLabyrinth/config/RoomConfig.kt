@@ -2,12 +2,14 @@ package me.zaksen.deathLabyrinth.config
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import me.zaksen.deathLabyrinth.config.data.Entity
 import me.zaksen.deathLabyrinth.config.data.Position
 import me.zaksen.deathLabyrinth.game.room.LocationType
 import me.zaksen.deathLabyrinth.game.room.RoomType
 import me.zaksen.deathLabyrinth.game.room.logic.completion.CompletionCheck
 import me.zaksen.deathLabyrinth.game.room.logic.completion.EntityCompletionCheck
+import me.zaksen.deathLabyrinth.game.room.logic.start.SpawnEntitiesProcess
+import me.zaksen.deathLabyrinth.game.room.logic.start.StartProcess
+import me.zaksen.deathLabyrinth.game.room.logic.tags.EntitiesPool
 import me.zaksen.deathLabyrinth.game.room.logic.tags.RoomTag
 import me.zaksen.deathLabyrinth.game.room.logic.tags.StartRoomSpawnOffset
 import me.zaksen.deathLabyrinth.game.room.logic.tick.TickProcess
@@ -30,17 +32,14 @@ data class RoomConfig(
     @SerialName("location_type")
     val locationType: LocationType = LocationType.SHAFT,
 
-    @SerialName("room_entities")
-    val roomEntities: List<List<Entity>> = listOf(
-        listOf(
-            Entity(),
-            Entity("big_bone_wolf")
-        )
-    ),
-
     @SerialName("pot_spawns")
     val potSpawns: List<Position> = listOf(
         Position(16.0, 3.0, 16.0)
+    ),
+
+    @SerialName("start_processes")
+    val startProcesses: List<StartProcess> = listOf(
+        SpawnEntitiesProcess()
     ),
 
     @SerialName("completion_condition")
@@ -55,7 +54,8 @@ data class RoomConfig(
 
     @SerialName("tags")
     val tags: List<RoomTag> = listOf(
-        StartRoomSpawnOffset()
+        StartRoomSpawnOffset(),
+        EntitiesPool()
     )
 ) {
     inline fun <reified T> getTag(): T? {

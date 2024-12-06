@@ -10,7 +10,5 @@ data class Entity(
     @SerialName("require_kill")
     val requireKill: Boolean = true,
     @SerialName("spawn_position")
-    val spawnPosition: Position = Position(0.0, 0.0, 0.0),
-    @SerialName("object_type")
-    val objectType: ObjectType = ObjectType.ENTITY
+    val spawnPosition: Position = Position(0.0, 0.0, 0.0)
 )

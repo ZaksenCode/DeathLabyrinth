@@ -1,10 +1,10 @@
 package me.zaksen.deathLabyrinth.game.room
+
 import me.zaksen.deathLabyrinth.config.RoomConfig
-import me.zaksen.deathLabyrinth.entity.EntityController
 import me.zaksen.deathLabyrinth.event.EventManager
+import me.zaksen.deathLabyrinth.game.GameController
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
-import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.World
 import java.io.File
@@ -47,8 +47,10 @@ class Room(
 
     fun startRoomCompletion() {
         if(!isCompleted && !isStarted) {
+            roomConfig.startProcesses.forEach {
+                it.process(this)
+            }
             isStarted = true
-            spawnEntities()
         }
     }
 
@@ -67,7 +69,7 @@ class Room(
     // TODO - Add remove completion logic (in generation)
     fun completeRoom() {
         isCompleted = true
-        RoomController.processRoomCompletion(this)
+        EventManager.callRoomCompleteEvent(GameController.players.map { it.key }, this)
     }
 
     fun processRoomEntityDeath(entity: Entity) {
@@ -77,25 +79,6 @@ class Room(
     fun processRoomTick() {
         roomConfig.tickProcesses.forEach {
             it.process(this)
-        }
-    }
-
-    private fun spawnEntities() {
-        for(entityEntry in roomConfig.roomEntities.random()) {
-            val entity = EntityController.entities[entityEntry.entityName]
-
-            if(entity != null) {
-                val toSpawn = entity.getDeclaredConstructor(Location::class.java).newInstance(Location(
-                    world,
-                    roomX + entityEntry.spawnPosition.x,
-                    roomY + entityEntry.spawnPosition.y,
-                    roomZ + entityEntry.spawnPosition.z
-                ))
-
-                EventManager.callEntitySpawnEvent(this, toSpawn, entityEntry.requireKill)
-            } else {
-                println("Unable to found entity with id ${entityEntry.entityName}")
-            }
         }
     }
 }

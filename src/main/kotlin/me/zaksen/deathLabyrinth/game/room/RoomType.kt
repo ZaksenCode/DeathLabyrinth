@@ -12,9 +12,7 @@ enum class RoomType(val reward: RewardStrategy) {
     }),
     NORMAL(object: RewardStrategy{
         override fun generate(): Int {
-            // FIXME - Room controller now didn't operate this
-            // return 25 + (5 * RoomController.actualRoomNumber)
-            return 25
+            return RoomFloorController.countReward(25)
         }
     }),
     END_ROOM(object : RewardStrategy{
@@ -24,16 +22,7 @@ enum class RoomType(val reward: RewardStrategy) {
     }),
     ELITE(object: RewardStrategy{
         override fun generate(): Int {
-            // FIXME - Room controller now didn't operate this
-            // 30 + (10 * RoomController.actualRoomNumber)
-            return 30
-        }
-    }),
-    DOUBLE_ELITE(object: RewardStrategy{
-        override fun generate(): Int {
-            // FIXME - Room controller now didn't operate this
-            // 45 + (15 * RoomController.actualRoomNumber)
-            return 45
+            return RoomFloorController.countReward(35)
         }
     }),
     SHOP(object: RewardStrategy{
@@ -51,30 +40,19 @@ enum class RoomType(val reward: RewardStrategy) {
             return 0
         }
     }),
-    SKILL_FORGE(object: RewardStrategy{
-        override fun generate(): Int {
-            return 0
-        }
-    }),
     TREASURE(object: RewardStrategy{
         override fun generate(): Int {
-            // FIXME - Room controller now didn't operate this
-            // 30 + (10 * RoomController.actualRoomNumber)
-            return 30
+            return RoomFloorController.countReward(25)
         }
     }),
     CHALLENGE(object: RewardStrategy{
         override fun generate(): Int {
-            // FIXME - Room controller now didn't operate this
-            // 40 + (10 * RoomController.actualRoomNumber)
-            return 40
+            return RoomFloorController.countReward(50)
         }
     }),
     BOSS(object: RewardStrategy{
         override fun generate(): Int {
-            // FIXME - Room controller now didn't operate this
-            // 250 + (500 * RoomController.bossRoomCompleted)
-            return 250
+            return RoomFloorController.countReward(250)
         }
     }),
     FINAL_BOSS(object: RewardStrategy{
