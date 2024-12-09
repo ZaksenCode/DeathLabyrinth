@@ -1,6 +1,6 @@
 package me.zaksen.deathLabyrinth.trading.pricing
 
-import me.zaksen.deathLabyrinth.game.room.RoomController
+import me.zaksen.deathLabyrinth.game.room.RoomFloorController
 import kotlin.random.Random
 
 enum class PricingStrategies(val strategy: PricingStrategy) {
@@ -12,9 +12,7 @@ enum class PricingStrategies(val strategy: PricingStrategy) {
     }),
     DEFAULT(object: PricingStrategy{
         override fun scale(base: Int): Int {
-            // FIXME - Room controller now didn't operate this
-            // val result = (base * (1 + (RoomController.actualRoomNumber * 0.1))).toInt()
-            val result = base
+            val result = RoomFloorController.countPrice(base)
             val maxRange = result / 4
             return result + Random.Default.nextInt(-maxRange, maxRange)
         }

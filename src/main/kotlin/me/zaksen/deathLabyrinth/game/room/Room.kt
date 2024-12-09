@@ -66,7 +66,6 @@ class Room(
         return result
     }
 
-    // TODO - Add remove completion logic (in generation)
     fun completeRoom() {
         isCompleted = true
         EventManager.callRoomCompleteEvent(GameController.players.map { it.key }, this)

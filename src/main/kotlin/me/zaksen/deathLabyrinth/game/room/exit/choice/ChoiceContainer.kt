@@ -29,7 +29,6 @@ class ChoiceContainer(val location: Location, var count: Int, var size: Int, pri
         actualChoices.clear()
     }
 
-    // TODO - Add size parameter logic
     // FIXME - Didn't work right with size
     private fun spawnCards() {
         location.add(0.0, 1.0, 2.0 * size)

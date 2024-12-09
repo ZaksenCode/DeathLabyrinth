@@ -303,7 +303,6 @@ object EventManager {
         GameController.processAnyEvent(coolEvent)
 
         if(!coolEvent.isCancelled) {
-            // TODO - Processing choice (generating new sub floor)
             // TODO - Add seed logic
             RoomFloorController.completeSubFloor(coolEvent.choice, 0)
         }

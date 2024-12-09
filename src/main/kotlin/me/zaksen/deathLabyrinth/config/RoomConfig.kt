@@ -15,7 +15,6 @@ import me.zaksen.deathLabyrinth.game.room.logic.tags.StartRoomSpawnOffset
 import me.zaksen.deathLabyrinth.game.room.logic.tick.HeightMinLimit
 import me.zaksen.deathLabyrinth.game.room.logic.tick.TickProcess
 
-// TODO - add way to store custom tags into room
 @Serializable
 data class RoomConfig(
     @SerialName("room_size")

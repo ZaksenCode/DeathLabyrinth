@@ -13,15 +13,9 @@ import org.bukkit.event.Event
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 
-// TODO - Add new ability tiers
 object ItemAbilityManager {
 
     val abilityMap: MutableMap<String, ItemAbility> = mutableMapOf()
-
-//    val cooldownMap: MutableSet<ItemStack> = mutableSetOf()
-//    private val checkCooldownTask: Timer = timer(period = 50) {
-//        checkCooldowns()
-//    }
 
     init {
         // Weapon
@@ -125,20 +119,4 @@ object ItemAbilityManager {
             checkAndUpdateCooldown(event.player, event.stack)
         }
     }
-//
-//    fun addStackCooldownView(stack: ItemStack) {
-//        if(!cooldownMap.contains(stack)) {
-//            cooldownMap.add(stack)
-//            showItemNotReadyCooldown(stack)
-//        }
-//    }
-//
-//    fun checkCooldowns() {
-//        cooldownMap.forEach {
-//            if(checkCooldown(it)) {
-//                showItemReadyCooldown(it)
-//                cooldownMap.remove(it)
-//            }
-//        }
-//    }
 }
