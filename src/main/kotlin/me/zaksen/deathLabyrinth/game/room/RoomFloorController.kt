@@ -101,6 +101,12 @@ object RoomFloorController {
 
     fun countReward(base: Int): Int {
         var baseWithFloor: Int = base * floor
+        baseWithFloor += (baseWithFloor * (0.3 * subFloor)).toInt()
+        return baseWithFloor
+    }
+
+    fun countPrice(base: Int): Int {
+        var baseWithFloor: Int = base * floor
         baseWithFloor += (baseWithFloor * (0.1 * subFloor)).toInt()
         return baseWithFloor
     }

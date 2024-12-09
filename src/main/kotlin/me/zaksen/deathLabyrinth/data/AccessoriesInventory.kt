@@ -5,11 +5,9 @@ import me.zaksen.deathLabyrinth.item.accessory.AccessorySlot
 import me.zaksen.deathLabyrinth.keys.PluginKeys
 import org.bukkit.entity.Player
 import org.bukkit.event.Event
-import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 
-// TODO - Add puting into accessory slots
 class AccessoriesInventory {
     private val slots = mapOf(
         Pair(10, AccessorySlot.AMULET),
