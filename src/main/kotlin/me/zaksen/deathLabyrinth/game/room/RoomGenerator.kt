@@ -20,16 +20,20 @@ object RoomGenerator {
     private var spawnZ: Int = 0
 
     private var startRoom: Room? = null
+    private var requiredRooms: MutableList<RoomType> = mutableListOf()
     private var preparedRooms: MutableList<Room> = mutableListOf()
 
-    fun startSubFloorGeneration(world: World, x: Int, z: Int, roomCount: Int, floor: Int, seed: Long, roomTypes: Set<RoomType>) {
+    fun startSubFloorGeneration(world: World, x: Int, z: Int, roomCount: Int, location: LocationType, seed: Long, requiredRooms: MutableList<RoomType>, roomTypes: Set<RoomType>) {
         ArtifactsController.despawnArtifacts()
 
         world.getEntitiesByClass(Item::class.java).forEach {
             it.remove()
         }
 
-        setupGenerator(world, x, z, roomCount, floor, seed, roomTypes)
+        RoomController.roomsOrder.clear()
+        RoomController.lastCompletedRoom = 0
+
+        setupGenerator(world, x, z, roomCount, location, seed, requiredRooms, roomTypes)
         startGeneration()
         processGeneration()
     }
@@ -38,10 +42,8 @@ object RoomGenerator {
         return startRoom ?: throw RoomGenerationException("Start room didn't exists")
     }
 
-    private fun setupGenerator(world: World, spawnX: Int, spawnZ: Int, roomCount: Int, floor: Int, seed: Long, roomTypes: Set<RoomType>) {
+    private fun setupGenerator(world: World, spawnX: Int, spawnZ: Int, roomCount: Int, location: LocationType, seed: Long, requiredRooms: MutableList<RoomType>, roomTypes: Set<RoomType>) {
         random = Random(seed)
-
-        val location = LocationType.getLocationFor(floor) ?: throw RoomGenerationException("Unable to get location with floor $floor")
 
         preparedRooms.clear()
 
@@ -55,6 +57,14 @@ object RoomGenerator {
         this.spawnY = world.maxHeight / 2
         this.spawnZ = spawnZ
 
+        println("Old require rooms: ${this.requiredRooms}")
+
+        this.requiredRooms.clear()
+        this.requiredRooms.addAll(requiredRooms)
+
+        println("New require rooms: ${this.requiredRooms}")
+
+        this.roomTypes.clear()
         this.roomTypes.addAll(roomTypes)
     }
 
@@ -91,6 +101,18 @@ object RoomGenerator {
 
             this.toGenerate--
             generateNextRoom()
+        } else if(requiredRooms.isNotEmpty()) {
+            val lastRoom = preparedRooms.last()
+            val nextRoom = getRoom(setOf(requiredRooms.removeFirst()))
+
+            addRoom(
+                lastRoom.roomX + lastRoom.roomConfig.exitOffset.x.toInt() + nextRoom.roomConfig.entranceOffset.x.toInt(),
+                lastRoom.roomY + lastRoom.roomConfig.exitOffset.y.toInt() + nextRoom.roomConfig.entranceOffset.y.toInt(),
+                lastRoom.roomZ + lastRoom.roomConfig.exitOffset.z.toInt() + nextRoom.roomConfig.entranceOffset.z.toInt(),
+                nextRoom
+            )
+
+            generateNextRoom()
         } else {
             val lastRoom = preparedRooms.last()
             val nextRoom = getEndRoom()
@@ -124,7 +146,6 @@ object RoomGenerator {
         return startRoom
     }
 
-    // TODO - Always return same room
     private fun getRoom(types: Set<RoomType>): RoomEntry {
         val room = roomPool.filter { types.contains(it.roomConfig.roomType) }.randomOrNull()
 
@@ -136,7 +157,8 @@ object RoomGenerator {
     }
 
     private fun addRoom(x: Int, y: Int, z: Int, room: RoomEntry): Room {
-        val newRoom = RoomBuilder.prepareRoom(room, world!!, x, y, z, random.nextInt(0, room.roomConfig.potSpawns.size))
+        val potsNum = if(room.roomConfig.potSpawns.isEmpty()) 0 else random.nextInt(0, room.roomConfig.potSpawns.size)
+        val newRoom = RoomBuilder.prepareRoom(room, world!!, x, y, z, potsNum)
         preparedRooms.add(newRoom)
         RoomController.roomsOrder.add(newRoom)
         return newRoom

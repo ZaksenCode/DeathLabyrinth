@@ -10,10 +10,7 @@ import kotlinx.serialization.modules.subclass
 import me.zaksen.deathLabyrinth.game.room.logic.completion.AlwaysCompletion
 import me.zaksen.deathLabyrinth.game.room.logic.completion.CompletionCheck
 import me.zaksen.deathLabyrinth.game.room.logic.completion.EntityCompletionCheck
-import me.zaksen.deathLabyrinth.game.room.logic.start.SpawnChoiceContainer
-import me.zaksen.deathLabyrinth.game.room.logic.start.SpawnEntitiesProcess
-import me.zaksen.deathLabyrinth.game.room.logic.start.SpawnNecromancer
-import me.zaksen.deathLabyrinth.game.room.logic.start.StartProcess
+import me.zaksen.deathLabyrinth.game.room.logic.start.*
 import me.zaksen.deathLabyrinth.game.room.logic.tags.*
 import me.zaksen.deathLabyrinth.game.room.logic.tick.HeightMinLimit
 import me.zaksen.deathLabyrinth.game.room.logic.tick.TickProcess
@@ -32,12 +29,14 @@ val module = SerializersModule {
     polymorphic(StartProcess::class) {
         subclass(SpawnEntitiesProcess::class)
         subclass(SpawnChoiceContainer::class)
+        subclass(SpawnArtifactsChain::class)
         subclass(SpawnNecromancer::class)
     }
 
     polymorphic(RoomTag::class) {
         subclass(StartRoomSpawnOffset::class)
         subclass(ChoiceContainerOffset::class)
+        subclass(ArtifactsChainOffset::class)
         subclass(NecromancerOffset::class)
         subclass(EntitiesPool::class)
     }

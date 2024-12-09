@@ -14,6 +14,7 @@ import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.event.custom.game.PlayerBreakPotEvent
 import me.zaksen.deathLabyrinth.game.hud.HudController
 import me.zaksen.deathLabyrinth.game.pot.PotEntry
+import me.zaksen.deathLabyrinth.game.room.LocationType
 import me.zaksen.deathLabyrinth.game.room.Room
 import me.zaksen.deathLabyrinth.game.room.RoomFloorController
 import me.zaksen.deathLabyrinth.game.room.exit.RoomExitController
@@ -340,7 +341,7 @@ object GameController {
         TradeController.initTrades(players)
 
         // TODO - Add seeds
-        RoomFloorController.startSubFloor(RoomExitController.getStartChoice(), 0)
+        RoomFloorController.startSubFloor(RoomExitController.getLocationChoice(LocationType.SHAFT), 0)
     }
 
     fun endGameWin() {
@@ -538,8 +539,11 @@ object GameController {
     fun processEntitySpawn(room: Room, entity: Entity, requireKill: Boolean) {
         if (entity is net.minecraft.world.entity.LivingEntity) {
             (entity.bukkitEntity as LivingEntity).maximumNoDamageTicks = 1
+
             if(requireKill) {
                 room.livingEntities.add(entity)
+            } else {
+                room.otherEntities.add(entity)
             }
         }
 
@@ -554,7 +558,9 @@ object GameController {
         }
 
         if(entity is RoomCycle) {
-            room.otherEntities.add(entity)
+            if(!room.otherEntities.contains(entity)) {
+                room.otherEntities.add(entity)
+            }
         }
     }
 
