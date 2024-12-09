@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.command
 
+import me.zaksen.deathLabyrinth.game.room.LocationType
 import me.zaksen.deathLabyrinth.game.room.RoomGenerator
 import me.zaksen.deathLabyrinth.game.room.RoomType
 import org.bukkit.command.Command
@@ -19,8 +20,9 @@ class StartGenerationCommand: CommandExecutor {
                 sender.chunk.x * 16,
                 sender.chunk.z * 16,
                 3,
-                1,
+                LocationType.SHAFT,
                 0,
+                mutableListOf(),
                 setOf(RoomType.NORMAL)
             )
         }

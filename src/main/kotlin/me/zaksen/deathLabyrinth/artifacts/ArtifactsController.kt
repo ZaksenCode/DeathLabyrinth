@@ -143,8 +143,8 @@ object ArtifactsController {
         playerData.addArtifact(artifact, player.uniqueId)
     }
 
-    fun startArtifactsChain(location: Location, count: Int = 1, isGoodly: Boolean = false) {
-        val newChain = ArtifactsChain(location, count, isGoodly)
+    fun startArtifactsChain(location: Location, count: Int = 1, size: Int = 3, isGoodly: Boolean = false) {
+        val newChain = ArtifactsChain(location, count, size, isGoodly)
         chains.add(newChain)
         newChain.process()
     }

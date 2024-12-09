@@ -25,7 +25,7 @@ class ClassCommand(private val configs: ConfigContainer): CommandExecutor {
                 }
             } else {
                 val playerClass = playerData.playerClass!!
-                sender.sendMessage("text.game.not_started".asTranslate(playerClass.getClassName()).color(TextColor.color(50,205,50)))
+                sender.sendMessage("text.game.class_name".asTranslate(playerClass.getClassName()).color(TextColor.color(50,205,50)))
             }
         }
 

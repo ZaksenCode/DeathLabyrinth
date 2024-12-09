@@ -14,11 +14,12 @@ object RoomFloorController {
     private lateinit var configs: ConfigContainer
     private lateinit var world: World
 
-    private var floor: Int = 1
+    var floor: Int = 1
+    var subFloor: Int = 0
 
-    private var subFloor: Int = 0
+    var actualLocation: LocationType = LocationType.SHAFT
+
     private var maxSubFloor: Int = 4
-
     private var nextFloorRooms: MutableSet<RoomType> = mutableSetOf(RoomType.NORMAL)
 
     fun setup(configs: ConfigContainer) {
@@ -30,6 +31,7 @@ object RoomFloorController {
         clearSubFloor()
 
         this.floor = 1
+        this.subFloor = 0
         this.nextFloorRooms = mutableSetOf(RoomType.NORMAL)
     }
 
@@ -38,13 +40,16 @@ object RoomFloorController {
     }
 
     fun startSubFloor(choice: Choice, seed: Long) {
+        actualLocation = choice.location
+
         RoomGenerator.startSubFloorGeneration(
             world,
             configs.mainConfig().roomSpawnLocation.x.toInt(),
             configs.mainConfig().roomSpawnLocation.y.toInt(),
             choice.length,
-            floor,
+            choice.location,
             seed,
+            choice.requiredRooms,
             nextFloorRooms
         )
 

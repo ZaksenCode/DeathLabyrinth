@@ -12,6 +12,7 @@ import me.zaksen.deathLabyrinth.game.room.logic.start.StartProcess
 import me.zaksen.deathLabyrinth.game.room.logic.tags.EntitiesPool
 import me.zaksen.deathLabyrinth.game.room.logic.tags.RoomTag
 import me.zaksen.deathLabyrinth.game.room.logic.tags.StartRoomSpawnOffset
+import me.zaksen.deathLabyrinth.game.room.logic.tick.HeightMinLimit
 import me.zaksen.deathLabyrinth.game.room.logic.tick.TickProcess
 
 // TODO - add way to store custom tags into room
@@ -49,7 +50,7 @@ data class RoomConfig(
 
     @SerialName("tick_processes")
     val tickProcesses: List<TickProcess> = listOf(
-
+        HeightMinLimit(2)
     ),
 
     @SerialName("tags")

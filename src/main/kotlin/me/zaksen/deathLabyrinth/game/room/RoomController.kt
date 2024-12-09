@@ -17,7 +17,7 @@ object RoomController {
     private val processingRooms: MutableSet<Room> = mutableSetOf()
     var roomsOrder: MutableList<Room> = mutableListOf()
 
-    private var lastCompletedRoom = 0
+    var lastCompletedRoom = 0
 
     private val roomStartingTask = timer(period = 1000) {
         GameController.players.forEach { player ->

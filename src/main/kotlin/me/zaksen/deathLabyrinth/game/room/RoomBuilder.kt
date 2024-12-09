@@ -44,11 +44,15 @@ object RoomBuilder {
             toSpawn = potSpawns.size
         }
 
-        if(room.numOfPots > 0) {
+        println("To spawn pots: $toSpawn")
+
+        if(toSpawn > 0) {
             for (i in 1..toSpawn) {
                 val pot = potSpawns.random()
                 potSpawns.remove(pot)
                 room.world.setType(room.roomX + pot.x.toInt(), room.roomY + pot.y.toInt(), room.roomZ + pot.z.toInt(), Material.DECORATED_POT)
+
+                println("Spawn new pot!")
             }
         }
     }

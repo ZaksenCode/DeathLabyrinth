@@ -39,7 +39,7 @@ class FrostballCast: ItemAbility(
             Synergy("bomb_cast", "frost_bomb_cast"),
             Synergy("frostball_cast", "big_frostball_cast"),
             Synergy("explosion_cast", "frost_explosion_cast"),
-            Synergy("frostball_cast", "waterball_cast"),
+            Synergy("fireball_cast", "waterball_cast"),
             Synergy("laser_cast", "frost_laser_cast")
         )
     }

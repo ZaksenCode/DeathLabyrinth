@@ -5,12 +5,15 @@ import me.zaksen.deathLabyrinth.entity.item_display.ExitChoiceCard
 import me.zaksen.deathLabyrinth.entity.item_display.ExitChoiceCardIcon
 import me.zaksen.deathLabyrinth.entity.text_display.ExitChoiceName
 import me.zaksen.deathLabyrinth.game.GameController
+import me.zaksen.deathLabyrinth.game.room.LocationType
 import me.zaksen.deathLabyrinth.game.room.RoomFloorController
 import me.zaksen.deathLabyrinth.game.room.RoomType
 import me.zaksen.deathLabyrinth.game.room.exit.choice.Choice
 import me.zaksen.deathLabyrinth.game.room.exit.choice.ChoiceHolder
 import me.zaksen.deathLabyrinth.game.room.exit.choice.ChoiceContainer
+import me.zaksen.deathLabyrinth.game.room.exit.choice.ChoiceType
 import me.zaksen.deathLabyrinth.util.asTranslate
+import me.zaksen.deathLabyrinth.util.customModel
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.craftbukkit.entity.CraftEntity
@@ -21,9 +24,19 @@ import kotlin.concurrent.timer
 object RoomExitController {
 
     val summonedChoices: MutableMap<ExitChoiceHitbox, ChoiceHolder> = mutableMapOf()
-    val choices: MutableList<ChoiceContainer> = mutableListOf()
+    private val choices: MutableList<ChoiceContainer> = mutableListOf()
+
+    private val availableRoomChoices = mutableSetOf(
+        Choice("choice.normal.name".asTranslate(), 3, mutableListOf(), setOf(RoomType.NORMAL), ItemStack.of(Material.PAPER).customModel(2000)),
+        Choice("choice.elite.name".asTranslate(), 3, mutableListOf(), setOf(RoomType.ELITE), ItemStack.of(Material.PAPER).customModel(2001)),
+        Choice("choice.challenge.name".asTranslate(), 1, mutableListOf(RoomType.CHALLENGE), setOf(RoomType.NORMAL), ItemStack.of(Material.PAPER).customModel(2003)),
+        Choice("choice.shop.name".asTranslate(), 1, mutableListOf(RoomType.SHOP), setOf(RoomType.NORMAL), ItemStack.of(Material.PAPER).customModel(2004)),
+        Choice("choice.forge.name".asTranslate(), 1, mutableListOf(RoomType.FORGE), setOf(RoomType.NORMAL), ItemStack.of(Material.PAPER).customModel(2005)),
+        Choice("choice.treasure.name".asTranslate(), 1, mutableListOf(RoomType.TREASURE), setOf(RoomType.NORMAL), ItemStack.of(Material.PAPER).customModel(2006))
+    )
 
     private var lastHighlightedChoices: MutableMap<UUID, ChoiceHolder> = mutableMapOf()
+
     var highlightTimer: Timer = timer(period = 200) {
         if(summonedChoices.isEmpty()) {
             return@timer
@@ -84,25 +97,29 @@ object RoomExitController {
         summonedChoices.remove(choiceHolder.exitCardHitbox)
     }
 
-    // TODO - Add random generating values and boss check
     fun startChoice(location: Location) {
         if(RoomFloorController.shouldGenerateLocationChoice()) {
-            // TODO - Location choice (size 2)
-            println("\nTODO - Spawn location choice!!!!!\n")
+            val locations = LocationType.getLocationsFor(RoomFloorController.floor + 1)
 
+            if(locations.isEmpty()) {
+                GameController.endGameWin()
+                return
+            }
+
+            startChoice(location, locations.size, ChoiceType.FLOOR, locations.toMutableList())
             return
         }
 
         if(RoomFloorController.shouldGenerateBossSubFloor()) {
-            startChoice(location, 1, true)
+            startChoice(location, 1, ChoiceType.BOSS)
             return
         }
 
-        startChoice(location, 3, false)
+        startChoice(location, 3, ChoiceType.SUB_FLOOR)
     }
 
-    fun startChoice(location: Location, size: Int, isBoss: Boolean = false) {
-        val newChoice = ChoiceContainer(location, 1, size, isBoss)
+    fun startChoice(location: Location, size: Int, choiceType: ChoiceType, locations: MutableList<LocationType> = mutableListOf()) {
+        val newChoice = ChoiceContainer(location, 1, size, choiceType, locations)
         choices.add(newChoice)
         newChoice.process()
     }
@@ -123,27 +140,26 @@ object RoomExitController {
         choices.remove(choiceContainer)
     }
 
-    fun getChoice(isBoss: Boolean): Choice {
-        return if(isBoss) getBossChoice() else getRandomChoice()
+    // Shuld be fixed - need to check
+    // FIXME - Choices not always do that they should (not spawn required rooms)
+    // It has been observed that when this happens when the choice is not the first one to be made
+    fun getChoice(choiceType: ChoiceType): Choice {
+        return when(choiceType) {
+            ChoiceType.SUB_FLOOR -> getRandomChoice()
+            ChoiceType.BOSS -> getBossChoice()
+            ChoiceType.FLOOR -> getRandomChoice() // Not should be possible
+        }
     }
 
-    // TODO - Generate choices
-    fun getStartChoice(): Choice {
-        return Choice("choice.text.name".asTranslate(), 3, setOf(RoomType.NORMAL), ItemStack.of(Material.AIR))
+    fun getLocationChoice(location: LocationType): Choice {
+        return Choice(location.displayName, location.startLength, mutableListOf(), setOf(RoomType.NORMAL), location.displayItem, location)
     }
 
-    // TODO - Generate choices
-    fun getRandomChoice(): Choice {
-        return Choice("choice.text.name".asTranslate(), 3, setOf(RoomType.NORMAL), ItemStack.of(Material.BOW))
+    private fun getRandomChoice(): Choice {
+        return availableRoomChoices.random().copy(location = RoomFloorController.actualLocation)
     }
 
-    // TODO - Generate choices
-    fun getBossChoice(): Choice {
-        return Choice("choice.text.name".asTranslate(), 1, setOf(RoomType.BOSS), ItemStack.of(Material.NETHERITE_SWORD))
-    }
-
-    // TODO - Generate choices
-    fun getLocationChoice(): Choice {
-        return Choice("choice.text.name".asTranslate(), 3, setOf(RoomType.NORMAL), ItemStack.of(Material.SPRUCE_SAPLING))
+    private fun getBossChoice(): Choice {
+        return Choice("choice.boss.name".asTranslate(), 1, mutableListOf(), setOf(RoomType.BOSS), ItemStack.of(Material.PAPER).customModel(2002), RoomFloorController.actualLocation)
     }
 }

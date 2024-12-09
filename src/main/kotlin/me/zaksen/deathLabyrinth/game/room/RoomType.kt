@@ -35,11 +35,6 @@ enum class RoomType(val reward: RewardStrategy) {
             return 0
         }
     }),
-    BOILER_ROOM(object: RewardStrategy{
-        override fun generate(): Int {
-            return 0
-        }
-    }),
     TREASURE(object: RewardStrategy{
         override fun generate(): Int {
             return RoomFloorController.countReward(25)
