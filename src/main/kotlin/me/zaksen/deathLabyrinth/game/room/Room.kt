@@ -1,27 +1,20 @@
 package me.zaksen.deathLabyrinth.game.room
 
+import com.sk89q.worldedit.EditSession
 import com.sk89q.worldedit.WorldEdit
 import com.sk89q.worldedit.bukkit.BukkitWorld
-import com.sk89q.worldedit.extent.clipboard.Clipboard
-import com.sk89q.worldedit.function.operation.Operation
-import com.sk89q.worldedit.function.operation.Operations
 import com.sk89q.worldedit.math.BlockVector3
 import com.sk89q.worldedit.regions.CuboidRegion
 import com.sk89q.worldedit.regions.Region
-import com.sk89q.worldedit.regions.Regions
-import com.sk89q.worldedit.session.ClipboardHolder
+import com.sk89q.worldedit.world.block.BaseBlock
 import com.sk89q.worldedit.world.block.BlockStateHolder
 import com.sk89q.worldedit.world.block.BlockTypes
 import me.zaksen.deathLabyrinth.config.RoomConfig
 import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.game.GameController
-import net.minecraft.core.BlockPos
 import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
-import org.bukkit.Material
 import org.bukkit.World
-import org.bukkit.craftbukkit.CraftWorld
-import org.bukkit.craftbukkit.block.CraftBlockState
 import java.io.File
 
 class Room(
@@ -53,15 +46,20 @@ class Room(
 
         WorldEdit.getInstance().newEditSession(BukkitWorld(world)).use { editSession ->
             val region = CuboidRegion(
-                BlockVector3(roomX, roomY, roomZ),
-                BlockVector3(
-                    roomX + roomConfig.roomSize.x.toInt(),
-                    roomY + roomConfig.roomSize.y.toInt(),
-                    roomZ + roomConfig.roomSize.z.toInt()
+                BlockVector3.at(roomX, roomY, roomZ),
+                BlockVector3.at(
+                    roomX + roomConfig.roomSize.x,
+                    roomY + roomConfig.roomSize.y,
+                    roomZ + roomConfig.roomSize.z
                 )
             )
-            editSession.setBlocks(region, BlockTypes.AIR!!.defaultState)
+
+            editSession.setCustomBlocks(region, BlockTypes.AIR!!.defaultState)
         }
+    }
+
+    private fun <T : BlockStateHolder<T>> EditSession.setCustomBlocks(region: Region, block: BlockStateHolder<T>) {
+        setBlocks(region, block)
     }
 
     fun startRoomCompletion() {
