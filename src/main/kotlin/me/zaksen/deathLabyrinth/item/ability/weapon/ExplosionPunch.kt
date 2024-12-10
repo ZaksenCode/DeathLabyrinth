@@ -7,6 +7,7 @@ import me.zaksen.deathLabyrinth.item.ability.ItemAbility
 import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
 import org.bukkit.event.Event
+import org.bukkit.inventory.ItemStack
 
 // FIXME - Recourciec call
 class ExplosionPunch: ItemAbility(
@@ -16,8 +17,20 @@ class ExplosionPunch: ItemAbility(
     1.25,
     damageType = DamageType.EXPLODE
 ) {
+    private val lastUses: MutableSet<ItemStack> = mutableSetOf()
+
     override fun invoke(event: Event) {
         if(event !is ItemHitEvent) return
-        EventManager.callPlayerSummonExplosionEvent(event.damager as Player, event.damaged.location, 1.25, 9.0)
+
+        if(lastUses.contains(event.stack)) {
+            lastUses.remove(event.stack)
+        } else {
+            lastUses.add(event.stack)
+            EventManager.callPlayerSummonExplosionEvent(event.damager as Player, event.damaged.location, 1.25, 9.0)
+        }
+    }
+
+    override fun reload() {
+        lastUses.clear()
     }
 }

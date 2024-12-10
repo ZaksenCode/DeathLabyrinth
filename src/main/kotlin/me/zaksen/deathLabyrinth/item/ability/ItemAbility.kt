@@ -56,6 +56,8 @@ abstract class ItemAbility(
         }
     }
 
+    open fun reload() { }
+
     open fun getConflictAbilities(): List<String> {
         return emptyList()
     }
