@@ -20,7 +20,6 @@ object RoomFloorController {
     var actualLocation: LocationType = LocationType.SHAFT
 
     private var maxSubFloor: Int = 4
-    private var nextFloorRooms: MutableSet<RoomType> = mutableSetOf(RoomType.NORMAL)
 
     fun setup(configs: ConfigContainer) {
         this.configs = configs
@@ -32,7 +31,6 @@ object RoomFloorController {
 
         this.floor = 1
         this.subFloor = 0
-        this.nextFloorRooms = mutableSetOf(RoomType.NORMAL)
     }
 
     fun clearSubFloor() {
@@ -50,7 +48,7 @@ object RoomFloorController {
             choice.location,
             seed,
             choice.requiredRooms,
-            nextFloorRooms
+            choice.roomTypes
         )
 
         val startRoom = RoomGenerator.getPlayersStartRoom()

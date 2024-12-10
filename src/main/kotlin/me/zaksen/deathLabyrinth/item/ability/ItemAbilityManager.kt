@@ -102,6 +102,12 @@ object ItemAbilityManager {
         abilityMap["gold_rush"] = GoldRush()
     }
 
+    fun reload() {
+        abilityMap.forEach {
+            it.value.reload()
+        }
+    }
+
     fun useStackAbilities(stack: ItemStack, event: Event) {
         if(!stack.hasItemMeta()) return
         if(!stack.itemMeta.persistentDataContainer.has(PluginKeys.customItemAbilitiesKey)) return

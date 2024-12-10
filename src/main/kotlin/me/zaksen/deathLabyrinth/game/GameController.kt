@@ -19,6 +19,7 @@ import me.zaksen.deathLabyrinth.game.room.Room
 import me.zaksen.deathLabyrinth.game.room.RoomFloorController
 import me.zaksen.deathLabyrinth.game.room.exit.RoomExitController
 import me.zaksen.deathLabyrinth.item.ItemsController
+import me.zaksen.deathLabyrinth.item.ability.ItemAbilityManager
 import me.zaksen.deathLabyrinth.keys.PluginKeys
 import me.zaksen.deathLabyrinth.keys.PluginKeys.maxHealthModifierKey
 import me.zaksen.deathLabyrinth.keys.PluginKeys.speedModifierKey
@@ -137,6 +138,8 @@ object GameController {
         hudController.stopDrawingTask()
         hudController.clearDrawers()
         players.clear()
+
+        ItemAbilityManager.reload()
         ArtifactsController.despawnArtifacts()
         RoomExitController.despawnChoices()
         RoomFloorController.reload()

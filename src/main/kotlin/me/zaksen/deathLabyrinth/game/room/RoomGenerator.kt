@@ -57,12 +57,8 @@ object RoomGenerator {
         this.spawnY = world.maxHeight / 2
         this.spawnZ = spawnZ
 
-        println("Old require rooms: ${this.requiredRooms}")
-
         this.requiredRooms.clear()
         this.requiredRooms.addAll(requiredRooms)
-
-        println("New require rooms: ${this.requiredRooms}")
 
         this.roomTypes.clear()
         this.roomTypes.addAll(roomTypes)
