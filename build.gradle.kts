@@ -17,8 +17,11 @@ repositories {
     maven( "https://repo.xenondevs.xyz/releases") {
         name = "inv-ui"
     }
+    maven("https://repo.papermc.io/repository/maven-public/") {
+        name = "fast-async-worldedit"
+    }
     maven("https://maven.enginehub.org/repo/") {
-        name = "worldedit"
+        name = "fast-async-worldedit"
     }
 }
 
@@ -32,7 +35,9 @@ dependencies {
 
     implementation("io.github.skytasul:guardianbeam:2.3.6")
 
-    compileOnly("com.sk89q.worldedit:worldedit-bukkit:7.3.6")
+    implementation(platform("com.intellectualsites.bom:bom-newest:1.51"))
+    compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Core")
+    compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit") { isTransitive = false }
 
     paperweight.paperDevBundle("1.21-R0.1-SNAPSHOT")
 }
