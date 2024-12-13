@@ -31,6 +31,7 @@ val module = SerializersModule {
         subclass(SpawnChoiceContainer::class)
         subclass(SpawnArtifactsChain::class)
         subclass(SpawnNecromancer::class)
+        subclass(SpawnFollowMinecart::class)
     }
 
     polymorphic(RoomTag::class) {

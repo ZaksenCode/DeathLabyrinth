@@ -12,6 +12,7 @@ import me.zaksen.deathLabyrinth.entity.husk.AlchemistTraderEntity
 import me.zaksen.deathLabyrinth.entity.husk.DeceasedEntity
 import me.zaksen.deathLabyrinth.entity.iron_golem.BigIronGolemEntity
 import me.zaksen.deathLabyrinth.entity.iron_golem.IronGolemEntity
+import me.zaksen.deathLabyrinth.entity.minecart.FollowMinecart
 import me.zaksen.deathLabyrinth.entity.teleport.TeleportPoint
 import me.zaksen.deathLabyrinth.entity.pig.PiggyBankEntity
 import me.zaksen.deathLabyrinth.entity.pillager.PillagerEntity
@@ -78,5 +79,8 @@ object EntityController {
         // Final bosses
         entities["unburied_soul_final_boss"] = UnburiedSoul::class.java
         entities["ancient_final_boss"] = AncientEntity::class.java
+
+        // Other
+        entities["follow_minecart"] = FollowMinecart::class.java
     }
 }

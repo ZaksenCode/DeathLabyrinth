@@ -3,6 +3,7 @@ version: '1.0.0'
 main: me.zaksen.deathLabyrinth.DeathLabyrinth
 api-version: '1.21'
 authors: [ Zaksen_ ]
+depend: [FastAsyncWorldEdit]
 
 commands:
   game_status:
