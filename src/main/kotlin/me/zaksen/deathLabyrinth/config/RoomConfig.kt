@@ -7,12 +7,15 @@ import me.zaksen.deathLabyrinth.game.room.LocationType
 import me.zaksen.deathLabyrinth.game.room.RoomType
 import me.zaksen.deathLabyrinth.game.room.logic.completion.CompletionCheck
 import me.zaksen.deathLabyrinth.game.room.logic.completion.EntityCompletionCheck
+import me.zaksen.deathLabyrinth.game.room.logic.completion.FollowMinecartExcept
 import me.zaksen.deathLabyrinth.game.room.logic.start.SpawnEntitiesProcess
 import me.zaksen.deathLabyrinth.game.room.logic.start.StartProcess
 import me.zaksen.deathLabyrinth.game.room.logic.tags.EntitiesPool
 import me.zaksen.deathLabyrinth.game.room.logic.tags.RoomTag
 import me.zaksen.deathLabyrinth.game.room.logic.tags.StartRoomSpawnOffset
 import me.zaksen.deathLabyrinth.game.room.logic.tick.HeightMinLimit
+import me.zaksen.deathLabyrinth.game.room.logic.tick.SpawnEntitiesByTime
+import me.zaksen.deathLabyrinth.game.room.logic.tick.SpawnEntitiesByTimeNearMinecart
 import me.zaksen.deathLabyrinth.game.room.logic.tick.TickProcess
 
 @Serializable
@@ -44,12 +47,15 @@ data class RoomConfig(
 
     @SerialName("completion_condition")
     val completionConditions: List<CompletionCheck> = listOf(
-        EntityCompletionCheck()
+        EntityCompletionCheck(),
+        FollowMinecartExcept()
     ),
 
     @SerialName("tick_processes")
     val tickProcesses: List<TickProcess> = listOf(
-        HeightMinLimit(2)
+        HeightMinLimit(2),
+        SpawnEntitiesByTime(),
+        SpawnEntitiesByTimeNearMinecart()
     ),
 
     @SerialName("tags")

@@ -10,9 +10,12 @@ import kotlinx.serialization.modules.subclass
 import me.zaksen.deathLabyrinth.game.room.logic.completion.AlwaysCompletion
 import me.zaksen.deathLabyrinth.game.room.logic.completion.CompletionCheck
 import me.zaksen.deathLabyrinth.game.room.logic.completion.EntityCompletionCheck
+import me.zaksen.deathLabyrinth.game.room.logic.completion.FollowMinecartExcept
 import me.zaksen.deathLabyrinth.game.room.logic.start.*
 import me.zaksen.deathLabyrinth.game.room.logic.tags.*
 import me.zaksen.deathLabyrinth.game.room.logic.tick.HeightMinLimit
+import me.zaksen.deathLabyrinth.game.room.logic.tick.SpawnEntitiesByTime
+import me.zaksen.deathLabyrinth.game.room.logic.tick.SpawnEntitiesByTimeNearMinecart
 import me.zaksen.deathLabyrinth.game.room.logic.tick.TickProcess
 import java.io.File
 
@@ -20,10 +23,13 @@ val module = SerializersModule {
     polymorphic(CompletionCheck::class) {
         subclass(EntityCompletionCheck::class)
         subclass(AlwaysCompletion::class)
+        subclass(FollowMinecartExcept::class)
     }
 
     polymorphic(TickProcess::class) {
         subclass(HeightMinLimit::class)
+        subclass(SpawnEntitiesByTime::class)
+        subclass(SpawnEntitiesByTimeNearMinecart::class)
     }
 
     polymorphic(StartProcess::class) {

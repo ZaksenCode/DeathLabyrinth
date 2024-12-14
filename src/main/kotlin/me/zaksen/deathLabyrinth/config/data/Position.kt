@@ -6,9 +6,9 @@ import org.bukkit.World
 
 @Serializable
 data class Position(
-    val x: Double,
-    val y: Double,
-    val z: Double
+    val x: Double = 0.0,
+    val y: Double = 0.0,
+    val z: Double = 0.0
 ) {
     fun location(world: World) = Location(world, x, y, z)
 }
