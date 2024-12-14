@@ -2,6 +2,10 @@ package me.zaksen.deathLabyrinth.game.room.logic.completion
 
 import me.zaksen.deathLabyrinth.game.room.Room
 
-fun interface CompletionCheck {
+interface CompletionCheck {
     fun check(room: Room): Boolean
+
+    fun debugDisplay(room: Room) {
+
+    }
 }

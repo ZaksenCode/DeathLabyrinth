@@ -3,7 +3,9 @@ package me.zaksen.deathLabyrinth.game.room.logic.completion
 import kotlinx.serialization.Serializable
 import me.zaksen.deathLabyrinth.config.data.Position
 import me.zaksen.deathLabyrinth.entity.minecart.FollowMinecart
+import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.game.room.Room
+import me.zaksen.deathLabyrinth.util.drawSquare
 import org.bukkit.craftbukkit.entity.CraftEntity
 import org.bukkit.util.BoundingBox
 import org.bukkit.util.Vector
@@ -42,5 +44,13 @@ class FollowMinecartExcept: CompletionCheck {
         )) {
             (it as CraftEntity).handle is FollowMinecart
         }.isNotEmpty()
+    }
+
+    override fun debugDisplay(room: Room) {
+        val x = room.roomX + offset.x
+        val y = room.roomY + offset.y
+        val z = room.roomZ + offset.z
+
+        drawSquare(room.world, x, y, z, x + zoneSize.x, y + zoneSize.y, z + zoneSize.z)
     }
 }

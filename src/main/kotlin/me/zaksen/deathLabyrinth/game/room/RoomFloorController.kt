@@ -18,7 +18,7 @@ object RoomFloorController {
 
     var actualLocation: LocationType = LocationType.SHAFT
 
-    private var maxSubFloor: Int = 4
+    private var maxSubFloor: Int = 6
 
     fun setup(configs: ConfigContainer) {
         this.configs = configs

@@ -56,7 +56,7 @@ object GameController {
     private lateinit var plugin: Plugin
     val players: MutableMap<Player, PlayerData> = mutableMapOf()
 
-    private lateinit var configs: ConfigContainer
+    lateinit var configs: ConfigContainer
     private var status: GameStatus = GameStatus.WAITING
 
     private var startCooldownTask: BukkitTask? = null
