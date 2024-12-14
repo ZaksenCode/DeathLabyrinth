@@ -41,14 +41,14 @@ class FollowMinecart(location: Location): MinecartSpawner(EntityType.SPAWNER_MIN
             x = position().x,
             y = position().y,
             z = position().z,
-            size = 3.0,
+            size = 5.0,
             color = Color.AQUA,
             particleSize = 0.5f
         )
 
         if(level().world.getNearbyEntities(BoundingBox.of(
-                Vector(position().x - 3, position().y - 3, position().z - 3),
-                Vector(position().x + 3, position().y + 3, position().z + 3)
+                Vector(position().x - 5, position().y - 5, position().z - 5),
+                Vector(position().x + 5, position().y + 5, position().z + 5)
             )) {
                 it is org.bukkit.entity.Player
             }.isNotEmpty()) {

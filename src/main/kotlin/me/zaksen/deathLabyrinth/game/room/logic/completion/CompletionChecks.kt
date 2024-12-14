@@ -34,6 +34,8 @@ class FollowMinecartExcept: CompletionCheck {
         val y = room.roomY + offset.y
         val z = room.roomZ + offset.z
 
+        debugDisplay(room)
+
         return room.world.getNearbyEntities(BoundingBox(
             x,
             y,

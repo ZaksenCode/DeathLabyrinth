@@ -1,10 +1,21 @@
 package me.zaksen.deathLabyrinth.game.room.editor
 
+import me.zaksen.deathLabyrinth.config.ConfigContainer
 import me.zaksen.deathLabyrinth.util.drawSquare
 import org.bukkit.Location
 import org.bukkit.World
 
 object RoomEditorController {
+
+    private lateinit var configs: ConfigContainer
+
+    fun setup(container: ConfigContainer) {
+        this.configs = container
+
+        if(container.mainConfig().debug) {
+            println("<DL:RE> - Room editor was setup!")
+        }
+    }
 
     fun startNewRoom(
         world: World,
@@ -16,7 +27,9 @@ object RoomEditorController {
         sizeZ: Int,
         replace: Boolean = false
     ) {
-        println("Start new room at $posX, $posY, $posZ with size: $sizeX, $sizeY, $sizeZ")
+        if(configs.mainConfig().debug) {
+
+        }
 
         drawSquare(
             world,
