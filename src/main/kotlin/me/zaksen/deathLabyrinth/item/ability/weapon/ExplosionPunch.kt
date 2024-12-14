@@ -9,7 +9,6 @@ import org.bukkit.entity.Player
 import org.bukkit.event.Event
 import org.bukkit.inventory.ItemStack
 
-// FIXME - Recourciec call
 class ExplosionPunch: ItemAbility(
     Component.translatable("ability.dynamite_punch.name"),
     Component.translatable("ability.dynamite_punch.description"),

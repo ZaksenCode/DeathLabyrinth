@@ -265,6 +265,7 @@ object ItemsController {
                 .displayName("item.dynamite_stick.name".asTranslate().color(TextColor.color(128, 128, 128)))
                 .quality(ItemQuality.RARE)
                 .tradePrice(95)
+                .addAviableTrader(TraderType.NORMAL)
                 .ability("explosion_punch")
         ))
 

@@ -2,6 +2,7 @@ package me.zaksen.deathLabyrinth.entity.husk
 
 import me.zaksen.deathLabyrinth.entity.trader.Trader
 import me.zaksen.deathLabyrinth.entity.trader.TraderType
+import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.menu.Menus
@@ -91,8 +92,7 @@ class AlchemistTraderEntity(location: Location): Husk(EntityType.HUSK, (location
                 )
             }
 
-            // FIXME - Room controller now didn't operate this
-            // RoomController.processEntityRoomDeath(this)
+            EventManager.callPlayerKillEntityEvent(null, this.bukkitLivingEntity, listOf())
             this.discard()
         }
     }

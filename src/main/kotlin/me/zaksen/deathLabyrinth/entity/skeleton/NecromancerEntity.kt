@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.entity.skeleton
 
+import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.menu.Menus
 import net.kyori.adventure.text.format.TextColor
@@ -70,8 +71,7 @@ class NecromancerEntity(location: Location): Stray(EntityType.STRAY, (location.w
                 )
             }
 
-            // FIXME - Room controller now didn't operate this
-            // RoomController.processEntityRoomDeath(this)
+            EventManager.callPlayerKillEntityEvent(null, this.bukkitLivingEntity, listOf())
             this.discard()
         }
     }

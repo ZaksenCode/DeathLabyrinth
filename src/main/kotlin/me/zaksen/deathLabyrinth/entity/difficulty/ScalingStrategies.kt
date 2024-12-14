@@ -1,20 +1,16 @@
 package me.zaksen.deathLabyrinth.entity.difficulty
 
-import me.zaksen.deathLabyrinth.game.room.RoomController
+import me.zaksen.deathLabyrinth.game.GameController
+import me.zaksen.deathLabyrinth.game.room.RoomFloorController
 
 enum class ScalingStrategies(val strategy: ScalingStrategy) {
     DEFAULT(ScalingStrategy { base ->
-
-        // FIXME - Room controller now didn't operate this
-        // (base * (RoomController.bossRoomCompleted + 1)) + (base * (0.1 * (RoomController.actualRoomNumber + 1)))
-        base
+        RoomFloorController.countDifficultyScale(base)
     }),
     BY_PLAYERS(ScalingStrategy { base ->
-        DEFAULT.strategy.scale(base) * org.bukkit.Bukkit.getOnlinePlayers().size
+        DEFAULT.strategy.scale(base) * GameController.players.size
     }),
     BY_COMPLETED_BOSSES(ScalingStrategy { base ->
-        // FIXME - Room controller now didn't operate this
-        // (base * (RoomController.bossRoomCompleted + 1))
-        base
+        RoomFloorController.countDifficultyFloorScale(base)
     }),
 }

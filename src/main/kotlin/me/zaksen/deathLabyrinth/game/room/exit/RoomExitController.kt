@@ -140,9 +140,6 @@ object RoomExitController {
         choices.remove(choiceContainer)
     }
 
-    // Shuld be fixed - need to check
-    // FIXME - Choices not always do that they should (not spawn required rooms)
-    // It has been observed that when this happens when the choice is not the first one to be made
     fun getChoice(choiceType: ChoiceType): Choice {
         return when(choiceType) {
             ChoiceType.SUB_FLOOR -> getRandomChoice()

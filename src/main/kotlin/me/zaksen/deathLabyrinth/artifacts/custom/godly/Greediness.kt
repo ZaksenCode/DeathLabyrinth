@@ -33,8 +33,7 @@ class Greediness: Artifact(
                     return@add
                 }
 
-                // FIXME - Room controller now didn't operate this
-                // RoomController.spawnEntityClone(entity, it.requireKill)
+                entity.spawnClone(it.room, it.requireKill)
             }
         }
     }

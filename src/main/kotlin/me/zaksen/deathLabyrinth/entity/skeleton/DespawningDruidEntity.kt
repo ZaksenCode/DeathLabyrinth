@@ -3,6 +3,7 @@ package me.zaksen.deathLabyrinth.entity.skeleton
 import me.zaksen.deathLabyrinth.entity.difficulty.Scaleable
 import me.zaksen.deathLabyrinth.entity.difficulty.ScalingStrategies
 import me.zaksen.deathLabyrinth.entity.goal.ability.CastWindBallGoal
+import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.game.room.RoomController
 import net.kyori.adventure.text.format.TextColor
 import net.minecraft.core.particles.ParticleTypes
@@ -70,8 +71,7 @@ class DespawningDruidEntity(location: Location): Stray(EntityType.STRAY, (locati
                 )
             }
 
-            // FIXME - Room controller now didn't operate this
-            // RoomController.processEntityRoomDeath(this)
+            EventManager.callPlayerKillEntityEvent(null, this.bukkitLivingEntity, listOf())
             this.discard()
         }
     }

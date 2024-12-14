@@ -19,18 +19,7 @@ enum class PricingStrategies(val strategy: PricingStrategy) {
     }),
     MULTIPLY_BY_ROOM_COMPLIED(object: PricingStrategy{
         override fun scale(base: Int): Int {
-            // FIXME - Room controller now didn't operate this
-            // base * RoomController.actualRoomNumber
-            val result = base
-            val maxRange = result / 4
-            return result + Random.Default.nextInt(-maxRange, maxRange)
-        }
-    }),
-    MULTIPLY_BY_BOSS_COMPLIED(object: PricingStrategy{
-        override fun scale(base: Int): Int {
-            // FIXME - Room controller now didn't operate this
-            // base + RoomController.bossRoomCompleted + 1
-            val result = base
+            val result = base * RoomFloorController.floor + RoomFloorController.subFloor
             val maxRange = result / 4
             return result + Random.Default.nextInt(-maxRange, maxRange)
         }

@@ -3,7 +3,6 @@ package me.zaksen.deathLabyrinth.game.room
 import me.zaksen.deathLabyrinth.config.ConfigContainer
 import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.game.room.exit.choice.Choice
-import me.zaksen.deathLabyrinth.game.room.exit.choice.ChoiceContainer
 import me.zaksen.deathLabyrinth.game.room.logic.tags.StartRoomSpawnOffset
 import org.bukkit.Bukkit
 import org.bukkit.Location
@@ -107,5 +106,15 @@ object RoomFloorController {
         var baseWithFloor: Int = base * floor
         baseWithFloor += (baseWithFloor * (0.1 * subFloor)).toInt()
         return baseWithFloor
+    }
+
+    fun countDifficultyScale(base: Double): Double {
+        var baseWithFloor: Double = base * floor
+        baseWithFloor += (baseWithFloor * (0.1 * subFloor)).toInt()
+        return baseWithFloor
+    }
+
+    fun countDifficultyFloorScale(base: Double): Double {
+        return base * floor
     }
 }

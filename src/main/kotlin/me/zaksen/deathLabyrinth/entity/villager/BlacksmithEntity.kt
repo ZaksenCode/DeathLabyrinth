@@ -3,6 +3,7 @@ package me.zaksen.deathLabyrinth.entity.villager
 import me.zaksen.deathLabyrinth.entity.friendly.FriendlyEntity
 import me.zaksen.deathLabyrinth.entity.skeleton.SkeletonArcherEntity
 import me.zaksen.deathLabyrinth.entity.skeleton.SkeletonWarriorEntity
+import me.zaksen.deathLabyrinth.event.EventManager
 import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.menu.Menus
 import net.kyori.adventure.text.format.TextColor
@@ -76,8 +77,7 @@ class BlacksmithEntity(location: Location): Villager(EntityType.VILLAGER, (locat
                 )
             }
 
-            // FIXME - Room controller now didn't operate this
-            // RoomController.processEntityRoomDeath(this)
+            EventManager.callPlayerKillEntityEvent(null, this.bukkitLivingEntity, listOf())
             this.discard()
         }
     }
