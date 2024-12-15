@@ -30,7 +30,7 @@ object RoomExitController {
         Choice("choice.normal.name".asTranslate(), 3, mutableListOf(), setOf(RoomType.NORMAL), ItemStack.of(Material.PAPER).customModel(2000)),
         Choice("choice.elite.name".asTranslate(), 3, mutableListOf(), setOf(RoomType.ELITE), ItemStack.of(Material.PAPER).customModel(2001)),
         Choice("choice.challenge.name".asTranslate(), 1, mutableListOf(RoomType.CHALLENGE), setOf(RoomType.NORMAL), ItemStack.of(Material.PAPER).customModel(2003)),
-        Choice("choice.shop.name".asTranslate(), 1, mutableListOf(RoomType.SHOP), setOf(RoomType.NORMAL), ItemStack.of(Material.PAPER).customModel(2004)),
+        Choice("choice.shop.name".asTranslate(), 1, mutableListOf(RoomType.SHOP_START, RoomType.SHOP_END), setOf(RoomType.NORMAL), ItemStack.of(Material.PAPER).customModel(2004)),
         Choice("choice.forge.name".asTranslate(), 1, mutableListOf(RoomType.FORGE), setOf(RoomType.NORMAL), ItemStack.of(Material.PAPER).customModel(2005)),
         Choice("choice.treasure.name".asTranslate(), 1, mutableListOf(RoomType.TREASURE), setOf(RoomType.NORMAL), ItemStack.of(Material.PAPER).customModel(2006))
     )

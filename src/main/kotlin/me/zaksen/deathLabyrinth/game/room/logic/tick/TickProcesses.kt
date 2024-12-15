@@ -19,8 +19,6 @@ import kotlin.random.Random
 @Serializable
 class HeightMinLimit(private val height: Int): TickProcess {
     override fun process(room: Room) {
-        debugDisplay(room)
-
         GameController.players.forEach {
             if(it.key.y < room.roomY + height && it.key.gameMode != GameMode.SPECTATOR) {
                 it.key.velocity = Vector(0.0, 1.25, 0.0)

@@ -25,7 +25,12 @@ enum class RoomType(val reward: RewardStrategy) {
             return RoomFloorController.countReward(35)
         }
     }),
-    SHOP(object: RewardStrategy{
+    SHOP_START(object: RewardStrategy{
+        override fun generate(): Int {
+            return 0
+        }
+    }),
+    SHOP_END(object: RewardStrategy{
         override fun generate(): Int {
             return 0
         }
