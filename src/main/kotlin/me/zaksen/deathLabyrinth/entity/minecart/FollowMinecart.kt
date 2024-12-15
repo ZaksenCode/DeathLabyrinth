@@ -22,7 +22,6 @@ import org.bukkit.craftbukkit.CraftWorld
 import org.bukkit.util.BoundingBox
 import org.bukkit.util.Vector
 
-// TODO - Add room completion condition for follow minecarft
 class FollowMinecart(location: Location): MinecartSpawner(EntityType.SPAWNER_MINECART, (location.getWorld() as CraftWorld).handle) {
 
     var isInverted = false

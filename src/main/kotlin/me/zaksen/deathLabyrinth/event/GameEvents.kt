@@ -8,6 +8,7 @@ import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.game.GameController.processAnyEvent
 import me.zaksen.deathLabyrinth.game.GameStatus
 import me.zaksen.deathLabyrinth.game.room.RoomController
+import me.zaksen.deathLabyrinth.game.room.editor.RoomEditorController
 import me.zaksen.deathLabyrinth.item.ItemsController
 import me.zaksen.deathLabyrinth.keys.PluginKeys
 import me.zaksen.deathLabyrinth.menu.Menus
@@ -230,6 +231,7 @@ class GameEvents(private val config: MainConfig): Listener {
         coolEvent.callEvent()
         processAnyEvent(coolEvent)
         RoomController.processRooms()
+        RoomEditorController.tickSessions()
     }
 
     @EventHandler

@@ -2,11 +2,13 @@ package me.zaksen.deathLabyrinth.game.room.logic.tags
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import me.zaksen.deathLabyrinth.config.RoomConfig
 import me.zaksen.deathLabyrinth.config.data.Entity
 import me.zaksen.deathLabyrinth.game.room.Room
 import me.zaksen.deathLabyrinth.util.drawCircle
 import org.bukkit.Color
 import org.bukkit.Particle
+import org.bukkit.World
 
 @Serializable
 data class EntitiesPool(
@@ -18,19 +20,19 @@ data class EntitiesPool(
         )
     ),
 ): RoomTag {
-    override fun debugDisplay(room: Room) {
+    override fun debugDisplay(world: World, x: Int, y: Int, z: Int, config: RoomConfig) {
         for(pool in roomEntities) {
             for(entity in pool) {
                 drawCircle(
                     Particle.DUST,
-                    room.world,
-                    room.roomX + entity.spawnPosition.x,
-                    room.roomY + entity.spawnPosition.y,
-                    room.roomZ + entity.spawnPosition.z,
+                    world,
+                    x + entity.spawnPosition.x,
+                    y + entity.spawnPosition.y,
+                    z + entity.spawnPosition.z,
                     0.25,
                     Color.RED,
                     particleSize = 0.25f,
-                    incrementAmount = 10.0
+                    incrementAmount = 3.0
                 )
             }
         }

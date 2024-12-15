@@ -1,6 +1,7 @@
 package me.zaksen.deathLabyrinth.game.room.logic.tick
 
 import kotlinx.serialization.Serializable
+import me.zaksen.deathLabyrinth.config.RoomConfig
 import me.zaksen.deathLabyrinth.entity.EntityController
 import me.zaksen.deathLabyrinth.entity.minecart.FollowMinecart
 import me.zaksen.deathLabyrinth.event.EventManager
@@ -8,10 +9,7 @@ import me.zaksen.deathLabyrinth.game.GameController
 import me.zaksen.deathLabyrinth.game.room.Room
 import me.zaksen.deathLabyrinth.game.room.logic.completion.FollowMinecartExcept
 import me.zaksen.deathLabyrinth.game.room.logic.tags.EntitiesPool
-import org.bukkit.Color
-import org.bukkit.GameMode
-import org.bukkit.Location
-import org.bukkit.Particle
+import org.bukkit.*
 import org.bukkit.Particle.DustOptions
 import org.bukkit.util.Vector
 import kotlin.random.Random
@@ -34,18 +32,18 @@ class HeightMinLimit(private val height: Int): TickProcess {
         }
     }
 
-    override fun debugDisplay(room: Room) {
-        val drawHeight = room.roomY + height.toDouble()
+    override fun debugDisplay(world: World, x: Int, y: Int, z: Int, config: RoomConfig) {
+        val drawHeight = y + height.toDouble()
 
-        for(x in room.roomX..room.roomX + room.roomConfig.roomSize.x.toInt() step 2) {
-            for(z in room.roomZ..room.roomZ + room.roomConfig.roomSize.z.toInt() step 2) {
-                room.world.spawnParticle(
+        for(ix in x..x + config.roomSize.x.toInt() step 2) {
+            for(iz in z..z + config.roomSize.z.toInt() step 2) {
+                world.spawnParticle(
                     Particle.DUST,
-                    x.toDouble(),
+                    ix.toDouble(),
                     drawHeight,
-                    z.toDouble(),
+                    iz.toDouble(),
                     1,
-                    DustOptions(Color.RED, 0.35f)
+                    DustOptions(Color.RED, 1.25f)
                 )
             }
         }

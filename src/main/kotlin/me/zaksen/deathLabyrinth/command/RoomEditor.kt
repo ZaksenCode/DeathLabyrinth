@@ -63,7 +63,7 @@ class RoomEditor: TabExecutor {
         val posX = sender.location.chunk.x * 16
         val posZ = sender.location.chunk.z * 16
 
-        RoomEditorController.startNewRoom(sender.world, posX, sender.y.toInt(), posZ, sizeX, sizeY, sizeZ, isReplace)
+        RoomEditorController.startNewRoom(sender, sender.world, posX, sender.y.toInt(), posZ, sizeX, sizeY, sizeZ, isReplace)
     }
 
     private fun processNewTab(sender: Player, args: Array<out String>): MutableList<String> {
