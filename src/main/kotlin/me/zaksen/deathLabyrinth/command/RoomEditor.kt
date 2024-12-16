@@ -1,10 +1,15 @@
 package me.zaksen.deathLabyrinth.command
 
 import me.zaksen.deathLabyrinth.game.room.editor.RoomEditorController
+import me.zaksen.deathLabyrinth.game.room.editor.operation.*
+import me.zaksen.deathLabyrinth.game.room.editor.operation.rollback.RollbackResult
+import net.minecraft.core.Direction
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabExecutor
+import org.bukkit.craftbukkit.entity.CraftEntity
 import org.bukkit.entity.Player
+import java.util.*
 
 class RoomEditor: TabExecutor {
     override fun onTabComplete(
@@ -16,11 +21,13 @@ class RoomEditor: TabExecutor {
         if(args.isNullOrEmpty() || sender !is Player) return mutableListOf("")
 
         if(args.size == 1) {
-            return mutableListOf("new")
+            return mutableListOf("new", "entrance", "undo", "exit")
         } else {
             val subCommand = args[0]
             return when (subCommand) {
                 "new" -> processNewTab(sender, args)
+                "entrance" -> processEntranceTab(sender, args)
+                "exit" -> processEntranceTab(sender, args)
                 else -> return mutableListOf("")
             }
         }
@@ -39,6 +46,9 @@ class RoomEditor: TabExecutor {
 
         when(subCommand) {
             "new" -> processNew(sender, args)
+            "entrance" -> processEntrance(sender, args)
+            "exit" -> processExit(sender, args)
+            "undo" -> processUndo(sender, args)
         }
 
         return true
@@ -53,7 +63,7 @@ class RoomEditor: TabExecutor {
         val sizeX = args[1].toIntOrNull()
         val sizeY = args[2].toIntOrNull()
         val sizeZ = args[3].toIntOrNull()
-        val isReplace = args[4].toBoolean()
+        val name = args[4]
 
         if(sizeX == null || sizeY == null || sizeZ == null) {
             sender.sendMessage("command.room_editor.new.args_not_number")
@@ -63,7 +73,7 @@ class RoomEditor: TabExecutor {
         val posX = sender.location.chunk.x * 16
         val posZ = sender.location.chunk.z * 16
 
-        RoomEditorController.startNewRoom(sender, sender.world, posX, sender.y.toInt(), posZ, sizeX, sizeY, sizeZ, isReplace)
+        RoomEditorController.startNewRoom(sender, sender.world, posX, sender.y.toInt(), posZ, sizeX, sizeY, sizeZ, name)
     }
 
     private fun processNewTab(sender: Player, args: Array<out String>): MutableList<String> {
@@ -71,9 +81,58 @@ class RoomEditor: TabExecutor {
             2 -> mutableListOf("32", "48", "64")
             3 -> mutableListOf("32", "48", "64")
             4 -> mutableListOf("32", "48", "64")
-            5 -> mutableListOf("false", "true")
+            5 -> mutableListOf("name")
             else -> mutableListOf("")
         }
     }
 
+    private fun processEntrance(sender: Player, args: Array<out String>) {
+        val direction = if(args.size < 3) {
+            (sender as CraftEntity).handle.direction
+        } else {
+            Direction.valueOf(args[2].uppercase(Locale.getDefault()))
+        }
+
+        RoomEditorController.processSessionOperation(sender, MoveRoomEntrance(direction))
+    }
+
+    private fun processEntranceTab(sender: Player, args: Array<out String>): MutableList<String> {
+        return when(args.size) {
+            2 -> mutableListOf("move")
+            3 -> mutableListOf("${Direction.UP}", "${Direction.DOWN}", "${Direction.WEST}", "${Direction.EAST}", "${Direction.NORTH}", "${Direction.SOUTH}")
+            else -> mutableListOf("")
+        }
+    }
+
+    private fun processUndo(sender: Player, args: Array<out String>) {
+        val result = RoomEditorController.processSessionRollback(sender)
+
+        when(result) {
+            RollbackResult.NO_SESSION -> {
+                sender.sendMessage("command.room_editor.no_session")
+            }
+            RollbackResult.EMPTY_HISTORY -> {
+                sender.sendMessage("command.room_editor.undo.empty_history")
+            }
+            else -> {}
+        }
+    }
+
+    private fun processExit(sender: Player, args: Array<out String>) {
+        val direction = if(args.size < 3) {
+            (sender as CraftEntity).handle.direction
+        } else {
+            Direction.valueOf(args[2].uppercase(Locale.getDefault()))
+        }
+
+        RoomEditorController.processSessionOperation(sender, MoveRoomExit(direction))
+    }
+
+    private fun processExitTab(sender: Player, args: Array<out String>): MutableList<String> {
+        return when(args.size) {
+            2 -> mutableListOf("move")
+            3 -> mutableListOf("${Direction.UP}", "${Direction.DOWN}", "${Direction.WEST}", "${Direction.EAST}", "${Direction.NORTH}", "${Direction.SOUTH}")
+            else -> mutableListOf("")
+        }
+    }
 }

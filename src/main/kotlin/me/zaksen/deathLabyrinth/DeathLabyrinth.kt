@@ -20,6 +20,7 @@ import java.io.File
 class DeathLabyrinth : JavaPlugin(), ConfigContainer {
 
     private val roomDirectory = File(dataFolder, "rooms")
+    private val editorDirectory = File(dataFolder, "editor")
     private lateinit var mainConfig: MainConfig
     private lateinit var generationConfig: GenerationConfig
 
@@ -32,7 +33,7 @@ class DeathLabyrinth : JavaPlugin(), ConfigContainer {
         RoomController.reload(roomDirectory)
         GameController.setup(this, this)
         RoomFloorController.setup(this)
-        RoomEditorController.setup(this)
+        RoomEditorController.setup(this, editorDirectory)
         registerEvents()
         registerCommands()
 

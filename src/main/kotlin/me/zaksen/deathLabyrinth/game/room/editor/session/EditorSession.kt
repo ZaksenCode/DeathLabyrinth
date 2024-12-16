@@ -3,11 +3,15 @@ package me.zaksen.deathLabyrinth.game.room.editor.session
 import kotlinx.serialization.Serializable
 import me.zaksen.deathLabyrinth.config.RoomConfig
 import me.zaksen.deathLabyrinth.game.room.editor.operation.Operation
+import me.zaksen.deathLabyrinth.game.room.editor.operation.rollback.RollbackResult
 import me.zaksen.deathLabyrinth.util.drawSquare
+import org.bukkit.Particle
 import org.bukkit.World
+import java.io.File
 
 @Serializable
 class EditorSession(
+    val name: String,
     val world: World,
     val x: Int,
     val y: Int,
@@ -33,8 +37,12 @@ class EditorSession(
         history.remove(operation)
     }
 
-    fun rollbackLast() {
-        rollbackOperation(history.last())
+    fun rollbackLast(): RollbackResult {
+        if(history.isNotEmpty()) {
+            rollbackOperation(history.last())
+            return RollbackResult.SUCCESS
+        }
+        return RollbackResult.EMPTY_HISTORY
     }
 
     fun draw() {
@@ -52,5 +60,41 @@ class EditorSession(
         roomConfig.startProcesses.forEach { it.debugDisplay(world, x, y, z, roomConfig) }
         roomConfig.completionConditions.forEach { it.debugDisplay(world, x, y, z, roomConfig) }
         roomConfig.tags.forEach { it.debugDisplay(world, x, y, z, roomConfig) }
+
+        // Draw entrance box
+        val entranceX = x + roomConfig.entranceOffset.x
+        val entranceY = y + roomConfig.entranceOffset.y
+        val entranceZ = z + roomConfig.entranceOffset.z
+
+        drawSquare(
+            world,
+            entranceX,
+            entranceY,
+            entranceZ,
+            entranceX + 1,
+            entranceY + 6,
+            entranceZ + 7,
+            particle = Particle.WAX_OFF,
+        )
+
+        // Draw exit box
+        val exitX = x + roomConfig.exitOffset.x
+        val exitY = y + roomConfig.exitOffset.y
+        val exitZ = z + roomConfig.exitOffset.z
+
+        drawSquare(
+            world,
+            exitX,
+            exitY,
+            exitZ,
+            exitX - 1,
+            exitY + 6,
+            exitZ + 7,
+            particle = Particle.WAX_OFF,
+        )
+    }
+
+    fun writeToFiles(directory: File) {
+
     }
 }
