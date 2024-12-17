@@ -11,6 +11,7 @@ import org.bukkit.craftbukkit.entity.CraftEntity
 import org.bukkit.entity.Player
 import java.util.*
 
+// TODO - Check new commands -> exit, save, stop, export
 class RoomEditor: TabExecutor {
     override fun onTabComplete(
         sender: CommandSender,
@@ -21,13 +22,14 @@ class RoomEditor: TabExecutor {
         if(args.isNullOrEmpty() || sender !is Player) return mutableListOf("")
 
         if(args.size == 1) {
-            return mutableListOf("new", "entrance", "undo", "exit")
+            return mutableListOf("load", "new", "entrance", "undo", "exit", "save", "stop", "export")
         } else {
             val subCommand = args[0]
             return when (subCommand) {
+                "load" -> processLoadTab(sender, args)
                 "new" -> processNewTab(sender, args)
                 "entrance" -> processEntranceTab(sender, args)
-                "exit" -> processEntranceTab(sender, args)
+                "exit" -> processExitTab(sender, args)
                 else -> return mutableListOf("")
             }
         }
@@ -45,10 +47,14 @@ class RoomEditor: TabExecutor {
         val subCommand = args[0]
 
         when(subCommand) {
+            "load" -> processLoad(sender, args)
             "new" -> processNew(sender, args)
             "entrance" -> processEntrance(sender, args)
             "exit" -> processExit(sender, args)
             "undo" -> processUndo(sender, args)
+            "save" -> processSave(sender, args)
+            "stop" -> processStop(sender, args)
+            "export" -> processExport(sender, args)
         }
 
         return true
@@ -132,6 +138,32 @@ class RoomEditor: TabExecutor {
         return when(args.size) {
             2 -> mutableListOf("move")
             3 -> mutableListOf("${Direction.UP}", "${Direction.DOWN}", "${Direction.WEST}", "${Direction.EAST}", "${Direction.NORTH}", "${Direction.SOUTH}")
+            else -> mutableListOf("")
+        }
+    }
+
+    private fun processSave(sender: Player, args: Array<out String>) {
+        RoomEditorController.saveSessions()
+    }
+
+    private fun processStop(sender: Player, args: Array<out String>) {
+        RoomEditorController.exportSession(sender)
+        RoomEditorController.stopSession(sender)
+        RoomEditorController.saveSessions()
+    }
+
+    private fun processExport(sender: Player, args: Array<out String>) {
+        RoomEditorController.exportSession(sender)
+        RoomEditorController.saveSessions()
+    }
+
+    private fun processLoad(sender: Player, args: Array<out String>) {
+
+    }
+
+    private fun processLoadTab(sender: Player, args: Array<out String>): MutableList<String> {
+        return when(args.size) {
+            2 -> mutableListOf("")
             else -> mutableListOf("")
         }
     }

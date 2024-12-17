@@ -5,6 +5,7 @@ import me.zaksen.deathLabyrinth.config.RoomConfig
 import me.zaksen.deathLabyrinth.game.room.editor.operation.Operation
 import me.zaksen.deathLabyrinth.game.room.editor.operation.rollback.RollbackResult
 import me.zaksen.deathLabyrinth.util.drawSquare
+import me.zaksen.deathLabyrinth.util.serialization.WorldSerializer
 import org.bukkit.Particle
 import org.bukkit.World
 import java.io.File
@@ -12,6 +13,7 @@ import java.io.File
 @Serializable
 class EditorSession(
     val name: String,
+    @Serializable(with = WorldSerializer::class)
     val world: World,
     val x: Int,
     val y: Int,
@@ -92,9 +94,5 @@ class EditorSession(
             exitZ + 7,
             particle = Particle.WAX_OFF,
         )
-    }
-
-    fun writeToFiles(directory: File) {
-
     }
 }
