@@ -1,5 +1,6 @@
 package me.zaksen.deathLabyrinth.command
 
+import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.game.room.editor.RoomEditorController
 import me.zaksen.deathLabyrinth.game.room.editor.operation.*
 import me.zaksen.deathLabyrinth.game.room.editor.operation.rollback.RollbackResult
@@ -11,7 +12,6 @@ import org.bukkit.craftbukkit.entity.CraftEntity
 import org.bukkit.entity.Player
 import java.util.*
 
-// TODO - Check new commands -> exit, save, stop, export
 class RoomEditor: TabExecutor {
     override fun onTabComplete(
         sender: CommandSender,
@@ -158,12 +158,34 @@ class RoomEditor: TabExecutor {
     }
 
     private fun processLoad(sender: Player, args: Array<out String>) {
+        if(args.size < 2) {
+            sender.sendMessage("command.room_editor.load.not_enough_arguments")
+            return
+        }
 
+        val name = args[1]
+
+        val posX = sender.location.chunk.x * 16
+        val posZ = sender.location.chunk.z * 16
+
+        RoomEditorController.loadRoom(sender, sender.world, posX, sender.y.toInt(), posZ, name)
     }
 
     private fun processLoadTab(sender: Player, args: Array<out String>): MutableList<String> {
         return when(args.size) {
-            2 -> mutableListOf("")
+            2 -> {
+                val result = mutableListOf<String>()
+
+                RoomController.roomIds.forEach {
+                    result.add(it.key)
+                }
+
+                result.sortBy {
+                    it.compareTo(args[1])
+                }
+
+                return result
+            }
             else -> mutableListOf("")
         }
     }

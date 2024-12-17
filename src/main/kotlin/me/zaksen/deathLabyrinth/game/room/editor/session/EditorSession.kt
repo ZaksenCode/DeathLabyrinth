@@ -8,7 +8,6 @@ import me.zaksen.deathLabyrinth.util.drawSquare
 import me.zaksen.deathLabyrinth.util.serialization.WorldSerializer
 import org.bukkit.Particle
 import org.bukkit.World
-import java.io.File
 
 @Serializable
 class EditorSession(
@@ -21,7 +20,7 @@ class EditorSession(
 ) {
 
     private val history: MutableList<Operation> = mutableListOf()
-    val roomConfig: RoomConfig = RoomConfig()
+    var roomConfig: RoomConfig = RoomConfig()
 
     fun setSize(x: Double, y: Double, z: Double) {
         roomConfig.roomSize.x = x
@@ -64,9 +63,9 @@ class EditorSession(
         roomConfig.tags.forEach { it.debugDisplay(world, x, y, z, roomConfig) }
 
         // Draw entrance box
-        val entranceX = x + roomConfig.entranceOffset.x
-        val entranceY = y + roomConfig.entranceOffset.y
-        val entranceZ = z + roomConfig.entranceOffset.z
+        val entranceX = x - roomConfig.entranceOffset.x
+        val entranceY = y - roomConfig.entranceOffset.y
+        val entranceZ = z - roomConfig.entranceOffset.z
 
         drawSquare(
             world,
@@ -74,8 +73,8 @@ class EditorSession(
             entranceY,
             entranceZ,
             entranceX + 1,
-            entranceY + 6,
-            entranceZ + 7,
+            entranceY + 7,
+            entranceZ + 8,
             particle = Particle.WAX_OFF,
         )
 
@@ -90,8 +89,8 @@ class EditorSession(
             exitY,
             exitZ,
             exitX - 1,
-            exitY + 6,
-            exitZ + 7,
+            exitY + 7,
+            exitZ + 8,
             particle = Particle.WAX_OFF,
         )
     }

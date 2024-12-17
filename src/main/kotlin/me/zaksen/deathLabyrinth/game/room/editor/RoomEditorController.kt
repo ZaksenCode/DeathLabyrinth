@@ -10,6 +10,8 @@ import com.sk89q.worldedit.regions.CuboidRegion
 import me.zaksen.deathLabyrinth.config.ConfigContainer
 import me.zaksen.deathLabyrinth.config.loadConfig
 import me.zaksen.deathLabyrinth.config.saveConfig
+import me.zaksen.deathLabyrinth.game.room.RoomBuilder
+import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.game.room.editor.operation.Operation
 import me.zaksen.deathLabyrinth.game.room.editor.operation.rollback.RollbackResult
 import me.zaksen.deathLabyrinth.game.room.editor.session.EditorSession
@@ -32,7 +34,6 @@ object RoomEditorController {
 
         if(container.mainConfig().debug) {
             println("<DL:RE> - Room editor was setup!")
-            // TODO - Load old sessions, that wasn't closed
             val actualDirectory = File(directory, "sessions")
 
             if(!actualDirectory.exists()) {
@@ -63,6 +64,36 @@ object RoomEditorController {
         return sessionsWrapper.sessions[from.uniqueId]
     }
 
+    fun loadRoom(
+        owner: Player,
+        world: World,
+        posX: Int,
+        posY: Int,
+        posZ: Int,
+        name: String
+    ) {
+        if(!configs.mainConfig().debug) {
+            owner.sendMessage("command.room_editor.new.not_in_debug".asTranslate())
+            return
+        }
+
+        val oldSession = getSession(owner)
+
+        if(oldSession != null) {
+            owner.sendMessage("command.room_editor.new.need_stop_session".asTranslate())
+            return
+        }
+
+        val roomEntry = RoomController.loadRoom(name)
+        val toBuild = RoomBuilder.prepareRoom(roomEntry, world, posX, posY, posZ, 0)
+
+        RoomBuilder.buildRoom(toBuild)
+
+        val newSession = EditorSession(name, world, posX, posY, posZ)
+        newSession.roomConfig = roomEntry.roomConfig
+        sessionsWrapper.sessions[owner.uniqueId] = newSession
+    }
+
     fun startNewRoom(
         owner: Player,
         world: World,
@@ -75,7 +106,7 @@ object RoomEditorController {
         name: String
     ) {
         if(configs.mainConfig().debug) {
-            val oldSession = sessionsWrapper.sessions[owner.uniqueId]
+            val oldSession = getSession(owner)
 
             if(oldSession != null) {
                 owner.sendMessage("command.room_editor.new.need_stop_session".asTranslate())
