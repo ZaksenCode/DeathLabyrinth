@@ -14,9 +14,9 @@ class EditorSession(
     val name: String,
     @Serializable(with = WorldSerializer::class)
     val world: World,
-    val x: Int,
-    val y: Int,
-    val z: Int
+    var x: Int,
+    var y: Int,
+    var z: Int
 ) {
 
     private val history: MutableList<Operation> = mutableListOf()

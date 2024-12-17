@@ -7,4 +7,5 @@ import org.bukkit.World
 @Serializable
 sealed interface RoomTag {
     fun debugDisplay(world: World, x: Int, y: Int, z: Int, config: RoomConfig) {}
+    fun addOffset(x: Int, y: Int, z: Int)
 }

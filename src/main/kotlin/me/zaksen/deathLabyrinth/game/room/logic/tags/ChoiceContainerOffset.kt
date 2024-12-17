@@ -30,4 +30,10 @@ data class ChoiceContainerOffset(
             particleSize = 0.25f
         )
     }
+
+    override fun addOffset(x: Int, y: Int, z: Int) {
+        offset.x += x
+        offset.y += y
+        offset.z += z
+    }
 }

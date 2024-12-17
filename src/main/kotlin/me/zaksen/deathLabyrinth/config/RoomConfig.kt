@@ -24,7 +24,7 @@ data class RoomConfig(
     var roomSize: Position = Position(32.0, 32.0, 32.0),
 
     @SerialName("entrance_offset")
-    var entranceOffset: Position = Position(0.0, 1.0, 12.0),
+    var entranceOffset: Position = Position(0.0, -1.0, -12.0),
 
     @SerialName("exit_offset")
     var exitOffset: Position = Position(32.0, 1.0, 12.0),

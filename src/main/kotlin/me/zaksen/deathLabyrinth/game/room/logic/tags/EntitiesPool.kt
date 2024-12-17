@@ -37,4 +37,14 @@ data class EntitiesPool(
             }
         }
     }
+
+    override fun addOffset(x: Int, y: Int, z: Int) {
+        for(pool in roomEntities) {
+            for(entity in pool) {
+                entity.spawnPosition.x += x
+                entity.spawnPosition.y += y
+                entity.spawnPosition.z += z
+            }
+        }
+    }
 }

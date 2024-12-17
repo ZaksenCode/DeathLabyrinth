@@ -22,7 +22,7 @@ class RoomEditor: TabExecutor {
         if(args.isNullOrEmpty() || sender !is Player) return mutableListOf("")
 
         if(args.size == 1) {
-            return mutableListOf("load", "new", "entrance", "undo", "exit", "save", "stop", "export")
+            return mutableListOf("load", "new", "entrance", "undo", "exit", "save", "stop", "export", "expand")
         } else {
             val subCommand = args[0]
             return when (subCommand) {
@@ -30,6 +30,7 @@ class RoomEditor: TabExecutor {
                 "new" -> processNewTab(sender, args)
                 "entrance" -> processEntranceTab(sender, args)
                 "exit" -> processExitTab(sender, args)
+                "expand" -> processExpandTab(sender, args)
                 else -> return mutableListOf("")
             }
         }
@@ -55,6 +56,7 @@ class RoomEditor: TabExecutor {
             "save" -> processSave(sender, args)
             "stop" -> processStop(sender, args)
             "export" -> processExport(sender, args)
+            "expand" -> processExpand(sender, args)
         }
 
         return true
@@ -186,6 +188,23 @@ class RoomEditor: TabExecutor {
 
                 return result
             }
+            else -> mutableListOf("")
+        }
+    }
+
+    private fun processExpand(sender: Player, args: Array<out String>) {
+        val direction = if(args.size < 2) {
+            (sender as CraftEntity).handle.direction
+        } else {
+            Direction.valueOf(args[1].uppercase(Locale.getDefault()))
+        }
+
+        RoomEditorController.processSessionOperation(sender, ExpandRoom(direction))
+    }
+
+    private fun processExpandTab(sender: Player, args: Array<out String>): MutableList<String> {
+        return when(args.size) {
+            2 -> mutableListOf("${Direction.UP}", "${Direction.DOWN}", "${Direction.WEST}", "${Direction.EAST}", "${Direction.NORTH}", "${Direction.SOUTH}")
             else -> mutableListOf("")
         }
     }

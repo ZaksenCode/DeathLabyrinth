@@ -6,4 +6,10 @@ import me.zaksen.deathLabyrinth.config.data.Position
 @Serializable
 data class StartRoomSpawnOffset(
     val offset: Position = Position(16.0, 1.5, 16.0)
-) : RoomTag
+) : RoomTag {
+    override fun addOffset(x: Int, y: Int, z: Int) {
+        offset.x += x
+        offset.y += y
+        offset.z += z
+    }
+}
