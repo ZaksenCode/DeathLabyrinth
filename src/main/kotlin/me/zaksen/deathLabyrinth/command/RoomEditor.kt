@@ -4,6 +4,7 @@ import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.game.room.editor.RoomEditorController
 import me.zaksen.deathLabyrinth.game.room.editor.operation.*
 import me.zaksen.deathLabyrinth.game.room.editor.operation.rollback.RollbackResult
+import me.zaksen.deathLabyrinth.game.room.logic.tags.EntitiesPool
 import net.minecraft.core.Direction
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -22,7 +23,7 @@ class RoomEditor: TabExecutor {
         if(args.isNullOrEmpty() || sender !is Player) return mutableListOf("")
 
         if(args.size == 1) {
-            return mutableListOf("load", "new", "entrance", "undo", "exit", "save", "stop", "export", "expand")
+            return mutableListOf("load", "new", "entrance", "undo", "exit", "save", "stop", "export", "expand", "tags")
         } else {
             val subCommand = args[0]
             return when (subCommand) {
@@ -31,6 +32,7 @@ class RoomEditor: TabExecutor {
                 "entrance" -> processEntranceTab(sender, args)
                 "exit" -> processExitTab(sender, args)
                 "expand" -> processExpandTab(sender, args)
+                "tags" -> processTagsTab(sender, args)
                 else -> return mutableListOf("")
             }
         }
@@ -47,6 +49,8 @@ class RoomEditor: TabExecutor {
 
         val subCommand = args[0]
 
+        // TODO - Add sub command for:
+        // - Reverse command for expand
         when(subCommand) {
             "load" -> processLoad(sender, args)
             "new" -> processNew(sender, args)
@@ -57,6 +61,7 @@ class RoomEditor: TabExecutor {
             "stop" -> processStop(sender, args)
             "export" -> processExport(sender, args)
             "expand" -> processExpand(sender, args)
+            "tags" -> processTags(sender, args)
         }
 
         return true
@@ -207,5 +212,100 @@ class RoomEditor: TabExecutor {
             2 -> mutableListOf("${Direction.UP}", "${Direction.DOWN}", "${Direction.WEST}", "${Direction.EAST}", "${Direction.NORTH}", "${Direction.SOUTH}")
             else -> mutableListOf("")
         }
+    }
+
+    private fun processTags(sender: Player, args: Array<out String>) {
+
+    }
+
+    private fun processTagsTab(sender: Player, args: Array<out String>): MutableList<String> {
+        if(args.size == 2) {
+            return mutableListOf("pots", "entities_pools")
+        } else {
+            val tag = args[1]
+            return when (tag) {
+                "pots" -> processPotsTab(sender, args)
+                "entities_pools" -> processEntitiesTab(sender, args)
+                else -> mutableListOf("")
+            }
+        }
+    }
+
+    private fun processPotsTab(sender: Player, args: Array<out String>): MutableList<String> {
+        return when(args.size) {
+            3 -> {
+                mutableListOf("add", "remove", "list", "tp", "move")
+            }
+            4 -> {
+                when(args[3]) {
+                    "remove",
+                    "tp",
+                    "move" -> {
+                        val session = RoomEditorController.getSession(sender) ?: return mutableListOf("")
+
+                        var i = 0
+                        val result = mutableListOf<String>()
+
+                        session.roomConfig.potSpawns.forEach { _ ->
+                            result.add("${i++}")
+                        }
+
+                        return result
+                    }
+                    else -> mutableListOf("")
+                }
+            }
+            else -> mutableListOf("")
+        }
+    }
+
+    private fun processEntitiesTab(sender: Player, args: Array<out String>): MutableList<String> {
+        return when(args.size) {
+            3 -> {
+                mutableListOf("add", "remove", "list", "tp", "move", "change")
+            }
+            4 -> {
+                val session = RoomEditorController.getSession(sender) ?: return mutableListOf("")
+
+                var i = 0
+                val result = mutableListOf<String>()
+
+                val pools = session.roomConfig.getTag<EntitiesPool>()
+
+                pools?.roomEntities?.forEach { _ ->
+                    result.add("${i++}")
+                }
+
+                return result
+            }
+            5 -> {
+                if (isNumeric(args[4])) {
+                    val session = RoomEditorController.getSession(sender) ?: return mutableListOf("")
+                    val poolIndex = args[4].toInt()
+
+                    if (poolIndex >= args.size) {
+                        return mutableListOf("")
+                    }
+
+                    var i = 0
+                    val result = mutableListOf("add")
+
+                    val pools = session.roomConfig.getTag<EntitiesPool>()
+
+                    pools?.roomEntities?.get(poolIndex)?.forEach { _ ->
+                        result.add("${i++}")
+                    }
+
+                    return result
+                } else {
+                    return mutableListOf("")
+                }
+            }
+            else -> mutableListOf("")
+        }
+    }
+
+    private fun isNumeric(toCheck: String): Boolean {
+        return toCheck.all { char -> char.isDigit() }
     }
 }
