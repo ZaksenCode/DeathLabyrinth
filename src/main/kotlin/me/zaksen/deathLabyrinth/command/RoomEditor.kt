@@ -1,17 +1,21 @@
 package me.zaksen.deathLabyrinth.command
 
+import me.zaksen.deathLabyrinth.config.data.Position
 import me.zaksen.deathLabyrinth.game.room.RoomController
 import me.zaksen.deathLabyrinth.game.room.editor.RoomEditorController
 import me.zaksen.deathLabyrinth.game.room.editor.operation.*
 import me.zaksen.deathLabyrinth.game.room.editor.operation.rollback.RollbackResult
 import me.zaksen.deathLabyrinth.game.room.logic.tags.EntitiesPool
+import me.zaksen.deathLabyrinth.game.room.logic.tick.HeightMinLimit
 import net.minecraft.core.Direction
+import org.bukkit.Location
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabExecutor
 import org.bukkit.craftbukkit.entity.CraftEntity
 import org.bukkit.entity.Player
 import java.util.*
+import kotlin.math.floor
 
 class RoomEditor: TabExecutor {
     override fun onTabComplete(
@@ -23,7 +27,7 @@ class RoomEditor: TabExecutor {
         if(args.isNullOrEmpty() || sender !is Player) return mutableListOf("")
 
         if(args.size == 1) {
-            return mutableListOf("load", "new", "entrance", "undo", "exit", "save", "stop", "export", "expand", "tags")
+            return mutableListOf("load", "new", "entrance", "undo", "exit", "save", "stop", "export", "expand", "shrink", "tags", "start_logic", "tick_logic")
         } else {
             val subCommand = args[0]
             return when (subCommand) {
@@ -32,7 +36,10 @@ class RoomEditor: TabExecutor {
                 "entrance" -> processEntranceTab(sender, args)
                 "exit" -> processExitTab(sender, args)
                 "expand" -> processExpandTab(sender, args)
+                "shrink" -> processShrinkTab(sender, args)
                 "tags" -> processTagsTab(sender, args)
+                "start_logic" -> processStartLogicTab(sender, args)
+                "tick_logic" -> processTickLogicTab(sender, args)
                 else -> return mutableListOf("")
             }
         }
@@ -61,7 +68,10 @@ class RoomEditor: TabExecutor {
             "stop" -> processStop(sender, args)
             "export" -> processExport(sender, args)
             "expand" -> processExpand(sender, args)
+            "shrink" -> processShrink(sender, args)
             "tags" -> processTags(sender, args)
+            "start_logic" -> processStartLogic(sender, args)
+            "tick_logic" -> processTickLogic(sender, args)
         }
 
         return true
@@ -215,7 +225,74 @@ class RoomEditor: TabExecutor {
     }
 
     private fun processTags(sender: Player, args: Array<out String>) {
+        when(args[1]) {
+            "pots" -> processPotsTag(sender, args)
+            "entities_pools" -> processEntitiesTag(sender, args)
+        }
+    }
 
+    private fun processPotsTag(sender: Player, args: Array<out String>) {
+        when(args[2]) {
+            "add" -> {
+                val session = RoomEditorController.getSession(sender) ?: return
+
+                RoomEditorController.processSessionOperation(sender, AddPot(Position(
+                    floor(sender.x - session.x),
+                    floor(sender.y - session.y),
+                    floor(sender.z - session.z)
+                )))
+            }
+            "remove" -> {
+                RoomEditorController.processSessionOperation(sender, RemovePot(args[3].toInt()))
+            }
+            "list" -> {
+                val session = RoomEditorController.getSession(sender) ?: return
+                val pots = session.roomConfig.potSpawns
+                var index = 0
+
+                pots.forEach {
+                    sender.sendMessage("${index++} - [${it.x}, ${it.y}, ${it.z}] - [${session.x + it.x}, ${session.y + it.y}, ${session.z + it.z}]")
+                }
+            }
+            "tp" -> {
+                val session = RoomEditorController.getSession(sender) ?: return
+                val pot = session.roomConfig.potSpawns[args[3].toInt()]
+
+                sender.teleport(Location(sender.world, session.x + pot.x, session.y + pot.y, session.z + pot.z))
+            }
+            "move" -> {
+                val session = RoomEditorController.getSession(sender) ?: return
+
+                RoomEditorController.processSessionOperation(sender, ChangePotPos(args[3].toInt(), Position(
+                    floor(sender.x - session.x),
+                    floor(sender.y - session.y),
+                    floor(sender.z - session.z)
+                )))
+            }
+        }
+    }
+
+    private fun processEntitiesTag(sender: Player, args: Array<out String>) {
+        when(args[2]) {
+            "add" -> {
+
+            }
+            "remove" -> {
+
+            }
+            "list" -> {
+
+            }
+            "tp" -> {
+
+            }
+            "move" -> {
+
+            }
+            "change" -> {
+
+            }
+        }
     }
 
     private fun processTagsTab(sender: Player, args: Array<out String>): MutableList<String> {
@@ -307,5 +384,86 @@ class RoomEditor: TabExecutor {
 
     private fun isNumeric(toCheck: String): Boolean {
         return toCheck.all { char -> char.isDigit() }
+    }
+
+    private fun processStartLogic(sender: Player, args: Array<out String>) {
+
+    }
+
+    private fun processStartLogicTab(sender: Player, args: Array<out String>): MutableList<String> {
+        if(args.size == 2) {
+            return mutableListOf("min_height")
+        } else {
+            val startFun = args[1]
+            return when (startFun) {
+                "min_height" -> processMinHeightTab(sender, args)
+                else -> mutableListOf("")
+            }
+        }
+    }
+
+    private fun processTickLogic(sender: Player, args: Array<out String>) {
+        if(args.size < 3) {
+            sender.sendMessage("command.room_editor.tick_logic.not_enough_arguments")
+            return
+        }
+
+        when(args[1]) {
+            "min_height" -> processMinHeight(sender, args)
+        }
+    }
+
+    private fun processTickLogicTab(sender: Player, args: Array<out String>): MutableList<String> {
+        if(args.size == 2) {
+            return mutableListOf("min_height")
+        } else {
+            val tickFun = args[1]
+            return when (tickFun) {
+                "min_height" -> processMinHeightTab(sender, args)
+                else -> mutableListOf("")
+            }
+        }
+    }
+
+    private fun processMinHeight(sender: Player, args: Array<out String>) {
+        val session = RoomEditorController.getSession(sender) ?: return
+        val heightProcess = session.roomConfig.getTickProcess<HeightMinLimit>() ?: return
+
+        when(args[2]) {
+            "set" -> RoomEditorController.processSessionOperation(sender, ChangeHeight(args[3].toInt()))
+            "add" -> RoomEditorController.processSessionOperation(sender, ChangeHeight(heightProcess.height + args[3].toInt()))
+            "subtract" -> RoomEditorController.processSessionOperation(sender, ChangeHeight(heightProcess.height - args[3].toInt()))
+        }
+    }
+
+    private fun processMinHeightTab(sender: Player, args: Array<out String>): MutableList<String> {
+        if(args.size == 3) {
+            return mutableListOf("set", "add", "subtract")
+        } else {
+            val subCommand = args[2]
+            return when (subCommand) {
+                "set" -> mutableListOf("0")
+                "add" -> mutableListOf("0")
+                "subtract" -> mutableListOf("0")
+                else -> mutableListOf("")
+            }
+        }
+    }
+
+    private fun processShrink(sender: Player, args: Array<out String>) {
+        val direction = if(args.size < 2) {
+            (sender as CraftEntity).handle.direction
+        } else {
+            Direction.valueOf(args[1].uppercase(Locale.getDefault()))
+        }
+
+        RoomEditorController.processSessionOperation(sender, ShrinkRoom(direction))
+    }
+
+    private fun processShrinkTab(sender: Player, args: Array<out String>): MutableList<String> {
+        return when(args.size) {
+            2 -> mutableListOf("${Direction.UP}", "${Direction.DOWN}", "${Direction.WEST}", "${Direction.EAST}", "${Direction.NORTH}", "${Direction.SOUTH}")
+            else -> mutableListOf("")
+        }
     }
 }

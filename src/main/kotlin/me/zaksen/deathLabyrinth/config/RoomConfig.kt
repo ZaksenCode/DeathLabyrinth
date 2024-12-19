@@ -36,32 +36,62 @@ data class RoomConfig(
     var locationType: LocationType = LocationType.SHAFT,
 
     @SerialName("pot_spawns")
-    var potSpawns: List<Position> = listOf(
+    var potSpawns: MutableList<Position> = mutableListOf(
         Position(16.0, 3.0, 16.0)
     ),
 
     @SerialName("start_processes")
-    var startProcesses: List<StartProcess> = listOf(
+    var startProcesses: MutableList<StartProcess> = mutableListOf(
         SpawnEntitiesProcess()
     ),
 
     @SerialName("completion_condition")
-    var completionConditions: List<CompletionCheck> = listOf(
+    var completionConditions: MutableList<CompletionCheck> = mutableListOf(
         EntityCompletionCheck()
     ),
 
     @SerialName("tick_processes")
-    var tickProcesses: List<TickProcess> = listOf(
+    var tickProcesses: MutableList<TickProcess> = mutableListOf(
 
     ),
 
     @SerialName("tags")
-    var tags: List<RoomTag> = listOf(
+    var tags: MutableList<RoomTag> = mutableListOf(
         EntitiesPool()
     )
 ) {
     inline fun <reified T> getTag(): T? {
         tags.forEach {
+            if(it is T) {
+                return it
+            }
+        }
+
+        return null
+    }
+
+    inline fun <reified T> getTickProcess(): T? {
+        tickProcesses.forEach {
+            if(it is T) {
+                return it
+            }
+        }
+
+        return null
+    }
+
+    inline fun <reified T> getStartProcess(): T? {
+        startProcesses.forEach {
+            if(it is T) {
+                return it
+            }
+        }
+
+        return null
+    }
+
+    inline fun <reified T> getCompletionCondition(): T? {
+        completionConditions.forEach {
             if(it is T) {
                 return it
             }

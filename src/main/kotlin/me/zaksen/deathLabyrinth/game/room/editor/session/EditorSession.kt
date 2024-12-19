@@ -93,5 +93,19 @@ class EditorSession(
             exitZ + 8,
             particle = Particle.WAX_OFF,
         )
+
+        // Draw pots
+        roomConfig.potSpawns.forEach {
+            drawSquare(
+                world,
+                x + it.x,
+                y + it.y,
+                z + it.z,
+                x + it.x + 1,
+                y + it.y + 1,
+                z + it.z + 1,
+                particle = Particle.SCRAPE
+            )
+        }
     }
 }

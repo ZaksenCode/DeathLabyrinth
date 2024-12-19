@@ -15,7 +15,7 @@ import org.bukkit.util.Vector
 import kotlin.random.Random
 
 @Serializable
-class HeightMinLimit(private val height: Int): TickProcess {
+class HeightMinLimit(var height: Int): TickProcess {
     override fun process(room: Room) {
         GameController.players.forEach {
             if(it.key.y < room.roomY + height && it.key.gameMode != GameMode.SPECTATOR) {
