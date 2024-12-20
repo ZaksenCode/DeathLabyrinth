@@ -23,6 +23,12 @@ repositories {
     maven("https://maven.enginehub.org/repo/") {
         name = "fast-async-worldedit"
     }
+    maven("https://oss.sonatype.org/content/repositories/snapshots/") {
+        name = "sonatype-snapshots"
+        mavenContent {
+            snapshotsOnly()
+        }
+    }
 }
 
 dependencies {
@@ -38,6 +44,11 @@ dependencies {
     implementation(platform("com.intellectualsites.bom:bom-newest:1.51"))
     compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Core")
     compileOnly("com.fastasyncworldedit:FastAsyncWorldEdit-Bukkit") { isTransitive = false }
+
+    implementation("org.incendo:cloud-core:2.0.0")
+    implementation("org.incendo:cloud-annotations:2.0.0")
+    implementation("org.incendo:cloud-kotlin-extensions:2.0.0")
+    implementation("org.incendo:cloud-paper:2.0.0-beta.10")
 
     paperweight.paperDevBundle("1.21-R0.1-SNAPSHOT")
 }

@@ -2,6 +2,7 @@ package me.zaksen.deathLabyrinth
 
 import kotlinx.serialization.encodeToString
 import me.zaksen.deathLabyrinth.command.*
+import me.zaksen.deathLabyrinth.command.room_editor.RoomEditor
 import me.zaksen.deathLabyrinth.config.*
 import me.zaksen.deathLabyrinth.event.CustomItemEvents
 import me.zaksen.deathLabyrinth.event.GameEvents
@@ -13,9 +14,9 @@ import me.zaksen.deathLabyrinth.game.room.editor.RoomEditorController
 import me.zaksen.deathLabyrinth.keys.PluginKeys
 import me.zaksen.deathLabyrinth.menu.Menus
 import me.zaksen.deathLabyrinth.util.LaserManager
-import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import java.io.File
+
 
 class DeathLabyrinth : JavaPlugin(), ConfigContainer {
 
@@ -49,6 +50,7 @@ class DeathLabyrinth : JavaPlugin(), ConfigContainer {
         server.pluginManager.registerEvents(GameEvents(mainConfig), this)
     }
 
+    // TODO - Remade command with cloud framework
     private fun registerCommands() {
         getCommand("game_status")?.setExecutor(GameStatusCommand())
         getCommand("game_join")?.setExecutor(GameJoinCommand())

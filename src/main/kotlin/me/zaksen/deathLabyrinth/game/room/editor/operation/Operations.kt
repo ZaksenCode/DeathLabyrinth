@@ -3,6 +3,7 @@ package me.zaksen.deathLabyrinth.game.room.editor.operation
 import kotlinx.serialization.Serializable
 import me.zaksen.deathLabyrinth.config.data.Position
 import me.zaksen.deathLabyrinth.game.room.editor.session.EditorSession
+import me.zaksen.deathLabyrinth.game.room.logic.start.SpawnEntitiesProcess
 import me.zaksen.deathLabyrinth.game.room.logic.tags.*
 import me.zaksen.deathLabyrinth.game.room.logic.tick.HeightMinLimit
 import net.minecraft.core.Direction
@@ -287,5 +288,47 @@ class ChangePotPos(private val index: Int, private val newPos: Position): Operat
 
     override fun rollback(session: EditorSession) {
         session.roomConfig.potSpawns[index] = oldPosition
+    }
+}
+
+@Serializable
+class AddSpawnEntitiesTag : Operation {
+    private var wasAdded = false
+    private var addedIndex = 0
+
+    override fun process(session: EditorSession) {
+        val newTag = SpawnEntitiesProcess()
+
+        if(session.roomConfig.startProcesses.filterIsInstance<SpawnEntitiesProcess>().isEmpty()) {
+            session.roomConfig.startProcesses.addLast(newTag)
+            addedIndex = session.roomConfig.startProcesses.lastIndex
+            wasAdded = true
+        }
+    }
+
+    override fun rollback(session: EditorSession) {
+        if(wasAdded) {
+            session.roomConfig.startProcesses.removeAt(addedIndex)
+        }
+    }
+}
+
+@Serializable
+class RemoveSpawnEntitiesTag : Operation {
+    private var removed: SpawnEntitiesProcess? = null
+
+    override fun process(session: EditorSession) {
+        val tagList = session.roomConfig.startProcesses.filterIsInstance<SpawnEntitiesProcess>()
+
+        if(tagList.isNotEmpty()) {
+           val removed = tagList.first()
+            session.roomConfig.startProcesses.remove(removed)
+        }
+    }
+
+    override fun rollback(session: EditorSession) {
+        if(removed != null) {
+            session.roomConfig.startProcesses.addLast(removed!!)
+        }
     }
 }
