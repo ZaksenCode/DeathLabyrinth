@@ -7,6 +7,8 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 import kotlinx.serialization.modules.subclass
+import me.zaksen.deathLabyrinth.game.room.editor.operation.Operation
+import me.zaksen.deathLabyrinth.game.room.editor.operation.*
 import me.zaksen.deathLabyrinth.game.room.logic.completion.AlwaysCompletion
 import me.zaksen.deathLabyrinth.game.room.logic.completion.CompletionCheck
 import me.zaksen.deathLabyrinth.game.room.logic.completion.EntityCompletionCheck
@@ -46,6 +48,19 @@ val module = SerializersModule {
         subclass(ArtifactsChainOffset::class)
         subclass(NecromancerOffset::class)
         subclass(EntitiesPool::class)
+    }
+
+    polymorphic(Operation::class) {
+        subclass(AddPot::class)
+        subclass(RemovePot::class)
+        subclass(ChangePotPos::class)
+        subclass(AddSpawnEntitiesTag::class)
+        subclass(RemoveSpawnEntitiesTag::class)
+        subclass(ChangeHeight::class)
+        subclass(ShrinkRoom::class)
+        subclass(ExpandRoom::class)
+        subclass(MoveRoomExit::class)
+        subclass(MoveRoomEntrance::class)
     }
 }
 
