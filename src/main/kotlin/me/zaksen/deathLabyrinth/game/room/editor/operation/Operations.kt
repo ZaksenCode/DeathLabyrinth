@@ -1,10 +1,11 @@
 package me.zaksen.deathLabyrinth.game.room.editor.operation
 
 import kotlinx.serialization.Serializable
+import me.zaksen.deathLabyrinth.config.data.Entity
 import me.zaksen.deathLabyrinth.config.data.Position
 import me.zaksen.deathLabyrinth.game.room.editor.session.EditorSession
 import me.zaksen.deathLabyrinth.game.room.logic.start.SpawnEntitiesProcess
-import me.zaksen.deathLabyrinth.game.room.logic.tags.*
+import me.zaksen.deathLabyrinth.game.room.logic.tags.EntitiesPool
 import me.zaksen.deathLabyrinth.game.room.logic.tick.HeightMinLimit
 import net.minecraft.core.Direction
 
@@ -292,7 +293,7 @@ class ChangePotPos(private val index: Int, private val newPos: Position): Operat
 }
 
 @Serializable
-class AddSpawnEntitiesTag : Operation {
+class AddSpawnEntitiesProcess : Operation {
     private var wasAdded = false
     private var addedIndex = 0
 
@@ -314,7 +315,7 @@ class AddSpawnEntitiesTag : Operation {
 }
 
 @Serializable
-class RemoveSpawnEntitiesTag : Operation {
+class RemoveSpawnEntitiesProcess : Operation {
     private var removed: SpawnEntitiesProcess? = null
 
     override fun process(session: EditorSession) {
@@ -329,6 +330,117 @@ class RemoveSpawnEntitiesTag : Operation {
     override fun rollback(session: EditorSession) {
         if(removed != null) {
             session.roomConfig.startProcesses.addLast(removed!!)
+        }
+    }
+}
+
+@Serializable
+class AddEntitiesPool : Operation {
+    private var wasTagCreated = false
+
+    override fun process(session: EditorSession) {
+        val poolsTag = session.roomConfig.getTag<EntitiesPool>()
+
+        if(poolsTag == null) {
+            val newPools = EntitiesPool(mutableListOf())
+            session.roomConfig.tags.addLast(newPools)
+            wasTagCreated = true
+        }
+    }
+
+    override fun rollback(session: EditorSession) {
+        if(wasTagCreated) {
+            session.roomConfig.tags.removeIf{it is EntitiesPool}
+        }
+    }
+
+}
+
+@Serializable
+class AddEntitiesPoolEntry(private val poolId: Int, val entity: Entity) : Operation {
+    private var wasTagCreated = false
+    private var addedIndex = -1
+
+    override fun process(session: EditorSession) {
+        var poolsTag = session.roomConfig.getTag<EntitiesPool>()
+
+        if(poolsTag == null) {
+            val newPools = EntitiesPool()
+            session.roomConfig.tags.addLast(newPools)
+            poolsTag = newPools
+            wasTagCreated = true
+        }
+
+        poolsTag.roomEntities[poolId].addLast(entity)
+        addedIndex = poolsTag.roomEntities[poolId].lastIndex
+    }
+
+    override fun rollback(session: EditorSession) {
+        if(addedIndex != -1) {
+            val poolsTag = session.roomConfig.getTag<EntitiesPool>()
+            poolsTag!!.roomEntities[poolId].removeAt(addedIndex)
+        }
+
+        if(wasTagCreated) {
+            session.roomConfig.tags.removeIf{it is EntitiesPool}
+        }
+    }
+
+}
+
+@Serializable
+class MoveEntitiesPoolEntry(private val poolId: Int, private val entryId: Int, private val location: Position) : Operation {
+    private var previousPosition: Position? = null
+
+    override fun process(session: EditorSession) {
+        val poolsTag = session.roomConfig.getTag<EntitiesPool>() ?: return
+        val poolEntry = poolsTag.roomEntities[poolId][entryId]
+        previousPosition = poolEntry.spawnPosition
+        poolEntry.spawnPosition = location
+    }
+
+    override fun rollback(session: EditorSession) {
+        if(previousPosition != null) {
+            val poolsTag = session.roomConfig.getTag<EntitiesPool>() ?: return
+            val poolEntry = poolsTag.roomEntities[poolId][entryId]
+            poolEntry.spawnPosition = previousPosition!!
+        }
+    }
+}
+
+@Serializable
+class RemoveEntitiesPoolEntry(private val poolId: Int, private val entryId: Int) : Operation {
+    private var removedEntry: Entity? = null
+
+    override fun process(session: EditorSession) {
+        val poolsTag = session.roomConfig.getTag<EntitiesPool>() ?: return
+        removedEntry = poolsTag.roomEntities[poolId].removeAt(entryId)
+    }
+
+    override fun rollback(session: EditorSession) {
+        if(removedEntry != null) {
+            val poolsTag = session.roomConfig.getTag<EntitiesPool>() ?: return
+            poolsTag.roomEntities[poolId].add(entryId, removedEntry!!)
+        }
+    }
+}
+
+@Serializable
+class ChangeEntitiesPoolEntry(private val poolId: Int, private val entryId: Int, private val entity: String) : Operation {
+    private var previousEntity: String? = null
+
+    override fun process(session: EditorSession) {
+        val poolsTag = session.roomConfig.getTag<EntitiesPool>() ?: return
+        val poolEntry = poolsTag.roomEntities[poolId][entryId]
+        previousEntity = poolEntry.entityName
+        poolEntry.entityName = entity
+    }
+
+    override fun rollback(session: EditorSession) {
+        if(previousEntity != null) {
+            val poolsTag = session.roomConfig.getTag<EntitiesPool>() ?: return
+            val poolEntry = poolsTag.roomEntities[poolId][entryId]
+            poolEntry.entityName = previousEntity!!
         }
     }
 }

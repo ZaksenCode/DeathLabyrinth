@@ -2,8 +2,8 @@ package me.zaksen.deathLabyrinth.command.room_editor
 
 import me.zaksen.deathLabyrinth.command.api.CommandProcessor
 import me.zaksen.deathLabyrinth.game.room.editor.RoomEditorController
-import me.zaksen.deathLabyrinth.game.room.editor.operation.AddSpawnEntitiesTag
-import me.zaksen.deathLabyrinth.game.room.editor.operation.RemoveSpawnEntitiesTag
+import me.zaksen.deathLabyrinth.game.room.editor.operation.AddSpawnEntitiesProcess
+import me.zaksen.deathLabyrinth.game.room.editor.operation.RemoveSpawnEntitiesProcess
 import org.bukkit.entity.Player
 
 class RoomEditorStartProcesses: CommandProcessor {
@@ -21,10 +21,10 @@ class RoomEditorStartProcesses: CommandProcessor {
     private fun processSpawnEntities(sender: Player, args: Array<out String>) {
         when(args[2]) {
             "add" -> {
-                RoomEditorController.processSessionOperation(sender, AddSpawnEntitiesTag())
+                RoomEditorController.processSessionOperation(sender, AddSpawnEntitiesProcess())
             }
             "remove" -> {
-                RoomEditorController.processSessionOperation(sender, RemoveSpawnEntitiesTag())
+                RoomEditorController.processSessionOperation(sender, RemoveSpawnEntitiesProcess())
             }
         }
     }

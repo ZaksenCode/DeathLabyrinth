@@ -13,8 +13,8 @@ import org.bukkit.World
 @Serializable
 data class EntitiesPool(
     @SerialName("room_entities")
-    val roomEntities: List<List<Entity>> = listOf(
-        listOf(
+    val roomEntities: MutableList<MutableList<Entity>> = mutableListOf(
+        mutableListOf(
             Entity(),
             Entity("big_bone_wolf")
         )

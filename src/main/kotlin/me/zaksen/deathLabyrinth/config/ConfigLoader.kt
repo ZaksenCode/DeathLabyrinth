@@ -54,13 +54,21 @@ val module = SerializersModule {
         subclass(AddPot::class)
         subclass(RemovePot::class)
         subclass(ChangePotPos::class)
-        subclass(AddSpawnEntitiesTag::class)
-        subclass(RemoveSpawnEntitiesTag::class)
+        subclass(AddSpawnEntitiesProcess::class)
+        subclass(RemoveSpawnEntitiesProcess::class)
         subclass(ChangeHeight::class)
+
         subclass(ShrinkRoom::class)
         subclass(ExpandRoom::class)
+
         subclass(MoveRoomExit::class)
         subclass(MoveRoomEntrance::class)
+
+        subclass(AddEntitiesPool::class)
+        subclass(AddEntitiesPoolEntry::class)
+        subclass(MoveEntitiesPoolEntry::class)
+        subclass(RemoveEntitiesPoolEntry::class)
+        subclass(ChangeEntitiesPoolEntry::class)
     }
 }
 
