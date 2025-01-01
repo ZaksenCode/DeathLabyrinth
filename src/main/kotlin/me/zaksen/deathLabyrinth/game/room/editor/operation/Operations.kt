@@ -3,6 +3,8 @@ package me.zaksen.deathLabyrinth.game.room.editor.operation
 import kotlinx.serialization.Serializable
 import me.zaksen.deathLabyrinth.config.data.Entity
 import me.zaksen.deathLabyrinth.config.data.Position
+import me.zaksen.deathLabyrinth.game.room.LocationType
+import me.zaksen.deathLabyrinth.game.room.RoomType
 import me.zaksen.deathLabyrinth.game.room.editor.session.EditorSession
 import me.zaksen.deathLabyrinth.game.room.logic.start.SpawnEntitiesProcess
 import me.zaksen.deathLabyrinth.game.room.logic.tags.EntitiesPool
@@ -442,5 +444,33 @@ class ChangeEntitiesPoolEntry(private val poolId: Int, private val entryId: Int,
             val poolEntry = poolsTag.roomEntities[poolId][entryId]
             poolEntry.entityName = previousEntity!!
         }
+    }
+}
+
+@Serializable
+class ChangeRoomType(private val type: String): Operation {
+    private var previousType: RoomType? = null
+
+    override fun process(session: EditorSession) {
+        previousType = session.roomConfig.roomType
+        session.roomConfig.roomType = RoomType.valueOf(type.uppercase())
+    }
+
+    override fun rollback(session: EditorSession) {
+        session.roomConfig.roomType = previousType!!
+    }
+}
+
+@Serializable
+class ChangeRoomLocation(private val location: String): Operation {
+    private var previousLocation: LocationType? = null
+
+    override fun process(session: EditorSession) {
+        previousLocation = session.roomConfig.locationType
+        session.roomConfig.locationType = LocationType.valueOf(location.uppercase())
+    }
+
+    override fun rollback(session: EditorSession) {
+        session.roomConfig.locationType = previousLocation!!
     }
 }

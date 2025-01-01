@@ -1,7 +1,9 @@
 package me.zaksen.deathLabyrinth.command.room_editor
 
 import me.zaksen.deathLabyrinth.command.api.CommandProcessor
+import me.zaksen.deathLabyrinth.game.room.LocationType
 import me.zaksen.deathLabyrinth.game.room.RoomController
+import me.zaksen.deathLabyrinth.game.room.RoomType
 import me.zaksen.deathLabyrinth.game.room.editor.RoomEditorController
 import me.zaksen.deathLabyrinth.game.room.editor.operation.*
 import me.zaksen.deathLabyrinth.game.room.editor.operation.rollback.RollbackResult
@@ -28,7 +30,10 @@ class RoomEditor: TabExecutor {
         if(args.isNullOrEmpty() || sender !is Player) return mutableListOf("")
 
         if(args.size == 1) {
-            return mutableListOf("load", "new", "entrance", "undo", "exit", "save", "stop", "export", "expand", "shrink", "tags", "start_logic", "tick_logic")
+            return mutableListOf(
+                "load", "new", "entrance", "undo", "exit", "save", "stop", "export", "expand", "shrink", "tags",
+                "start_logic", "tick_logic", "type", "location",
+            )
         } else {
             val subCommand = args[0]
             return when (subCommand) {
@@ -41,6 +46,8 @@ class RoomEditor: TabExecutor {
                 "tags" -> tagsProcessor.processTab(sender, args)
                 "start_logic" -> startProcessesProcessor.processTab(sender, args)
                 "tick_logic" -> tickProcessesProcessor.processTab(sender, args)
+                "location" -> processLocationTab(sender, args)
+                "type" -> processTypeTab(sender, args)
                 else -> return mutableListOf("")
             }
         }
@@ -71,6 +78,8 @@ class RoomEditor: TabExecutor {
             "tags" -> tagsProcessor.process(sender, args)
             "start_logic" -> startProcessesProcessor.process(sender, args)
             "tick_logic" -> tickProcessesProcessor.process(sender, args)
+            "location" -> processLocation(sender, args)
+            "type" -> processType(sender, args)
         }
 
         return true
@@ -238,5 +247,41 @@ class RoomEditor: TabExecutor {
             2 -> mutableListOf("${Direction.UP}", "${Direction.DOWN}", "${Direction.WEST}", "${Direction.EAST}", "${Direction.NORTH}", "${Direction.SOUTH}")
             else -> mutableListOf("")
         }
+    }
+
+    private fun processType(sender: Player, args: Array<out String>) {
+        RoomEditorController.processSessionOperation(sender, ChangeRoomType(args[1]))
+    }
+
+    private fun processTypeTab(sender: Player, args: Array<out String>): MutableList<String> {
+        val result = mutableListOf("")
+
+        RoomType.entries.forEach {
+            result.add(it.toString())
+        }
+
+        result.sortBy {
+            it.compareTo(args[1])
+        }
+
+        return result
+    }
+
+    private fun processLocation(sender: Player, args: Array<out String>) {
+        RoomEditorController.processSessionOperation(sender, ChangeRoomLocation(args[1]))
+    }
+
+    private fun processLocationTab(sender: Player, args: Array<out String>): MutableList<String> {
+        val result = mutableListOf("")
+
+        LocationType.entries.forEach {
+            result.add(it.toString())
+        }
+
+        result.sortBy {
+            it.compareTo(args[1])
+        }
+
+        return result
     }
 }
