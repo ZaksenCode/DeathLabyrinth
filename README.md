@@ -11,3 +11,19 @@ You can add your own rooms to the game. To do this you need to select a built ro
 
 # Basic content
 For playing you need download [this](https://github.com/ZaksenCode/DeathLabyrinth-Conent/tree/main) resources. 
+
+# Game database (RU)
+## Артефакты
+- [Таблица](https://zaksen.yonote.ru/share/41ace296-c48b-4799-acea-81cf495564a5)
+## Оружие
+- [Ближний бой](https://zaksen.yonote.ru/share/7d788fbc-3668-4ea1-a61e-55ac5e910634)
+- [Дальний бой](https://zaksen.yonote.ru/share/1ec7f03f-f4b8-491c-b5ef-18ad544672f6)
+## Предметы
+- [Броня](https://zaksen.yonote.ru/share/328c0354-0527-43da-ae5c-b77d4bf7577d)
+- [Аксессуары](https://zaksen.yonote.ru/share/9af996a2-ebea-4d7e-82d8-cedb41502659)
+- [Одноразовые](https://zaksen.yonote.ru/share/4a16b7a7-877c-458f-8932-0cb32d486e22)
+- [Прочее](https://zaksen.yonote.ru/share/07993f06-06c7-4946-99b6-2798e00ed14b)
+## Классы
+- [Воин](https://zaksen.yonote.ru/share/45dd7142-583f-41ac-9e8f-cd1ffb778926)
+- [Маг](https://zaksen.yonote.ru/share/2c42145d-c619-4216-8a05-eb3f56f45503)
+# [Docs](https://deathlabyrinth.gitbook.io/deathlabyrinth)
