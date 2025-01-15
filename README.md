@@ -1,3 +1,6 @@
+# Warning
+The plugin is unfinished and has only 1 unfinished floor available. The project will not be developed further.
+
 # Running.
 To run project you need get one version from realeases or compile it youself. Before that you need a server. Get one of server cores like https://papermc.io/downloads/paper (1.21). After launching server put DeathLabyrinth jar file into plugins folder and reload server.
 
